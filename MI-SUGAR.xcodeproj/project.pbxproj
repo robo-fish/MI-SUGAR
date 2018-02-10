@@ -1,0 +1,1307 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 45;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		2AE5A3F9202F35B10080DEA0 /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = C02C813E070F3C810042B50C /* libxml2.dylib */; };
+		C002B2910618AF5000C260E9 /* MI_DeviceModelManager.h in Headers */ = {isa = PBXBuildFile; fileRef = C002B28F0618AF5000C260E9 /* MI_DeviceModelManager.h */; };
+		C002B2920618AF5000C260E9 /* MI_DeviceModelManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C002B2900618AF5000C260E9 /* MI_DeviceModelManager.m */; };
+		C00C159B060B9D4C00A175F8 /* MI_SubcircuitLibraryManager.h in Headers */ = {isa = PBXBuildFile; fileRef = C00C1599060B9D4C00A175F8 /* MI_SubcircuitLibraryManager.h */; };
+		C00C159C060B9D4C00A175F8 /* MI_SubcircuitLibraryManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C00C159A060B9D4C00A175F8 /* MI_SubcircuitLibraryManager.m */; };
+		C0385436063C0B4D0045290A /* runImage_bw.png in Resources */ = {isa = PBXBuildFile; fileRef = C0385434063C0B4D0045290A /* runImage_bw.png */; };
+		C0385452063C21D40045290A /* MI_TroubleShooter.h in Headers */ = {isa = PBXBuildFile; fileRef = C0385450063C21D40045290A /* MI_TroubleShooter.h */; };
+		C0385453063C21D40045290A /* MI_TroubleShooter.m in Sources */ = {isa = PBXBuildFile; fileRef = C0385451063C21D40045290A /* MI_TroubleShooter.m */; };
+		C050EC4F060C5DC500AA7491 /* MI_SubcircuitDocumentModel.h in Headers */ = {isa = PBXBuildFile; fileRef = C050EC4D060C5DC500AA7491 /* MI_SubcircuitDocumentModel.h */; };
+		C050EC50060C5DC500AA7491 /* MI_SubcircuitDocumentModel.m in Sources */ = {isa = PBXBuildFile; fileRef = C050EC4E060C5DC500AA7491 /* MI_SubcircuitDocumentModel.m */; };
+		C050ED65060C7AEC00AA7491 /* MI_SubcircuitElement.h in Headers */ = {isa = PBXBuildFile; fileRef = C050ED63060C7AEC00AA7491 /* MI_SubcircuitElement.h */; };
+		C050ED66060C7AEC00AA7491 /* MI_SubcircuitElement.m in Sources */ = {isa = PBXBuildFile; fileRef = C050ED64060C7AEC00AA7491 /* MI_SubcircuitElement.m */; };
+		C058519306138B6100288B03 /* MI_Shape.h in Headers */ = {isa = PBXBuildFile; fileRef = C058519106138B6100288B03 /* MI_Shape.h */; };
+		C058519406138B6100288B03 /* MI_Shape.m in Sources */ = {isa = PBXBuildFile; fileRef = C058519206138B6100288B03 /* MI_Shape.m */; };
+		C058523706139C0600288B03 /* MI_PathShape.h in Headers */ = {isa = PBXBuildFile; fileRef = C058523506139C0600288B03 /* MI_PathShape.h */; };
+		C058523806139C0600288B03 /* MI_PathShape.m in Sources */ = {isa = PBXBuildFile; fileRef = C058523606139C0600288B03 /* MI_PathShape.m */; };
+		C058526706139D9500288B03 /* MI_DIPShape.h in Headers */ = {isa = PBXBuildFile; fileRef = C058526506139D9500288B03 /* MI_DIPShape.h */; };
+		C058526806139D9500288B03 /* MI_DIPShape.m in Sources */ = {isa = PBXBuildFile; fileRef = C058526606139D9500288B03 /* MI_DIPShape.m */; };
+		C059E76F06463E7800A416DA /* MI_VariantSelectionView.h in Headers */ = {isa = PBXBuildFile; fileRef = C059E76D06463E7800A416DA /* MI_VariantSelectionView.h */; };
+		C059E77006463E7800A416DA /* MI_VariantSelectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = C059E76E06463E7800A416DA /* MI_VariantSelectionView.m */; };
+		C05AAB320657599E00648EE3 /* MI_CustomViewToolbarItem.h in Headers */ = {isa = PBXBuildFile; fileRef = C05AAB300657599E00648EE3 /* MI_CustomViewToolbarItem.h */; };
+		C05AAB330657599E00648EE3 /* MI_CustomViewToolbarItem.m in Sources */ = {isa = PBXBuildFile; fileRef = C05AAB310657599E00648EE3 /* MI_CustomViewToolbarItem.m */; };
+		C05AACE50657C53000648EE3 /* schematic2netlist.png in Resources */ = {isa = PBXBuildFile; fileRef = C05AACE40657C53000648EE3 /* schematic2netlist.png */; };
+		C05AAD250657C7E700648EE3 /* plotImage.png in Resources */ = {isa = PBXBuildFile; fileRef = C05AAD240657C7E700648EE3 /* plotImage.png */; };
+		C05AAD300657C91100648EE3 /* show_elements_button.png in Resources */ = {isa = PBXBuildFile; fileRef = C05AAD2F0657C91100648EE3 /* show_elements_button.png */; };
+		C06B09E406403D22007594B0 /* MI_Voltmeter.h in Headers */ = {isa = PBXBuildFile; fileRef = C06B09E206403D22007594B0 /* MI_Voltmeter.h */; };
+		C06B09E506403D22007594B0 /* MI_Voltmeter.m in Sources */ = {isa = PBXBuildFile; fileRef = C06B09E306403D22007594B0 /* MI_Voltmeter.m */; };
+		C06B09F406403EB5007594B0 /* MI_Ammeter.h in Headers */ = {isa = PBXBuildFile; fileRef = C06B09F206403EB5007594B0 /* MI_Ammeter.h */; };
+		C06B09F506403EB5007594B0 /* MI_Ammeter.m in Sources */ = {isa = PBXBuildFile; fileRef = C06B09F306403EB5007594B0 /* MI_Ammeter.m */; };
+		C07B5ECD0615874D00A3B7A5 /* refresh_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = C07B5ECC0615874D00A3B7A5 /* refresh_icon.png */; };
+		C083EEDB0608BA9D001BB563 /* MI_TextElement.h in Headers */ = {isa = PBXBuildFile; fileRef = C083EED90608BA9D001BB563 /* MI_TextElement.h */; };
+		C083EEDC0608BA9D001BB563 /* MI_TextElement.m in Sources */ = {isa = PBXBuildFile; fileRef = C083EEDA0608BA9D001BB563 /* MI_TextElement.m */; };
+		C083F0860609173B001BB563 /* MI_Tool.h in Headers */ = {isa = PBXBuildFile; fileRef = C083F0840609173B001BB563 /* MI_Tool.h */; };
+		C083F0870609173B001BB563 /* MI_Tool.m in Sources */ = {isa = PBXBuildFile; fileRef = C083F0850609173B001BB563 /* MI_Tool.m */; };
+		C083F3110609BC3F001BB563 /* MI_SelectConnectTool.h in Headers */ = {isa = PBXBuildFile; fileRef = C083F30F0609BC3F001BB563 /* MI_SelectConnectTool.h */; };
+		C083F3120609BC3F001BB563 /* MI_SelectConnectTool.m in Sources */ = {isa = PBXBuildFile; fileRef = C083F3100609BC3F001BB563 /* MI_SelectConnectTool.m */; };
+		C083F3350609BCF7001BB563 /* MI_ScaleTool.h in Headers */ = {isa = PBXBuildFile; fileRef = C083F3330609BCF7001BB563 /* MI_ScaleTool.h */; };
+		C083F3360609BCF7001BB563 /* MI_ScaleTool.m in Sources */ = {isa = PBXBuildFile; fileRef = C083F3340609BCF7001BB563 /* MI_ScaleTool.m */; };
+		C083F61A060A0EE7001BB563 /* MI_ImageElement.h in Headers */ = {isa = PBXBuildFile; fileRef = C083F618060A0EE7001BB563 /* MI_ImageElement.h */; };
+		C083F61B060A0EE7001BB563 /* MI_ImageElement.m in Sources */ = {isa = PBXBuildFile; fileRef = C083F619060A0EE7001BB563 /* MI_ImageElement.m */; };
+		C086E6B9060CE0CA00066047 /* MI_SubcircuitCreator.h in Headers */ = {isa = PBXBuildFile; fileRef = C086E6B7060CE0CA00066047 /* MI_SubcircuitCreator.h */; };
+		C086E6BA060CE0CA00066047 /* MI_SubcircuitCreator.m in Sources */ = {isa = PBXBuildFile; fileRef = C086E6B8060CE0CA00066047 /* MI_SubcircuitCreator.m */; };
+		C087DC2E0624803B00386A53 /* MI_CircuitDocumentPrinter.h in Headers */ = {isa = PBXBuildFile; fileRef = C087DC2C0624803B00386A53 /* MI_CircuitDocumentPrinter.h */; };
+		C087DC2F0624803B00386A53 /* MI_CircuitDocumentPrinter.m in Sources */ = {isa = PBXBuildFile; fileRef = C087DC2D0624803B00386A53 /* MI_CircuitDocumentPrinter.m */; };
+		C0885EB8062972C2000C7B0F /* MI_SVGConverter.h in Headers */ = {isa = PBXBuildFile; fileRef = C0885EB6062972C2000C7B0F /* MI_SVGConverter.h */; };
+		C0885EB9062972C2000C7B0F /* MI_SVGConverter.m in Sources */ = {isa = PBXBuildFile; fileRef = C0885EB7062972C2000C7B0F /* MI_SVGConverter.m */; };
+		C092D01A094231AB005BAE8A /* MI_FitToViewButton.h in Headers */ = {isa = PBXBuildFile; fileRef = C092D018094231AB005BAE8A /* MI_FitToViewButton.h */; };
+		C092D01B094231AB005BAE8A /* MI_FitToViewButton.m in Sources */ = {isa = PBXBuildFile; fileRef = C092D019094231AB005BAE8A /* MI_FitToViewButton.m */; };
+		C0BE96A8061DB86300AFC9A1 /* MI_NamedArray.h in Headers */ = {isa = PBXBuildFile; fileRef = C0BE96A6061DB86300AFC9A1 /* MI_NamedArray.h */; };
+		C0BE96A9061DB86300AFC9A1 /* MI_NamedArray.m in Sources */ = {isa = PBXBuildFile; fileRef = C0BE96A7061DB86300AFC9A1 /* MI_NamedArray.m */; };
+		C0BEFA5A0611F05400E88C44 /* MI_Inspector.h in Headers */ = {isa = PBXBuildFile; fileRef = C0BEFA580611F05400E88C44 /* MI_Inspector.h */; };
+		C0BEFA5B0611F05400E88C44 /* MI_Inspector.m in Sources */ = {isa = PBXBuildFile; fileRef = C0BEFA590611F05400E88C44 /* MI_Inspector.m */; };
+		C0BFD9F2063B282500462FE8 /* zoom_in_toolbar_image.png in Resources */ = {isa = PBXBuildFile; fileRef = C0BFD9F0063B282500462FE8 /* zoom_in_toolbar_image.png */; };
+		C0BFD9F3063B282500462FE8 /* zoom_out_toolbar_image.png in Resources */ = {isa = PBXBuildFile; fileRef = C0BFD9F1063B282500462FE8 /* zoom_out_toolbar_image.png */; };
+		C0C8464D0621DED2003A0DF0 /* export_all_device_models.png in Resources */ = {isa = PBXBuildFile; fileRef = C0C8464C0621DED2003A0DF0 /* export_all_device_models.png */; };
+		C0C846520621DEE4003A0DF0 /* import_device_models.png in Resources */ = {isa = PBXBuildFile; fileRef = C0C846510621DEE4003A0DF0 /* import_device_models.png */; };
+		C0CE9AB20620C3E1003E0612 /* delete_selected_device_model.png in Resources */ = {isa = PBXBuildFile; fileRef = C0CE9AB10620C3E1003E0612 /* delete_selected_device_model.png */; };
+		C0CE9AC50620C6EC003E0612 /* copy_selected_device_model.png in Resources */ = {isa = PBXBuildFile; fileRef = C0CE9AC40620C6EC003E0612 /* copy_selected_device_model.png */; };
+		C0D2D8D4060F219C004B6787 /* subcircuit_toolbar_item.png in Resources */ = {isa = PBXBuildFile; fileRef = C0D2D8D3060F219C004B6787 /* subcircuit_toolbar_item.png */; };
+		C0D3054D06536ACC0073EC78 /* MI_AnalysisButton.h in Headers */ = {isa = PBXBuildFile; fileRef = C0D3054B06536ACC0073EC78 /* MI_AnalysisButton.h */; };
+		C0D3054E06536ACC0073EC78 /* MI_AnalysisButton.m in Sources */ = {isa = PBXBuildFile; fileRef = C0D3054C06536ACC0073EC78 /* MI_AnalysisButton.m */; };
+		C0D30AA00617826800770B46 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C0D30A9F0617826800770B46 /* CoreFoundation.framework */; };
+		C0D7D050065909E600423050 /* MI_ShapePreviewer.h in Headers */ = {isa = PBXBuildFile; fileRef = C0D7D04E065909E600423050 /* MI_ShapePreviewer.h */; };
+		C0D7D051065909E600423050 /* MI_ShapePreviewer.m in Sources */ = {isa = PBXBuildFile; fileRef = C0D7D04F065909E600423050 /* MI_ShapePreviewer.m */; };
+		C0DA154008D4193F00342F36 /* LICENSE.txt in Resources */ = {isa = PBXBuildFile; fileRef = C0DA153F08D4193F00342F36 /* LICENSE.txt */; };
+		C0E11A500E994F23004A7CF9 /* MISUGAR Help in Resources */ = {isa = PBXBuildFile; fileRef = C0E11A4E0E994F23004A7CF9 /* MISUGAR Help */; };
+		C0E80BE9058E2A8E0012452D /* AnalysisVariable.h in Headers */ = {isa = PBXBuildFile; fileRef = C0C092DA05761918006C0AD5 /* AnalysisVariable.h */; };
+		C0E80BEB058E2A8E0012452D /* MI_AlignmentPoint.h in Headers */ = {isa = PBXBuildFile; fileRef = C0C092E505761918006C0AD5 /* MI_AlignmentPoint.h */; };
+		C0E80BEC058E2A8E0012452D /* MI_CircuitElement.h in Headers */ = {isa = PBXBuildFile; fileRef = C0C092E705761918006C0AD5 /* MI_CircuitElement.h */; };
+		C0E80BED058E2A8E0012452D /* MI_CircuitElementDeviceModel.h in Headers */ = {isa = PBXBuildFile; fileRef = C0C092E905761918006C0AD5 /* MI_CircuitElementDeviceModel.h */; };
+		C0E80BEE058E2A8E0012452D /* MI_CircuitSchematic.h in Headers */ = {isa = PBXBuildFile; fileRef = C0C092EB05761918006C0AD5 /* MI_CircuitSchematic.h */; };
+		C0E80BEF058E2A8E0012452D /* MI_ColorCell.h in Headers */ = {isa = PBXBuildFile; fileRef = C0C092ED05761918006C0AD5 /* MI_ColorCell.h */; };
+		C0E80BF0058E2A8E0012452D /* MI_ComplexNumber.h in Headers */ = {isa = PBXBuildFile; fileRef = C0C092EF05761918006C0AD5 /* MI_ComplexNumber.h */; };
+		C0E80BF1058E2A8E0012452D /* MI_ConnectionPoint.h in Headers */ = {isa = PBXBuildFile; fileRef = C0C092F105761918006C0AD5 /* MI_ConnectionPoint.h */; };
+		C0E80BF2058E2A8E0012452D /* MI_DirectionChooser.h in Headers */ = {isa = PBXBuildFile; fileRef = C0C092F305761918006C0AD5 /* MI_DirectionChooser.h */; };
+		C0E80BF3058E2A8E0012452D /* MI_ElementConnector.h in Headers */ = {isa = PBXBuildFile; fileRef = C0C092F505761918006C0AD5 /* MI_ElementConnector.h */; };
+		C0E80BF4058E2A8E0012452D /* MI_LinearElements.h in Headers */ = {isa = PBXBuildFile; fileRef = C0C092F705761918006C0AD5 /* MI_LinearElements.h */; };
+		C0E80BF5058E2A8E0012452D /* MI_MiscellaneousElements.h in Headers */ = {isa = PBXBuildFile; fileRef = C0C092F905761918006C0AD5 /* MI_MiscellaneousElements.h */; };
+		C0E80BF6058E2A8E0012452D /* MI_NonlinearElements.h in Headers */ = {isa = PBXBuildFile; fileRef = C0C092FB05761918006C0AD5 /* MI_NonlinearElements.h */; };
+		C0E80BF7058E2A8E0012452D /* MI_PowerSourceElements.h in Headers */ = {isa = PBXBuildFile; fileRef = C0C092FD05761918006C0AD5 /* MI_PowerSourceElements.h */; };
+		C0E80BF8058E2A8E0012452D /* MI_Schematic.h in Headers */ = {isa = PBXBuildFile; fileRef = C0C092FF05761918006C0AD5 /* MI_Schematic.h */; };
+		C0E80BF9058E2A8E0012452D /* MI_SchematicElement.h in Headers */ = {isa = PBXBuildFile; fileRef = C0C0930105761918006C0AD5 /* MI_SchematicElement.h */; };
+		C0E80BFA058E2A8E0012452D /* MI_SchematicElementChooser.h in Headers */ = {isa = PBXBuildFile; fileRef = C0C0930305761918006C0AD5 /* MI_SchematicElementChooser.h */; };
+		C0E80BFB058E2A8E0012452D /* MI_SchematicsCanvas.h in Headers */ = {isa = PBXBuildFile; fileRef = C0C0930505761918006C0AD5 /* MI_SchematicsCanvas.h */; };
+		C0E80BFC058E2A8E0012452D /* MI_TextView.h in Headers */ = {isa = PBXBuildFile; fileRef = C0C0930705761918006C0AD5 /* MI_TextView.h */; };
+		C0E80BFD058E2A8E0012452D /* MI_TextViewLineNumbering.h in Headers */ = {isa = PBXBuildFile; fileRef = C0C0930905761918006C0AD5 /* MI_TextViewLineNumbering.h */; };
+		C0E80BFE058E2A8E0012452D /* MI_ViewArea.h in Headers */ = {isa = PBXBuildFile; fileRef = C0C0930B05761918006C0AD5 /* MI_ViewArea.h */; };
+		C0E80BFF058E2A8E0012452D /* MI_Window.h in Headers */ = {isa = PBXBuildFile; fileRef = C0C0930D05761918006C0AD5 /* MI_Window.h */; };
+		C0E80C00058E2A8E0012452D /* NyquistPlotController.h in Headers */ = {isa = PBXBuildFile; fileRef = C0C0930F05761918006C0AD5 /* NyquistPlotController.h */; };
+		C0E80C01058E2A8E0012452D /* NyquistView.h in Headers */ = {isa = PBXBuildFile; fileRef = C0C0931105761918006C0AD5 /* NyquistView.h */; };
+		C0E80C02058E2A8E0012452D /* ResultsTable.h in Headers */ = {isa = PBXBuildFile; fileRef = C0C0931305761918006C0AD5 /* ResultsTable.h */; };
+		C0E80C03058E2A8E0012452D /* SpiceASCIIOutputReader.h in Headers */ = {isa = PBXBuildFile; fileRef = C0C0931505761918006C0AD5 /* SpiceASCIIOutputReader.h */; };
+		C0E80C04058E2A8E0012452D /* SpiceASCIIRawOutputReader.h in Headers */ = {isa = PBXBuildFile; fileRef = C0C0931705761918006C0AD5 /* SpiceASCIIRawOutputReader.h */; };
+		C0E80C05058E2A8E0012452D /* SugarGraphView.h in Headers */ = {isa = PBXBuildFile; fileRef = C0C0931905761918006C0AD5 /* SugarGraphView.h */; };
+		C0E80C06058E2A8E0012452D /* SugarManager.h in Headers */ = {isa = PBXBuildFile; fileRef = C0C0931B05761918006C0AD5 /* SugarManager.h */; };
+		C0E80C07058E2A8E0012452D /* SugarPlotter.h in Headers */ = {isa = PBXBuildFile; fileRef = C0C0931D05761918006C0AD5 /* SugarPlotter.h */; };
+		C0E80C08058E2A8E0012452D /* CircuitDocument.h in Headers */ = {isa = PBXBuildFile; fileRef = C0C0969605762450006C0AD5 /* CircuitDocument.h */; };
+		C0E80C09058E2A8E0012452D /* CircuitDocumentModel.h in Headers */ = {isa = PBXBuildFile; fileRef = C0C09699057625EF006C0AD5 /* CircuitDocumentModel.h */; };
+		C0E80C0A058E2A8E0012452D /* common.h in Headers */ = {isa = PBXBuildFile; fileRef = C0C0969B057625EF006C0AD5 /* common.h */; };
+		C0E80C0B058E2A8E0012452D /* Converter.h in Headers */ = {isa = PBXBuildFile; fileRef = C0C0969C057625EF006C0AD5 /* Converter.h */; };
+		C0E80C0D058E2A8E0012452D /* about.png in Resources */ = {isa = PBXBuildFile; fileRef = C0C09380057619AC006C0AD5 /* about.png */; };
+		C0E80C0E058E2A8E0012452D /* bottom_guide.png in Resources */ = {isa = PBXBuildFile; fileRef = C0C09381057619AC006C0AD5 /* bottom_guide.png */; };
+		C0E80C0F058E2A8E0012452D /* customize_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = C0C09382057619AC006C0AD5 /* customize_icon.png */; };
+		C0E80C10058E2A8E0012452D /* flip.png in Resources */ = {isa = PBXBuildFile; fileRef = C0C09383057619AC006C0AD5 /* flip.png */; };
+		C0E80C11058E2A8E0012452D /* fonts_pref_button.png in Resources */ = {isa = PBXBuildFile; fileRef = C0C09384057619AC006C0AD5 /* fonts_pref_button.png */; };
+		C0E80C12058E2A8E0012452D /* general_pref_button.png in Resources */ = {isa = PBXBuildFile; fileRef = C0C09385057619AC006C0AD5 /* general_pref_button.png */; };
+		C0E80C13058E2A8E0012452D /* left_guide.png in Resources */ = {isa = PBXBuildFile; fileRef = C0C09386057619AC006C0AD5 /* left_guide.png */; };
+		C0E80C18058E2A8E0012452D /* plotter_pref_button.png in Resources */ = {isa = PBXBuildFile; fileRef = C0C0938B057619AC006C0AD5 /* plotter_pref_button.png */; };
+		C0E80C19058E2A8E0012452D /* right_guide.png in Resources */ = {isa = PBXBuildFile; fileRef = C0C0938C057619AC006C0AD5 /* right_guide.png */; };
+		C0E80C1A058E2A8E0012452D /* rotate_left.png in Resources */ = {isa = PBXBuildFile; fileRef = C0C0938D057619AC006C0AD5 /* rotate_left.png */; };
+		C0E80C1C058E2A8E0012452D /* schematic_pref_button.png in Resources */ = {isa = PBXBuildFile; fileRef = C0C0938F057619AC006C0AD5 /* schematic_pref_button.png */; };
+		C0E80C1F058E2A8E0012452D /* show_info_panel_button.png in Resources */ = {isa = PBXBuildFile; fileRef = C0C09392057619AC006C0AD5 /* show_info_panel_button.png */; };
+		C0E80C20058E2A8E0012452D /* simulator_pref_button.png in Resources */ = {isa = PBXBuildFile; fileRef = C0C09393057619AC006C0AD5 /* simulator_pref_button.png */; };
+		C0E80C21058E2A8E0012452D /* startup_pref_button.png in Resources */ = {isa = PBXBuildFile; fileRef = C0C09394057619AC006C0AD5 /* startup_pref_button.png */; };
+		C0E80C23058E2A8E0012452D /* top_guide.png in Resources */ = {isa = PBXBuildFile; fileRef = C0C09396057619AC006C0AD5 /* top_guide.png */; };
+		C0E80C24058E2A8E0012452D /* zoom_magnifier.png in Resources */ = {isa = PBXBuildFile; fileRef = C0C09397057619AC006C0AD5 /* zoom_magnifier.png */; };
+		C0E80C25058E2A8E0012452D /* zoom_minus.png in Resources */ = {isa = PBXBuildFile; fileRef = C0C09398057619AC006C0AD5 /* zoom_minus.png */; };
+		C0E80C26058E2A8E0012452D /* zoom_plus.png in Resources */ = {isa = PBXBuildFile; fileRef = C0C09399057619AC006C0AD5 /* zoom_plus.png */; };
+		C0E80C27058E2A8E0012452D /* mi_sugar_icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = C0C096A405762E28006C0AD5 /* mi_sugar_icon.icns */; };
+		C0E80C29058E2A8E0012452D /* MI-SUGAR.scriptSuite in Resources */ = {isa = PBXBuildFile; fileRef = C0C096A705762E72006C0AD5 /* MI-SUGAR.scriptSuite */; };
+		C0E80C2A058E2A8E0012452D /* spice in Resources */ = {isa = PBXBuildFile; fileRef = C0C096A805762E72006C0AD5 /* spice */; };
+		C0E80C2B058E2A8E0012452D /* MI-SUGAR.scriptTerminology in Resources */ = {isa = PBXBuildFile; fileRef = C0C096AC05762E9B006C0AD5 /* MI-SUGAR.scriptTerminology */; };
+		C0E80C38058E2A8E0012452D /* home_toolbar_item.png in Resources */ = {isa = PBXBuildFile; fileRef = C0D810870577B58B006C0AD5 /* home_toolbar_item.png */; };
+		C0E80C3B058E2A8E0012452D /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A37F4B0FDCFA73011CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
+		C0E80C3C058E2A8E0012452D /* AnalysisVariable.m in Sources */ = {isa = PBXBuildFile; fileRef = C0C092DB05761918006C0AD5 /* AnalysisVariable.m */; };
+		C0E80C3E058E2A8E0012452D /* MI_AlignmentPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = C0C092E605761918006C0AD5 /* MI_AlignmentPoint.m */; };
+		C0E80C3F058E2A8E0012452D /* MI_CircuitElement.m in Sources */ = {isa = PBXBuildFile; fileRef = C0C092E805761918006C0AD5 /* MI_CircuitElement.m */; };
+		C0E80C40058E2A8E0012452D /* MI_CircuitElementDeviceModel.m in Sources */ = {isa = PBXBuildFile; fileRef = C0C092EA05761918006C0AD5 /* MI_CircuitElementDeviceModel.m */; };
+		C0E80C41058E2A8E0012452D /* MI_CircuitSchematic.m in Sources */ = {isa = PBXBuildFile; fileRef = C0C092EC05761918006C0AD5 /* MI_CircuitSchematic.m */; };
+		C0E80C42058E2A8E0012452D /* MI_ColorCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C0C092EE05761918006C0AD5 /* MI_ColorCell.m */; };
+		C0E80C43058E2A8E0012452D /* MI_ComplexNumber.m in Sources */ = {isa = PBXBuildFile; fileRef = C0C092F005761918006C0AD5 /* MI_ComplexNumber.m */; };
+		C0E80C44058E2A8E0012452D /* MI_ConnectionPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = C0C092F205761918006C0AD5 /* MI_ConnectionPoint.m */; };
+		C0E80C45058E2A8E0012452D /* MI_DirectionChooser.m in Sources */ = {isa = PBXBuildFile; fileRef = C0C092F405761918006C0AD5 /* MI_DirectionChooser.m */; };
+		C0E80C46058E2A8E0012452D /* MI_ElementConnector.m in Sources */ = {isa = PBXBuildFile; fileRef = C0C092F605761918006C0AD5 /* MI_ElementConnector.m */; };
+		C0E80C47058E2A8E0012452D /* MI_LinearElements.m in Sources */ = {isa = PBXBuildFile; fileRef = C0C092F805761918006C0AD5 /* MI_LinearElements.m */; };
+		C0E80C48058E2A8E0012452D /* MI_MiscellaneousElements.m in Sources */ = {isa = PBXBuildFile; fileRef = C0C092FA05761918006C0AD5 /* MI_MiscellaneousElements.m */; };
+		C0E80C49058E2A8E0012452D /* MI_NonlinearElements.m in Sources */ = {isa = PBXBuildFile; fileRef = C0C092FC05761918006C0AD5 /* MI_NonlinearElements.m */; };
+		C0E80C4A058E2A8E0012452D /* MI_PowerSourceElements.m in Sources */ = {isa = PBXBuildFile; fileRef = C0C092FE05761918006C0AD5 /* MI_PowerSourceElements.m */; };
+		C0E80C4B058E2A8E0012452D /* MI_Schematic.m in Sources */ = {isa = PBXBuildFile; fileRef = C0C0930005761918006C0AD5 /* MI_Schematic.m */; };
+		C0E80C4C058E2A8E0012452D /* MI_SchematicElement.m in Sources */ = {isa = PBXBuildFile; fileRef = C0C0930205761918006C0AD5 /* MI_SchematicElement.m */; };
+		C0E80C4D058E2A8E0012452D /* MI_SchematicElementChooser.m in Sources */ = {isa = PBXBuildFile; fileRef = C0C0930405761918006C0AD5 /* MI_SchematicElementChooser.m */; };
+		C0E80C4E058E2A8E0012452D /* MI_SchematicsCanvas.m in Sources */ = {isa = PBXBuildFile; fileRef = C0C0930605761918006C0AD5 /* MI_SchematicsCanvas.m */; };
+		C0E80C4F058E2A8E0012452D /* MI_TextView.m in Sources */ = {isa = PBXBuildFile; fileRef = C0C0930805761918006C0AD5 /* MI_TextView.m */; };
+		C0E80C50058E2A8E0012452D /* MI_TextViewLineNumbering.m in Sources */ = {isa = PBXBuildFile; fileRef = C0C0930A05761918006C0AD5 /* MI_TextViewLineNumbering.m */; };
+		C0E80C51058E2A8E0012452D /* MI_ViewArea.m in Sources */ = {isa = PBXBuildFile; fileRef = C0C0930C05761918006C0AD5 /* MI_ViewArea.m */; };
+		C0E80C52058E2A8E0012452D /* MI_Window.m in Sources */ = {isa = PBXBuildFile; fileRef = C0C0930E05761918006C0AD5 /* MI_Window.m */; };
+		C0E80C53058E2A8E0012452D /* NyquistPlotController.m in Sources */ = {isa = PBXBuildFile; fileRef = C0C0931005761918006C0AD5 /* NyquistPlotController.m */; };
+		C0E80C54058E2A8E0012452D /* NyquistView.m in Sources */ = {isa = PBXBuildFile; fileRef = C0C0931205761918006C0AD5 /* NyquistView.m */; };
+		C0E80C55058E2A8E0012452D /* ResultsTable.m in Sources */ = {isa = PBXBuildFile; fileRef = C0C0931405761918006C0AD5 /* ResultsTable.m */; };
+		C0E80C56058E2A8E0012452D /* SpiceASCIIOutputReader.m in Sources */ = {isa = PBXBuildFile; fileRef = C0C0931605761918006C0AD5 /* SpiceASCIIOutputReader.m */; };
+		C0E80C57058E2A8E0012452D /* SpiceASCIIRawOutputReader.m in Sources */ = {isa = PBXBuildFile; fileRef = C0C0931805761918006C0AD5 /* SpiceASCIIRawOutputReader.m */; };
+		C0E80C58058E2A8E0012452D /* SugarGraphView.m in Sources */ = {isa = PBXBuildFile; fileRef = C0C0931A05761918006C0AD5 /* SugarGraphView.m */; };
+		C0E80C59058E2A8E0012452D /* SugarManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C0C0931C05761918006C0AD5 /* SugarManager.m */; };
+		C0E80C5A058E2A8E0012452D /* SugarPlotter.m in Sources */ = {isa = PBXBuildFile; fileRef = C0C0931E05761918006C0AD5 /* SugarPlotter.m */; };
+		C0E80C5B058E2A8E0012452D /* CircuitDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = C0C095CB057623CF006C0AD5 /* CircuitDocument.m */; };
+		C0E80C5C058E2A8E0012452D /* CircuitDocumentModel.m in Sources */ = {isa = PBXBuildFile; fileRef = C0C0969A057625EF006C0AD5 /* CircuitDocumentModel.m */; };
+		C0E80C5D058E2A8E0012452D /* Converter.m in Sources */ = {isa = PBXBuildFile; fileRef = C0C0969D057625EF006C0AD5 /* Converter.m */; };
+		C0E80C5F058E2A8E0012452D /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A7FEA54F5311CA2CBB /* Cocoa.framework */; };
+		C0ED059A05AF0B1100273C48 /* MI_NodeAssignmentTableItem.h in Headers */ = {isa = PBXBuildFile; fileRef = C0ED059805AF0B1100273C48 /* MI_NodeAssignmentTableItem.h */; };
+		C0ED059B05AF0B1100273C48 /* MI_NodeAssignmentTableItem.m in Sources */ = {isa = PBXBuildFile; fileRef = C0ED059905AF0B1100273C48 /* MI_NodeAssignmentTableItem.m */; };
+		C0EF7C44146F40DA00FC7577 /* About.xib in Resources */ = {isa = PBXBuildFile; fileRef = C0EF7C42146F40DA00FC7577 /* About.xib */; };
+		C0EF7C5D146F429100FC7577 /* CircuitDocument.xib in Resources */ = {isa = PBXBuildFile; fileRef = C0EF7C45146F429100FC7577 /* CircuitDocument.xib */; };
+		C0EF7C5E146F429100FC7577 /* CircuitDocument2.xib in Resources */ = {isa = PBXBuildFile; fileRef = C0EF7C47146F429100FC7577 /* CircuitDocument2.xib */; };
+		C0EF7C5F146F429100FC7577 /* CircuitPrintSheet.xib in Resources */ = {isa = PBXBuildFile; fileRef = C0EF7C49146F429100FC7577 /* CircuitPrintSheet.xib */; };
+		C0EF7C60146F429100FC7577 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = C0EF7C4B146F429100FC7577 /* MainMenu.xib */; };
+		C0EF7C61146F429100FC7577 /* Nyquist.xib in Resources */ = {isa = PBXBuildFile; fileRef = C0EF7C4D146F429100FC7577 /* Nyquist.xib */; };
+		C0EF7C62146F429100FC7577 /* PlotWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = C0EF7C4F146F429100FC7577 /* PlotWindow.xib */; };
+		C0EF7C63146F429100FC7577 /* SchematicDeviceModelsPanel.xib in Resources */ = {isa = PBXBuildFile; fileRef = C0EF7C51146F429100FC7577 /* SchematicDeviceModelsPanel.xib */; };
+		C0EF7C64146F429100FC7577 /* SchematicElementInfoPanel.xib in Resources */ = {isa = PBXBuildFile; fileRef = C0EF7C53146F429100FC7577 /* SchematicElementInfoPanel.xib */; };
+		C0EF7C65146F429100FC7577 /* SchematicElementsPanel.xib in Resources */ = {isa = PBXBuildFile; fileRef = C0EF7C55146F429100FC7577 /* SchematicElementsPanel.xib */; };
+		C0EF7C66146F429100FC7577 /* SchematicLayersPanel.xib in Resources */ = {isa = PBXBuildFile; fileRef = C0EF7C57146F429100FC7577 /* SchematicLayersPanel.xib */; };
+		C0EF7C67146F429100FC7577 /* SubcircuitCreationSheet.xib in Resources */ = {isa = PBXBuildFile; fileRef = C0EF7C59146F429100FC7577 /* SubcircuitCreationSheet.xib */; };
+		C0EF7C68146F429100FC7577 /* SugarPreferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = C0EF7C5B146F429100FC7577 /* SugarPreferences.xib */; };
+		C0FB17450653B23C004CF563 /* MI_SESDLParser.h in Headers */ = {isa = PBXBuildFile; fileRef = C0FB17430653B23C004CF563 /* MI_SESDLParser.h */; };
+		C0FB17460653B23C004CF563 /* MI_SESDLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = C0FB17440653B23C004CF563 /* MI_SESDLParser.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		1058C7A7FEA54F5311CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
+		2A37F4B0FDCFA73011CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		2A37F4C4FDCFA73011CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
+		2A37F4C5FDCFA73011CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
+		C002B28F0618AF5000C260E9 /* MI_DeviceModelManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MI_DeviceModelManager.h; sourceTree = "<group>"; };
+		C002B2900618AF5000C260E9 /* MI_DeviceModelManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MI_DeviceModelManager.m; sourceTree = "<group>"; };
+		C00C1599060B9D4C00A175F8 /* MI_SubcircuitLibraryManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MI_SubcircuitLibraryManager.h; sourceTree = "<group>"; };
+		C00C159A060B9D4C00A175F8 /* MI_SubcircuitLibraryManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MI_SubcircuitLibraryManager.m; sourceTree = "<group>"; };
+		C02C813E070F3C810042B50C /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = /usr/lib/libxml2.dylib; sourceTree = "<absolute>"; };
+		C0385434063C0B4D0045290A /* runImage_bw.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = runImage_bw.png; sourceTree = "<group>"; };
+		C0385450063C21D40045290A /* MI_TroubleShooter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MI_TroubleShooter.h; sourceTree = "<group>"; };
+		C0385451063C21D40045290A /* MI_TroubleShooter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MI_TroubleShooter.m; sourceTree = "<group>"; };
+		C050EC4D060C5DC500AA7491 /* MI_SubcircuitDocumentModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MI_SubcircuitDocumentModel.h; sourceTree = "<group>"; };
+		C050EC4E060C5DC500AA7491 /* MI_SubcircuitDocumentModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MI_SubcircuitDocumentModel.m; sourceTree = "<group>"; };
+		C050ED63060C7AEC00AA7491 /* MI_SubcircuitElement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MI_SubcircuitElement.h; sourceTree = "<group>"; };
+		C050ED64060C7AEC00AA7491 /* MI_SubcircuitElement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MI_SubcircuitElement.m; sourceTree = "<group>"; };
+		C058519106138B6100288B03 /* MI_Shape.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MI_Shape.h; sourceTree = "<group>"; };
+		C058519206138B6100288B03 /* MI_Shape.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MI_Shape.m; sourceTree = "<group>"; };
+		C058523506139C0600288B03 /* MI_PathShape.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MI_PathShape.h; sourceTree = "<group>"; };
+		C058523606139C0600288B03 /* MI_PathShape.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MI_PathShape.m; sourceTree = "<group>"; };
+		C058526506139D9500288B03 /* MI_DIPShape.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MI_DIPShape.h; sourceTree = "<group>"; };
+		C058526606139D9500288B03 /* MI_DIPShape.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MI_DIPShape.m; sourceTree = "<group>"; };
+		C059E76D06463E7800A416DA /* MI_VariantSelectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MI_VariantSelectionView.h; sourceTree = "<group>"; };
+		C059E76E06463E7800A416DA /* MI_VariantSelectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MI_VariantSelectionView.m; sourceTree = "<group>"; };
+		C05AAB300657599E00648EE3 /* MI_CustomViewToolbarItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MI_CustomViewToolbarItem.h; sourceTree = "<group>"; };
+		C05AAB310657599E00648EE3 /* MI_CustomViewToolbarItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MI_CustomViewToolbarItem.m; sourceTree = "<group>"; };
+		C05AACE40657C53000648EE3 /* schematic2netlist.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = schematic2netlist.png; sourceTree = "<group>"; };
+		C05AAD240657C7E700648EE3 /* plotImage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = plotImage.png; sourceTree = "<group>"; };
+		C05AAD2F0657C91100648EE3 /* show_elements_button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = show_elements_button.png; sourceTree = "<group>"; };
+		C06B09E206403D22007594B0 /* MI_Voltmeter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MI_Voltmeter.h; sourceTree = "<group>"; };
+		C06B09E306403D22007594B0 /* MI_Voltmeter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MI_Voltmeter.m; sourceTree = "<group>"; };
+		C06B09F206403EB5007594B0 /* MI_Ammeter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MI_Ammeter.h; sourceTree = "<group>"; };
+		C06B09F306403EB5007594B0 /* MI_Ammeter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MI_Ammeter.m; sourceTree = "<group>"; };
+		C07B5ECC0615874D00A3B7A5 /* refresh_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = refresh_icon.png; sourceTree = "<group>"; };
+		C083EED90608BA9D001BB563 /* MI_TextElement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MI_TextElement.h; sourceTree = "<group>"; };
+		C083EEDA0608BA9D001BB563 /* MI_TextElement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MI_TextElement.m; sourceTree = "<group>"; };
+		C083F0840609173B001BB563 /* MI_Tool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MI_Tool.h; sourceTree = "<group>"; };
+		C083F0850609173B001BB563 /* MI_Tool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MI_Tool.m; sourceTree = "<group>"; };
+		C083F30F0609BC3F001BB563 /* MI_SelectConnectTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MI_SelectConnectTool.h; sourceTree = "<group>"; };
+		C083F3100609BC3F001BB563 /* MI_SelectConnectTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MI_SelectConnectTool.m; sourceTree = "<group>"; };
+		C083F3330609BCF7001BB563 /* MI_ScaleTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MI_ScaleTool.h; sourceTree = "<group>"; };
+		C083F3340609BCF7001BB563 /* MI_ScaleTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MI_ScaleTool.m; sourceTree = "<group>"; };
+		C083F618060A0EE7001BB563 /* MI_ImageElement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MI_ImageElement.h; sourceTree = "<group>"; };
+		C083F619060A0EE7001BB563 /* MI_ImageElement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MI_ImageElement.m; sourceTree = "<group>"; };
+		C086E6B7060CE0CA00066047 /* MI_SubcircuitCreator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MI_SubcircuitCreator.h; sourceTree = "<group>"; };
+		C086E6B8060CE0CA00066047 /* MI_SubcircuitCreator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MI_SubcircuitCreator.m; sourceTree = "<group>"; };
+		C087DC2C0624803B00386A53 /* MI_CircuitDocumentPrinter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MI_CircuitDocumentPrinter.h; sourceTree = "<group>"; };
+		C087DC2D0624803B00386A53 /* MI_CircuitDocumentPrinter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MI_CircuitDocumentPrinter.m; sourceTree = "<group>"; };
+		C0885EB6062972C2000C7B0F /* MI_SVGConverter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MI_SVGConverter.h; sourceTree = "<group>"; };
+		C0885EB7062972C2000C7B0F /* MI_SVGConverter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MI_SVGConverter.m; sourceTree = "<group>"; };
+		C092D018094231AB005BAE8A /* MI_FitToViewButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MI_FitToViewButton.h; sourceTree = "<group>"; };
+		C092D019094231AB005BAE8A /* MI_FitToViewButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MI_FitToViewButton.m; sourceTree = "<group>"; };
+		C0BE96A6061DB86300AFC9A1 /* MI_NamedArray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MI_NamedArray.h; sourceTree = "<group>"; };
+		C0BE96A7061DB86300AFC9A1 /* MI_NamedArray.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MI_NamedArray.m; sourceTree = "<group>"; };
+		C0BEFA580611F05400E88C44 /* MI_Inspector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MI_Inspector.h; sourceTree = "<group>"; };
+		C0BEFA590611F05400E88C44 /* MI_Inspector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MI_Inspector.m; sourceTree = "<group>"; };
+		C0BFD9F0063B282500462FE8 /* zoom_in_toolbar_image.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = zoom_in_toolbar_image.png; sourceTree = "<group>"; };
+		C0BFD9F1063B282500462FE8 /* zoom_out_toolbar_image.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = zoom_out_toolbar_image.png; sourceTree = "<group>"; };
+		C0C092DA05761918006C0AD5 /* AnalysisVariable.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = AnalysisVariable.h; sourceTree = "<group>"; };
+		C0C092DB05761918006C0AD5 /* AnalysisVariable.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = AnalysisVariable.m; sourceTree = "<group>"; };
+		C0C092E505761918006C0AD5 /* MI_AlignmentPoint.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = MI_AlignmentPoint.h; sourceTree = "<group>"; };
+		C0C092E605761918006C0AD5 /* MI_AlignmentPoint.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = MI_AlignmentPoint.m; sourceTree = "<group>"; };
+		C0C092E705761918006C0AD5 /* MI_CircuitElement.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = MI_CircuitElement.h; sourceTree = "<group>"; };
+		C0C092E805761918006C0AD5 /* MI_CircuitElement.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = MI_CircuitElement.m; sourceTree = "<group>"; };
+		C0C092E905761918006C0AD5 /* MI_CircuitElementDeviceModel.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = MI_CircuitElementDeviceModel.h; sourceTree = "<group>"; };
+		C0C092EA05761918006C0AD5 /* MI_CircuitElementDeviceModel.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = MI_CircuitElementDeviceModel.m; sourceTree = "<group>"; };
+		C0C092EB05761918006C0AD5 /* MI_CircuitSchematic.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = MI_CircuitSchematic.h; sourceTree = "<group>"; };
+		C0C092EC05761918006C0AD5 /* MI_CircuitSchematic.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = MI_CircuitSchematic.m; sourceTree = "<group>"; };
+		C0C092ED05761918006C0AD5 /* MI_ColorCell.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = MI_ColorCell.h; sourceTree = "<group>"; };
+		C0C092EE05761918006C0AD5 /* MI_ColorCell.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = MI_ColorCell.m; sourceTree = "<group>"; };
+		C0C092EF05761918006C0AD5 /* MI_ComplexNumber.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = MI_ComplexNumber.h; sourceTree = "<group>"; };
+		C0C092F005761918006C0AD5 /* MI_ComplexNumber.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = MI_ComplexNumber.m; sourceTree = "<group>"; };
+		C0C092F105761918006C0AD5 /* MI_ConnectionPoint.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = MI_ConnectionPoint.h; sourceTree = "<group>"; };
+		C0C092F205761918006C0AD5 /* MI_ConnectionPoint.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = MI_ConnectionPoint.m; sourceTree = "<group>"; };
+		C0C092F305761918006C0AD5 /* MI_DirectionChooser.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = MI_DirectionChooser.h; sourceTree = "<group>"; };
+		C0C092F405761918006C0AD5 /* MI_DirectionChooser.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = MI_DirectionChooser.m; sourceTree = "<group>"; };
+		C0C092F505761918006C0AD5 /* MI_ElementConnector.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = MI_ElementConnector.h; sourceTree = "<group>"; };
+		C0C092F605761918006C0AD5 /* MI_ElementConnector.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = MI_ElementConnector.m; sourceTree = "<group>"; };
+		C0C092F705761918006C0AD5 /* MI_LinearElements.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = MI_LinearElements.h; sourceTree = "<group>"; };
+		C0C092F805761918006C0AD5 /* MI_LinearElements.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = MI_LinearElements.m; sourceTree = "<group>"; };
+		C0C092F905761918006C0AD5 /* MI_MiscellaneousElements.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = MI_MiscellaneousElements.h; sourceTree = "<group>"; };
+		C0C092FA05761918006C0AD5 /* MI_MiscellaneousElements.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = MI_MiscellaneousElements.m; sourceTree = "<group>"; };
+		C0C092FB05761918006C0AD5 /* MI_NonlinearElements.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = MI_NonlinearElements.h; sourceTree = "<group>"; };
+		C0C092FC05761918006C0AD5 /* MI_NonlinearElements.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = MI_NonlinearElements.m; sourceTree = "<group>"; };
+		C0C092FD05761918006C0AD5 /* MI_PowerSourceElements.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = MI_PowerSourceElements.h; sourceTree = "<group>"; };
+		C0C092FE05761918006C0AD5 /* MI_PowerSourceElements.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = MI_PowerSourceElements.m; sourceTree = "<group>"; };
+		C0C092FF05761918006C0AD5 /* MI_Schematic.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = MI_Schematic.h; sourceTree = "<group>"; };
+		C0C0930005761918006C0AD5 /* MI_Schematic.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = MI_Schematic.m; sourceTree = "<group>"; };
+		C0C0930105761918006C0AD5 /* MI_SchematicElement.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = MI_SchematicElement.h; sourceTree = "<group>"; };
+		C0C0930205761918006C0AD5 /* MI_SchematicElement.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = MI_SchematicElement.m; sourceTree = "<group>"; };
+		C0C0930305761918006C0AD5 /* MI_SchematicElementChooser.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = MI_SchematicElementChooser.h; sourceTree = "<group>"; };
+		C0C0930405761918006C0AD5 /* MI_SchematicElementChooser.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = MI_SchematicElementChooser.m; sourceTree = "<group>"; };
+		C0C0930505761918006C0AD5 /* MI_SchematicsCanvas.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = MI_SchematicsCanvas.h; sourceTree = "<group>"; };
+		C0C0930605761918006C0AD5 /* MI_SchematicsCanvas.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = MI_SchematicsCanvas.m; sourceTree = "<group>"; };
+		C0C0930705761918006C0AD5 /* MI_TextView.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = MI_TextView.h; sourceTree = "<group>"; };
+		C0C0930805761918006C0AD5 /* MI_TextView.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = MI_TextView.m; sourceTree = "<group>"; };
+		C0C0930905761918006C0AD5 /* MI_TextViewLineNumbering.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = MI_TextViewLineNumbering.h; sourceTree = "<group>"; };
+		C0C0930A05761918006C0AD5 /* MI_TextViewLineNumbering.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = MI_TextViewLineNumbering.m; sourceTree = "<group>"; };
+		C0C0930B05761918006C0AD5 /* MI_ViewArea.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = MI_ViewArea.h; sourceTree = "<group>"; };
+		C0C0930C05761918006C0AD5 /* MI_ViewArea.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = MI_ViewArea.m; sourceTree = "<group>"; };
+		C0C0930D05761918006C0AD5 /* MI_Window.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = MI_Window.h; sourceTree = "<group>"; };
+		C0C0930E05761918006C0AD5 /* MI_Window.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = MI_Window.m; sourceTree = "<group>"; };
+		C0C0930F05761918006C0AD5 /* NyquistPlotController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = NyquistPlotController.h; sourceTree = "<group>"; };
+		C0C0931005761918006C0AD5 /* NyquistPlotController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = NyquistPlotController.m; sourceTree = "<group>"; };
+		C0C0931105761918006C0AD5 /* NyquistView.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = NyquistView.h; sourceTree = "<group>"; };
+		C0C0931205761918006C0AD5 /* NyquistView.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = NyquistView.m; sourceTree = "<group>"; };
+		C0C0931305761918006C0AD5 /* ResultsTable.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = ResultsTable.h; sourceTree = "<group>"; };
+		C0C0931405761918006C0AD5 /* ResultsTable.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = ResultsTable.m; sourceTree = "<group>"; };
+		C0C0931505761918006C0AD5 /* SpiceASCIIOutputReader.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = SpiceASCIIOutputReader.h; sourceTree = "<group>"; };
+		C0C0931605761918006C0AD5 /* SpiceASCIIOutputReader.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = SpiceASCIIOutputReader.m; sourceTree = "<group>"; };
+		C0C0931705761918006C0AD5 /* SpiceASCIIRawOutputReader.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = SpiceASCIIRawOutputReader.h; sourceTree = "<group>"; };
+		C0C0931805761918006C0AD5 /* SpiceASCIIRawOutputReader.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = SpiceASCIIRawOutputReader.m; sourceTree = "<group>"; };
+		C0C0931905761918006C0AD5 /* SugarGraphView.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = SugarGraphView.h; sourceTree = "<group>"; };
+		C0C0931A05761918006C0AD5 /* SugarGraphView.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = SugarGraphView.m; sourceTree = "<group>"; };
+		C0C0931B05761918006C0AD5 /* SugarManager.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = SugarManager.h; sourceTree = "<group>"; };
+		C0C0931C05761918006C0AD5 /* SugarManager.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = SugarManager.m; sourceTree = "<group>"; };
+		C0C0931D05761918006C0AD5 /* SugarPlotter.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = SugarPlotter.h; sourceTree = "<group>"; };
+		C0C0931E05761918006C0AD5 /* SugarPlotter.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = SugarPlotter.m; sourceTree = "<group>"; };
+		C0C09380057619AC006C0AD5 /* about.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = about.png; sourceTree = "<group>"; };
+		C0C09381057619AC006C0AD5 /* bottom_guide.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bottom_guide.png; sourceTree = "<group>"; };
+		C0C09382057619AC006C0AD5 /* customize_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = customize_icon.png; sourceTree = "<group>"; };
+		C0C09383057619AC006C0AD5 /* flip.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = flip.png; sourceTree = "<group>"; };
+		C0C09384057619AC006C0AD5 /* fonts_pref_button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = fonts_pref_button.png; sourceTree = "<group>"; };
+		C0C09385057619AC006C0AD5 /* general_pref_button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = general_pref_button.png; sourceTree = "<group>"; };
+		C0C09386057619AC006C0AD5 /* left_guide.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = left_guide.png; sourceTree = "<group>"; };
+		C0C0938B057619AC006C0AD5 /* plotter_pref_button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = plotter_pref_button.png; sourceTree = "<group>"; };
+		C0C0938C057619AC006C0AD5 /* right_guide.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = right_guide.png; sourceTree = "<group>"; };
+		C0C0938D057619AC006C0AD5 /* rotate_left.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = rotate_left.png; sourceTree = "<group>"; };
+		C0C0938F057619AC006C0AD5 /* schematic_pref_button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = schematic_pref_button.png; sourceTree = "<group>"; };
+		C0C09392057619AC006C0AD5 /* show_info_panel_button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = show_info_panel_button.png; sourceTree = "<group>"; };
+		C0C09393057619AC006C0AD5 /* simulator_pref_button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = simulator_pref_button.png; sourceTree = "<group>"; };
+		C0C09394057619AC006C0AD5 /* startup_pref_button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = startup_pref_button.png; sourceTree = "<group>"; };
+		C0C09396057619AC006C0AD5 /* top_guide.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = top_guide.png; sourceTree = "<group>"; };
+		C0C09397057619AC006C0AD5 /* zoom_magnifier.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = zoom_magnifier.png; sourceTree = "<group>"; };
+		C0C09398057619AC006C0AD5 /* zoom_minus.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = zoom_minus.png; sourceTree = "<group>"; };
+		C0C09399057619AC006C0AD5 /* zoom_plus.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = zoom_plus.png; sourceTree = "<group>"; };
+		C0C095CB057623CF006C0AD5 /* CircuitDocument.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = CircuitDocument.m; sourceTree = "<group>"; };
+		C0C0969605762450006C0AD5 /* CircuitDocument.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = CircuitDocument.h; sourceTree = "<group>"; };
+		C0C09699057625EF006C0AD5 /* CircuitDocumentModel.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = CircuitDocumentModel.h; sourceTree = "<group>"; };
+		C0C0969A057625EF006C0AD5 /* CircuitDocumentModel.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = CircuitDocumentModel.m; sourceTree = "<group>"; };
+		C0C0969B057625EF006C0AD5 /* common.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = common.h; sourceTree = "<group>"; };
+		C0C0969C057625EF006C0AD5 /* Converter.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = Converter.h; sourceTree = "<group>"; };
+		C0C0969D057625EF006C0AD5 /* Converter.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = Converter.m; sourceTree = "<group>"; };
+		C0C096A405762E28006C0AD5 /* mi_sugar_icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = mi_sugar_icon.icns; sourceTree = "<group>"; };
+		C0C096A705762E72006C0AD5 /* MI-SUGAR.scriptSuite */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "MI-SUGAR.scriptSuite"; sourceTree = "<group>"; };
+		C0C096A805762E72006C0AD5 /* spice */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = spice; sourceTree = "<group>"; };
+		C0C096AD05762E9B006C0AD5 /* MI-SUGAR.scriptTerminology */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = "MI-SUGAR.scriptTerminology"; path = "English.lproj/MI-SUGAR.scriptTerminology"; sourceTree = "<group>"; };
+		C0C8464C0621DED2003A0DF0 /* export_all_device_models.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = export_all_device_models.png; sourceTree = "<group>"; };
+		C0C846510621DEE4003A0DF0 /* import_device_models.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = import_device_models.png; sourceTree = "<group>"; };
+		C0CE9AB10620C3E1003E0612 /* delete_selected_device_model.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = delete_selected_device_model.png; sourceTree = "<group>"; };
+		C0CE9AC40620C6EC003E0612 /* copy_selected_device_model.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = copy_selected_device_model.png; sourceTree = "<group>"; };
+		C0D2D8D3060F219C004B6787 /* subcircuit_toolbar_item.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = subcircuit_toolbar_item.png; sourceTree = "<group>"; };
+		C0D3054B06536ACC0073EC78 /* MI_AnalysisButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MI_AnalysisButton.h; sourceTree = "<group>"; };
+		C0D3054C06536ACC0073EC78 /* MI_AnalysisButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MI_AnalysisButton.m; sourceTree = "<group>"; };
+		C0D30A9F0617826800770B46 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = /System/Library/Frameworks/CoreFoundation.framework; sourceTree = "<absolute>"; };
+		C0D7D04E065909E600423050 /* MI_ShapePreviewer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MI_ShapePreviewer.h; sourceTree = "<group>"; };
+		C0D7D04F065909E600423050 /* MI_ShapePreviewer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MI_ShapePreviewer.m; sourceTree = "<group>"; };
+		C0D810870577B58B006C0AD5 /* home_toolbar_item.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = home_toolbar_item.png; sourceTree = "<group>"; };
+		C0DA153F08D4193F00342F36 /* LICENSE.txt */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
+		C0E11A4F0E994F23004A7CF9 /* English */ = {isa = PBXFileReference; lastKnownFileType = folder; name = English; path = "English.lproj/MISUGAR Help"; sourceTree = "<group>"; };
+		C0E80C61058E2A8E0012452D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C0E80C62058E2A8E0012452D /* MI-SUGAR.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "MI-SUGAR.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		C0ED059805AF0B1100273C48 /* MI_NodeAssignmentTableItem.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = MI_NodeAssignmentTableItem.h; sourceTree = "<group>"; };
+		C0ED059905AF0B1100273C48 /* MI_NodeAssignmentTableItem.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = MI_NodeAssignmentTableItem.m; sourceTree = "<group>"; };
+		C0EF7C43146F40DA00FC7577 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/About.xib; sourceTree = "<group>"; };
+		C0EF7C46146F429100FC7577 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/CircuitDocument.xib; sourceTree = "<group>"; };
+		C0EF7C48146F429100FC7577 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/CircuitDocument2.xib; sourceTree = "<group>"; };
+		C0EF7C4A146F429100FC7577 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/CircuitPrintSheet.xib; sourceTree = "<group>"; };
+		C0EF7C4C146F429100FC7577 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		C0EF7C4E146F429100FC7577 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/Nyquist.xib; sourceTree = "<group>"; };
+		C0EF7C50146F429100FC7577 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/PlotWindow.xib; sourceTree = "<group>"; };
+		C0EF7C52146F429100FC7577 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/SchematicDeviceModelsPanel.xib; sourceTree = "<group>"; };
+		C0EF7C54146F429100FC7577 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/SchematicElementInfoPanel.xib; sourceTree = "<group>"; };
+		C0EF7C56146F429100FC7577 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/SchematicElementsPanel.xib; sourceTree = "<group>"; };
+		C0EF7C58146F429100FC7577 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/SchematicLayersPanel.xib; sourceTree = "<group>"; };
+		C0EF7C5A146F429100FC7577 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/SubcircuitCreationSheet.xib; sourceTree = "<group>"; };
+		C0EF7C5C146F429100FC7577 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/SugarPreferences.xib; sourceTree = "<group>"; };
+		C0FB17430653B23C004CF563 /* MI_SESDLParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MI_SESDLParser.h; sourceTree = "<group>"; };
+		C0FB17440653B23C004CF563 /* MI_SESDLParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MI_SESDLParser.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		C0E80C5E058E2A8E0012452D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C0E80C5F058E2A8E0012452D /* Cocoa.framework in Frameworks */,
+				C0D30AA00617826800770B46 /* CoreFoundation.framework in Frameworks */,
+				2AE5A3F9202F35B10080DEA0 /* libxml2.dylib in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		1058C7A6FEA54F5311CA2CBB /* Linked Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				C0D30A9F0617826800770B46 /* CoreFoundation.framework */,
+				1058C7A7FEA54F5311CA2CBB /* Cocoa.framework */,
+			);
+			name = "Linked Frameworks";
+			sourceTree = "<group>";
+		};
+		1058C7A8FEA54F5311CA2CBB /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				2A37F4C5FDCFA73011CA2CEA /* Foundation.framework */,
+				2A37F4C4FDCFA73011CA2CEA /* AppKit.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		19C28FB0FE9D524F11CA2CBB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				C0E80C62058E2A8E0012452D /* MI-SUGAR.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		2A37F4AAFDCFA73011CA2CEA /* MI-SUGAR */ = {
+			isa = PBXGroup;
+			children = (
+				2A37F4ABFDCFA73011CA2CEA /* Classes */,
+				2A37F4AFFDCFA73011CA2CEA /* Other Sources */,
+				2A37F4B8FDCFA73011CA2CEA /* Resources */,
+				2A37F4C3FDCFA73011CA2CEA /* Frameworks */,
+				19C28FB0FE9D524F11CA2CBB /* Products */,
+				C02C8133070F3C350042B50C /* Libraries */,
+				C0E80C61058E2A8E0012452D /* Info.plist */,
+			);
+			name = "MI-SUGAR";
+			sourceTree = "<group>";
+		};
+		2A37F4ABFDCFA73011CA2CEA /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				C0C0969B057625EF006C0AD5 /* common.h */,
+				C0C0941605761EE6006C0AD5 /* Controllers */,
+				C0C0941505761ED9006C0AD5 /* Views */,
+				C0C0941705761EF6006C0AD5 /* Model */,
+			);
+			name = Classes;
+			sourceTree = "<group>";
+		};
+		2A37F4AFFDCFA73011CA2CEA /* Other Sources */ = {
+			isa = PBXGroup;
+			children = (
+				2A37F4B0FDCFA73011CA2CEA /* main.m */,
+			);
+			name = "Other Sources";
+			sourceTree = "<group>";
+		};
+		2A37F4B8FDCFA73011CA2CEA /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				C0ED036605AD9A2300273C48 /* XIBs */,
+				C0C096A405762E28006C0AD5 /* mi_sugar_icon.icns */,
+				C0C096A705762E72006C0AD5 /* MI-SUGAR.scriptSuite */,
+				C0C096AC05762E9B006C0AD5 /* MI-SUGAR.scriptTerminology */,
+				C0C096A805762E72006C0AD5 /* spice */,
+				C0DA153F08D4193F00342F36 /* LICENSE.txt */,
+				C0C093660576193D006C0AD5 /* Help */,
+				C0C0936505761935006C0AD5 /* Images */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		2A37F4C3FDCFA73011CA2CEA /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				1058C7A6FEA54F5311CA2CBB /* Linked Frameworks */,
+				1058C7A8FEA54F5311CA2CBB /* Other Frameworks */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		C02B6E5206206B220044F09D /* Singletons */ = {
+			isa = PBXGroup;
+			children = (
+				C0F6763C0620823C008F5C78 /* Wizards */,
+				C0C0931B05761918006C0AD5 /* SugarManager.h */,
+				C0C0931C05761918006C0AD5 /* SugarManager.m */,
+				C00C1599060B9D4C00A175F8 /* MI_SubcircuitLibraryManager.h */,
+				C00C159A060B9D4C00A175F8 /* MI_SubcircuitLibraryManager.m */,
+				C0BEFA580611F05400E88C44 /* MI_Inspector.h */,
+				C0BEFA590611F05400E88C44 /* MI_Inspector.m */,
+				C002B28F0618AF5000C260E9 /* MI_DeviceModelManager.h */,
+				C002B2900618AF5000C260E9 /* MI_DeviceModelManager.m */,
+			);
+			name = Singletons;
+			sourceTree = "<group>";
+		};
+		C02C8133070F3C350042B50C /* Libraries */ = {
+			isa = PBXGroup;
+			children = (
+				C02C813E070F3C810042B50C /* libxml2.dylib */,
+			);
+			name = Libraries;
+			sourceTree = "<group>";
+		};
+		C058518D06138B0600288B03 /* Shapes */ = {
+			isa = PBXGroup;
+			children = (
+				C058519106138B6100288B03 /* MI_Shape.h */,
+				C058519206138B6100288B03 /* MI_Shape.m */,
+				C058523506139C0600288B03 /* MI_PathShape.h */,
+				C058523606139C0600288B03 /* MI_PathShape.m */,
+				C058526506139D9500288B03 /* MI_DIPShape.h */,
+				C058526606139D9500288B03 /* MI_DIPShape.m */,
+			);
+			name = Shapes;
+			sourceTree = "<group>";
+		};
+		C083F3020609BBFF001BB563 /* Tools */ = {
+			isa = PBXGroup;
+			children = (
+				C083F0840609173B001BB563 /* MI_Tool.h */,
+				C083F0850609173B001BB563 /* MI_Tool.m */,
+				C083F30F0609BC3F001BB563 /* MI_SelectConnectTool.h */,
+				C083F3100609BC3F001BB563 /* MI_SelectConnectTool.m */,
+				C083F3330609BCF7001BB563 /* MI_ScaleTool.h */,
+				C083F3340609BCF7001BB563 /* MI_ScaleTool.m */,
+			);
+			name = Tools;
+			sourceTree = "<group>";
+		};
+		C0885EAC0629726B000C7B0F /* Format Converters */ = {
+			isa = PBXGroup;
+			children = (
+				C0C0969C057625EF006C0AD5 /* Converter.h */,
+				C0C0969D057625EF006C0AD5 /* Converter.m */,
+				C0885EB6062972C2000C7B0F /* MI_SVGConverter.h */,
+				C0885EB7062972C2000C7B0F /* MI_SVGConverter.m */,
+				C0FB17430653B23C004CF563 /* MI_SESDLParser.h */,
+				C0FB17440653B23C004CF563 /* MI_SESDLParser.m */,
+			);
+			name = "Format Converters";
+			sourceTree = "<group>";
+		};
+		C0BE93D3061D61BD00AFC9A1 /* Document Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				C0C0969605762450006C0AD5 /* CircuitDocument.h */,
+				C0C095CB057623CF006C0AD5 /* CircuitDocument.m */,
+				C0C0931D05761918006C0AD5 /* SugarPlotter.h */,
+				C0C0931E05761918006C0AD5 /* SugarPlotter.m */,
+				C0C0930F05761918006C0AD5 /* NyquistPlotController.h */,
+				C0C0931005761918006C0AD5 /* NyquistPlotController.m */,
+			);
+			name = "Document Controllers";
+			sourceTree = "<group>";
+		};
+		C0BE9699061DB82900AFC9A1 /* Needful Things */ = {
+			isa = PBXGroup;
+			children = (
+				C0BE96A6061DB86300AFC9A1 /* MI_NamedArray.h */,
+				C0BE96A7061DB86300AFC9A1 /* MI_NamedArray.m */,
+				C0385450063C21D40045290A /* MI_TroubleShooter.h */,
+				C0385451063C21D40045290A /* MI_TroubleShooter.m */,
+				C05AAB300657599E00648EE3 /* MI_CustomViewToolbarItem.h */,
+				C05AAB310657599E00648EE3 /* MI_CustomViewToolbarItem.m */,
+			);
+			name = "Needful Things";
+			sourceTree = "<group>";
+		};
+		C0C0936505761935006C0AD5 /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				C05AAD2F0657C91100648EE3 /* show_elements_button.png */,
+				C05AAD240657C7E700648EE3 /* plotImage.png */,
+				C05AACE40657C53000648EE3 /* schematic2netlist.png */,
+				C0385434063C0B4D0045290A /* runImage_bw.png */,
+				C0BFD9F0063B282500462FE8 /* zoom_in_toolbar_image.png */,
+				C0BFD9F1063B282500462FE8 /* zoom_out_toolbar_image.png */,
+				C0C846510621DEE4003A0DF0 /* import_device_models.png */,
+				C0C8464C0621DED2003A0DF0 /* export_all_device_models.png */,
+				C0CE9AC40620C6EC003E0612 /* copy_selected_device_model.png */,
+				C0CE9AB10620C3E1003E0612 /* delete_selected_device_model.png */,
+				C07B5ECC0615874D00A3B7A5 /* refresh_icon.png */,
+				C0D2D8D3060F219C004B6787 /* subcircuit_toolbar_item.png */,
+				C0C09380057619AC006C0AD5 /* about.png */,
+				C0C09381057619AC006C0AD5 /* bottom_guide.png */,
+				C0C09382057619AC006C0AD5 /* customize_icon.png */,
+				C0C09383057619AC006C0AD5 /* flip.png */,
+				C0C09384057619AC006C0AD5 /* fonts_pref_button.png */,
+				C0C09385057619AC006C0AD5 /* general_pref_button.png */,
+				C0C09386057619AC006C0AD5 /* left_guide.png */,
+				C0C0938B057619AC006C0AD5 /* plotter_pref_button.png */,
+				C0C0938C057619AC006C0AD5 /* right_guide.png */,
+				C0C0938D057619AC006C0AD5 /* rotate_left.png */,
+				C0C0938F057619AC006C0AD5 /* schematic_pref_button.png */,
+				C0C09392057619AC006C0AD5 /* show_info_panel_button.png */,
+				C0C09393057619AC006C0AD5 /* simulator_pref_button.png */,
+				C0C09394057619AC006C0AD5 /* startup_pref_button.png */,
+				C0C09396057619AC006C0AD5 /* top_guide.png */,
+				C0C09397057619AC006C0AD5 /* zoom_magnifier.png */,
+				C0C09398057619AC006C0AD5 /* zoom_minus.png */,
+				C0C09399057619AC006C0AD5 /* zoom_plus.png */,
+				C0D810870577B58B006C0AD5 /* home_toolbar_item.png */,
+			);
+			name = Images;
+			sourceTree = "<group>";
+		};
+		C0C093660576193D006C0AD5 /* Help */ = {
+			isa = PBXGroup;
+			children = (
+				C0E11A4E0E994F23004A7CF9 /* MISUGAR Help */,
+			);
+			name = Help;
+			sourceTree = "<group>";
+		};
+		C0C0941505761ED9006C0AD5 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				C0C0941905761F9F006C0AD5 /* Plotter */,
+				C0C0941805761F72006C0AD5 /* Schematic */,
+				C0C092ED05761918006C0AD5 /* MI_ColorCell.h */,
+				C0C092EE05761918006C0AD5 /* MI_ColorCell.m */,
+				C0C0930705761918006C0AD5 /* MI_TextView.h */,
+				C0C0930805761918006C0AD5 /* MI_TextView.m */,
+				C0C0930905761918006C0AD5 /* MI_TextViewLineNumbering.h */,
+				C0C0930A05761918006C0AD5 /* MI_TextViewLineNumbering.m */,
+				C0C0930D05761918006C0AD5 /* MI_Window.h */,
+				C0C0930E05761918006C0AD5 /* MI_Window.m */,
+				C059E76D06463E7800A416DA /* MI_VariantSelectionView.h */,
+				C059E76E06463E7800A416DA /* MI_VariantSelectionView.m */,
+				C0D3054B06536ACC0073EC78 /* MI_AnalysisButton.h */,
+				C0D3054C06536ACC0073EC78 /* MI_AnalysisButton.m */,
+				C092D018094231AB005BAE8A /* MI_FitToViewButton.h */,
+				C092D019094231AB005BAE8A /* MI_FitToViewButton.m */,
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
+		C0C0941605761EE6006C0AD5 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				C02B6E5206206B220044F09D /* Singletons */,
+				C0BE93D3061D61BD00AFC9A1 /* Document Controllers */,
+			);
+			name = Controllers;
+			sourceTree = "<group>";
+		};
+		C0C0941705761EF6006C0AD5 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				C0885EAC0629726B000C7B0F /* Format Converters */,
+				C0BE9699061DB82900AFC9A1 /* Needful Things */,
+				C0C0941D05762134006C0AD5 /* Simulator Output Readers */,
+				C0C0941A05762061006C0AD5 /* Schematic */,
+				C0C092DA05761918006C0AD5 /* AnalysisVariable.h */,
+				C0C092DB05761918006C0AD5 /* AnalysisVariable.m */,
+				C0C092EF05761918006C0AD5 /* MI_ComplexNumber.h */,
+				C0C092F005761918006C0AD5 /* MI_ComplexNumber.m */,
+				C0C0930B05761918006C0AD5 /* MI_ViewArea.h */,
+				C0C0930C05761918006C0AD5 /* MI_ViewArea.m */,
+				C0C0931305761918006C0AD5 /* ResultsTable.h */,
+				C0C0931405761918006C0AD5 /* ResultsTable.m */,
+				C0C09699057625EF006C0AD5 /* CircuitDocumentModel.h */,
+				C0C0969A057625EF006C0AD5 /* CircuitDocumentModel.m */,
+				C050EC4D060C5DC500AA7491 /* MI_SubcircuitDocumentModel.h */,
+				C050EC4E060C5DC500AA7491 /* MI_SubcircuitDocumentModel.m */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
+		C0C0941805761F72006C0AD5 /* Schematic */ = {
+			isa = PBXGroup;
+			children = (
+				C0C092F305761918006C0AD5 /* MI_DirectionChooser.h */,
+				C0C092F405761918006C0AD5 /* MI_DirectionChooser.m */,
+				C0C0930305761918006C0AD5 /* MI_SchematicElementChooser.h */,
+				C0C0930405761918006C0AD5 /* MI_SchematicElementChooser.m */,
+				C0C0930505761918006C0AD5 /* MI_SchematicsCanvas.h */,
+				C0C0930605761918006C0AD5 /* MI_SchematicsCanvas.m */,
+				C0D7D04E065909E600423050 /* MI_ShapePreviewer.h */,
+				C0D7D04F065909E600423050 /* MI_ShapePreviewer.m */,
+			);
+			name = Schematic;
+			sourceTree = "<group>";
+		};
+		C0C0941905761F9F006C0AD5 /* Plotter */ = {
+			isa = PBXGroup;
+			children = (
+				C0C0931105761918006C0AD5 /* NyquistView.h */,
+				C0C0931205761918006C0AD5 /* NyquistView.m */,
+				C0C0931905761918006C0AD5 /* SugarGraphView.h */,
+				C0C0931A05761918006C0AD5 /* SugarGraphView.m */,
+			);
+			name = Plotter;
+			sourceTree = "<group>";
+		};
+		C0C0941A05762061006C0AD5 /* Schematic */ = {
+			isa = PBXGroup;
+			children = (
+				C058518D06138B0600288B03 /* Shapes */,
+				C083F3020609BBFF001BB563 /* Tools */,
+				C0C0941B0576208A006C0AD5 /* Circuit Elements */,
+				C0C092E505761918006C0AD5 /* MI_AlignmentPoint.h */,
+				C0C092E605761918006C0AD5 /* MI_AlignmentPoint.m */,
+				C0C092F105761918006C0AD5 /* MI_ConnectionPoint.h */,
+				C0C092F205761918006C0AD5 /* MI_ConnectionPoint.m */,
+				C0C092F505761918006C0AD5 /* MI_ElementConnector.h */,
+				C0C092F605761918006C0AD5 /* MI_ElementConnector.m */,
+				C0C092FF05761918006C0AD5 /* MI_Schematic.h */,
+				C0C0930005761918006C0AD5 /* MI_Schematic.m */,
+				C0C0930105761918006C0AD5 /* MI_SchematicElement.h */,
+				C0C0930205761918006C0AD5 /* MI_SchematicElement.m */,
+				C083EED90608BA9D001BB563 /* MI_TextElement.h */,
+				C083EEDA0608BA9D001BB563 /* MI_TextElement.m */,
+				C083F618060A0EE7001BB563 /* MI_ImageElement.h */,
+				C083F619060A0EE7001BB563 /* MI_ImageElement.m */,
+			);
+			name = Schematic;
+			sourceTree = "<group>";
+		};
+		C0C0941B0576208A006C0AD5 /* Circuit Elements */ = {
+			isa = PBXGroup;
+			children = (
+				C0C0941C057620E9006C0AD5 /* Device Models */,
+				C0C092E705761918006C0AD5 /* MI_CircuitElement.h */,
+				C0C092E805761918006C0AD5 /* MI_CircuitElement.m */,
+				C050ED63060C7AEC00AA7491 /* MI_SubcircuitElement.h */,
+				C050ED64060C7AEC00AA7491 /* MI_SubcircuitElement.m */,
+				C0C092EB05761918006C0AD5 /* MI_CircuitSchematic.h */,
+				C0C092EC05761918006C0AD5 /* MI_CircuitSchematic.m */,
+				C0C092F705761918006C0AD5 /* MI_LinearElements.h */,
+				C0C092F805761918006C0AD5 /* MI_LinearElements.m */,
+				C0C092F905761918006C0AD5 /* MI_MiscellaneousElements.h */,
+				C0C092FA05761918006C0AD5 /* MI_MiscellaneousElements.m */,
+				C0C092FB05761918006C0AD5 /* MI_NonlinearElements.h */,
+				C0C092FC05761918006C0AD5 /* MI_NonlinearElements.m */,
+				C0C092FD05761918006C0AD5 /* MI_PowerSourceElements.h */,
+				C0C092FE05761918006C0AD5 /* MI_PowerSourceElements.m */,
+				C0ED059805AF0B1100273C48 /* MI_NodeAssignmentTableItem.h */,
+				C0ED059905AF0B1100273C48 /* MI_NodeAssignmentTableItem.m */,
+				C06B09E206403D22007594B0 /* MI_Voltmeter.h */,
+				C06B09E306403D22007594B0 /* MI_Voltmeter.m */,
+				C06B09F206403EB5007594B0 /* MI_Ammeter.h */,
+				C06B09F306403EB5007594B0 /* MI_Ammeter.m */,
+			);
+			name = "Circuit Elements";
+			sourceTree = "<group>";
+		};
+		C0C0941C057620E9006C0AD5 /* Device Models */ = {
+			isa = PBXGroup;
+			children = (
+				C0C092E905761918006C0AD5 /* MI_CircuitElementDeviceModel.h */,
+				C0C092EA05761918006C0AD5 /* MI_CircuitElementDeviceModel.m */,
+			);
+			name = "Device Models";
+			sourceTree = "<group>";
+		};
+		C0C0941D05762134006C0AD5 /* Simulator Output Readers */ = {
+			isa = PBXGroup;
+			children = (
+				C0C0931505761918006C0AD5 /* SpiceASCIIOutputReader.h */,
+				C0C0931605761918006C0AD5 /* SpiceASCIIOutputReader.m */,
+				C0C0931705761918006C0AD5 /* SpiceASCIIRawOutputReader.h */,
+				C0C0931805761918006C0AD5 /* SpiceASCIIRawOutputReader.m */,
+			);
+			name = "Simulator Output Readers";
+			sourceTree = "<group>";
+		};
+		C0ED036605AD9A2300273C48 /* XIBs */ = {
+			isa = PBXGroup;
+			children = (
+				C0EF7C42146F40DA00FC7577 /* About.xib */,
+				C0EF7C45146F429100FC7577 /* CircuitDocument.xib */,
+				C0EF7C47146F429100FC7577 /* CircuitDocument2.xib */,
+				C0EF7C49146F429100FC7577 /* CircuitPrintSheet.xib */,
+				C0EF7C4B146F429100FC7577 /* MainMenu.xib */,
+				C0EF7C4D146F429100FC7577 /* Nyquist.xib */,
+				C0EF7C4F146F429100FC7577 /* PlotWindow.xib */,
+				C0EF7C51146F429100FC7577 /* SchematicDeviceModelsPanel.xib */,
+				C0EF7C53146F429100FC7577 /* SchematicElementInfoPanel.xib */,
+				C0EF7C55146F429100FC7577 /* SchematicElementsPanel.xib */,
+				C0EF7C57146F429100FC7577 /* SchematicLayersPanel.xib */,
+				C0EF7C59146F429100FC7577 /* SubcircuitCreationSheet.xib */,
+				C0EF7C5B146F429100FC7577 /* SugarPreferences.xib */,
+			);
+			name = XIBs;
+			sourceTree = "<group>";
+		};
+		C0F6763C0620823C008F5C78 /* Wizards */ = {
+			isa = PBXGroup;
+			children = (
+				C086E6B7060CE0CA00066047 /* MI_SubcircuitCreator.h */,
+				C086E6B8060CE0CA00066047 /* MI_SubcircuitCreator.m */,
+				C087DC2C0624803B00386A53 /* MI_CircuitDocumentPrinter.h */,
+				C087DC2D0624803B00386A53 /* MI_CircuitDocumentPrinter.m */,
+			);
+			name = Wizards;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		C0E80BE7058E2A8E0012452D /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C0E80BE9058E2A8E0012452D /* AnalysisVariable.h in Headers */,
+				C0E80BEB058E2A8E0012452D /* MI_AlignmentPoint.h in Headers */,
+				C0E80BEC058E2A8E0012452D /* MI_CircuitElement.h in Headers */,
+				C0E80BED058E2A8E0012452D /* MI_CircuitElementDeviceModel.h in Headers */,
+				C0E80BEE058E2A8E0012452D /* MI_CircuitSchematic.h in Headers */,
+				C0E80BEF058E2A8E0012452D /* MI_ColorCell.h in Headers */,
+				C0E80BF0058E2A8E0012452D /* MI_ComplexNumber.h in Headers */,
+				C0E80BF1058E2A8E0012452D /* MI_ConnectionPoint.h in Headers */,
+				C0E80BF2058E2A8E0012452D /* MI_DirectionChooser.h in Headers */,
+				C0E80BF3058E2A8E0012452D /* MI_ElementConnector.h in Headers */,
+				C0E80BF4058E2A8E0012452D /* MI_LinearElements.h in Headers */,
+				C0E80BF5058E2A8E0012452D /* MI_MiscellaneousElements.h in Headers */,
+				C0E80BF6058E2A8E0012452D /* MI_NonlinearElements.h in Headers */,
+				C0E80BF7058E2A8E0012452D /* MI_PowerSourceElements.h in Headers */,
+				C0E80BF8058E2A8E0012452D /* MI_Schematic.h in Headers */,
+				C0E80BF9058E2A8E0012452D /* MI_SchematicElement.h in Headers */,
+				C0E80BFA058E2A8E0012452D /* MI_SchematicElementChooser.h in Headers */,
+				C0E80BFB058E2A8E0012452D /* MI_SchematicsCanvas.h in Headers */,
+				C0E80BFC058E2A8E0012452D /* MI_TextView.h in Headers */,
+				C0E80BFD058E2A8E0012452D /* MI_TextViewLineNumbering.h in Headers */,
+				C0E80BFE058E2A8E0012452D /* MI_ViewArea.h in Headers */,
+				C0E80BFF058E2A8E0012452D /* MI_Window.h in Headers */,
+				C0E80C00058E2A8E0012452D /* NyquistPlotController.h in Headers */,
+				C0E80C01058E2A8E0012452D /* NyquistView.h in Headers */,
+				C0E80C02058E2A8E0012452D /* ResultsTable.h in Headers */,
+				C0E80C03058E2A8E0012452D /* SpiceASCIIOutputReader.h in Headers */,
+				C0E80C04058E2A8E0012452D /* SpiceASCIIRawOutputReader.h in Headers */,
+				C0E80C05058E2A8E0012452D /* SugarGraphView.h in Headers */,
+				C0E80C06058E2A8E0012452D /* SugarManager.h in Headers */,
+				C0E80C07058E2A8E0012452D /* SugarPlotter.h in Headers */,
+				C0E80C08058E2A8E0012452D /* CircuitDocument.h in Headers */,
+				C0E80C09058E2A8E0012452D /* CircuitDocumentModel.h in Headers */,
+				C0E80C0A058E2A8E0012452D /* common.h in Headers */,
+				C0E80C0B058E2A8E0012452D /* Converter.h in Headers */,
+				C0ED059A05AF0B1100273C48 /* MI_NodeAssignmentTableItem.h in Headers */,
+				C083EEDB0608BA9D001BB563 /* MI_TextElement.h in Headers */,
+				C083F0860609173B001BB563 /* MI_Tool.h in Headers */,
+				C083F3110609BC3F001BB563 /* MI_SelectConnectTool.h in Headers */,
+				C083F3350609BCF7001BB563 /* MI_ScaleTool.h in Headers */,
+				C083F61A060A0EE7001BB563 /* MI_ImageElement.h in Headers */,
+				C00C159B060B9D4C00A175F8 /* MI_SubcircuitLibraryManager.h in Headers */,
+				C050EC4F060C5DC500AA7491 /* MI_SubcircuitDocumentModel.h in Headers */,
+				C050ED65060C7AEC00AA7491 /* MI_SubcircuitElement.h in Headers */,
+				C086E6B9060CE0CA00066047 /* MI_SubcircuitCreator.h in Headers */,
+				C0BEFA5A0611F05400E88C44 /* MI_Inspector.h in Headers */,
+				C058519306138B6100288B03 /* MI_Shape.h in Headers */,
+				C058523706139C0600288B03 /* MI_PathShape.h in Headers */,
+				C058526706139D9500288B03 /* MI_DIPShape.h in Headers */,
+				C002B2910618AF5000C260E9 /* MI_DeviceModelManager.h in Headers */,
+				C0BE96A8061DB86300AFC9A1 /* MI_NamedArray.h in Headers */,
+				C087DC2E0624803B00386A53 /* MI_CircuitDocumentPrinter.h in Headers */,
+				C0885EB8062972C2000C7B0F /* MI_SVGConverter.h in Headers */,
+				C0385452063C21D40045290A /* MI_TroubleShooter.h in Headers */,
+				C06B09E406403D22007594B0 /* MI_Voltmeter.h in Headers */,
+				C06B09F406403EB5007594B0 /* MI_Ammeter.h in Headers */,
+				C059E76F06463E7800A416DA /* MI_VariantSelectionView.h in Headers */,
+				C0D3054D06536ACC0073EC78 /* MI_AnalysisButton.h in Headers */,
+				C0FB17450653B23C004CF563 /* MI_SESDLParser.h in Headers */,
+				C05AAB320657599E00648EE3 /* MI_CustomViewToolbarItem.h in Headers */,
+				C0D7D050065909E600423050 /* MI_ShapePreviewer.h in Headers */,
+				C092D01A094231AB005BAE8A /* MI_FitToViewButton.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		C0E80BE6058E2A8E0012452D /* MI-SUGAR */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C057A09408BB9308002C935E /* Build configuration list for PBXNativeTarget "MI-SUGAR" */;
+			buildPhases = (
+				C0E80BE7058E2A8E0012452D /* Headers */,
+				C0E80C0C058E2A8E0012452D /* Resources */,
+				C0E80C3A058E2A8E0012452D /* Sources */,
+				C0E80C5E058E2A8E0012452D /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "MI-SUGAR";
+			productName = "MI-SUGAR";
+			productReference = C0E80C62058E2A8E0012452D /* MI-SUGAR.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		2A37F4A9FDCFA73011CA2CEA /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0920;
+			};
+			buildConfigurationList = C057A09808BB9308002C935E /* Build configuration list for PBXProject "MI-SUGAR" */;
+			compatibilityVersion = "Xcode 3.1";
+			developmentRegion = English;
+			hasScannedForEncodings = 1;
+			knownRegions = (
+				en,
+				English,
+			);
+			mainGroup = 2A37F4AAFDCFA73011CA2CEA /* MI-SUGAR */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				C0E80BE6058E2A8E0012452D /* MI-SUGAR */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		C0E80C0C058E2A8E0012452D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C0E80C0D058E2A8E0012452D /* about.png in Resources */,
+				C0E80C0E058E2A8E0012452D /* bottom_guide.png in Resources */,
+				C0E80C0F058E2A8E0012452D /* customize_icon.png in Resources */,
+				C0E80C10058E2A8E0012452D /* flip.png in Resources */,
+				C0E80C11058E2A8E0012452D /* fonts_pref_button.png in Resources */,
+				C0E80C12058E2A8E0012452D /* general_pref_button.png in Resources */,
+				C0E80C13058E2A8E0012452D /* left_guide.png in Resources */,
+				C0E80C18058E2A8E0012452D /* plotter_pref_button.png in Resources */,
+				C0E80C19058E2A8E0012452D /* right_guide.png in Resources */,
+				C0E80C1A058E2A8E0012452D /* rotate_left.png in Resources */,
+				C0E80C1C058E2A8E0012452D /* schematic_pref_button.png in Resources */,
+				C0E80C1F058E2A8E0012452D /* show_info_panel_button.png in Resources */,
+				C0E80C20058E2A8E0012452D /* simulator_pref_button.png in Resources */,
+				C0E80C21058E2A8E0012452D /* startup_pref_button.png in Resources */,
+				C0E80C23058E2A8E0012452D /* top_guide.png in Resources */,
+				C0E80C24058E2A8E0012452D /* zoom_magnifier.png in Resources */,
+				C0E80C25058E2A8E0012452D /* zoom_minus.png in Resources */,
+				C0E80C26058E2A8E0012452D /* zoom_plus.png in Resources */,
+				C0E80C27058E2A8E0012452D /* mi_sugar_icon.icns in Resources */,
+				C0E80C29058E2A8E0012452D /* MI-SUGAR.scriptSuite in Resources */,
+				C0E80C2A058E2A8E0012452D /* spice in Resources */,
+				C0E80C2B058E2A8E0012452D /* MI-SUGAR.scriptTerminology in Resources */,
+				C0E80C38058E2A8E0012452D /* home_toolbar_item.png in Resources */,
+				C0D2D8D4060F219C004B6787 /* subcircuit_toolbar_item.png in Resources */,
+				C07B5ECD0615874D00A3B7A5 /* refresh_icon.png in Resources */,
+				C0CE9AB20620C3E1003E0612 /* delete_selected_device_model.png in Resources */,
+				C0CE9AC50620C6EC003E0612 /* copy_selected_device_model.png in Resources */,
+				C0C8464D0621DED2003A0DF0 /* export_all_device_models.png in Resources */,
+				C0C846520621DEE4003A0DF0 /* import_device_models.png in Resources */,
+				C0BFD9F2063B282500462FE8 /* zoom_in_toolbar_image.png in Resources */,
+				C0BFD9F3063B282500462FE8 /* zoom_out_toolbar_image.png in Resources */,
+				C0385436063C0B4D0045290A /* runImage_bw.png in Resources */,
+				C05AACE50657C53000648EE3 /* schematic2netlist.png in Resources */,
+				C05AAD250657C7E700648EE3 /* plotImage.png in Resources */,
+				C05AAD300657C91100648EE3 /* show_elements_button.png in Resources */,
+				C0DA154008D4193F00342F36 /* LICENSE.txt in Resources */,
+				C0E11A500E994F23004A7CF9 /* MISUGAR Help in Resources */,
+				C0EF7C44146F40DA00FC7577 /* About.xib in Resources */,
+				C0EF7C5D146F429100FC7577 /* CircuitDocument.xib in Resources */,
+				C0EF7C5E146F429100FC7577 /* CircuitDocument2.xib in Resources */,
+				C0EF7C5F146F429100FC7577 /* CircuitPrintSheet.xib in Resources */,
+				C0EF7C60146F429100FC7577 /* MainMenu.xib in Resources */,
+				C0EF7C61146F429100FC7577 /* Nyquist.xib in Resources */,
+				C0EF7C62146F429100FC7577 /* PlotWindow.xib in Resources */,
+				C0EF7C63146F429100FC7577 /* SchematicDeviceModelsPanel.xib in Resources */,
+				C0EF7C64146F429100FC7577 /* SchematicElementInfoPanel.xib in Resources */,
+				C0EF7C65146F429100FC7577 /* SchematicElementsPanel.xib in Resources */,
+				C0EF7C66146F429100FC7577 /* SchematicLayersPanel.xib in Resources */,
+				C0EF7C67146F429100FC7577 /* SubcircuitCreationSheet.xib in Resources */,
+				C0EF7C68146F429100FC7577 /* SugarPreferences.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		C0E80C3A058E2A8E0012452D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C0E80C3B058E2A8E0012452D /* main.m in Sources */,
+				C0E80C3C058E2A8E0012452D /* AnalysisVariable.m in Sources */,
+				C0E80C3E058E2A8E0012452D /* MI_AlignmentPoint.m in Sources */,
+				C0E80C3F058E2A8E0012452D /* MI_CircuitElement.m in Sources */,
+				C0E80C40058E2A8E0012452D /* MI_CircuitElementDeviceModel.m in Sources */,
+				C0E80C41058E2A8E0012452D /* MI_CircuitSchematic.m in Sources */,
+				C0E80C42058E2A8E0012452D /* MI_ColorCell.m in Sources */,
+				C0E80C43058E2A8E0012452D /* MI_ComplexNumber.m in Sources */,
+				C0E80C44058E2A8E0012452D /* MI_ConnectionPoint.m in Sources */,
+				C0E80C45058E2A8E0012452D /* MI_DirectionChooser.m in Sources */,
+				C0E80C46058E2A8E0012452D /* MI_ElementConnector.m in Sources */,
+				C0E80C47058E2A8E0012452D /* MI_LinearElements.m in Sources */,
+				C0E80C48058E2A8E0012452D /* MI_MiscellaneousElements.m in Sources */,
+				C0E80C49058E2A8E0012452D /* MI_NonlinearElements.m in Sources */,
+				C0E80C4A058E2A8E0012452D /* MI_PowerSourceElements.m in Sources */,
+				C0E80C4B058E2A8E0012452D /* MI_Schematic.m in Sources */,
+				C0E80C4C058E2A8E0012452D /* MI_SchematicElement.m in Sources */,
+				C0E80C4D058E2A8E0012452D /* MI_SchematicElementChooser.m in Sources */,
+				C0E80C4E058E2A8E0012452D /* MI_SchematicsCanvas.m in Sources */,
+				C0E80C4F058E2A8E0012452D /* MI_TextView.m in Sources */,
+				C0E80C50058E2A8E0012452D /* MI_TextViewLineNumbering.m in Sources */,
+				C0E80C51058E2A8E0012452D /* MI_ViewArea.m in Sources */,
+				C0E80C52058E2A8E0012452D /* MI_Window.m in Sources */,
+				C0E80C53058E2A8E0012452D /* NyquistPlotController.m in Sources */,
+				C0E80C54058E2A8E0012452D /* NyquistView.m in Sources */,
+				C0E80C55058E2A8E0012452D /* ResultsTable.m in Sources */,
+				C0E80C56058E2A8E0012452D /* SpiceASCIIOutputReader.m in Sources */,
+				C0E80C57058E2A8E0012452D /* SpiceASCIIRawOutputReader.m in Sources */,
+				C0E80C58058E2A8E0012452D /* SugarGraphView.m in Sources */,
+				C0E80C59058E2A8E0012452D /* SugarManager.m in Sources */,
+				C0E80C5A058E2A8E0012452D /* SugarPlotter.m in Sources */,
+				C0E80C5B058E2A8E0012452D /* CircuitDocument.m in Sources */,
+				C0E80C5C058E2A8E0012452D /* CircuitDocumentModel.m in Sources */,
+				C0E80C5D058E2A8E0012452D /* Converter.m in Sources */,
+				C0ED059B05AF0B1100273C48 /* MI_NodeAssignmentTableItem.m in Sources */,
+				C083EEDC0608BA9D001BB563 /* MI_TextElement.m in Sources */,
+				C083F0870609173B001BB563 /* MI_Tool.m in Sources */,
+				C083F3120609BC3F001BB563 /* MI_SelectConnectTool.m in Sources */,
+				C083F3360609BCF7001BB563 /* MI_ScaleTool.m in Sources */,
+				C083F61B060A0EE7001BB563 /* MI_ImageElement.m in Sources */,
+				C00C159C060B9D4C00A175F8 /* MI_SubcircuitLibraryManager.m in Sources */,
+				C050EC50060C5DC500AA7491 /* MI_SubcircuitDocumentModel.m in Sources */,
+				C050ED66060C7AEC00AA7491 /* MI_SubcircuitElement.m in Sources */,
+				C086E6BA060CE0CA00066047 /* MI_SubcircuitCreator.m in Sources */,
+				C0BEFA5B0611F05400E88C44 /* MI_Inspector.m in Sources */,
+				C058519406138B6100288B03 /* MI_Shape.m in Sources */,
+				C058523806139C0600288B03 /* MI_PathShape.m in Sources */,
+				C058526806139D9500288B03 /* MI_DIPShape.m in Sources */,
+				C002B2920618AF5000C260E9 /* MI_DeviceModelManager.m in Sources */,
+				C0BE96A9061DB86300AFC9A1 /* MI_NamedArray.m in Sources */,
+				C087DC2F0624803B00386A53 /* MI_CircuitDocumentPrinter.m in Sources */,
+				C0885EB9062972C2000C7B0F /* MI_SVGConverter.m in Sources */,
+				C0385453063C21D40045290A /* MI_TroubleShooter.m in Sources */,
+				C06B09E506403D22007594B0 /* MI_Voltmeter.m in Sources */,
+				C06B09F506403EB5007594B0 /* MI_Ammeter.m in Sources */,
+				C059E77006463E7800A416DA /* MI_VariantSelectionView.m in Sources */,
+				C0D3054E06536ACC0073EC78 /* MI_AnalysisButton.m in Sources */,
+				C0FB17460653B23C004CF563 /* MI_SESDLParser.m in Sources */,
+				C05AAB330657599E00648EE3 /* MI_CustomViewToolbarItem.m in Sources */,
+				C0D7D051065909E600423050 /* MI_ShapePreviewer.m in Sources */,
+				C092D01B094231AB005BAE8A /* MI_FitToViewButton.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		C0C096AC05762E9B006C0AD5 /* MI-SUGAR.scriptTerminology */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C0C096AD05762E9B006C0AD5 /* MI-SUGAR.scriptTerminology */,
+			);
+			name = "MI-SUGAR.scriptTerminology";
+			sourceTree = "<group>";
+		};
+		C0E11A4E0E994F23004A7CF9 /* MISUGAR Help */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C0E11A4F0E994F23004A7CF9 /* English */,
+			);
+			name = "MISUGAR Help";
+			sourceTree = "<group>";
+		};
+		C0EF7C42146F40DA00FC7577 /* About.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C0EF7C43146F40DA00FC7577 /* English */,
+			);
+			name = About.xib;
+			sourceTree = "<group>";
+		};
+		C0EF7C45146F429100FC7577 /* CircuitDocument.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C0EF7C46146F429100FC7577 /* English */,
+			);
+			name = CircuitDocument.xib;
+			sourceTree = "<group>";
+		};
+		C0EF7C47146F429100FC7577 /* CircuitDocument2.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C0EF7C48146F429100FC7577 /* English */,
+			);
+			name = CircuitDocument2.xib;
+			sourceTree = "<group>";
+		};
+		C0EF7C49146F429100FC7577 /* CircuitPrintSheet.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C0EF7C4A146F429100FC7577 /* English */,
+			);
+			name = CircuitPrintSheet.xib;
+			sourceTree = "<group>";
+		};
+		C0EF7C4B146F429100FC7577 /* MainMenu.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C0EF7C4C146F429100FC7577 /* English */,
+			);
+			name = MainMenu.xib;
+			sourceTree = "<group>";
+		};
+		C0EF7C4D146F429100FC7577 /* Nyquist.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C0EF7C4E146F429100FC7577 /* English */,
+			);
+			name = Nyquist.xib;
+			sourceTree = "<group>";
+		};
+		C0EF7C4F146F429100FC7577 /* PlotWindow.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C0EF7C50146F429100FC7577 /* English */,
+			);
+			name = PlotWindow.xib;
+			sourceTree = "<group>";
+		};
+		C0EF7C51146F429100FC7577 /* SchematicDeviceModelsPanel.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C0EF7C52146F429100FC7577 /* English */,
+			);
+			name = SchematicDeviceModelsPanel.xib;
+			sourceTree = "<group>";
+		};
+		C0EF7C53146F429100FC7577 /* SchematicElementInfoPanel.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C0EF7C54146F429100FC7577 /* English */,
+			);
+			name = SchematicElementInfoPanel.xib;
+			sourceTree = "<group>";
+		};
+		C0EF7C55146F429100FC7577 /* SchematicElementsPanel.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C0EF7C56146F429100FC7577 /* English */,
+			);
+			name = SchematicElementsPanel.xib;
+			sourceTree = "<group>";
+		};
+		C0EF7C57146F429100FC7577 /* SchematicLayersPanel.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C0EF7C58146F429100FC7577 /* English */,
+			);
+			name = SchematicLayersPanel.xib;
+			sourceTree = "<group>";
+		};
+		C0EF7C59146F429100FC7577 /* SubcircuitCreationSheet.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C0EF7C5A146F429100FC7577 /* English */,
+			);
+			name = SubcircuitCreationSheet.xib;
+			sourceTree = "<group>";
+		};
+		C0EF7C5B146F429100FC7577 /* SugarPreferences.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C0EF7C5C146F429100FC7577 /* English */,
+			);
+			name = SugarPreferences.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		C057A09508BB9308002C935E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				FRAMEWORK_SEARCH_PATHS = "";
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = common.h;
+				HEADER_SEARCH_PATHS = /usr/include/libxml2;
+				INFOPLIST_FILE = Info.plist;
+				LIBRARY_SEARCH_PATHS = "";
+				OTHER_LDFLAGS = "";
+				PRODUCT_BUNDLE_IDENTIFIER = fish.robo.misugar;
+				PRODUCT_NAME = "MI-SUGAR";
+				SDKROOT = macosx;
+				SECTORDER_FLAGS = "";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		C057A09608BB9308002C935E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				FRAMEWORK_SEARCH_PATHS = "";
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = common.h;
+				HEADER_SEARCH_PATHS = /usr/include/libxml2;
+				INFOPLIST_FILE = Info.plist;
+				LIBRARY_SEARCH_PATHS = /usr/lib;
+				OTHER_LDFLAGS = "";
+				PRODUCT_BUNDLE_IDENTIFIER = fish.robo.misugar;
+				PRODUCT_NAME = "MI-SUGAR";
+				SDKROOT = macosx;
+				SECTORDER_FLAGS = "";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+		C057A09908BB9308002C935E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_MODEL_TUNING = "";
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = s;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				GCC_STRICT_ALIASING = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_LABEL = YES;
+				GCC_WARN_UNUSED_VALUE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				GENERATE_PROFILING_CODE = YES;
+				LEX_INSERT_LINE_DIRECTIVES = NO;
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_CFLAGS = "-fno-strict-aliasing";
+				YACC_INSERT_LINE_DIRECTIVES = NO;
+				ZERO_LINK = NO;
+			};
+			name = Debug;
+		};
+		C057A09A08BB9308002C935E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_AUTO_VECTORIZATION = YES;
+				GCC_DEBUGGING_SYMBOLS = used;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_MODEL_TUNING = G4;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_STRICT_ALIASING = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				LEX_INSERT_LINE_DIRECTIVES = NO;
+				OTHER_CFLAGS = "-fno-strict-aliasing";
+				YACC_INSERT_LINE_DIRECTIVES = NO;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		C057A09408BB9308002C935E /* Build configuration list for PBXNativeTarget "MI-SUGAR" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C057A09508BB9308002C935E /* Debug */,
+				C057A09608BB9308002C935E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		C057A09808BB9308002C935E /* Build configuration list for PBXProject "MI-SUGAR" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C057A09908BB9308002C935E /* Debug */,
+				C057A09A08BB9308002C935E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
+}

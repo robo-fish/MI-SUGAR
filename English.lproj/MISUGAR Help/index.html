@@ -1,0 +1,85 @@
+<html>
+  <head>
+    <title>MI-SUGAR Help</title>
+    <meta name="AppleTitle" content="MI-SUGAR Help">
+    <meta name="AppleIcon" content="MISUGAR%20Help/sugarhelp.gif">
+  </head>
+  <body bgcolor="#ffffff" text="#000000">
+   <center>
+    <table width="90%" border="0" valign="top" align="center" cellspacing="20">
+     <tr>
+      <td valign="center" width="50%" align="right">
+        <img src="help.png" width="266" height="423">
+      </td>
+      <td valign="center" align="left">
+        MI-SUGAR version 0.5.8d<br>
+        <br>
+        <a href="about.html">Introduction</a><br>
+        <a href="schematic.html">Using the Schematic Entry Tool to Create Circuits</a><br>
+        <a href="netlists.html">Editing Netlists, Running the Simulation</a><br>
+        <a href="subcircuits.html">Subcircuits</a><br>
+        <a href="exporting.html">Exporting the Results</a><br>
+        <a href="plotter.html">Using the Plotter</a><br>
+        <a href="scripting.html">Scripting</a><br>
+        <a href="preferences.html">User Preferences</a><br>
+        <a href="disclaimer.html">Disclaimer and Copyrights</a><br>
+        <a href="license.html">License</a><br>
+        <!--<a href="credits.html">Credits</a><br>-->
+        <a href="changes.html">Development History</a><br>
+     </tr>
+     <tr>
+      <td colspan="2">
+        <p>&nbsp;</p>
+        <p>QUICK REFERENCE</p>
+        <table width="100%" border="0" cellspacing="0" cellpadding="3">
+          <colgroup>
+            <col align="left" width="35%" valign="bottom" />
+            <col align="left" width="15%" valign="bottom" />
+            <col align="left" width="50%" valign="bottom" />
+          </colgroup>
+          <thead><th>Task</th><th>Keyboard</th><th>Mouse</th></thead>
+          <tr><td colspan="3" bgcolor="#ffffa0">General</td></tr>
+          <tr><td>Convert schematic to netlist</td><td><img src="optionkey.png"><img src="commandkey.png">C</td><td>Button in toolbar</td></tr>
+          <tr><td>Analyze netlist (run simulator)</td><td><img src="optionkey.png"><img src="commandkey.png">A</td><td>Button in toolbar</td></tr>
+          <tr><td>Plot analysis results (if available)</td><td><img src="optionkey.png"><img src="commandkey.png">P</td><td>Button in toolbar</td></tr>
+          <tr><td>Create subcircuit from current document</td><td><img src="optionkey.png"><img src="commandkey.png">U</td><td>Select in Circuit menu</td></tr>
+          <tr><td>Show subcircuits folder in Finder</td><td><img src="optionkey.png"><img src="commandkey.png">F</td><td>Select in Circuit menu</td></tr>
+          <tr><td>Show/Hide Elements Panel</td><td><img src="commandkey.png">E</td><td>Button in toolbar or Window menu</td></tr>
+          <tr><td>Show/Hide Info Panel</td><td><img src="commandkey.png">I</td><td>Button in toolbar or Window menu</td></tr>
+          <tr><td>Show/Hide Device Models Window</td><td><img src="commandkey.png">D</td><td>Window menu</td></tr>
+          <tr><td colspan="3"></td></tr>
+          <tr><td colspan="3" bgcolor="#ffffa0">Schematic</td></tr>
+          <tr><td>Pan view</td>
+              <td><nobr><img src="optionkey.png">&uarr;</nobr>,
+                  <nobr><img src="optionkey.png">&darr;</nobr>,
+                  <nobr><img src="optionkey.png">&larr;</nobr>,
+                  <nobr><img src="optionkey.png">&rarr;</nobr></td>
+              <td>Click on empty area, hold 1 second, then drag. Or drag with the middle mouse button.</td></tr>
+          <tr><td>Zoom</td><td>&#43; , &ndash;</td><td>Use toolbar buttons or scrollwheel.</td></tr>
+          <tr><td>Toggle visibility of values and node numbers</td><td>Space</td><td>&nbsp;</td></tr>
+          <tr><td>Connect elements</td><td>&nbsp;</td><td>Drag from one connection point to the other.</td></tr>
+          <tr><td>Disconnect elements</td><td>&nbsp;</td><td>Drag connector away from connection point.</td></tr>
+          <tr><td>Add/remove element to/from selection</td><td>&nbsp;</td><td><img src="commandkey.png"> and click on element</td></tr>
+          <tr><td>Delete selected elements</td><td>Backspace</td><td>&nbsp;</td></tr>
+          <tr><td>Move selected elements</td><td>&uarr;&larr;&darr;&rarr; <nobr>(faster with <img src="shiftkey.png">)</nobr></td><td>Drag any selected element</td></tr>
+          <tr><td>Constrain dragging direction</td><td>&nbsp;</td><td>Press <img src="shiftkey.png"> during start of drag action</td></tr>
+          <tr><td>Copy-drag selected elements</td><td></td><td><img src="optionkey.png"> and drag element</td></tr>
+          <tr><td>Select all</td><td><img src="commandkey.png">A</td><td>&nbsp;</td></tr>
+          <tr><td>Deselect all</td><td><img src="shiftkey.png"><img src="commandkey.png">A</td><td>&nbsp;</td></tr>
+          <tr><td>Copy selected elements</td><td><img src="commandkey.png">C</td><td>&nbsp;</td></tr>
+          <tr><td>Paste selected elements</td><td><img src="commandkey.png">V</td><td>&nbsp;</td></tr>
+          <tr><td>Flip selected elements horizontally</td><td>TAB</td><td>Button in Info panel</td></tr>
+          <tr><td>Rotate selected elements +90 degrees (cw)</td><td>[ or A</td><td>Button in Info panel</td></tr>
+          <tr><td>Rotate selected elements -90 degrees (ccw)</td><td>] or S</td><td>&nbsp;</td></tr>
+          <tr><td>Drag an image of the schematic</td><td>&nbsp;</td><td><img src="commandkey.png"> and drag</td></tr>
+          <tr><td></td><td></td></tr>
+          <tr><td colspan="3" bgcolor="#ffffa0">Plotter</td></tr>
+          <tr><td>Put image on clipboard</td><td><img src="commandkey.png">C</td><td>&nbsp;</td></tr>
+          <tr><td>Drag an image of the plot</td><td>&nbsp;</td><td><img src="commandkey.png"> and drag</td></tr>
+        </table>
+      </td>
+    </tr>
+   </table>
+  </center>
+  </body>
+</html>

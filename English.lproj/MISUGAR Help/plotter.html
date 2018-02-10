@@ -1,0 +1,108 @@
+<html>
+  <head>
+    <title>Using the Plotter</title>
+  </head>
+  <body bgcolor="#ffffff" text="#000000">
+   <center>
+    <table width="90%" border="0" valign="top" cellspacing="20">
+    <tr><td bgcolor="#525861"><a href="index.html"><font color="#9eaca0"><b>Back</b></font></a></td></tr>
+    <tr><td valign="top">
+     <h2>Using the Plotter</h2>
+     <p>Click on the 'Plot' icon in the toolbar to open a plotter window
+        which will show graphs of the variables found in the simulation
+        results.</p>
+    <p>If the simulation includes more than one analysis type then
+        you can select the desired analysis by using the popup menu
+        in the upper left corner of the plotter window. Typical
+        analysis types are <i>DC</i>, <i>AC</i> and <i>transient</i>.</p>
+     <p>When you move the pointer (mouse) around on the plotting area
+        the values of the abscissa and of the ordinate at the visited
+        point will be shown in the lower left corner. The abscissa
+        value is designated 'X', and the ordinate value is 'Y'.</p>
+     <p>You can copy the current plot to the system pasteboard by
+        pressing <i>Command-C</i>. From there you can paste it into
+        another application. You can also print the plot by pressing
+        <i>Command-P</i></p>
+     <p>The plotter can be customized to some extend. You will find global
+        options (applying to all plotter windows) in the preferences panel.
+        Additionally, clicking on the <b>Controls</b> button in the plot window
+        will reveal (or hide) options which change the appearance of the plot.
+        The rest of this page explains the control options.</p>
+     <p><u>The <i>Graphs</i> Panel</u></p>
+     <p><img src="plotter1.jpg"></p>
+     <p><b>Hiding Variables</b>: By default, all simulation variables are plotted.
+        Usually this results in clutter and it becomes hard to concentrate on
+        the tracked variable. You can selectively hide variables by deselecting
+        the buttons on the left of each variable you want to hide.</p>
+     <p><b>Changing Graph Colors</b>: Clicking on the colored circle to the left
+        of a variable's name opens a color dialog in which you can change the
+        color of the graph. Tip: If you want to quickly change the colors of
+        multiple variables then keep the color dialog open while selecting the
+        next variable.</p>
+     <p><b>Scaling</b>: You can set the scale factor of each variable
+        after selecting it in the list and entering the desired scale factor in
+        the text field at the bottom of the drawer. The default scale of the plot
+        is set so that the variable with the greatest ordinate values fits nicely.
+        Other variables may have values which are orders of magnitude smaller
+        and which make them vanish. By scaling them up you make those graphs
+        appear. The button '<i>Scale to Fit</i>' makes the graph fit into the
+        plotting region, thereby providing you with a starting point for fine
+        tuning the scale to suit your analysis. If the option '<i>scale around
+        average</i>' is selected, graphs will not move away from the abscissa
+        but be scaled around their average value, which is useful if, for example,
+        you have a graph of a nonzero DC value with a small AC signal on it and
+        you just want to make the AC part more visible.
+     <p><b>Complex Values</b>: If the values of an analysis variable are complex
+        numbers then the magnitude is displayed by default. You can choose an
+        alternative representation by selecting one of the small radio buttons,
+        which are located at the bottom of the drawer. The symbols <i>|z|</i>,
+        <i>Re{z}</i>, and <i>Im{z}</i> stand for the magnitudes, the real parts,
+        and the imaginary parts of the values, respectively. You can also view
+        the Nyquist plot of the variable by pressing the button <b>Show Nyquist
+        Plot</b>. A separate window will open for the Nyquist plot. The dot in
+        the Nyquist plot marks the starting point of the trace.</p>
+     <p><u>The <i>Plot</i> Panel</u></p>
+     <p><img src="plotter2.jpg"></p>
+     <p><b>Turning the grid on and off</b>: Use the checkbox '<i>Show Grid</i>'
+        to turn the grid on or off.</p>
+     <p><b>Turning labels on and off</b>: Currently the labels only show the
+        limit values of the ordinate and the abscissa. Use the checkbox
+        '<i>Show Labels</i>' to turn the labels on or off.</p>
+     <p><b>Switching to logarithmic scale</b>: Use the checkboxes to set the
+        scale of each axis to linear mode (when deselected) or logarithmic
+        mode (when selected). Note that logarithmic scaling of an axis is not
+        possible if, in the current viewing region, the axis includes zero or
+        negative values. In that case no grid is drawn for that axis. Zoom out
+        and select a subregion with only positive values for the selected axis
+        to view it in logarithmic scale.</p>
+     <p>If you prefer the labels to display the logarithm of the maximum and
+        minimum values whenever the corresponding axis is set to logarithmic
+        scale, then check the button designated <i>logarithmic labels for
+        logarithmic scale</i>.</p>
+     <p><u>The <i>Guides</i> Panel</u></p>
+     <p><img src="plotter3.jpg"></p>
+     <p><b>Guides</b> can be used to measure positions and interval lengths.
+        There are two guides for marking positions along the abscissa,
+        and two guides for marking positions along the ordinate. The guides
+        are positioned by dragging the ends of the horizontal and vertical
+        bars on the right and the top of the plotting area. Guides appear
+        only when you click on a bar's end. The values for the current
+        positions are displayed in the associated fields in the <i>Guides</i> panel.<br>
+        The line width of the horizontal and vertical lines are the same as the
+        grid's line width, which can be set in the preferences panel.</p>
+     <p><b>Zoom-in</b> operations are performed by first adjusting the guides so that
+        they frame the region that you want to zoom into and then clicking on the
+        plus sign in the lower right corner of the plot window. Clicking on the
+        minus sign returns you to the previous view or, if you there is no history,
+        zooms out by a factor of 5/3. Zooming only works if you have a donation key.</p>
+     <p>Note, that, if one or both of the axes are set to logarithmic scale and a
+        zoom-out operation is performed, which makes one of the limit values become
+        negative (or zero) then the graphs will jump to infinity and the zoom bar
+        will vanish. In that case switch to linear scale and adjust the zoom
+        region so that the values in the new range are all positive again.</p>
+     <p></p>
+    </td>
+   </tr></table>
+   </center>
+  </body>
+</html>

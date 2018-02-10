@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>English</string>
+	<key>CFBundleDocumentTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleFileExtension</key>
+			<true/>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>cir</string>
+				<string>ckt</string>
+				<string>sugar</string>
+			</array>
+			<key>CFBundleTypeIconFile</key>
+			<string>mi_sugar_icon</string>
+			<key>CFBundleTypeName</key>
+			<string>SugarFileType</string>
+			<key>CFBundleTypeOSTypes</key>
+			<array>
+				<string>????</string>
+			</array>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>NSDocumentClass</key>
+			<string>CircuitDocument</string>
+		</dict>
+	</array>
+	<key>CFBundleExecutable</key>
+	<string>MI-SUGAR</string>
+	<key>CFBundleGetInfoString</key>
+	<string>0.5.8d</string>
+	<key>CFBundleHelpBookFolder</key>
+	<string>MISUGAR Help</string>
+	<key>CFBundleHelpBookName</key>
+	<string>MI-SUGAR Help</string>
+	<key>CFBundleIconFile</key>
+	<string>mi_sugar_icon</string>
+	<key>CFBundleIdentifier</key>
+	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundleName</key>
+	<string>MI-SUGAR</string>
+	<key>CFBundlePackageType</key>
+	<string>APPL</string>
+	<key>CFBundleShortVersionString</key>
+	<string>MI-SUGAR 0.5.8d</string>
+	<key>CFBundleSignature</key>
+	<string>SUGR</string>
+	<key>CFBundleVersion</key>
+	<string>0.5.8d</string>
+	<key>LSApplicationCategoryType</key>
+	<string>public.app-category.education</string>
+	<key>NSAppleScriptEnabled</key>
+	<string>YES</string>
+	<key>NSMainNibFile</key>
+	<string>MainMenu</string>
+	<key>NSPrincipalClass</key>
+	<string>NSApplication</string>
+</dict>
+</plist>

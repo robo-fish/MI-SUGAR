@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Classes</key>
+	<dict>
+		<key>CircuitDocument</key>
+		<dict>
+			<key>Description</key>
+			<string>A document representing a SPICE circuit.</string>
+			<key>Name</key>
+			<string>document</string>
+			<key>PluralName</key>
+			<string>documents</string>
+		</dict>
+		<key>NSApplication</key>
+		<dict>
+			<key>Description</key>
+			<string>MI-SUGAR's top level scripting object.</string>
+			<key>Name</key>
+			<string>application</string>
+			<key>PluralName</key>
+			<string>applications</string>
+		</dict>
+	</dict>
+	<key>Commands</key>
+	<dict>
+		<key>analyze</key>
+		<dict>
+			<key>Description</key>
+			<string>starts the simulator to analyze the circuit</string>
+			<key>Name</key>
+			<string>analyze</string>
+		</dict>
+		<key>export</key>
+		<dict>
+			<key>Arguments</key>
+			<dict>
+				<key>file</key>
+				<dict>
+					<key>Description</key>
+					<string>the file name to which the results will be exported</string>
+					<key>Name</key>
+					<string>file</string>
+					<key>Number</key>
+					<string>singular</string>
+					<key>Sex</key>
+					<string>none</string>
+				</dict>
+				<key>format</key>
+				<dict>
+					<key>Description</key>
+					<string>the target format of the export</string>
+					<key>Name</key>
+					<string>format</string>
+					<key>Number</key>
+					<string>singular</string>
+					<key>Sex</key>
+					<string>none</string>
+				</dict>
+			</dict>
+			<key>Description</key>
+			<string>exports the analysis results</string>
+			<key>IsVerb</key>
+			<string>YES</string>
+			<key>Name</key>
+			<string>export</string>
+		</dict>
+		<key>plot</key>
+		<dict>
+			<key>Description</key>
+			<string>plots the results of the analysis</string>
+			<key>Name</key>
+			<string>plot</string>
+		</dict>
+	</dict>
+	<key>Description</key>
+	<string>MI-SUGAR-specific classes and commands.</string>
+	<key>Name</key>
+	<string>MI-SUGAR</string>
+</dict>
+</plist>

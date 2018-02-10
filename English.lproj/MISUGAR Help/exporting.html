@@ -1,0 +1,105 @@
+<html>
+  <head>
+    <title>Exporting the Analysis Results</title>
+  </head>
+  <body bgcolor="#ffffff" text="#000000">
+   <center>
+    <table width="90%" border="0" valign="top" cellspacing="20">
+    <tr><td bgcolor="#525861"><a href="index.html"><font color="#9eaca0"><b>Back</b></font></a></td></tr>
+    <tr><td>
+     <h2>Exporting the Results</h2>
+     <p>
+       Sometimes it is desirable to perform some sort of postprocessing
+       on the analysis results. MI-SUGAR has no such capabilities (yet)
+       but it can export the analysis results into files that can be read
+       by Mathematica&reg;, Matlab&reg; and other applications.
+       To export the analysis results into one of the following formats
+       use the export commands in the <i>Circuit</i> menu.
+       For each analysis type that was run one file will be created.
+     </p>
+     <p>
+       <b>File formats:</b>
+       <ol>
+         <li>
+           <b>MathML</b>: The Mathematical Markup Language is an XML-based format
+           supported by Mathematica. A description of the MathML can
+           be found at the web site of the <a href="http://www.w3.org/Math/">
+           World Wide Web Consortium</a>.<br>
+           <p>
+             The names of the analysis variables will be modified - to avoid
+             syntax errors - according to the following rules:
+             Opening parantheses and pound characters (#) are replaced with
+             dollar characters ($) and closing parantheses are discarded.
+             Example: <i>V(4)</i> becomes <i>V$4</i>, and <i>vgs#branch</i>
+             becomes <i>vgs$branch</i>.
+             The variable types will be vectors for variables without sweep
+             steppings, and matrices for variables with sweep stepping, where
+             each row of the matrix contains the values corresponding to one
+             step of the sweep variable.
+           </p>
+           <p>
+             To import a MathML file into Mathematica type
+             <pre>
+             Import["&lt;filename&gt;", "MathML"]
+             </pre>
+             followed by
+             <pre>
+             ToExpression[%]
+             </pre>
+           </p>
+         </li>
+         <li>
+           <b>Matlab</b>: These files contain Matlab commands. The analysis results
+           are stored in the form of Matlab vectors and matrices.<br>
+           <p>
+             Exporting to Matlab is similar to exporting to MathML. Again, the data is put
+             into vectors and matrices, depending on the existence of a sweep variable.
+             However, the variable renaming scheme is a bit different for Matlab:
+             Pound signs (#) and opening parentheses are converted to
+             underscores (_) instead of dollars ($). The data is exported to "<b>.m</b>"
+             files which can be imported by simply entering the name of the file
+             from within Matlab.
+           </p>
+         </li>
+         <li>
+           <b>Tabular Text</b>: In this format data is structured in columns, one for
+           each output variable. The number of rows is the number of values
+           in the variables. Each column has the same number of rows.
+           The file starts with a line which lists the names of the variables
+           and there is an empty line before each sweep set.<br>
+         </li>
+       </ol>
+     </p>
+     <p>&nbsp;</p>
+     <p><b>Example session with Mathematica:</b></p>
+     <p>
+       The analysis results for the circuit "RC Oscillator.cir"
+       (available from the Sample Circuits directory in the distribution package
+       or on the Web site) is exported in MathML format to the file 'osci.mml'.
+       In Mathematica we import it and turn the data for each variable into lists.
+       We can now easily plot the data and its Fourier transform.
+     </p>
+     <center>
+     <p>
+       <img src="rc_oscillator_misugar.gif"><br>
+       RC Oscillator analysis plot in MI-SUGAR
+     </p>
+     <p>
+       <img src="rc_oscillator_mathematica.gif" border="1"><br>
+       Post-processing the analysis data in Mathematica
+     </p>
+     </center>
+     <p>
+       Note: The exporting features requires a valid license key. The exported
+       files were verified with Matlab 6.5 (Release 13) and Mathematica 4.2 on
+       Mac OS X.
+     </p>
+     <p style="color:#808080">
+       Matlab is a registered trademark of The MathWorks, Incorporated.<br>
+       Mathematica is a registered trademark of Wolfram Research, Incorporated.
+     </p>
+    </td>
+   </tr></table>
+   </center>
+  </body>
+</html>

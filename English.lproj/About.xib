@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="13771" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+    <dependencies>
+        <deployment version="101300" identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="13771"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="SugarManager">
+            <connections>
+                <outlet property="aboutPanel" destination="5" id="18"/>
+                <outlet property="releaseDateField" destination="16" id="23"/>
+                <outlet property="versionField" destination="8" id="21"/>
+            </connections>
+        </customObject>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <window title="About MI-SUGAR" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" hidesOnDeactivate="YES" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" id="5" userLabel="About window" customClass="NSPanel">
+            <windowStyleMask key="styleMask" titled="YES" closable="YES" utility="YES"/>
+            <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
+            <rect key="contentRect" x="321" y="356" width="418" height="260"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1440" height="878"/>
+            <view key="contentView" id="6">
+                <rect key="frame" x="0.0" y="0.0" width="418" height="260"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" preferredMaxLayoutWidth="188" translatesAutoresizingMaskIntoConstraints="NO" id="8">
+                        <rect key="frame" x="205" y="153" width="195" height="44"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="44" id="ekO-RX-gWw"/>
+                        </constraints>
+                        <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="center" title="Version" id="30">
+                            <font key="font" metaFont="systemBold" size="36"/>
+                            <color key="textColor" red="0.72826086999999995" green="0.0085852249000000005" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                    <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" preferredMaxLayoutWidth="381" translatesAutoresizingMaskIntoConstraints="NO" id="13" userLabel="Copyright">
+                        <rect key="frame" x="17" y="20" width="385" height="34"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="center" id="32">
+                            <font key="font" metaFont="system"/>
+                            <string key="title">Copyright Kai Özer, 2003-2018 (https://robo.fish)
+</string>
+                            <color key="textColor" red="0.43044360999999998" green="0.46739131" blue="0.43577626000000003" alpha="1" colorSpace="calibratedRGB"/>
+                            <color key="backgroundColor" red="0.84930181999999999" green="0.91211277000000002" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                        </textFieldCell>
+                    </textField>
+                    <imageView translatesAutoresizingMaskIntoConstraints="NO" id="10">
+                        <rect key="frame" x="20" y="59" width="180" height="180"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="180" id="cZJ-ed-lGy"/>
+                            <constraint firstAttribute="height" constant="180" id="nQT-GW-Hw6"/>
+                        </constraints>
+                        <imageCell key="cell" refusesFirstResponder="YES" alignment="left" image="about" id="31"/>
+                    </imageView>
+                    <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" preferredMaxLayoutWidth="188" translatesAutoresizingMaskIntoConstraints="NO" id="16">
+                        <rect key="frame" x="246" y="123" width="114" height="22"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="22" id="5aa-d4-Wt6"/>
+                        </constraints>
+                        <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="center" title="Release Date" id="33">
+                            <font key="font" metaFont="system" size="18"/>
+                            <color key="textColor" red="0.33695649999999999" green="0.15387112999999999" blue="0.15784397999999999" alpha="1" colorSpace="calibratedRGB"/>
+                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="10" firstAttribute="top" secondItem="6" secondAttribute="top" constant="21" id="1Cj-rE-7gw"/>
+                    <constraint firstItem="8" firstAttribute="leading" secondItem="10" secondAttribute="trailing" constant="7" id="4ud-Us-kga"/>
+                    <constraint firstItem="10" firstAttribute="leading" secondItem="6" secondAttribute="leading" constant="20" id="6cj-du-EK2"/>
+                    <constraint firstItem="8" firstAttribute="top" secondItem="6" secondAttribute="top" constant="63" id="Ub2-o2-hW6"/>
+                    <constraint firstItem="16" firstAttribute="top" secondItem="8" secondAttribute="bottom" constant="8" id="m62-eE-QVE"/>
+                    <constraint firstItem="16" firstAttribute="centerX" secondItem="8" secondAttribute="centerX" id="wnz-5O-tZk"/>
+                    <constraint firstAttribute="trailing" secondItem="8" secondAttribute="trailing" constant="20" id="zfA-T6-Kzs"/>
+                </constraints>
+            </view>
+        </window>
+    </objects>
+    <resources>
+        <image name="about" width="169" height="148"/>
+    </resources>
+</document>

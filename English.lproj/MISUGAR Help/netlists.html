@@ -1,0 +1,63 @@
+<html>
+  <head>
+    <title>Editing Netlists, Running the Simulation</title>
+  </head>
+  <body bgcolor="#ffffff" text="#000000">
+   <center>
+    <table width="90%" border="0" valign="top" cellspacing="20">
+    <tr><td bgcolor="#525861"><a href="index.html"><font color="#9eaca0"><b>Back</b></font></a></td></tr>
+    <tr><td valign="top">
+    <h2>Editing Netlists, Running the Simulation</h2>
+    <p>
+        If you have already entered a schematic of your circuit then clicking
+        on the 'Capture' button in the toolbar will automatically create a
+        basic netlist. You can edit this netlist in the editor in order to add
+        analysis commands or do whatever other modifications you want to do
+        before running the simulation. If you want, you can enter the circuit
+        specification by using the netlist editor only. The netlists should be
+        in SPICE format since MI-SUGAR uses SPICE-compatible simulation engines.
+        (If you are new to SPICE or Gnucap, you can view an online SPICE manual
+        <a href="http://newton.ex.ac.uk/teaching/CDHW/Electronics2/userguide/sec1.html">here</a>
+        or download the printable manuals of both Gnucap and SPICE from the
+        <a href="http://www.macinit.com/">MacInit website</a>.)
+        To edit an existing netlist file you can either open the file
+        chooser (<i>File</i>-><i>Open</i>) and browse your computer or drag the
+        file onto an open window or the dock icon.
+    </p>
+    <p>
+        To improve readability the lines are colored according to the following schema:<br><br>
+        <center><table border="0" cellpadding="0" cellspacing="10">
+          <tr><td><b>analysis commands</b></td><td><font color="#660000"><b>dark red</b></font></td></tr>
+          <tr><td><b>PRINT statements</b></td><td><font color="#ce7224"><b>orange</b></font></td></tr>
+          <tr><td><b>model definitions</b></td><td><font color="#806600"><b>dark yellow</b></font></td></tr>
+          <tr><td><b>title, end, comments</b></td><td><font color="#989898"><b>grey</b></font></td></tr>
+          <tr><td><b>subcircuit header</b></td><td><font color="#0000ff"><b>blue</b></font></td></tr>
+          <tr><td><b>everything else</b></td><td><font color="#000066"><b>dark blue</b></font></td></tr>
+        </table></center>
+    </p>
+    <p>
+        When you have finished editing the netlist you can run the simulation by clicking the
+        <b>Analyze</b> button in the window's toolbar. If the simulation takes too long
+        you can abort the process by pressing the button once again. The default circuit
+        simulator is SPICE. You can change it to Gnucap or to a custom SPICE-compatible
+        simulator in the <b>Simulator</b> sub-panel of the preferences panel. Gnucap and
+        SPICE commands are very similar but Gnucap does not yet support all SPICE
+        commands and has an additional command set of its own. So always keep in mind
+        that a Gnucap file does not necessarily work with SPICE, and vice versa.
+    </p>
+    <p>
+        The data, resulting from the analysis, will appear in the output text area.
+        Any warnings or errors that occur during the simulation will also be displayed
+        there. You will only see the data for the analysis variables which you have explicitly
+        specified with the PRINT command. Please refer to the user manuals of SPICE and Gnucap
+        to learn more about the PRINT command.
+    </p>
+    <p>
+        Note: MI-SUGAR only loads files with the extensions <b>cir</b>, <b>ckt</b> or <b>sugar</b>.
+        Files with other extensions will be rejected.
+    </p>
+    </td>
+   </tr></table>
+   </center>
+  </body>
+</html>

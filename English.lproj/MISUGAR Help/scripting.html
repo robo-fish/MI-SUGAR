@@ -1,0 +1,37 @@
+<html>
+  <head>
+    <title>Scripting</title>
+  </head>
+  <body bgcolor="#ffffff" text="#000000">
+   <center>
+    <table width="90%" border="0" valign="top" cellspacing="20">
+    <tr><td bgcolor="#525861"><a href="index.html"><font color="#9eaca0"><b>Back</b></font></a></td></tr>
+    <tr><td>
+     <h2>Scripting</h2>
+     <p>
+       MI-SUGAR supports the following AppleScript commands: <b>analyze</b>,
+       <b>plot</b> and <b>export</b>. The first command runs the analysis
+       for a specified document, the second command opens the plotter to show
+       the analysis results, and the third command exports the analysis results
+       to either MathML, Matlab&reg; or tabular text format.
+       The <b>plot</b> and <b>export</b>
+       commands must be issued after the <b>analyze</b> command. Here is an
+       example script which demonstrates how to use all three commands:</p>
+     <pre>
+tell application "MI-SUGAR"
+  open file "Primary:Users:johndoe:myCircuit.cir"
+  analyze document "myCircuit.cir"
+  plot document "myCircuit.cir"
+  export document "myCircuit.cir" format "MathML" file "/Users/johndoe/results"
+end tell
+     </pre>
+     <p>As can be seen, the <b>export</b> command has two arguments: The target
+        <i>format</i> ("MathML", "Matlab" or "Tabular") and the path to the target
+        <i>file</i>. The extension of the file needn't be specified, it will be
+        appended automatically.</p>
+     <p>Please let me know if you would like me to make a specific task scriptable.</p>
+    </td>
+   </tr></table>
+   </center>
+  </body>
+</html>

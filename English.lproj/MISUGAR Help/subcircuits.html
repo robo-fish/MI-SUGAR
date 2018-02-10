@@ -1,0 +1,193 @@
+<html>
+  <head>
+    <title>Subcircuits</title>
+  </head>
+  <body bgcolor="#ffffff" text="#000000">
+   <center>
+    <table width="90%" border="0" valign="top" cellspacing="20">
+    <tr><td bgcolor="#525861"><a href="index.html"><font color="#9eaca0"><b>Back</b></font></a></td></tr>
+    <tr><td>
+     <h2>Subcircuits</h2>
+       <p>
+        <a href="#library">The Subcircuit Library</a><br>
+        <a href="#creating">How To Create A Subcircuit</a><br>
+        <a href="#customshape">Custom Shapes</a><br>
+        <a href="#noschematic">Netlist-Only Subcircuits</a><br>
+        <a href="#using">Using Subcircuits</a><br>
+        <a href="#modifying">Modifying Subcircuits</a><br>
+       </p>
+       <table width="100%" border="0" cellspacing="10" cellpadding="0"><tr>
+         <td valign="center">
+           <p>
+             With <nobr>MI-SUGAR</nobr> you can turn circuits or parts of circuits into
+             reusable schematic elements. Hence, you can create higher-level
+             elements by using the basic circuit elements (resistor, capacitor,
+             etc.) and even other high-level elements. This feature is basically
+             an expansion of SPICE subcircuits into the schematic world. That's
+             why in MI-SUGAR the high-level elements are called subcircuit elements.
+           </p>
+           <p><a name="library"></a><u><b>The Subcircuit Library</b></u></p>
+           <p>
+             <nobr>MI-SUGAR</nobr> reads subcircuits from a special folder.
+             You can set the
+             location of that folder in the <i>Preferences</i> window.
+             MI-SUGAR helps you organize your subcircuit library by providing
+             a quick link to the subcircuit folder (in the <i>Circuit</i> menu)
+             and a refresh button below the subcircuit list in the elements panel.
+             Note that the subcircuit list mirrors the folder structure of your
+             local subcircuit library.
+           </p>
+           <p>
+             <nobr>MI-SUGAR</nobr> supports subcircuit namespaces. You can use
+             namespaces
+             to categorize your subcircuits. A name clash occurs only if both
+             the namespace and the name of two subcircuits are identical.
+             Namespaces are assigned during subcircuit creation and can be any
+             text string you like. A good namespace
+             should uniquely identify the creator internationally. Therefore,
+             reverse domain name notation or a similar scheme is recommended.
+             For example, I use namespaces which start with "macinit" and
+             continue with logical group names.
+		   </p>
+           <p>
+             You can also specify a revision for the subcircuit. This can be any
+             string but usually is a version number or date. The revision is not
+             used by <nobr>MI-SUGAR</nobr>, it's just extra information for the
+             users of the subcircuit.
+           </p>
+         </td>
+         <td width="100" valign="center">
+           <img src="elements_panel_subcircuits.jpg">
+         </td></tr>
+       </table>
+       <p><a name="creating"></a><u><b>How To Create A Subcircuit</b></u></p>
+       <p>
+         Preparation:
+         <ul>
+           <li>Open or create the circuit which you want to
+               turn into a subcircuit.</li>
+           <li>If the original subcircuit is a pure netlist then
+               drop as many node elements on the schematic area
+               as there will be external ports.</li>
+           <li>Label the node elements (in the schematic), which
+               are going to be used as external ports. Short and
+               descriptive names are recommended. Use standard
+               abbreviations, like GND for ground and VCC for supply
+               voltage.</li>
+         </ul>
+	   </p>
+       <p>
+         Now you can create the subcircuit by following these steps:
+         <ol>
+           <li>Select <i>Make Subcircuit...</i> from the <i>Circuit</i> menu.</li>
+           <li>Set the name and, optionally, the namespace and revision of the subcircuit.</li>
+           <li>If you are not using a custom shape choose the number of external ports.</li>
+           <li>If you are using a custom shape load the shape definition file.</li>
+           <li>Assign nodes to the external ports by selecting a node name for
+              each external port in the assignment table. Blank means "not connected".</li>
+           <li>Finally, click on the <i>Create!</i> button. The subcircuit list in
+               the elements panel refreshes automatically.</li>
+         </ol>
+       </p>
+	   <p>
+         Tip: You can also create new subcircuits from existing ones.
+       </p>
+       <p><a name="customshape"></a><u><b>Custom Shapes</b></u></p>
+       <p>
+         By default <nobr>MI-SUGAR</nobr> uses DIP (dual in-line package) shapes
+         for all subcircuits. (If you don't know already, pins of a DIP are numbered
+         in counter-clockwise ascending order, where pin number 1 is marked by
+         a dot. The pins correspond to the external ports of the subcircuit.)
+         User-defined, custom shapes are possible. You specify a custom shape by
+         creating an XML file and loading it in the subcircuit creator.
+       </p>
+       <p>
+         <img src="subcircuit_creator.jpg">
+       </p>
+       <p>
+         The file format is defined in the following file: <a href="http://www.macinit.com/schemas/sesdl.xml">
+         http://www.macinit.com/schemas/sesdl.xml</a>. The proposed
+         Subcircuit Element Shape Definition Language (SESDL) let's you specify
+         the shape in a manner similar to <a href="http://www.w3.org/TR/SVG11/">SVG<a>.
+         MI-SUGAR 0.5.7 does not fully support the SESDL yet. Only paths with <b>move</b>,
+         <b>lineto</b>, <b>arc</b> and <b>curve</b> commands are recognized.
+         Here is an example:
+       </p>
+       <pre>
+
+&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;!--
+Opamp shape with 5 connection points.
+Author: Berk Ozer
+Date: October 2, 2004
+--&gt;
+&lt;connectable-shape name=&quot;Opamp&quot; version=&quot;1&quot; xmlns=&quot;http://www.macinit.com/mi-sugar&quot;
+ xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+  xsi:schemaLocation=&quot;http://www.macinit.com/schemas/sesdl.xsd&quot;&gt;
+  &lt;shape width=&quot;60&quot; height=&quot;70&quot;&gt;
+      &lt;!-- triangle --&gt;
+      &lt;path d=&quot;M -20 28 l 40 -28 l -40 -28 z&quot;/&gt;
+      &lt;!-- connectors --&gt;
+      &lt;path d=&quot;M -30 -16 h 10 m 0 32 h -10 m 30 12 v -14 m 0 -28 v -14 m 20 28 h 10&quot;/&gt;
+      &lt;!-- signs for inverting and non-inverting input --&gt;
+      &lt;path d=&quot;M -13 16 v -6 m -3 3 h 6 m 0 -26 h -6&quot;/&gt;
+  &lt;/shape&gt;
+  &lt;connection-points&gt;
+    &lt;connection-point x=&quot;-30.0&quot; y=&quot;-16.0&quot; name=&quot;inverting&quot;/&gt;
+    &lt;connection-point x=&quot;-30.0&quot; y=&quot;16.0&quot; name=&quot;noninverting&quot;/&gt;
+    &lt;connection-point x=&quot;30.0&quot; y=&quot;0.0&quot; name=&quot;output&quot;/&gt;
+    &lt;connection-point x=&quot;0.0&quot; y=&quot;-28.0&quot; name=&quot;negative_supply&quot;/&gt;
+    &lt;connection-point x=&quot;0.0&quot; y=&quot;28.0&quot; name=&quot;positive_supply&quot;/&gt;
+  &lt;/connection-points&gt;
+&lt;/connectable-shape&gt;
+
+       </pre>
+       <p><a name="noschematic"></a><u><b>Netlist-Only Subcircuits</b></u></p>
+       <p>
+         When <nobr>MI-SUGAR</nobr> captures a circuit it first compiles a set of
+         all the subcircuits and device models that the circuit depends on.
+         Finally the device model definitions are pulled from the device model
+         library and the subcircuit netlists are copied from the netlist
+         section of each type of subcircuit. Since <nobr>MI-SUGAR</nobr> does
+         not re-capture
+         the subcircuits to get the netlist your netlist modifications
+         will be preserved. This means that you can create subcircuits
+         that have no schematic representation (e.g., vacuum tubes, which
+         are expressed as a set of voltage/current equations). To do so you
+         have to put as many node elements into the schematic as there
+         will be external ports of the subcircuit. Then you create the
+         subcircuit in the usual manner. At that stage you need not worry
+         about the netlist because you're going to modify it after the
+         subcircuit has been created and added to your library. Remember to
+         use the names of the nodes in the schematic to connect your
+         subcircuit to the outside.
+       </p>
+       <p><a name="using"></a><u><b>Using Subcircuits</b></u></p>
+       <p>
+         To add a subcircuit to the current circuit first select the
+         desired subcircuit from the table n the elements panel by
+         clicking on it. The shape of the subcircuit appears on top.
+         Drag the shape into the schematic work area.
+       </p>
+       <p>
+         When a circuit is captured the whole subcircuit hierarchy on
+         which the circuit depends will be dumped to the netlist editor.
+         The implication of this is that another user who opens the file
+         can run the circuit analysis although he/she may not have copies
+         of the original subcircuit files. However the other user can't
+         use the schematic and must not capture the schematic, otherwise
+         the netlist will become invalid.
+       </p>
+       <p><a name="modifying"></a><u><b>Modifying Subcircuits</b></u></p>
+       <p>
+         Double-click on the name of the subcircuit in the tree view to
+         open its <i>definition</i>, that is, the document which contains the
+         schematic (and netlist) that defines the subcircuit. Alternatively
+         you can double-click on the subcircuit file in the Finder to open
+         it. Make the changes to the schematic (or the netlist) and save it.
+       </p>
+    </td>
+   </tr></table>
+   </center>
+  </body>
+</html>

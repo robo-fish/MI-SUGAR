@@ -1,0 +1,110 @@
+<html>
+  <head>
+    <title>User Preferences</title>
+  </head>
+  <body bgcolor="#ffffff" text="#000000">
+   <center>
+    <table width="90%" border="0" valign="top" cellspacing="20">
+    <tr><td bgcolor="#525861"><a href="index.html"><font color="#9eaca0"><b>Back</b></font></a></td></tr>
+    <tr><td valign="top">
+     <h2>User Preferences</h2>
+       <p>
+         <a href="#general">General Preferences</a><br>
+         <a href="#startup">Startup Preferences</a><br>
+         <a href="#schematic">Schematic Preferences</a><br>
+         <a href="#simulator">Simulator Preferences</a><br>
+         <a href="#plotter">Plotter Preferences</a><br>
+         <a href="#font">Font Preferences</a><br>
+       </p>
+     <p>
+       In the Preferences panel you can adjust various settings to customize
+       the behavior of MI-SUGAR. The panel is divided into sections, which are
+       shortly described here.
+     </p>
+     <p>
+       <a name="general"></a><b>General Preferences</b><br>
+       In the <i>Function</i> section:<br>
+       <b>1.</b> Set the file format which will be used to save the circuits.
+       There are three options: To always save as a <i>.sugar</i> file
+       (saves everything), to save as a <i>.cir</i> file (only netlist)
+       if the schematic is empty, and to save as a <i>.cir</i> file only.
+       If you create a netlist and save it as a <i>.cir</i> file you won't
+       be able to add a schematic to it later on. You will have to open an
+       empty document, copy the netlist and save it in the <i>.sugar</i>
+       format.<br>
+       <br>
+       <b>2.</b> You can set the file conversion policy for
+       netlist files which may contain Windows-style lone CR (carriage
+       return) characters that would cause errors when using SPICE. MI-SUGAR
+       filters these characters automatically for the current session.
+       To also modify the file content you either have to edit and save
+       or select an appropriate file conversion policy.
+       There are three conversion policies: <i>Ask</i> for being asked about how
+       to proceed every time such a file is encountered, <i>Never</i> for no
+       automatic conversion of the file content, and <i>Always</i> for always
+       automatically converting the file contents.<br>
+       <br>
+       <b>3.</b> Set the folder which will be scanned for subcircuits (subfolders
+         included). The new folder will be used immediately.
+     </p>
+     <p>
+       In the <i>Appearance</i> section you can choose the window layout you would
+       like to use. <i>Vertical</i> stacks all views (schematic area, netlist
+       editor, output area) on top each other. <i>Horizontal</i> places the
+       netlist editor and output area to the right of the schematic area.
+     </p>
+     <p>
+       <a name="startup"></a><b>Startup Preferences</b><br>
+       Here you can set actions that will be executed during every startup
+       of MI-SUGAR. If you usually create new netlists after
+       starting MI-SUGAR you should select the option to open
+       an empty circuit window. If you mostly edit previously
+       created files then leave that option unselected.<br>
+       MI-SUGAR can check if a newer version is available during startup and
+       notify you when it finds a newer version. You can disable this
+       automatic checking if you want to.
+     </p>
+     <p>
+       <a name="schematic"></a><b>Schematic Preferences</b><br>
+       In the <i>Function</i> section you can enable/disable
+       placement guides (the green alignment lines) and the automatic
+       insertion of node elements into the connection line which they
+       were dropped on. In the <i>Appearance</i> section you can set the
+       background color of the schematic area.
+     </p>
+     <p>
+       <a name="simulator"></a><b>Simulator Preferences</b><br>
+       Here you can set the circuit simulator which will be used to analyze
+       the circuit. You may choose between the two built-in simulators SPICE
+       and Gnucap or select 'custom simulator' and enter the path to an
+       external simulator. The custom simulator should recognize the same
+       command options as SPICE.
+     </p>
+     <p>
+       <a name="plotter"></a><b>Plotter Preferences</b><br>
+       There are two categories: Appearance preferences and functional
+       preferences. You can set the line widths of the graphs and the
+       grid and the background color and grid color in the appearance
+       category. Behavioral preferences can be set in the function
+       category. 'Remember plot settings' makes the plotter remember
+       all settings in the 'Plot' section of the control panel. The
+       current settings will then be automatically applied to all new
+       plotter windows. 'Show guides tab when guides are dragged' makes
+       the plotter's control panel automatically slide open (if it was
+       closed) and switch to the 'Guides' section whenever any of the
+       four guides is dragged. The previous view is restored when the
+       dragged guide is released. 'Close previous plot windows' causes
+       all previous plot windows, that belong to the same circuit, to be
+       closed when a new plot window is opened.
+     </p>
+     <p>
+       <a name="font"></a><b>Font Preferences</b><br>
+       Here you can set the fonts used in the netlist editor and in the
+       simulator output area in the circuit window.
+     </p>
+     <p></p>
+    </td>
+   </tr></table>
+   </center>
+  </body>
+</html>
