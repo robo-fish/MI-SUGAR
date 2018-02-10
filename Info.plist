@@ -37,8 +37,6 @@
 	<string>MISUGAR Help</string>
 	<key>CFBundleHelpBookName</key>
 	<string>MI-SUGAR Help</string>
-	<key>CFBundleIconFile</key>
-	<string>mi_sugar_icon</string>
 	<key>CFBundleIdentifier</key>
 	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
 	<key>CFBundleInfoDictionaryVersion</key>

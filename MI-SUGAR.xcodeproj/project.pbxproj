@@ -96,7 +96,6 @@
 		C0E80C09058E2A8E0012452D /* CircuitDocumentModel.h in Headers */ = {isa = PBXBuildFile; fileRef = C0C09699057625EF006C0AD5 /* CircuitDocumentModel.h */; };
 		C0E80C0A058E2A8E0012452D /* common.h in Headers */ = {isa = PBXBuildFile; fileRef = C0C0969B057625EF006C0AD5 /* common.h */; };
 		C0E80C0B058E2A8E0012452D /* Converter.h in Headers */ = {isa = PBXBuildFile; fileRef = C0C0969C057625EF006C0AD5 /* Converter.h */; };
-		C0E80C27058E2A8E0012452D /* mi_sugar_icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = C0C096A405762E28006C0AD5 /* mi_sugar_icon.icns */; };
 		C0E80C29058E2A8E0012452D /* MI-SUGAR.scriptSuite in Resources */ = {isa = PBXBuildFile; fileRef = C0C096A705762E72006C0AD5 /* MI-SUGAR.scriptSuite */; };
 		C0E80C2A058E2A8E0012452D /* spice in Resources */ = {isa = PBXBuildFile; fileRef = C0C096A805762E72006C0AD5 /* spice */; };
 		C0E80C2B058E2A8E0012452D /* MI-SUGAR.scriptTerminology in Resources */ = {isa = PBXBuildFile; fileRef = C0C096AC05762E9B006C0AD5 /* MI-SUGAR.scriptTerminology */; };
@@ -274,7 +273,6 @@
 		C0C0969B057625EF006C0AD5 /* common.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = common.h; sourceTree = "<group>"; };
 		C0C0969C057625EF006C0AD5 /* Converter.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = Converter.h; sourceTree = "<group>"; };
 		C0C0969D057625EF006C0AD5 /* Converter.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = Converter.m; sourceTree = "<group>"; };
-		C0C096A405762E28006C0AD5 /* mi_sugar_icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = mi_sugar_icon.icns; sourceTree = "<group>"; };
 		C0C096A705762E72006C0AD5 /* MI-SUGAR.scriptSuite */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "MI-SUGAR.scriptSuite"; sourceTree = "<group>"; };
 		C0C096A805762E72006C0AD5 /* spice */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = spice; sourceTree = "<group>"; };
 		C0C096AD05762E9B006C0AD5 /* MI-SUGAR.scriptTerminology */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = "MI-SUGAR.scriptTerminology"; path = "English.lproj/MI-SUGAR.scriptTerminology"; sourceTree = "<group>"; };
@@ -383,7 +381,6 @@
 			isa = PBXGroup;
 			children = (
 				C0ED036605AD9A2300273C48 /* XIBs */,
-				C0C096A405762E28006C0AD5 /* mi_sugar_icon.icns */,
 				C0C096A705762E72006C0AD5 /* MI-SUGAR.scriptSuite */,
 				C0C096AC05762E9B006C0AD5 /* MI-SUGAR.scriptTerminology */,
 				C0C096A805762E72006C0AD5 /* spice */,
@@ -806,7 +803,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C0E80C27058E2A8E0012452D /* mi_sugar_icon.icns in Resources */,
 				C0E80C29058E2A8E0012452D /* MI-SUGAR.scriptSuite in Resources */,
 				C0E80C2A058E2A8E0012452D /* spice in Resources */,
 				C0E80C2B058E2A8E0012452D /* MI-SUGAR.scriptTerminology in Resources */,
@@ -1029,6 +1025,7 @@
 		C057A09508BB9308002C935E /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = "";
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -1051,6 +1048,7 @@
 		C057A09608BB9308002C935E /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				COPY_PHASE_STRIP = YES;
 				FRAMEWORK_SEARCH_PATHS = "";
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
