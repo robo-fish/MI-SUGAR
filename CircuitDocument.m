@@ -1028,200 +1028,184 @@ canCollapseSubview:(NSView*)view
      itemForItemIdentifier:(NSString*)itemIdentifier
  willBeInsertedIntoToolbar:(BOOL)flag
 {
-    if ([itemIdentifier isEqualToString:MISUGAR_Schematic2NetlistItem])
+  if ([itemIdentifier isEqualToString:MISUGAR_Schematic2NetlistItem])
+  {
+    if (schematic2Netlist == nil)
     {
-        if (schematic2Netlist == nil)
-        {
-            schematic2Netlist = [[NSToolbarItem alloc] initWithItemIdentifier:MISUGAR_Schematic2NetlistItem];
-            [schematic2Netlist setLabel:@"Capture"];
-            [schematic2Netlist setAction:@selector(convertSchematicToNetlist:)];
-            [schematic2Netlist setTarget:self];
-            [schematic2Netlist setToolTip:@"Convert Schematic to Netlist"];
-            [schematic2Netlist setImage:[[NSImage alloc] initWithContentsOfFile:
-                [[NSBundle mainBundle] pathForResource:@"schematic2netlist"
-                                                ofType:@"png"]]];
-        }
-        return schematic2Netlist;
+      schematic2Netlist = [[NSToolbarItem alloc] initWithItemIdentifier:MISUGAR_Schematic2NetlistItem];
+      [schematic2Netlist setLabel:@"Capture"];
+      [schematic2Netlist setAction:@selector(convertSchematicToNetlist:)];
+      [schematic2Netlist setTarget:self];
+      [schematic2Netlist setToolTip:@"Convert Schematic to Netlist"];
+      [schematic2Netlist setImage:[NSImage imageNamed:@"schematic2netlist"]];
     }
-    else if ([itemIdentifier isEqualToString:MISUGAR_RunItem])
+    return schematic2Netlist;
+  }
+  else if ([itemIdentifier isEqualToString:MISUGAR_RunItem])
+  {
+    if (run == nil)
     {
-        if (run == nil)
-        {
-            run = [[MI_CustomViewToolbarItem alloc] initWithItemIdentifier:MISUGAR_RunItem];
-            analysisProgressIndicator = [[MI_AnalysisButton alloc] init];
-            [analysisProgressIndicator setAction:@selector(runSimulator:)];
-            [analysisProgressIndicator setTarget:self];
-            [run setView:analysisProgressIndicator];
-            [run setLabel:@"Analyze"];
-            [run setToolTip:@"Analyze the Netlist"];
-            [run setMinSize:NSMakeSize(34.0f, 32.0f)];
-            [run setMaxSize:NSMakeSize(34.0f, 32.0f)];
-        }
-        return run;
+      run = [[MI_CustomViewToolbarItem alloc] initWithItemIdentifier:MISUGAR_RunItem];
+      analysisProgressIndicator = [[MI_AnalysisButton alloc] init];
+      [analysisProgressIndicator setAction:@selector(runSimulator:)];
+      [analysisProgressIndicator setTarget:self];
+      [run setView:analysisProgressIndicator];
+      [run setLabel:@"Analyze"];
+      [run setToolTip:@"Analyze the Netlist"];
+      [run setMinSize:NSMakeSize(34.0f, 32.0f)];
+      [run setMaxSize:NSMakeSize(34.0f, 32.0f)];
     }
-    else if ([itemIdentifier isEqualToString:MISUGAR_PlotItem])
+    return run;
+  }
+  else if ([itemIdentifier isEqualToString:MISUGAR_PlotItem])
+  {
+    if (plot == nil)
     {
-        if (plot == nil)
-        {
-            plot = [[NSToolbarItem alloc] initWithItemIdentifier:MISUGAR_PlotItem];
-            [plot setLabel:@"Plot"];
-            [plot setAction:@selector(plotResults:)];
-            [plot setTarget:self];
-            [plot setToolTip:@"Plot Analysis Results"];
-            [plot setImage:[[NSImage alloc] initWithContentsOfFile:
-                [[NSBundle mainBundle] pathForResource:@"plotImage"
-                                                ofType:@"png"]]];
-        }
-        return plot;
+      plot = [[NSToolbarItem alloc] initWithItemIdentifier:MISUGAR_PlotItem];
+      [plot setLabel:@"Plot"];
+      [plot setAction:@selector(plotResults:)];
+      [plot setTarget:self];
+      [plot setToolTip:@"Plot Analysis Results"];
+      [plot setImage:[NSImage imageNamed:@"plotImage"]];
     }
-    else if ([itemIdentifier isEqualToString:MISUGAR_SchematicVariantDisplayerItem])
+    return plot;
+  }
+  else if ([itemIdentifier isEqualToString:MISUGAR_SchematicVariantDisplayerItem])
+  {
+    if (variantDisplayer == nil)
     {
-        if (variantDisplayer == nil)
-        {
-            variantDisplayer = [[NSToolbarItem alloc] initWithItemIdentifier:MISUGAR_SchematicVariantDisplayerItem];
-            [variantDisplayer setLabel:@"Variants"];
-            [variantDisplayer setToolTip:@"Schematic variants. Click on schematic and press 1,2,3 or 4 to switch. Press Command + 1,2,3,4 to replace variant with current schematic."];
-            [variantDisplayer setView:variantSelectionViewer];
-            [variantDisplayer setTarget:self];
-            [variantDisplayer setAction:@selector(switchToSchematicVariant:)];
-            [variantDisplayer setMinSize:NSMakeSize(64.0f, 32.0f)];
-            [variantDisplayer setMaxSize:NSMakeSize(64.0f, 32.0f)];
-        }
-        return variantDisplayer;
+      variantDisplayer = [[NSToolbarItem alloc] initWithItemIdentifier:MISUGAR_SchematicVariantDisplayerItem];
+      [variantDisplayer setLabel:@"Variants"];
+      [variantDisplayer setToolTip:@"Schematic variants. Click on schematic and press 1,2,3 or 4 to switch. Press Command + 1,2,3,4 to replace variant with current schematic."];
+      [variantDisplayer setView:variantSelectionViewer];
+      [variantDisplayer setTarget:self];
+      [variantDisplayer setAction:@selector(switchToSchematicVariant:)];
+      [variantDisplayer setMinSize:NSMakeSize(64.0f, 32.0f)];
+      [variantDisplayer setMaxSize:NSMakeSize(64.0f, 32.0f)];
     }
-    else if ([itemIdentifier isEqualToString:MISUGAR_CanvasScaleSliderItem])
+    return variantDisplayer;
+  }
+  else if ([itemIdentifier isEqualToString:MISUGAR_CanvasScaleSliderItem])
+  {
+    if (canvasScaler == nil)
     {
-        if (canvasScaler == nil)
-        {
-            canvasScaler = [[MI_CustomViewToolbarItem alloc] initWithItemIdentifier:MISUGAR_CanvasScaleSliderItem];
-            [canvasScaler setLabel:@"Scale"];
-            [canvasScaler setToolTip:@"set the view scale"];
-            canvasScaleSlider = [[NSSlider alloc] init];
-            [canvasScaleSlider setMaxValue:MI_SCHEMATIC_CANVAS_MAX_SCALE];
-            [canvasScaleSlider setMinValue:MI_SCHEMATIC_CANVAS_MIN_SCALE];
-            [canvasScaleSlider setAltIncrementValue:0.1];
-            [canvasScaleSlider setDoubleValue:1.0];
-            //[canvasScaleSlider setNumberOfTickMarks:5];
-            //[canvasScaleSlider setTickMarkPosition:NSTickMarkAbove];
-            [canvasScaleSlider setAction:@selector(setCanvasScale:)];
-            [canvasScaleSlider setTarget:self];
-            [canvasScaler setView:canvasScaleSlider];
-            [canvasScaler setMinSize:NSMakeSize(75.0f, 25.0f)];
-            [canvasScaler setMaxSize:NSMakeSize(75.0f, 25.0f)];
-        }
-        return canvasScaler;
+      canvasScaler = [[MI_CustomViewToolbarItem alloc] initWithItemIdentifier:MISUGAR_CanvasScaleSliderItem];
+      [canvasScaler setLabel:@"Scale"];
+      [canvasScaler setToolTip:@"set the view scale"];
+      canvasScaleSlider = [[NSSlider alloc] init];
+      [canvasScaleSlider setMaxValue:MI_SCHEMATIC_CANVAS_MAX_SCALE];
+      [canvasScaleSlider setMinValue:MI_SCHEMATIC_CANVAS_MIN_SCALE];
+      [canvasScaleSlider setAltIncrementValue:0.1];
+      [canvasScaleSlider setDoubleValue:1.0];
+      //[canvasScaleSlider setNumberOfTickMarks:5];
+      //[canvasScaleSlider setTickMarkPosition:NSTickMarkAbove];
+      [canvasScaleSlider setAction:@selector(setCanvasScale:)];
+      [canvasScaleSlider setTarget:self];
+      [canvasScaler setView:canvasScaleSlider];
+      [canvasScaler setMinSize:NSMakeSize(75.0f, 25.0f)];
+      [canvasScaler setMaxSize:NSMakeSize(75.0f, 25.0f)];
     }
-    else if ([itemIdentifier isEqualToString:MISUGAR_CanvasZoomInItem])
+    return canvasScaler;
+  }
+  else if ([itemIdentifier isEqualToString:MISUGAR_CanvasZoomInItem])
+  {
+    if (zoomIn == nil)
     {
-        if (zoomIn == nil)
-        {
-            zoomIn = [[NSToolbarItem alloc] initWithItemIdentifier:MISUGAR_CanvasZoomInItem];
-            [zoomIn setLabel:@""];
-            [zoomIn setAction:@selector(zoomInCanvas:)];
-            [zoomIn setTarget:self];
-            [zoomIn setToolTip:@"zoom in"];
-            [zoomIn setImage:[[NSImage alloc] initWithContentsOfFile:
-                [[NSBundle mainBundle] pathForResource:@"zoom_in_toolbar_image"
-                                                ofType:@"png"]]];
-        }
-        return zoomIn;
+      zoomIn = [[NSToolbarItem alloc] initWithItemIdentifier:MISUGAR_CanvasZoomInItem];
+      [zoomIn setLabel:@""];
+      [zoomIn setAction:@selector(zoomInCanvas:)];
+      [zoomIn setTarget:self];
+      [zoomIn setToolTip:@"zoom in"];
+      [zoomIn setImage:[NSImage imageNamed:@"zoom_in_toolbar_image"]];
     }
-    else if ([itemIdentifier isEqualToString:MISUGAR_CanvasZoomOutItem])
+    return zoomIn;
+  }
+  else if ([itemIdentifier isEqualToString:MISUGAR_CanvasZoomOutItem])
+  {
+    if (zoomOut == nil)
     {
-        if (zoomOut == nil)
-        {
-            zoomOut = [[NSToolbarItem alloc] initWithItemIdentifier:MISUGAR_CanvasZoomOutItem];
-            [zoomOut setLabel:@""];
-            [zoomOut setAction:@selector(zoomOutCanvas:)];
-            [zoomOut setTarget:self];
-            [zoomOut setToolTip:@"zoom out"];
-            [zoomOut setImage:[[NSImage alloc] initWithContentsOfFile:
-                [[NSBundle mainBundle] pathForResource:@"zoom_out_toolbar_image"
-                                                ofType:@"png"]]];
-        }
-        return zoomOut;
+      zoomOut = [[NSToolbarItem alloc] initWithItemIdentifier:MISUGAR_CanvasZoomOutItem];
+      [zoomOut setLabel:@""];
+      [zoomOut setAction:@selector(zoomOutCanvas:)];
+      [zoomOut setTarget:self];
+      [zoomOut setToolTip:@"zoom out"];
+      [zoomOut setImage:[NSImage imageNamed:@"zoom_out_toolbar_image"]];
     }
-    else if ([itemIdentifier isEqualToString:MISUGAR_ElementsPanelItem])
+    return zoomOut;
+  }
+  else if ([itemIdentifier isEqualToString:MISUGAR_ElementsPanelItem])
+  {
+    if (elementsPanelShortcut == nil)
     {
-        if (elementsPanelShortcut == nil)
-        {
-            elementsPanelShortcut = [[NSToolbarItem alloc] initWithItemIdentifier:MISUGAR_ElementsPanelItem];
-            [elementsPanelShortcut setLabel:@"Elements"];
-            [elementsPanelShortcut setAction:@selector(showElementsPanel:)];
-            [elementsPanelShortcut setTarget:[SugarManager sharedManager]];
-            [elementsPanelShortcut setToolTip:@"Show Elements"];
-            [elementsPanelShortcut setImage:[[NSImage alloc] initWithContentsOfFile:
-                [[NSBundle mainBundle] pathForResource:@"show_elements_button"
-                                                ofType:@"png"]]];
-        }
-        return elementsPanelShortcut;
+      elementsPanelShortcut = [[NSToolbarItem alloc] initWithItemIdentifier:MISUGAR_ElementsPanelItem];
+      [elementsPanelShortcut setLabel:@"Elements"];
+      [elementsPanelShortcut setAction:@selector(showElementsPanel:)];
+      [elementsPanelShortcut setTarget:[SugarManager sharedManager]];
+      [elementsPanelShortcut setToolTip:@"Show Elements"];
+      [elementsPanelShortcut setImage:[NSImage imageNamed:@"show_elements_button"]];
     }
-    else if ([itemIdentifier isEqualToString:MISUGAR_InfoPanelItem])
+    return elementsPanelShortcut;
+  }
+  else if ([itemIdentifier isEqualToString:MISUGAR_InfoPanelItem])
+  {
+    if (infoPanelShortcut == nil)
     {
-        if (infoPanelShortcut == nil)
-        {
-            infoPanelShortcut = [[NSToolbarItem alloc] initWithItemIdentifier:MISUGAR_InfoPanelItem];
-            [infoPanelShortcut setLabel:@"Info"];
-            [infoPanelShortcut setAction:@selector(showInfoPanel:)];
-            [infoPanelShortcut setTarget:[SugarManager sharedManager]];
-            [infoPanelShortcut setToolTip:@"Show Info"];
-            [infoPanelShortcut setImage:[[NSImage alloc] initWithContentsOfFile:
-                [[NSBundle mainBundle] pathForResource:@"show_info_panel_button"
-                                                ofType:@"png"]]];
-        }
-        return infoPanelShortcut;
+      infoPanelShortcut = [[NSToolbarItem alloc] initWithItemIdentifier:MISUGAR_InfoPanelItem];
+      [infoPanelShortcut setLabel:@"Info"];
+      [infoPanelShortcut setAction:@selector(showInfoPanel:)];
+      [infoPanelShortcut setTarget:[SugarManager sharedManager]];
+      [infoPanelShortcut setToolTip:@"Show Info"];
+      [infoPanelShortcut setImage:[NSImage imageNamed:@"show_info_panel_button"]];
     }
-    else if ([itemIdentifier isEqualToString:MISUGAR_SchematicHomePositionItem])
+    return infoPanelShortcut;
+  }
+  else if ([itemIdentifier isEqualToString:MISUGAR_SchematicHomePositionItem])
+  {
+    if (home == nil)
     {
-        if (home == nil)
-        {
-            home = [[NSToolbarItem alloc] initWithItemIdentifier:MISUGAR_SchematicHomePositionItem];
-            [home setLabel:@""];
-            [home setAction:@selector(moveSchematicViewportToOrigin:)];
-            [home setTarget:self];
-            [home setToolTip:@"Home Position"];
-            [home setImage:[[NSImage alloc] initWithContentsOfFile:
-                [[NSBundle mainBundle] pathForResource:@"home_toolbar_item"
-                                                ofType:@"png"]]];
-        }
-        return home;
+      home = [[NSToolbarItem alloc] initWithItemIdentifier:MISUGAR_SchematicHomePositionItem];
+      [home setLabel:@""];
+      [home setAction:@selector(moveSchematicViewportToOrigin:)];
+      [home setTarget:self];
+      [home setToolTip:@"Home Position"];
+      [home setImage:[NSImage imageNamed:@"home_toolbar_item"]];
     }
-    else if ([itemIdentifier isEqualToString:MISUGAR_FitToViewItem])
+    return home;
+  }
+  else if ([itemIdentifier isEqualToString:MISUGAR_FitToViewItem])
+  {
+    if (fitToView == nil)
     {
-        if (fitToView == nil)
-        {
-            fitToView = [[MI_CustomViewToolbarItem alloc] initWithItemIdentifier:MISUGAR_FitToViewItem];
-            fitButton = [[MI_FitToViewButton alloc] init];
-            [fitButton setAction:@selector(fitSchematicToView:)];
-            [fitButton setTarget:self];
-            [fitToView setView:fitButton];
-            [fitToView setLabel:@"Fit to View"];
-            [fitToView setToolTip:@"scale and position the schematic so it fills the viewable area"];
-            [fitToView setMinSize:NSMakeSize(24.0f, 24.0f)];
-            [fitToView setMaxSize:NSMakeSize(24.0f, 24.0f)];
-        }
-        return fitToView;
+      fitToView = [[MI_CustomViewToolbarItem alloc] initWithItemIdentifier:MISUGAR_FitToViewItem];
+      fitButton = [[MI_FitToViewButton alloc] init];
+      [fitButton setAction:@selector(fitSchematicToView:)];
+      [fitButton setTarget:self];
+      [fitToView setView:fitButton];
+      [fitToView setLabel:@"Fit to View"];
+      [fitToView setToolTip:@"scale and position the schematic so it fills the viewable area"];
+      [fitToView setMinSize:NSMakeSize(24.0f, 24.0f)];
+      [fitToView setMaxSize:NSMakeSize(24.0f, 24.0f)];
     }
-    else if ([itemIdentifier isEqualToString:MISUGAR_SubcircuitIndicatorItem])
+    return fitToView;
+  }
+  else if ([itemIdentifier isEqualToString:MISUGAR_SubcircuitIndicatorItem])
+  {
+    if (subcircuitIndicator == nil)
     {
-        if (subcircuitIndicator == nil)
-        {
-            subcircuitIndicator = [[NSToolbarItem alloc] initWithItemIdentifier:MISUGAR_SubcircuitIndicatorItem];
-            [subcircuitIndicator setLabel:(@"")];
-            [subcircuitIndicator setTarget:[SugarManager sharedManager]];
-            [subcircuitIndicator setAction:@selector(goToSubcircuitsFolder:)];
-            if ([myModel isKindOfClass:[MI_SubcircuitDocumentModel class]])
-            {
-                [subcircuitIndicator setImage:[[NSImage alloc] initWithContentsOfFile:
-                    [[NSBundle mainBundle] pathForResource:@"subcircuit_toolbar_item"
-                                                    ofType:@"png"]]];
-                [subcircuitIndicator setToolTip:@"This circuit is a subcircuit."];
-            }
-        }
-        return subcircuitIndicator;
+      subcircuitIndicator = [[NSToolbarItem alloc] initWithItemIdentifier:MISUGAR_SubcircuitIndicatorItem];
+      [subcircuitIndicator setLabel:(@"")];
+      [subcircuitIndicator setTarget:[SugarManager sharedManager]];
+      [subcircuitIndicator setAction:@selector(goToSubcircuitsFolder:)];
+      if ([myModel isKindOfClass:[MI_SubcircuitDocumentModel class]])
+      {
+        [subcircuitIndicator setImage:[NSImage imageNamed:@"subcircuit_toolbar_item"]];
+        [subcircuitIndicator setToolTip:@"This circuit is a subcircuit."];
+      }
     }
-    else
-        return nil;
+    return subcircuitIndicator;
+  }
+  else
+      return nil;
 }
 
 

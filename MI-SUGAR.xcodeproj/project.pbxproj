@@ -8,11 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		2AE5A3F9202F35B10080DEA0 /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = C02C813E070F3C810042B50C /* libxml2.dylib */; };
+		2AE5A3FC202F468A0080DEA0 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2AE5A3FB202F468A0080DEA0 /* Images.xcassets */; };
 		C002B2910618AF5000C260E9 /* MI_DeviceModelManager.h in Headers */ = {isa = PBXBuildFile; fileRef = C002B28F0618AF5000C260E9 /* MI_DeviceModelManager.h */; };
 		C002B2920618AF5000C260E9 /* MI_DeviceModelManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C002B2900618AF5000C260E9 /* MI_DeviceModelManager.m */; };
 		C00C159B060B9D4C00A175F8 /* MI_SubcircuitLibraryManager.h in Headers */ = {isa = PBXBuildFile; fileRef = C00C1599060B9D4C00A175F8 /* MI_SubcircuitLibraryManager.h */; };
 		C00C159C060B9D4C00A175F8 /* MI_SubcircuitLibraryManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C00C159A060B9D4C00A175F8 /* MI_SubcircuitLibraryManager.m */; };
-		C0385436063C0B4D0045290A /* runImage_bw.png in Resources */ = {isa = PBXBuildFile; fileRef = C0385434063C0B4D0045290A /* runImage_bw.png */; };
 		C0385452063C21D40045290A /* MI_TroubleShooter.h in Headers */ = {isa = PBXBuildFile; fileRef = C0385450063C21D40045290A /* MI_TroubleShooter.h */; };
 		C0385453063C21D40045290A /* MI_TroubleShooter.m in Sources */ = {isa = PBXBuildFile; fileRef = C0385451063C21D40045290A /* MI_TroubleShooter.m */; };
 		C050EC4F060C5DC500AA7491 /* MI_SubcircuitDocumentModel.h in Headers */ = {isa = PBXBuildFile; fileRef = C050EC4D060C5DC500AA7491 /* MI_SubcircuitDocumentModel.h */; };
@@ -29,14 +29,10 @@
 		C059E77006463E7800A416DA /* MI_VariantSelectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = C059E76E06463E7800A416DA /* MI_VariantSelectionView.m */; };
 		C05AAB320657599E00648EE3 /* MI_CustomViewToolbarItem.h in Headers */ = {isa = PBXBuildFile; fileRef = C05AAB300657599E00648EE3 /* MI_CustomViewToolbarItem.h */; };
 		C05AAB330657599E00648EE3 /* MI_CustomViewToolbarItem.m in Sources */ = {isa = PBXBuildFile; fileRef = C05AAB310657599E00648EE3 /* MI_CustomViewToolbarItem.m */; };
-		C05AACE50657C53000648EE3 /* schematic2netlist.png in Resources */ = {isa = PBXBuildFile; fileRef = C05AACE40657C53000648EE3 /* schematic2netlist.png */; };
-		C05AAD250657C7E700648EE3 /* plotImage.png in Resources */ = {isa = PBXBuildFile; fileRef = C05AAD240657C7E700648EE3 /* plotImage.png */; };
-		C05AAD300657C91100648EE3 /* show_elements_button.png in Resources */ = {isa = PBXBuildFile; fileRef = C05AAD2F0657C91100648EE3 /* show_elements_button.png */; };
 		C06B09E406403D22007594B0 /* MI_Voltmeter.h in Headers */ = {isa = PBXBuildFile; fileRef = C06B09E206403D22007594B0 /* MI_Voltmeter.h */; };
 		C06B09E506403D22007594B0 /* MI_Voltmeter.m in Sources */ = {isa = PBXBuildFile; fileRef = C06B09E306403D22007594B0 /* MI_Voltmeter.m */; };
 		C06B09F406403EB5007594B0 /* MI_Ammeter.h in Headers */ = {isa = PBXBuildFile; fileRef = C06B09F206403EB5007594B0 /* MI_Ammeter.h */; };
 		C06B09F506403EB5007594B0 /* MI_Ammeter.m in Sources */ = {isa = PBXBuildFile; fileRef = C06B09F306403EB5007594B0 /* MI_Ammeter.m */; };
-		C07B5ECD0615874D00A3B7A5 /* refresh_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = C07B5ECC0615874D00A3B7A5 /* refresh_icon.png */; };
 		C083EEDB0608BA9D001BB563 /* MI_TextElement.h in Headers */ = {isa = PBXBuildFile; fileRef = C083EED90608BA9D001BB563 /* MI_TextElement.h */; };
 		C083EEDC0608BA9D001BB563 /* MI_TextElement.m in Sources */ = {isa = PBXBuildFile; fileRef = C083EEDA0608BA9D001BB563 /* MI_TextElement.m */; };
 		C083F0860609173B001BB563 /* MI_Tool.h in Headers */ = {isa = PBXBuildFile; fileRef = C083F0840609173B001BB563 /* MI_Tool.h */; };
@@ -59,13 +55,6 @@
 		C0BE96A9061DB86300AFC9A1 /* MI_NamedArray.m in Sources */ = {isa = PBXBuildFile; fileRef = C0BE96A7061DB86300AFC9A1 /* MI_NamedArray.m */; };
 		C0BEFA5A0611F05400E88C44 /* MI_Inspector.h in Headers */ = {isa = PBXBuildFile; fileRef = C0BEFA580611F05400E88C44 /* MI_Inspector.h */; };
 		C0BEFA5B0611F05400E88C44 /* MI_Inspector.m in Sources */ = {isa = PBXBuildFile; fileRef = C0BEFA590611F05400E88C44 /* MI_Inspector.m */; };
-		C0BFD9F2063B282500462FE8 /* zoom_in_toolbar_image.png in Resources */ = {isa = PBXBuildFile; fileRef = C0BFD9F0063B282500462FE8 /* zoom_in_toolbar_image.png */; };
-		C0BFD9F3063B282500462FE8 /* zoom_out_toolbar_image.png in Resources */ = {isa = PBXBuildFile; fileRef = C0BFD9F1063B282500462FE8 /* zoom_out_toolbar_image.png */; };
-		C0C8464D0621DED2003A0DF0 /* export_all_device_models.png in Resources */ = {isa = PBXBuildFile; fileRef = C0C8464C0621DED2003A0DF0 /* export_all_device_models.png */; };
-		C0C846520621DEE4003A0DF0 /* import_device_models.png in Resources */ = {isa = PBXBuildFile; fileRef = C0C846510621DEE4003A0DF0 /* import_device_models.png */; };
-		C0CE9AB20620C3E1003E0612 /* delete_selected_device_model.png in Resources */ = {isa = PBXBuildFile; fileRef = C0CE9AB10620C3E1003E0612 /* delete_selected_device_model.png */; };
-		C0CE9AC50620C6EC003E0612 /* copy_selected_device_model.png in Resources */ = {isa = PBXBuildFile; fileRef = C0CE9AC40620C6EC003E0612 /* copy_selected_device_model.png */; };
-		C0D2D8D4060F219C004B6787 /* subcircuit_toolbar_item.png in Resources */ = {isa = PBXBuildFile; fileRef = C0D2D8D3060F219C004B6787 /* subcircuit_toolbar_item.png */; };
 		C0D3054D06536ACC0073EC78 /* MI_AnalysisButton.h in Headers */ = {isa = PBXBuildFile; fileRef = C0D3054B06536ACC0073EC78 /* MI_AnalysisButton.h */; };
 		C0D3054E06536ACC0073EC78 /* MI_AnalysisButton.m in Sources */ = {isa = PBXBuildFile; fileRef = C0D3054C06536ACC0073EC78 /* MI_AnalysisButton.m */; };
 		C0D30AA00617826800770B46 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C0D30A9F0617826800770B46 /* CoreFoundation.framework */; };
@@ -107,29 +96,10 @@
 		C0E80C09058E2A8E0012452D /* CircuitDocumentModel.h in Headers */ = {isa = PBXBuildFile; fileRef = C0C09699057625EF006C0AD5 /* CircuitDocumentModel.h */; };
 		C0E80C0A058E2A8E0012452D /* common.h in Headers */ = {isa = PBXBuildFile; fileRef = C0C0969B057625EF006C0AD5 /* common.h */; };
 		C0E80C0B058E2A8E0012452D /* Converter.h in Headers */ = {isa = PBXBuildFile; fileRef = C0C0969C057625EF006C0AD5 /* Converter.h */; };
-		C0E80C0D058E2A8E0012452D /* about.png in Resources */ = {isa = PBXBuildFile; fileRef = C0C09380057619AC006C0AD5 /* about.png */; };
-		C0E80C0E058E2A8E0012452D /* bottom_guide.png in Resources */ = {isa = PBXBuildFile; fileRef = C0C09381057619AC006C0AD5 /* bottom_guide.png */; };
-		C0E80C0F058E2A8E0012452D /* customize_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = C0C09382057619AC006C0AD5 /* customize_icon.png */; };
-		C0E80C10058E2A8E0012452D /* flip.png in Resources */ = {isa = PBXBuildFile; fileRef = C0C09383057619AC006C0AD5 /* flip.png */; };
-		C0E80C11058E2A8E0012452D /* fonts_pref_button.png in Resources */ = {isa = PBXBuildFile; fileRef = C0C09384057619AC006C0AD5 /* fonts_pref_button.png */; };
-		C0E80C12058E2A8E0012452D /* general_pref_button.png in Resources */ = {isa = PBXBuildFile; fileRef = C0C09385057619AC006C0AD5 /* general_pref_button.png */; };
-		C0E80C13058E2A8E0012452D /* left_guide.png in Resources */ = {isa = PBXBuildFile; fileRef = C0C09386057619AC006C0AD5 /* left_guide.png */; };
-		C0E80C18058E2A8E0012452D /* plotter_pref_button.png in Resources */ = {isa = PBXBuildFile; fileRef = C0C0938B057619AC006C0AD5 /* plotter_pref_button.png */; };
-		C0E80C19058E2A8E0012452D /* right_guide.png in Resources */ = {isa = PBXBuildFile; fileRef = C0C0938C057619AC006C0AD5 /* right_guide.png */; };
-		C0E80C1A058E2A8E0012452D /* rotate_left.png in Resources */ = {isa = PBXBuildFile; fileRef = C0C0938D057619AC006C0AD5 /* rotate_left.png */; };
-		C0E80C1C058E2A8E0012452D /* schematic_pref_button.png in Resources */ = {isa = PBXBuildFile; fileRef = C0C0938F057619AC006C0AD5 /* schematic_pref_button.png */; };
-		C0E80C1F058E2A8E0012452D /* show_info_panel_button.png in Resources */ = {isa = PBXBuildFile; fileRef = C0C09392057619AC006C0AD5 /* show_info_panel_button.png */; };
-		C0E80C20058E2A8E0012452D /* simulator_pref_button.png in Resources */ = {isa = PBXBuildFile; fileRef = C0C09393057619AC006C0AD5 /* simulator_pref_button.png */; };
-		C0E80C21058E2A8E0012452D /* startup_pref_button.png in Resources */ = {isa = PBXBuildFile; fileRef = C0C09394057619AC006C0AD5 /* startup_pref_button.png */; };
-		C0E80C23058E2A8E0012452D /* top_guide.png in Resources */ = {isa = PBXBuildFile; fileRef = C0C09396057619AC006C0AD5 /* top_guide.png */; };
-		C0E80C24058E2A8E0012452D /* zoom_magnifier.png in Resources */ = {isa = PBXBuildFile; fileRef = C0C09397057619AC006C0AD5 /* zoom_magnifier.png */; };
-		C0E80C25058E2A8E0012452D /* zoom_minus.png in Resources */ = {isa = PBXBuildFile; fileRef = C0C09398057619AC006C0AD5 /* zoom_minus.png */; };
-		C0E80C26058E2A8E0012452D /* zoom_plus.png in Resources */ = {isa = PBXBuildFile; fileRef = C0C09399057619AC006C0AD5 /* zoom_plus.png */; };
 		C0E80C27058E2A8E0012452D /* mi_sugar_icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = C0C096A405762E28006C0AD5 /* mi_sugar_icon.icns */; };
 		C0E80C29058E2A8E0012452D /* MI-SUGAR.scriptSuite in Resources */ = {isa = PBXBuildFile; fileRef = C0C096A705762E72006C0AD5 /* MI-SUGAR.scriptSuite */; };
 		C0E80C2A058E2A8E0012452D /* spice in Resources */ = {isa = PBXBuildFile; fileRef = C0C096A805762E72006C0AD5 /* spice */; };
 		C0E80C2B058E2A8E0012452D /* MI-SUGAR.scriptTerminology in Resources */ = {isa = PBXBuildFile; fileRef = C0C096AC05762E9B006C0AD5 /* MI-SUGAR.scriptTerminology */; };
-		C0E80C38058E2A8E0012452D /* home_toolbar_item.png in Resources */ = {isa = PBXBuildFile; fileRef = C0D810870577B58B006C0AD5 /* home_toolbar_item.png */; };
 		C0E80C3B058E2A8E0012452D /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A37F4B0FDCFA73011CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
 		C0E80C3C058E2A8E0012452D /* AnalysisVariable.m in Sources */ = {isa = PBXBuildFile; fileRef = C0C092DB05761918006C0AD5 /* AnalysisVariable.m */; };
 		C0E80C3E058E2A8E0012452D /* MI_AlignmentPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = C0C092E605761918006C0AD5 /* MI_AlignmentPoint.m */; };
@@ -189,12 +159,12 @@
 		2A37F4B0FDCFA73011CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		2A37F4C4FDCFA73011CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		2A37F4C5FDCFA73011CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
+		2AE5A3FB202F468A0080DEA0 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		C002B28F0618AF5000C260E9 /* MI_DeviceModelManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MI_DeviceModelManager.h; sourceTree = "<group>"; };
 		C002B2900618AF5000C260E9 /* MI_DeviceModelManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MI_DeviceModelManager.m; sourceTree = "<group>"; };
 		C00C1599060B9D4C00A175F8 /* MI_SubcircuitLibraryManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MI_SubcircuitLibraryManager.h; sourceTree = "<group>"; };
 		C00C159A060B9D4C00A175F8 /* MI_SubcircuitLibraryManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MI_SubcircuitLibraryManager.m; sourceTree = "<group>"; };
 		C02C813E070F3C810042B50C /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = /usr/lib/libxml2.dylib; sourceTree = "<absolute>"; };
-		C0385434063C0B4D0045290A /* runImage_bw.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = runImage_bw.png; sourceTree = "<group>"; };
 		C0385450063C21D40045290A /* MI_TroubleShooter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MI_TroubleShooter.h; sourceTree = "<group>"; };
 		C0385451063C21D40045290A /* MI_TroubleShooter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MI_TroubleShooter.m; sourceTree = "<group>"; };
 		C050EC4D060C5DC500AA7491 /* MI_SubcircuitDocumentModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MI_SubcircuitDocumentModel.h; sourceTree = "<group>"; };
@@ -211,14 +181,10 @@
 		C059E76E06463E7800A416DA /* MI_VariantSelectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MI_VariantSelectionView.m; sourceTree = "<group>"; };
 		C05AAB300657599E00648EE3 /* MI_CustomViewToolbarItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MI_CustomViewToolbarItem.h; sourceTree = "<group>"; };
 		C05AAB310657599E00648EE3 /* MI_CustomViewToolbarItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MI_CustomViewToolbarItem.m; sourceTree = "<group>"; };
-		C05AACE40657C53000648EE3 /* schematic2netlist.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = schematic2netlist.png; sourceTree = "<group>"; };
-		C05AAD240657C7E700648EE3 /* plotImage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = plotImage.png; sourceTree = "<group>"; };
-		C05AAD2F0657C91100648EE3 /* show_elements_button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = show_elements_button.png; sourceTree = "<group>"; };
 		C06B09E206403D22007594B0 /* MI_Voltmeter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MI_Voltmeter.h; sourceTree = "<group>"; };
 		C06B09E306403D22007594B0 /* MI_Voltmeter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MI_Voltmeter.m; sourceTree = "<group>"; };
 		C06B09F206403EB5007594B0 /* MI_Ammeter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MI_Ammeter.h; sourceTree = "<group>"; };
 		C06B09F306403EB5007594B0 /* MI_Ammeter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MI_Ammeter.m; sourceTree = "<group>"; };
-		C07B5ECC0615874D00A3B7A5 /* refresh_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = refresh_icon.png; sourceTree = "<group>"; };
 		C083EED90608BA9D001BB563 /* MI_TextElement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MI_TextElement.h; sourceTree = "<group>"; };
 		C083EEDA0608BA9D001BB563 /* MI_TextElement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MI_TextElement.m; sourceTree = "<group>"; };
 		C083F0840609173B001BB563 /* MI_Tool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MI_Tool.h; sourceTree = "<group>"; };
@@ -241,8 +207,6 @@
 		C0BE96A7061DB86300AFC9A1 /* MI_NamedArray.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MI_NamedArray.m; sourceTree = "<group>"; };
 		C0BEFA580611F05400E88C44 /* MI_Inspector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MI_Inspector.h; sourceTree = "<group>"; };
 		C0BEFA590611F05400E88C44 /* MI_Inspector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MI_Inspector.m; sourceTree = "<group>"; };
-		C0BFD9F0063B282500462FE8 /* zoom_in_toolbar_image.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = zoom_in_toolbar_image.png; sourceTree = "<group>"; };
-		C0BFD9F1063B282500462FE8 /* zoom_out_toolbar_image.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = zoom_out_toolbar_image.png; sourceTree = "<group>"; };
 		C0C092DA05761918006C0AD5 /* AnalysisVariable.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = AnalysisVariable.h; sourceTree = "<group>"; };
 		C0C092DB05761918006C0AD5 /* AnalysisVariable.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = AnalysisVariable.m; sourceTree = "<group>"; };
 		C0C092E505761918006C0AD5 /* MI_AlignmentPoint.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = MI_AlignmentPoint.h; sourceTree = "<group>"; };
@@ -303,24 +267,6 @@
 		C0C0931C05761918006C0AD5 /* SugarManager.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = SugarManager.m; sourceTree = "<group>"; };
 		C0C0931D05761918006C0AD5 /* SugarPlotter.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = SugarPlotter.h; sourceTree = "<group>"; };
 		C0C0931E05761918006C0AD5 /* SugarPlotter.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = SugarPlotter.m; sourceTree = "<group>"; };
-		C0C09380057619AC006C0AD5 /* about.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = about.png; sourceTree = "<group>"; };
-		C0C09381057619AC006C0AD5 /* bottom_guide.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bottom_guide.png; sourceTree = "<group>"; };
-		C0C09382057619AC006C0AD5 /* customize_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = customize_icon.png; sourceTree = "<group>"; };
-		C0C09383057619AC006C0AD5 /* flip.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = flip.png; sourceTree = "<group>"; };
-		C0C09384057619AC006C0AD5 /* fonts_pref_button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = fonts_pref_button.png; sourceTree = "<group>"; };
-		C0C09385057619AC006C0AD5 /* general_pref_button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = general_pref_button.png; sourceTree = "<group>"; };
-		C0C09386057619AC006C0AD5 /* left_guide.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = left_guide.png; sourceTree = "<group>"; };
-		C0C0938B057619AC006C0AD5 /* plotter_pref_button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = plotter_pref_button.png; sourceTree = "<group>"; };
-		C0C0938C057619AC006C0AD5 /* right_guide.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = right_guide.png; sourceTree = "<group>"; };
-		C0C0938D057619AC006C0AD5 /* rotate_left.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = rotate_left.png; sourceTree = "<group>"; };
-		C0C0938F057619AC006C0AD5 /* schematic_pref_button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = schematic_pref_button.png; sourceTree = "<group>"; };
-		C0C09392057619AC006C0AD5 /* show_info_panel_button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = show_info_panel_button.png; sourceTree = "<group>"; };
-		C0C09393057619AC006C0AD5 /* simulator_pref_button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = simulator_pref_button.png; sourceTree = "<group>"; };
-		C0C09394057619AC006C0AD5 /* startup_pref_button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = startup_pref_button.png; sourceTree = "<group>"; };
-		C0C09396057619AC006C0AD5 /* top_guide.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = top_guide.png; sourceTree = "<group>"; };
-		C0C09397057619AC006C0AD5 /* zoom_magnifier.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = zoom_magnifier.png; sourceTree = "<group>"; };
-		C0C09398057619AC006C0AD5 /* zoom_minus.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = zoom_minus.png; sourceTree = "<group>"; };
-		C0C09399057619AC006C0AD5 /* zoom_plus.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = zoom_plus.png; sourceTree = "<group>"; };
 		C0C095CB057623CF006C0AD5 /* CircuitDocument.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = CircuitDocument.m; sourceTree = "<group>"; };
 		C0C0969605762450006C0AD5 /* CircuitDocument.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = CircuitDocument.h; sourceTree = "<group>"; };
 		C0C09699057625EF006C0AD5 /* CircuitDocumentModel.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = CircuitDocumentModel.h; sourceTree = "<group>"; };
@@ -332,17 +278,11 @@
 		C0C096A705762E72006C0AD5 /* MI-SUGAR.scriptSuite */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "MI-SUGAR.scriptSuite"; sourceTree = "<group>"; };
 		C0C096A805762E72006C0AD5 /* spice */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = spice; sourceTree = "<group>"; };
 		C0C096AD05762E9B006C0AD5 /* MI-SUGAR.scriptTerminology */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = "MI-SUGAR.scriptTerminology"; path = "English.lproj/MI-SUGAR.scriptTerminology"; sourceTree = "<group>"; };
-		C0C8464C0621DED2003A0DF0 /* export_all_device_models.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = export_all_device_models.png; sourceTree = "<group>"; };
-		C0C846510621DEE4003A0DF0 /* import_device_models.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = import_device_models.png; sourceTree = "<group>"; };
-		C0CE9AB10620C3E1003E0612 /* delete_selected_device_model.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = delete_selected_device_model.png; sourceTree = "<group>"; };
-		C0CE9AC40620C6EC003E0612 /* copy_selected_device_model.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = copy_selected_device_model.png; sourceTree = "<group>"; };
-		C0D2D8D3060F219C004B6787 /* subcircuit_toolbar_item.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = subcircuit_toolbar_item.png; sourceTree = "<group>"; };
 		C0D3054B06536ACC0073EC78 /* MI_AnalysisButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MI_AnalysisButton.h; sourceTree = "<group>"; };
 		C0D3054C06536ACC0073EC78 /* MI_AnalysisButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MI_AnalysisButton.m; sourceTree = "<group>"; };
 		C0D30A9F0617826800770B46 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = /System/Library/Frameworks/CoreFoundation.framework; sourceTree = "<absolute>"; };
 		C0D7D04E065909E600423050 /* MI_ShapePreviewer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MI_ShapePreviewer.h; sourceTree = "<group>"; };
 		C0D7D04F065909E600423050 /* MI_ShapePreviewer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MI_ShapePreviewer.m; sourceTree = "<group>"; };
-		C0D810870577B58B006C0AD5 /* home_toolbar_item.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = home_toolbar_item.png; sourceTree = "<group>"; };
 		C0DA153F08D4193F00342F36 /* LICENSE.txt */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
 		C0E11A4F0E994F23004A7CF9 /* English */ = {isa = PBXFileReference; lastKnownFileType = folder; name = English; path = "English.lproj/MISUGAR Help"; sourceTree = "<group>"; };
 		C0E80C61058E2A8E0012452D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -449,7 +389,7 @@
 				C0C096A805762E72006C0AD5 /* spice */,
 				C0DA153F08D4193F00342F36 /* LICENSE.txt */,
 				C0C093660576193D006C0AD5 /* Help */,
-				C0C0936505761935006C0AD5 /* Images */,
+				2AE5A3FB202F468A0080DEA0 /* Images.xcassets */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -550,44 +490,6 @@
 				C05AAB310657599E00648EE3 /* MI_CustomViewToolbarItem.m */,
 			);
 			name = "Needful Things";
-			sourceTree = "<group>";
-		};
-		C0C0936505761935006C0AD5 /* Images */ = {
-			isa = PBXGroup;
-			children = (
-				C05AAD2F0657C91100648EE3 /* show_elements_button.png */,
-				C05AAD240657C7E700648EE3 /* plotImage.png */,
-				C05AACE40657C53000648EE3 /* schematic2netlist.png */,
-				C0385434063C0B4D0045290A /* runImage_bw.png */,
-				C0BFD9F0063B282500462FE8 /* zoom_in_toolbar_image.png */,
-				C0BFD9F1063B282500462FE8 /* zoom_out_toolbar_image.png */,
-				C0C846510621DEE4003A0DF0 /* import_device_models.png */,
-				C0C8464C0621DED2003A0DF0 /* export_all_device_models.png */,
-				C0CE9AC40620C6EC003E0612 /* copy_selected_device_model.png */,
-				C0CE9AB10620C3E1003E0612 /* delete_selected_device_model.png */,
-				C07B5ECC0615874D00A3B7A5 /* refresh_icon.png */,
-				C0D2D8D3060F219C004B6787 /* subcircuit_toolbar_item.png */,
-				C0C09380057619AC006C0AD5 /* about.png */,
-				C0C09381057619AC006C0AD5 /* bottom_guide.png */,
-				C0C09382057619AC006C0AD5 /* customize_icon.png */,
-				C0C09383057619AC006C0AD5 /* flip.png */,
-				C0C09384057619AC006C0AD5 /* fonts_pref_button.png */,
-				C0C09385057619AC006C0AD5 /* general_pref_button.png */,
-				C0C09386057619AC006C0AD5 /* left_guide.png */,
-				C0C0938B057619AC006C0AD5 /* plotter_pref_button.png */,
-				C0C0938C057619AC006C0AD5 /* right_guide.png */,
-				C0C0938D057619AC006C0AD5 /* rotate_left.png */,
-				C0C0938F057619AC006C0AD5 /* schematic_pref_button.png */,
-				C0C09392057619AC006C0AD5 /* show_info_panel_button.png */,
-				C0C09393057619AC006C0AD5 /* simulator_pref_button.png */,
-				C0C09394057619AC006C0AD5 /* startup_pref_button.png */,
-				C0C09396057619AC006C0AD5 /* top_guide.png */,
-				C0C09397057619AC006C0AD5 /* zoom_magnifier.png */,
-				C0C09398057619AC006C0AD5 /* zoom_minus.png */,
-				C0C09399057619AC006C0AD5 /* zoom_plus.png */,
-				C0D810870577B58B006C0AD5 /* home_toolbar_item.png */,
-			);
-			name = Images;
 			sourceTree = "<group>";
 		};
 		C0C093660576193D006C0AD5 /* Help */ = {
@@ -904,41 +806,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C0E80C0D058E2A8E0012452D /* about.png in Resources */,
-				C0E80C0E058E2A8E0012452D /* bottom_guide.png in Resources */,
-				C0E80C0F058E2A8E0012452D /* customize_icon.png in Resources */,
-				C0E80C10058E2A8E0012452D /* flip.png in Resources */,
-				C0E80C11058E2A8E0012452D /* fonts_pref_button.png in Resources */,
-				C0E80C12058E2A8E0012452D /* general_pref_button.png in Resources */,
-				C0E80C13058E2A8E0012452D /* left_guide.png in Resources */,
-				C0E80C18058E2A8E0012452D /* plotter_pref_button.png in Resources */,
-				C0E80C19058E2A8E0012452D /* right_guide.png in Resources */,
-				C0E80C1A058E2A8E0012452D /* rotate_left.png in Resources */,
-				C0E80C1C058E2A8E0012452D /* schematic_pref_button.png in Resources */,
-				C0E80C1F058E2A8E0012452D /* show_info_panel_button.png in Resources */,
-				C0E80C20058E2A8E0012452D /* simulator_pref_button.png in Resources */,
-				C0E80C21058E2A8E0012452D /* startup_pref_button.png in Resources */,
-				C0E80C23058E2A8E0012452D /* top_guide.png in Resources */,
-				C0E80C24058E2A8E0012452D /* zoom_magnifier.png in Resources */,
-				C0E80C25058E2A8E0012452D /* zoom_minus.png in Resources */,
-				C0E80C26058E2A8E0012452D /* zoom_plus.png in Resources */,
 				C0E80C27058E2A8E0012452D /* mi_sugar_icon.icns in Resources */,
 				C0E80C29058E2A8E0012452D /* MI-SUGAR.scriptSuite in Resources */,
 				C0E80C2A058E2A8E0012452D /* spice in Resources */,
 				C0E80C2B058E2A8E0012452D /* MI-SUGAR.scriptTerminology in Resources */,
-				C0E80C38058E2A8E0012452D /* home_toolbar_item.png in Resources */,
-				C0D2D8D4060F219C004B6787 /* subcircuit_toolbar_item.png in Resources */,
-				C07B5ECD0615874D00A3B7A5 /* refresh_icon.png in Resources */,
-				C0CE9AB20620C3E1003E0612 /* delete_selected_device_model.png in Resources */,
-				C0CE9AC50620C6EC003E0612 /* copy_selected_device_model.png in Resources */,
-				C0C8464D0621DED2003A0DF0 /* export_all_device_models.png in Resources */,
-				C0C846520621DEE4003A0DF0 /* import_device_models.png in Resources */,
-				C0BFD9F2063B282500462FE8 /* zoom_in_toolbar_image.png in Resources */,
-				C0BFD9F3063B282500462FE8 /* zoom_out_toolbar_image.png in Resources */,
-				C0385436063C0B4D0045290A /* runImage_bw.png in Resources */,
-				C05AACE50657C53000648EE3 /* schematic2netlist.png in Resources */,
-				C05AAD250657C7E700648EE3 /* plotImage.png in Resources */,
-				C05AAD300657C91100648EE3 /* show_elements_button.png in Resources */,
 				C0DA154008D4193F00342F36 /* LICENSE.txt in Resources */,
 				C0E11A500E994F23004A7CF9 /* MISUGAR Help in Resources */,
 				C0EF7C44146F40DA00FC7577 /* About.xib in Resources */,
@@ -949,6 +820,7 @@
 				C0EF7C61146F429100FC7577 /* Nyquist.xib in Resources */,
 				C0EF7C62146F429100FC7577 /* PlotWindow.xib in Resources */,
 				C0EF7C63146F429100FC7577 /* SchematicDeviceModelsPanel.xib in Resources */,
+				2AE5A3FC202F468A0080DEA0 /* Images.xcassets in Resources */,
 				C0EF7C64146F429100FC7577 /* SchematicElementInfoPanel.xib in Resources */,
 				C0EF7C65146F429100FC7577 /* SchematicElementsPanel.xib in Resources */,
 				C0EF7C66146F429100FC7577 /* SchematicLayersPanel.xib in Resources */,

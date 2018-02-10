@@ -292,12 +292,12 @@ static SugarManager* managerInstance = nil;
         [plotterGridLineWidthChooser selectItemAtIndex:(int)[[userdefs objectForKey:MISUGAR_PLOT_GRID_LINE_WIDTH] charValue]];
         [plotterLabelsFontSizeChooser selectItemAtIndex:(int)[[userdefs objectForKey:MISUGAR_PLOT_LABELS_FONT_SIZE] charValue]];
         [NSColorPanel setPickerMode:NSColorPanelModeHSB];
-        [plotterBackgroundColorChooser setColor:
-            [NSKeyedUnarchiver unarchiveObjectWithData:
-                [userdefs objectForKey:MISUGAR_PLOTTER_BACKGROUND_COLOR]]];
-        [plotterGridColorChooser setColor:
-            [NSKeyedUnarchiver unarchiveObjectWithData:
-                [userdefs objectForKey:MISUGAR_PLOTTER_GRID_COLOR]]];
+        NSColor* plotterBackgroundColor = [NSKeyedUnarchiver unarchiveObjectWithData:[userdefs objectForKey:MISUGAR_PLOTTER_BACKGROUND_COLOR]];
+        if (plotterBackgroundColor == nil) { plotterBackgroundColor = [NSColor whiteColor]; }
+        [plotterBackgroundColorChooser setColor:plotterBackgroundColor];
+        NSColor* plotterGridColor = [NSKeyedUnarchiver unarchiveObjectWithData:[userdefs objectForKey:MISUGAR_PLOTTER_GRID_COLOR]];
+        if (plotterGridColor == nil) { plotterGridColor = [NSColor grayColor]; }
+        [plotterGridColorChooser setColor:plotterGridColor];
         [plotterRemembersSettingsButton setState:([[userdefs objectForKey:MISUGAR_PLOTTER_REMEMBERS_SETTINGS] boolValue] ? NSOnState : NSOffState)];
         [plotterClosesOldWindows setState:([[userdefs objectForKey:MISUGAR_PLOTTER_CLOSES_OLD_WINDOW] boolValue] ? NSOnState : NSOffState)];
         [plotterAutoShowsGuidesTab setState:([[userdefs objectForKey:MISUGAR_PLOTTER_AUTO_SHOW_GUIDES_TAB] boolValue] ? NSOnState : NSOffState)];
@@ -305,7 +305,9 @@ static SugarManager* managerInstance = nil;
         [fileSavingPolicyChooser selectItemAtIndex:[[userdefs objectForKey:MISUGAR_FILE_SAVING_POLICY] intValue]];
         [autoInsertNodeElement setState:([[userdefs objectForKey:MISUGAR_AUTOINSERT_NODE_ELEMENT] boolValue] ? NSOnState : NSOffState)];
         [showPlacementGuides setState:([[userdefs objectForKey:MISUGAR_SHOW_PLACEMENT_GUIDES] boolValue] ? NSOnState : NSOffState)];
-        [schematicCanvasBackground setColor:[NSUnarchiver unarchiveObjectWithData:[userdefs objectForKey:MISUGAR_SCHEMATIC_CANVAS_BACKGROUND_COLOR]]];
+        NSColor* schematicBackgroundColor = [NSUnarchiver unarchiveObjectWithData:[userdefs objectForKey:MISUGAR_SCHEMATIC_CANVAS_BACKGROUND_COLOR]];
+        if (schematicBackgroundColor == nil) { schematicBackgroundColor = [NSColor whiteColor]; }
+        [schematicCanvasBackground setColor:schematicBackgroundColor];
         [subcircuitLibraryPathField setStringValue:[userdefs objectForKey:MISUGAR_SUBCIRCUIT_LIBRARY_FOLDER]];
         [preferencesPanel setContentSize:[generalPrefsView frame].size];
         [preferencesPanel setContentView:generalPrefsView];
@@ -743,80 +745,68 @@ static SugarManager* managerInstance = nil;
      itemForItemIdentifier:(NSString*)itemIdentifier
  willBeInsertedIntoToolbar:(BOOL)flag
 {
-    if ([itemIdentifier isEqualToString:MISUGAR_GENERAL_PREFERENCES_ITEM])
-    {
-        generalPreferences = [[NSToolbarItem alloc] initWithItemIdentifier:MISUGAR_GENERAL_PREFERENCES_ITEM];
-        [generalPreferences setLabel:@"General"];
-        [generalPreferences setAction:@selector(switchPreferenceView:)];
-        [generalPreferences setTarget:self];
-        [generalPreferences setToolTip:@"General preferences"];
-        [generalPreferences setImage:[[NSImage alloc] initWithContentsOfFile:
-            [[NSBundle mainBundle] pathForResource:@"general_pref_button"
-                                            ofType:@"png"]]];
-        return generalPreferences;
-    }
-    if ([itemIdentifier isEqualToString:MISUGAR_SCHEMATIC_PREFERENCES_ITEM])
-    {
-        schematicPreferences = [[NSToolbarItem alloc] initWithItemIdentifier:MISUGAR_GENERAL_PREFERENCES_ITEM];
-        [schematicPreferences setLabel:@"Schematic"];
-        [schematicPreferences setAction:@selector(switchPreferenceView:)];
-        [schematicPreferences setTarget:self];
-        [schematicPreferences setToolTip:@"Schematic preferences"];
-        [schematicPreferences setImage:[[NSImage alloc] initWithContentsOfFile:
-            [[NSBundle mainBundle] pathForResource:@"schematic_pref_button"
-                                            ofType:@"png"]]];
-        return schematicPreferences;
-    }
-    else if ([itemIdentifier isEqualToString:MISUGAR_STARTUP_PREFERENCES_ITEM])
-    {
-        startupPreferences = [[NSToolbarItem alloc] initWithItemIdentifier:MISUGAR_STARTUP_PREFERENCES_ITEM];
-        [startupPreferences setLabel:@"Startup"];
-        [startupPreferences setAction:@selector(switchPreferenceView:)];
-        [startupPreferences setTarget:self];
-        [startupPreferences setToolTip:@"Startup preferences"];
-        [startupPreferences setImage:[[NSImage alloc] initWithContentsOfFile:
-            [[NSBundle mainBundle] pathForResource:@"startup_pref_button"
-                                            ofType:@"png"]]];
-        return startupPreferences;
-    }
-    else if ([itemIdentifier isEqualToString:MISUGAR_FONT_PREFERENCES_ITEM])
-    {
-        fontPreferences = [[NSToolbarItem alloc] initWithItemIdentifier:MISUGAR_FONT_PREFERENCES_ITEM];
-        [fontPreferences setLabel:@"Fonts"];
-        [fontPreferences setAction:@selector(switchPreferenceView:)];
-        [fontPreferences setTarget:self];
-        [fontPreferences setToolTip:@"Font preferences"];
-        [fontPreferences setImage:[[NSImage alloc] initWithContentsOfFile:
-            [[NSBundle mainBundle] pathForResource:@"fonts_pref_button"
-                                            ofType:@"png"]]];
-        return fontPreferences;
-    }
-    if ([itemIdentifier isEqualToString:MISUGAR_SIMULATOR_PREFERENCES_ITEM])
-    {
-        simulatorPreferences = [[NSToolbarItem alloc] initWithItemIdentifier:MISUGAR_SIMULATOR_PREFERENCES_ITEM];
-        [simulatorPreferences setLabel:@"Simulator"];
-        [simulatorPreferences setAction:@selector(switchPreferenceView:)];
-        [simulatorPreferences setTarget:self];
-        [simulatorPreferences setToolTip:@"Simulator preferences"];
-        [simulatorPreferences setImage:[[NSImage alloc] initWithContentsOfFile:
-            [[NSBundle mainBundle] pathForResource:@"simulator_pref_button"
-                                            ofType:@"png"]]];
-        return simulatorPreferences;
-    }
-    else if ([itemIdentifier isEqualToString:MISUGAR_PLOTTER_PREFERENCES_ITEM])
-    {
-        plotterPreferences = [[NSToolbarItem alloc] initWithItemIdentifier:MISUGAR_PLOTTER_PREFERENCES_ITEM];
-        [plotterPreferences setLabel:@"Plotter"];
-        [plotterPreferences setAction:@selector(switchPreferenceView:)];
-        [plotterPreferences setTarget:self];
-        [plotterPreferences setToolTip:@"Plotter preferences"];
-        [plotterPreferences setImage:[[NSImage alloc] initWithContentsOfFile:
-            [[NSBundle mainBundle] pathForResource:@"plotter_pref_button"
-                                            ofType:@"png"]]];
-        return plotterPreferences;
-    }
-    else
-        return nil;
+  if ([itemIdentifier isEqualToString:MISUGAR_GENERAL_PREFERENCES_ITEM])
+  {
+    generalPreferences = [[NSToolbarItem alloc] initWithItemIdentifier:MISUGAR_GENERAL_PREFERENCES_ITEM];
+    [generalPreferences setLabel:@"General"];
+    [generalPreferences setAction:@selector(switchPreferenceView:)];
+    [generalPreferences setTarget:self];
+    [generalPreferences setToolTip:@"General preferences"];
+    [generalPreferences setImage:[NSImage imageNamed:@"general_pref_button"]];
+    return generalPreferences;
+  }
+  if ([itemIdentifier isEqualToString:MISUGAR_SCHEMATIC_PREFERENCES_ITEM])
+  {
+    schematicPreferences = [[NSToolbarItem alloc] initWithItemIdentifier:MISUGAR_GENERAL_PREFERENCES_ITEM];
+    [schematicPreferences setLabel:@"Schematic"];
+    [schematicPreferences setAction:@selector(switchPreferenceView:)];
+    [schematicPreferences setTarget:self];
+    [schematicPreferences setToolTip:@"Schematic preferences"];
+    [schematicPreferences setImage:[NSImage imageNamed:@"schematic_pref_button"]];
+    return schematicPreferences;
+  }
+  else if ([itemIdentifier isEqualToString:MISUGAR_STARTUP_PREFERENCES_ITEM])
+  {
+    startupPreferences = [[NSToolbarItem alloc] initWithItemIdentifier:MISUGAR_STARTUP_PREFERENCES_ITEM];
+    [startupPreferences setLabel:@"Startup"];
+    [startupPreferences setAction:@selector(switchPreferenceView:)];
+    [startupPreferences setTarget:self];
+    [startupPreferences setToolTip:@"Startup preferences"];
+    [startupPreferences setImage:[NSImage imageNamed:@"startup_pref_button"]];
+    return startupPreferences;
+  }
+  else if ([itemIdentifier isEqualToString:MISUGAR_FONT_PREFERENCES_ITEM])
+  {
+    fontPreferences = [[NSToolbarItem alloc] initWithItemIdentifier:MISUGAR_FONT_PREFERENCES_ITEM];
+    [fontPreferences setLabel:@"Fonts"];
+    [fontPreferences setAction:@selector(switchPreferenceView:)];
+    [fontPreferences setTarget:self];
+    [fontPreferences setToolTip:@"Font preferences"];
+    [fontPreferences setImage:[NSImage imageNamed:@"fonts_pref_button"]];
+    return fontPreferences;
+  }
+  if ([itemIdentifier isEqualToString:MISUGAR_SIMULATOR_PREFERENCES_ITEM])
+  {
+    simulatorPreferences = [[NSToolbarItem alloc] initWithItemIdentifier:MISUGAR_SIMULATOR_PREFERENCES_ITEM];
+    [simulatorPreferences setLabel:@"Simulator"];
+    [simulatorPreferences setAction:@selector(switchPreferenceView:)];
+    [simulatorPreferences setTarget:self];
+    [simulatorPreferences setToolTip:@"Simulator preferences"];
+    [simulatorPreferences setImage:[NSImage imageNamed:@"simulator_pref_button"]];
+    return simulatorPreferences;
+  }
+  else if ([itemIdentifier isEqualToString:MISUGAR_PLOTTER_PREFERENCES_ITEM])
+  {
+    plotterPreferences = [[NSToolbarItem alloc] initWithItemIdentifier:MISUGAR_PLOTTER_PREFERENCES_ITEM];
+    [plotterPreferences setLabel:@"Plotter"];
+    [plotterPreferences setAction:@selector(switchPreferenceView:)];
+    [plotterPreferences setTarget:self];
+    [plotterPreferences setToolTip:@"Plotter preferences"];
+    [plotterPreferences setImage:[NSImage imageNamed:@"plotter_pref_button"]];
+    return plotterPreferences;
+  }
+  else
+    return nil;
 }
 
 /* protocol implementation */

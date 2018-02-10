@@ -1,2059 +1,423 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<archive type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="8.00">
-	<data>
-		<int key="IBDocument.SystemTarget">1070</int>
-		<string key="IBDocument.SystemVersion">11C74</string>
-		<string key="IBDocument.InterfaceBuilderVersion">1938</string>
-		<string key="IBDocument.AppKitVersion">1138.23</string>
-		<string key="IBDocument.HIToolboxVersion">567.00</string>
-		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
-			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin</string>
-			<string key="NS.object.0">1938</string>
-		</object>
-		<array key="IBDocument.IntegratedClassDependencies">
-			<string>NSCustomView</string>
-			<string>NSScroller</string>
-			<string>NSTableHeaderView</string>
-			<string>NSButton</string>
-			<string>NSScrollView</string>
-			<string>NSTextFieldCell</string>
-			<string>NSButtonCell</string>
-			<string>NSBox</string>
-			<string>NSColorWell</string>
-			<string>NSTableView</string>
-			<string>NSTabView</string>
-			<string>NSSlider</string>
-			<string>NSSliderCell</string>
-			<string>NSCustomObject</string>
-			<string>NSTabViewItem</string>
-			<string>NSView</string>
-			<string>NSWindowTemplate</string>
-			<string>NSTextField</string>
-			<string>NSTableColumn</string>
-		</array>
-		<array key="IBDocument.PluginDependencies">
-			<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-		</array>
-		<object class="NSMutableDictionary" key="IBDocument.Metadata">
-			<string key="NS.key.0">PluginDependencyRecalculationVersion</string>
-			<integer value="1" key="NS.object.0"/>
-		</object>
-		<array class="NSMutableArray" key="IBDocument.RootObjects" id="301007777">
-			<object class="NSCustomObject" id="648477946">
-				<string key="NSClassName">MI_Inspector</string>
-			</object>
-			<object class="NSCustomObject" id="695111664">
-				<string key="NSClassName">FirstResponder</string>
-			</object>
-			<object class="NSCustomObject" id="289936763">
-				<string key="NSClassName">NSApplication</string>
-			</object>
-			<object class="NSWindowTemplate" id="3297886">
-				<int key="NSWindowStyleMask">27</int>
-				<int key="NSWindowBacking">2</int>
-				<string key="NSWindowRect">{{434, 414}, {250, 308}}</string>
-				<int key="NSWTFlags">-260571136</int>
-				<string key="NSWindowTitle">Info</string>
-				<string key="NSWindowClass">NSPanel</string>
-				<object class="NSMutableString" key="NSViewClass">
-					<characters key="NS.bytes">View</characters>
-				</object>
-				<nil key="NSUserInterfaceItemIdentifier"/>
-				<string key="NSWindowContentMaxSize">{350, 550}</string>
-				<string key="NSWindowContentMinSize">{134, 285}</string>
-				<object class="NSView" key="NSWindowView" id="796334903">
-					<reference key="NSNextResponder"/>
-					<array class="NSMutableArray" key="NSSubviews">
-						<object class="NSTextField" id="856044852">
-							<reference key="NSNextResponder" ref="796334903"/>
-							<int key="NSvFlags">10</int>
-							<string key="NSFrame">{{73, 247}, {163, 21}}</string>
-							<reference key="NSSuperview" ref="796334903"/>
-							<reference key="NSWindow"/>
-							<bool key="NSEnabled">YES</bool>
-							<object class="NSTextFieldCell" key="NSCell" id="495640917">
-								<int key="NSCellFlags">-1804468671</int>
-								<int key="NSCellFlags2">4195328</int>
-								<string key="NSContents"/>
-								<object class="NSFont" key="NSSupport">
-									<string key="NSName">LucidaGrande</string>
-									<double key="NSSize">12</double>
-									<int key="NSfFlags">16</int>
-								</object>
-								<reference key="NSControlView" ref="856044852"/>
-								<bool key="NSDrawsBackground">YES</bool>
-								<object class="NSColor" key="NSBackgroundColor">
-									<int key="NSColorSpace">1</int>
-									<bytes key="NSRGB">MC45NjA1ODEgMC45NjA1ODEgMC45NjA1ODEAA</bytes>
-								</object>
-								<object class="NSColor" key="NSTextColor">
-									<int key="NSColorSpace">6</int>
-									<string key="NSCatalogName">System</string>
-									<string key="NSColorName">textColor</string>
-									<object class="NSColor" key="NSColor" id="1411298">
-										<int key="NSColorSpace">3</int>
-										<bytes key="NSWhite">MAA</bytes>
-									</object>
-								</object>
-							</object>
-						</object>
-						<object class="NSSlider" id="755618878">
-							<reference key="NSNextResponder" ref="796334903"/>
-							<int key="NSvFlags">34</int>
-							<string key="NSFrame">{{13, 8}, {223, 15}}</string>
-							<reference key="NSSuperview" ref="796334903"/>
-							<reference key="NSWindow"/>
-							<bool key="NSEnabled">YES</bool>
-							<object class="NSSliderCell" key="NSCell" id="897432163">
-								<int key="NSCellFlags">67501824</int>
-								<int key="NSCellFlags2">131072</int>
-								<object class="NSMutableString" key="NSContents">
-									<characters key="NS.bytes"/>
-								</object>
-								<object class="NSFont" key="NSSupport">
-									<string key="NSName">Helvetica</string>
-									<double key="NSSize">12</double>
-									<int key="NSfFlags">16</int>
-								</object>
-								<reference key="NSControlView" ref="755618878"/>
-								<double key="NSMaxValue">1</double>
-								<double key="NSMinValue">0.5</double>
-								<double key="NSValue">0.90000000000000002</double>
-								<double key="NSAltIncValue">0.0</double>
-								<int key="NSNumberOfTickMarks">0</int>
-								<int key="NSTickMarkPosition">0</int>
-								<bool key="NSAllowsTickMarkValuesOnly">NO</bool>
-								<bool key="NSVertical">NO</bool>
-							</object>
-						</object>
-						<object class="NSTextField" id="491604759">
-							<reference key="NSNextResponder" ref="796334903"/>
-							<int key="NSvFlags">10</int>
-							<string key="NSFrame">{{70, 276}, {169, 17}}</string>
-							<reference key="NSSuperview" ref="796334903"/>
-							<reference key="NSWindow"/>
-							<bool key="NSEnabled">YES</bool>
-							<object class="NSTextFieldCell" key="NSCell" id="534457410">
-								<int key="NSCellFlags">67239424</int>
-								<int key="NSCellFlags2">4194304</int>
-								<string key="NSContents"/>
-								<object class="NSFont" key="NSSupport" id="176803233">
-									<string key="NSName">LucidaGrande</string>
-									<double key="NSSize">13</double>
-									<int key="NSfFlags">1044</int>
-								</object>
-								<reference key="NSControlView" ref="491604759"/>
-								<object class="NSColor" key="NSBackgroundColor">
-									<int key="NSColorSpace">1</int>
-									<bytes key="NSRGB">MC40ODk1NzM5OSAwLjYxNjE4Mjk4IDAuNDk1MzQ1AA</bytes>
-								</object>
-								<object class="NSColor" key="NSTextColor">
-									<int key="NSColorSpace">1</int>
-									<bytes key="NSRGB">MC4xNDcyNzIwMSAwLjM4ODQzIDAuMzE4Njc5AA</bytes>
-								</object>
-							</object>
-						</object>
-						<object class="NSTabView" id="784758328">
-							<reference key="NSNextResponder" ref="796334903"/>
-							<int key="NSvFlags">18</int>
-							<string key="NSFrame">{{0, 30}, {250, 139}}</string>
-							<reference key="NSSuperview" ref="796334903"/>
-							<reference key="NSWindow"/>
-							<array class="NSMutableArray" key="NSTabViewItems">
-								<object class="NSTabViewItem" id="834231900">
-									<string key="NSIdentifier">subcircuit</string>
-									<object class="NSView" key="NSView" id="839201370">
-										<reference key="NSNextResponder" ref="784758328"/>
-										<array class="NSMutableArray" key="NSSubviews">
-											<object class="NSScrollView" id="1062353953">
-												<reference key="NSNextResponder" ref="839201370"/>
-												<int key="NSvFlags">274</int>
-												<array class="NSMutableArray" key="NSSubviews">
-													<object class="NSClipView" id="839328190">
-														<reference key="NSNextResponder" ref="1062353953"/>
-														<int key="NSvFlags">2304</int>
-														<array class="NSMutableArray" key="NSSubviews">
-															<object class="NSTableView" id="264151885">
-																<reference key="NSNextResponder" ref="839328190"/>
-																<int key="NSvFlags">18</int>
-																<string key="NSFrameSize">{249, 105}</string>
-																<reference key="NSSuperview" ref="839328190"/>
-																<reference key="NSWindow"/>
-																<bool key="NSEnabled">YES</bool>
-																<object class="NSTableHeaderView" key="NSHeaderView" id="15790842">
-																	<reference key="NSNextResponder" ref="134696506"/>
-																	<int key="NSvFlags">256</int>
-																	<string key="NSFrameSize">{249, 17}</string>
-																	<reference key="NSSuperview" ref="134696506"/>
-																	<reference key="NSWindow"/>
-																	<reference key="NSTableView" ref="264151885"/>
-																</object>
-																<object class="_NSCornerView" key="NSCornerView">
-																	<nil key="NSNextResponder"/>
-																	<int key="NSvFlags">256</int>
-																	<string key="NSFrame">{{239, 0}, {12, 17}}</string>
-																</object>
-																<array class="NSMutableArray" key="NSTableColumns">
-																	<object class="NSTableColumn" id="761480847">
-																		<string key="NSIdentifier">pin</string>
-																		<double key="NSWidth">40</double>
-																		<double key="NSMinWidth">40</double>
-																		<double key="NSMaxWidth">1000</double>
-																		<object class="NSTableHeaderCell" key="NSHeaderCell">
-																			<int key="NSCellFlags">75628096</int>
-																			<int key="NSCellFlags2">2048</int>
-																			<string key="NSContents">Port #</string>
-																			<object class="NSFont" key="NSSupport" id="26">
-																				<string key="NSName">LucidaGrande</string>
-																				<double key="NSSize">11</double>
-																				<int key="NSfFlags">3100</int>
-																			</object>
-																			<object class="NSColor" key="NSBackgroundColor" id="261541810">
-																				<int key="NSColorSpace">3</int>
-																				<bytes key="NSWhite">MC4zMzMzMzI5OQA</bytes>
-																			</object>
-																			<object class="NSColor" key="NSTextColor" id="233860393">
-																				<int key="NSColorSpace">6</int>
-																				<string key="NSCatalogName">System</string>
-																				<string key="NSColorName">headerTextColor</string>
-																				<reference key="NSColor" ref="1411298"/>
-																			</object>
-																		</object>
-																		<object class="NSTextFieldCell" key="NSDataCell" id="454520047">
-																			<int key="NSCellFlags">338820672</int>
-																			<int key="NSCellFlags2">1024</int>
-																			<reference key="NSSupport" ref="176803233"/>
-																			<reference key="NSControlView" ref="264151885"/>
-																			<object class="NSColor" key="NSBackgroundColor" id="258245832">
-																				<int key="NSColorSpace">3</int>
-																				<bytes key="NSWhite">MQA</bytes>
-																			</object>
-																			<object class="NSColor" key="NSTextColor" id="139571658">
-																				<int key="NSColorSpace">6</int>
-																				<string key="NSCatalogName">System</string>
-																				<string key="NSColorName">controlTextColor</string>
-																				<reference key="NSColor" ref="1411298"/>
-																			</object>
-																		</object>
-																		<int key="NSResizingMask">3</int>
-																		<bool key="NSIsResizeable">YES</bool>
-																		<bool key="NSIsEditable">YES</bool>
-																		<reference key="NSTableView" ref="264151885"/>
-																	</object>
-																	<object class="NSTableColumn" id="550517796">
-																		<string key="NSIdentifier">node</string>
-																		<double key="NSWidth">202.71600341796875</double>
-																		<double key="NSMinWidth">80.235000610351562</double>
-																		<double key="NSMaxWidth">1000</double>
-																		<object class="NSTableHeaderCell" key="NSHeaderCell">
-																			<int key="NSCellFlags">75628096</int>
-																			<int key="NSCellFlags2">2048</int>
-																			<string key="NSContents">Internally Connected to</string>
-																			<reference key="NSSupport" ref="26"/>
-																			<reference key="NSBackgroundColor" ref="261541810"/>
-																			<reference key="NSTextColor" ref="233860393"/>
-																		</object>
-																		<object class="NSTextFieldCell" key="NSDataCell" id="577706672">
-																			<int key="NSCellFlags">338820672</int>
-																			<int key="NSCellFlags2">1024</int>
-																			<reference key="NSSupport" ref="176803233"/>
-																			<reference key="NSControlView" ref="264151885"/>
-																			<reference key="NSBackgroundColor" ref="258245832"/>
-																			<reference key="NSTextColor" ref="139571658"/>
-																		</object>
-																		<int key="NSResizingMask">3</int>
-																		<bool key="NSIsResizeable">YES</bool>
-																		<bool key="NSIsEditable">YES</bool>
-																		<reference key="NSTableView" ref="264151885"/>
-																	</object>
-																</array>
-																<double key="NSIntercellSpacingWidth">3</double>
-																<double key="NSIntercellSpacingHeight">2</double>
-																<object class="NSColor" key="NSBackgroundColor">
-																	<int key="NSColorSpace">1</int>
-																	<bytes key="NSRGB">MC45NjA1ODEgMC45NjA1ODEgMC45NjA1ODEAA</bytes>
-																</object>
-																<object class="NSColor" key="NSGridColor" id="908348512">
-																	<int key="NSColorSpace">6</int>
-																	<string key="NSCatalogName">System</string>
-																	<string key="NSColorName">gridColor</string>
-																	<object class="NSColor" key="NSColor">
-																		<int key="NSColorSpace">3</int>
-																		<bytes key="NSWhite">MC41AA</bytes>
-																	</object>
-																</object>
-																<double key="NSRowHeight">17</double>
-																<int key="NSTvFlags">306184192</int>
-																<reference key="NSDelegate"/>
-																<reference key="NSDataSource"/>
-																<int key="NSColumnAutoresizingStyle">4</int>
-																<int key="NSDraggingSourceMaskForLocal">-1</int>
-																<int key="NSDraggingSourceMaskForNonLocal">0</int>
-																<bool key="NSAllowsTypeSelect">YES</bool>
-																<int key="NSTableViewDraggingDestinationStyle">0</int>
-																<int key="NSTableViewGroupRowStyle">1</int>
-															</object>
-														</array>
-														<string key="NSFrame">{{1, 17}, {249, 105}}</string>
-														<reference key="NSSuperview" ref="1062353953"/>
-														<reference key="NSWindow"/>
-														<reference key="NSNextKeyView" ref="264151885"/>
-														<reference key="NSDocView" ref="264151885"/>
-														<reference key="NSBGColor" ref="258245832"/>
-														<int key="NScvFlags">4</int>
-													</object>
-													<object class="NSScroller" id="999627211">
-														<reference key="NSNextResponder" ref="1062353953"/>
-														<int key="NSvFlags">256</int>
-														<string key="NSFrame">{{239, 17}, {11, 105}}</string>
-														<reference key="NSSuperview" ref="1062353953"/>
-														<reference key="NSWindow"/>
-														<int key="NSsFlags">256</int>
-														<reference key="NSTarget" ref="1062353953"/>
-														<string key="NSAction">_doScroller:</string>
-														<double key="NSPercent">0.55263155698776245</double>
-													</object>
-													<object class="NSScroller" id="483332758">
-														<reference key="NSNextResponder" ref="1062353953"/>
-														<int key="NSvFlags">-2147483392</int>
-														<string key="NSFrame">{{-100, -100}, {189, 15}}</string>
-														<reference key="NSSuperview" ref="1062353953"/>
-														<reference key="NSWindow"/>
-														<int key="NSsFlags">257</int>
-														<reference key="NSTarget" ref="1062353953"/>
-														<string key="NSAction">_doScroller:</string>
-														<double key="NSPercent">0.99047619104385376</double>
-													</object>
-													<object class="NSClipView" id="134696506">
-														<reference key="NSNextResponder" ref="1062353953"/>
-														<int key="NSvFlags">2304</int>
-														<array class="NSMutableArray" key="NSSubviews">
-															<reference ref="15790842"/>
-														</array>
-														<string key="NSFrame">{{1, 0}, {249, 17}}</string>
-														<reference key="NSSuperview" ref="1062353953"/>
-														<reference key="NSWindow"/>
-														<reference key="NSNextKeyView" ref="15790842"/>
-														<reference key="NSDocView" ref="15790842"/>
-														<object class="NSColor" key="NSBGColor" id="913089569">
-															<int key="NSColorSpace">6</int>
-															<string key="NSCatalogName">System</string>
-															<string key="NSColorName">controlBackgroundColor</string>
-															<object class="NSColor" key="NSColor" id="747513272">
-																<int key="NSColorSpace">3</int>
-																<bytes key="NSWhite">MC42NjY2NjY2NjY3AA</bytes>
-															</object>
-														</object>
-														<int key="NScvFlags">4</int>
-													</object>
-												</array>
-												<string key="NSFrameSize">{251, 123}</string>
-												<reference key="NSSuperview" ref="839201370"/>
-												<reference key="NSWindow"/>
-												<reference key="NSNextKeyView" ref="839328190"/>
-												<int key="NSsFlags">133138</int>
-												<reference key="NSVScroller" ref="999627211"/>
-												<reference key="NSHScroller" ref="483332758"/>
-												<reference key="NSContentView" ref="839328190"/>
-												<reference key="NSHeaderClipView" ref="134696506"/>
-												<bytes key="NSScrollAmts">QSAAAEEgAABBmAAAQZgAAA</bytes>
-											</object>
-											<object class="NSTextField" id="266572487">
-												<reference key="NSNextResponder" ref="839201370"/>
-												<int key="NSvFlags">12</int>
-												<string key="NSFrame">{{0, 125}, {72, 14}}</string>
-												<reference key="NSSuperview" ref="839201370"/>
-												<reference key="NSWindow"/>
-												<bool key="NSEnabled">YES</bool>
-												<object class="NSTextFieldCell" key="NSCell" id="822104225">
-													<int key="NSCellFlags">67239424</int>
-													<int key="NSCellFlags2">4194304</int>
-													<string key="NSContents">Namespace:</string>
-													<reference key="NSSupport" ref="26"/>
-													<reference key="NSControlView" ref="266572487"/>
-													<object class="NSColor" key="NSBackgroundColor" id="416351043">
-														<int key="NSColorSpace">6</int>
-														<string key="NSCatalogName">System</string>
-														<string key="NSColorName">controlColor</string>
-														<reference key="NSColor" ref="747513272"/>
-													</object>
-													<object class="NSColor" key="NSTextColor">
-														<int key="NSColorSpace">1</int>
-														<bytes key="NSRGB">MC40NTI1ODMzMSAwLjQ4OTEzMDQ0IDAuNDM5MzM0NDUAA</bytes>
-													</object>
-												</object>
-											</object>
-											<object class="NSTextField" id="406536141">
-												<reference key="NSNextResponder" ref="839201370"/>
-												<int key="NSvFlags">9</int>
-												<string key="NSFrame">{{178, 125}, {33, 14}}</string>
-												<reference key="NSSuperview" ref="839201370"/>
-												<reference key="NSWindow"/>
-												<bool key="NSEnabled">YES</bool>
-												<object class="NSTextFieldCell" key="NSCell" id="627791890">
-													<int key="NSCellFlags">67239424</int>
-													<int key="NSCellFlags2">4194304</int>
-													<string key="NSContents">Rev.:</string>
-													<reference key="NSSupport" ref="26"/>
-													<reference key="NSControlView" ref="406536141"/>
-													<reference key="NSBackgroundColor" ref="416351043"/>
-													<object class="NSColor" key="NSTextColor">
-														<int key="NSColorSpace">1</int>
-														<bytes key="NSRGB">MC40NTI1ODMzMSAwLjQ4OTEzMDQ0IDAuNDM5MzM0NDUAA</bytes>
-													</object>
-												</object>
-											</object>
-											<object class="NSTextField" id="140475598">
-												<reference key="NSNextResponder" ref="839201370"/>
-												<int key="NSvFlags">9</int>
-												<string key="NSFrame">{{212, 124}, {31, 15}}</string>
-												<reference key="NSSuperview" ref="839201370"/>
-												<reference key="NSWindow"/>
-												<bool key="NSEnabled">YES</bool>
-												<object class="NSTextFieldCell" key="NSCell" id="278194661">
-													<int key="NSCellFlags">-2079195584</int>
-													<int key="NSCellFlags2">4326400</int>
-													<string key="NSContents"/>
-													<reference key="NSSupport" ref="26"/>
-													<reference key="NSControlView" ref="140475598"/>
-													<object class="NSColor" key="NSBackgroundColor" id="46306036">
-														<int key="NSColorSpace">6</int>
-														<string key="NSCatalogName">System</string>
-														<string key="NSColorName">textBackgroundColor</string>
-														<reference key="NSColor" ref="258245832"/>
-													</object>
-													<object class="NSColor" key="NSTextColor">
-														<int key="NSColorSpace">1</int>
-														<bytes key="NSRGB">MC4wMjI2Mjg0MzQgMC4yMDY1MjE3NSAwLjA2ODYwMTc2NQA</bytes>
-													</object>
-												</object>
-											</object>
-											<object class="NSTextField" id="715295528">
-												<reference key="NSNextResponder" ref="839201370"/>
-												<int key="NSvFlags">10</int>
-												<string key="NSFrame">{{67, 124}, {106, 15}}</string>
-												<reference key="NSSuperview" ref="839201370"/>
-												<reference key="NSWindow"/>
-												<bool key="NSEnabled">YES</bool>
-												<object class="NSTextFieldCell" key="NSCell" id="808165621">
-													<int key="NSCellFlags">-2079195584</int>
-													<int key="NSCellFlags2">4326400</int>
-													<string key="NSContents"/>
-													<reference key="NSSupport" ref="26"/>
-													<reference key="NSControlView" ref="715295528"/>
-													<reference key="NSBackgroundColor" ref="46306036"/>
-													<object class="NSColor" key="NSTextColor">
-														<int key="NSColorSpace">1</int>
-														<bytes key="NSRGB">MCAwIDAAA</bytes>
-													</object>
-												</object>
-											</object>
-										</array>
-										<string key="NSFrameSize">{250, 139}</string>
-										<reference key="NSSuperview" ref="784758328"/>
-										<reference key="NSWindow"/>
-									</object>
-									<string key="NSLabel">Subcircuit</string>
-									<reference key="NSColor" ref="416351043"/>
-									<reference key="NSTabView" ref="784758328"/>
-								</object>
-								<object class="NSTabViewItem" id="946663322">
-									<string key="NSIdentifier">circuit</string>
-									<object class="NSView" key="NSView" id="698892731">
-										<nil key="NSNextResponder"/>
-										<array class="NSMutableArray" key="NSSubviews">
-											<object class="NSScrollView" id="555918623">
-												<reference key="NSNextResponder" ref="698892731"/>
-												<int key="NSvFlags">274</int>
-												<array class="NSMutableArray" key="NSSubviews">
-													<object class="NSClipView" id="512759084">
-														<reference key="NSNextResponder" ref="555918623"/>
-														<int key="NSvFlags">2304</int>
-														<array class="NSMutableArray" key="NSSubviews">
-															<object class="NSTableView" id="338219652">
-																<reference key="NSNextResponder" ref="512759084"/>
-																<int key="NSvFlags">18</int>
-																<string key="NSFrameSize">{238, 121}</string>
-																<reference key="NSSuperview" ref="512759084"/>
-																<bool key="NSEnabled">YES</bool>
-																<object class="NSTableHeaderView" key="NSHeaderView" id="49234157">
-																	<reference key="NSNextResponder" ref="421485809"/>
-																	<int key="NSvFlags">256</int>
-																	<string key="NSFrameSize">{238, 17}</string>
-																	<reference key="NSSuperview" ref="421485809"/>
-																	<reference key="NSTableView" ref="338219652"/>
-																</object>
-																<object class="_NSCornerView" key="NSCornerView" id="1033834509">
-																	<reference key="NSNextResponder" ref="555918623"/>
-																	<int key="NSvFlags">256</int>
-																	<string key="NSFrame">{{239, 0}, {12, 17}}</string>
-																	<reference key="NSSuperview" ref="555918623"/>
-																</object>
-																<array class="NSMutableArray" key="NSTableColumns">
-																	<object class="NSTableColumn" id="227641028">
-																		<string key="NSIdentifier">parameter</string>
-																		<double key="NSWidth">73</double>
-																		<double key="NSMinWidth">40</double>
-																		<double key="NSMaxWidth">1000</double>
-																		<object class="NSTableHeaderCell" key="NSHeaderCell">
-																			<int key="NSCellFlags">75628096</int>
-																			<int key="NSCellFlags2">2048</int>
-																			<string key="NSContents">Parameter</string>
-																			<reference key="NSSupport" ref="26"/>
-																			<object class="NSColor" key="NSBackgroundColor" id="194634139">
-																				<int key="NSColorSpace">3</int>
-																				<bytes key="NSWhite">MC4zMzMzMzI5OQA</bytes>
-																			</object>
-																			<reference key="NSTextColor" ref="233860393"/>
-																		</object>
-																		<object class="NSTextFieldCell" key="NSDataCell" id="823813766">
-																			<int key="NSCellFlags">338820672</int>
-																			<int key="NSCellFlags2">1024</int>
-																			<reference key="NSSupport" ref="176803233"/>
-																			<reference key="NSControlView" ref="338219652"/>
-																			<reference key="NSBackgroundColor" ref="258245832"/>
-																			<reference key="NSTextColor" ref="139571658"/>
-																		</object>
-																		<int key="NSResizingMask">3</int>
-																		<bool key="NSIsResizeable">YES</bool>
-																		<bool key="NSIsEditable">YES</bool>
-																		<reference key="NSTableView" ref="338219652"/>
-																	</object>
-																	<object class="NSTableColumn" id="861992516">
-																		<string key="NSIdentifier">value</string>
-																		<double key="NSWidth">159.4010009765625</double>
-																		<double key="NSMinWidth">37.4010009765625</double>
-																		<double key="NSMaxWidth">1000</double>
-																		<object class="NSTableHeaderCell" key="NSHeaderCell">
-																			<int key="NSCellFlags">75628096</int>
-																			<int key="NSCellFlags2">2048</int>
-																			<string key="NSContents">Value</string>
-																			<reference key="NSSupport" ref="26"/>
-																			<reference key="NSBackgroundColor" ref="194634139"/>
-																			<reference key="NSTextColor" ref="233860393"/>
-																		</object>
-																		<object class="NSTextFieldCell" key="NSDataCell" id="462396579">
-																			<int key="NSCellFlags">338820672</int>
-																			<int key="NSCellFlags2">1024</int>
-																			<reference key="NSSupport" ref="176803233"/>
-																			<reference key="NSControlView" ref="338219652"/>
-																			<reference key="NSBackgroundColor" ref="258245832"/>
-																			<reference key="NSTextColor" ref="139571658"/>
-																		</object>
-																		<int key="NSResizingMask">3</int>
-																		<bool key="NSIsResizeable">YES</bool>
-																		<bool key="NSIsEditable">YES</bool>
-																		<reference key="NSTableView" ref="338219652"/>
-																	</object>
-																</array>
-																<double key="NSIntercellSpacingWidth">3</double>
-																<double key="NSIntercellSpacingHeight">2</double>
-																<object class="NSColor" key="NSBackgroundColor">
-																	<int key="NSColorSpace">1</int>
-																	<bytes key="NSRGB">MC45NjA1ODEgMC45NjA1ODEgMC45NjA1ODEAA</bytes>
-																</object>
-																<object class="NSColor" key="NSGridColor">
-																	<int key="NSColorSpace">1</int>
-																	<bytes key="NSRGB">MC42NTI4NjEgMC43NDQ4MTMwMiAwLjc0NDgxMzAyAA</bytes>
-																</object>
-																<double key="NSRowHeight">16</double>
-																<int key="NSTvFlags">-767557632</int>
-																<reference key="NSDelegate"/>
-																<reference key="NSDataSource"/>
-																<int key="NSColumnAutoresizingStyle">4</int>
-																<int key="NSDraggingSourceMaskForLocal">-1</int>
-																<int key="NSDraggingSourceMaskForNonLocal">0</int>
-																<bool key="NSAllowsTypeSelect">YES</bool>
-																<int key="NSTableViewDraggingDestinationStyle">0</int>
-																<int key="NSTableViewGroupRowStyle">1</int>
-															</object>
-														</array>
-														<string key="NSFrame">{{1, 17}, {238, 121}}</string>
-														<reference key="NSSuperview" ref="555918623"/>
-														<reference key="NSNextKeyView" ref="338219652"/>
-														<reference key="NSDocView" ref="338219652"/>
-														<reference key="NSBGColor" ref="913089569"/>
-														<int key="NScvFlags">4</int>
-													</object>
-													<object class="NSScroller" id="901699699">
-														<reference key="NSNextResponder" ref="555918623"/>
-														<int key="NSvFlags">256</int>
-														<string key="NSFrame">{{239, 17}, {11, 121}}</string>
-														<reference key="NSSuperview" ref="555918623"/>
-														<int key="NSsFlags">256</int>
-														<reference key="NSTarget" ref="555918623"/>
-														<string key="NSAction">_doScroller:</string>
-														<double key="NSPercent">0.67222219705581665</double>
-													</object>
-													<object class="NSScroller" id="888559350">
-														<reference key="NSNextResponder" ref="555918623"/>
-														<int key="NSvFlags">256</int>
-														<string key="NSFrame">{{-100, -100}, {194, 11}}</string>
-														<reference key="NSSuperview" ref="555918623"/>
-														<int key="NSsFlags">257</int>
-														<reference key="NSTarget" ref="555918623"/>
-														<string key="NSAction">_doScroller:</string>
-														<double key="NSPercent">0.99047619104385376</double>
-													</object>
-													<object class="NSClipView" id="421485809">
-														<reference key="NSNextResponder" ref="555918623"/>
-														<int key="NSvFlags">2304</int>
-														<array class="NSMutableArray" key="NSSubviews">
-															<reference ref="49234157"/>
-														</array>
-														<string key="NSFrame">{{1, 0}, {238, 17}}</string>
-														<reference key="NSSuperview" ref="555918623"/>
-														<reference key="NSNextKeyView" ref="49234157"/>
-														<reference key="NSDocView" ref="49234157"/>
-														<reference key="NSBGColor" ref="913089569"/>
-														<int key="NScvFlags">4</int>
-													</object>
-													<reference ref="1033834509"/>
-												</array>
-												<string key="NSFrameSize">{251, 139}</string>
-												<reference key="NSSuperview" ref="698892731"/>
-												<reference key="NSNextKeyView" ref="512759084"/>
-												<int key="NSsFlags">133138</int>
-												<reference key="NSVScroller" ref="901699699"/>
-												<reference key="NSHScroller" ref="888559350"/>
-												<reference key="NSContentView" ref="512759084"/>
-												<reference key="NSHeaderClipView" ref="421485809"/>
-												<bytes key="NSScrollAmts">QSAAAEEgAABBkAAAQZAAAA</bytes>
-											</object>
-										</array>
-										<string key="NSFrameSize">{250, 139}</string>
-									</object>
-									<string key="NSLabel">Circuit</string>
-									<reference key="NSColor" ref="416351043"/>
-									<reference key="NSTabView" ref="784758328"/>
-								</object>
-								<object class="NSTabViewItem" id="455731603">
-									<string key="NSIdentifier">text</string>
-									<object class="NSView" key="NSView" id="94787193">
-										<nil key="NSNextResponder"/>
-										<array class="NSMutableArray" key="NSSubviews">
-											<object class="NSButton" id="92107761">
-												<reference key="NSNextResponder" ref="94787193"/>
-												<int key="NSvFlags">10</int>
-												<string key="NSFrame">{{20, 65}, {210, 23}}</string>
-												<reference key="NSSuperview" ref="94787193"/>
-												<bool key="NSEnabled">YES</bool>
-												<object class="NSButtonCell" key="NSCell" id="360405978">
-													<int key="NSCellFlags">67239424</int>
-													<int key="NSCellFlags2">134217728</int>
-													<string key="NSContents">Font</string>
-													<reference key="NSSupport" ref="176803233"/>
-													<reference key="NSControlView" ref="92107761"/>
-													<int key="NSButtonFlags">-2038021889</int>
-													<int key="NSButtonFlags2">6</int>
-													<reference key="NSAlternateImage" ref="176803233"/>
-													<string key="NSAlternateContents"/>
-													<object class="NSMutableString" key="NSKeyEquivalent">
-														<characters key="NS.bytes"/>
-													</object>
-													<int key="NSPeriodicDelay">200</int>
-													<int key="NSPeriodicInterval">25</int>
-												</object>
-											</object>
-											<object class="NSColorWell" id="273626854">
-												<reference key="NSNextResponder" ref="94787193"/>
-												<int key="NSvFlags">10</int>
-												<set class="NSMutableSet" key="NSDragTypes">
-													<object class="NSMutableString">
-														<characters key="NS.bytes">NSColor pasteboard type</characters>
-													</object>
-												</set>
-												<string key="NSFrame">{{20, 96}, {210, 26}}</string>
-												<reference key="NSSuperview" ref="94787193"/>
-												<bool key="NSEnabled">YES</bool>
-												<bool key="NSIsBordered">YES</bool>
-												<object class="NSColor" key="NSColor">
-													<int key="NSColorSpace">1</int>
-													<bytes key="NSRGB">MC4wNTgxMzA0OTkgMC4wNTU1NDE4OTkgMQA</bytes>
-												</object>
-											</object>
-											<object class="NSButton" id="889969648">
-												<reference key="NSNextResponder" ref="94787193"/>
-												<int key="NSvFlags">12</int>
-												<string key="NSFrame">{{18, 31}, {125, 28}}</string>
-												<reference key="NSSuperview" ref="94787193"/>
-												<bool key="NSEnabled">YES</bool>
-												<object class="NSButtonCell" key="NSCell" id="222886655">
-													<int key="NSCellFlags">67239424</int>
-													<int key="NSCellFlags2">0</int>
-													<string key="NSContents">Show Frame</string>
-													<reference key="NSSupport" ref="176803233"/>
-													<reference key="NSControlView" ref="889969648"/>
-													<int key="NSButtonFlags">1211912703</int>
-													<int key="NSButtonFlags2">2</int>
-													<object class="NSCustomResource" key="NSNormalImage">
-														<string key="NSClassName">NSImage</string>
-														<string key="NSResourceName">NSSwitch</string>
-													</object>
-													<object class="NSButtonImageSource" key="NSAlternateImage">
-														<string key="NSImageName">NSSwitch</string>
-													</object>
-													<string key="NSAlternateContents"/>
-													<object class="NSMutableString" key="NSKeyEquivalent">
-														<characters key="NS.bytes"/>
-													</object>
-													<int key="NSPeriodicDelay">200</int>
-													<int key="NSPeriodicInterval">25</int>
-												</object>
-											</object>
-										</array>
-										<string key="NSFrameSize">{250, 139}</string>
-									</object>
-									<string key="NSLabel">Text</string>
-									<reference key="NSColor" ref="416351043"/>
-									<reference key="NSTabView" ref="784758328"/>
-								</object>
-								<object class="NSTabViewItem" id="362413286">
-									<string key="NSIdentifier">circuit</string>
-									<object class="NSView" key="NSView" id="271589426">
-										<nil key="NSNextResponder"/>
-										<array class="NSMutableArray" key="NSSubviews">
-											<object class="NSScrollView" id="353648572">
-												<reference key="NSNextResponder" ref="271589426"/>
-												<int key="NSvFlags">274</int>
-												<array class="NSMutableArray" key="NSSubviews">
-													<object class="NSClipView" id="50086218">
-														<reference key="NSNextResponder" ref="353648572"/>
-														<int key="NSvFlags">2304</int>
-														<array class="NSMutableArray" key="NSSubviews">
-															<object class="NSTableView" id="529832261">
-																<reference key="NSNextResponder" ref="50086218"/>
-																<string key="NSFrameSize">{248, 51}</string>
-																<reference key="NSSuperview" ref="50086218"/>
-																<bool key="NSEnabled">YES</bool>
-																<object class="_NSCornerView" key="NSCornerView">
-																	<nil key="NSNextResponder"/>
-																	<int key="NSvFlags">256</int>
-																	<string key="NSFrame">{{121, 0}, {16, 17}}</string>
-																</object>
-																<array class="NSMutableArray" key="NSTableColumns">
-																	<object class="NSTableColumn" id="759744413">
-																		<double key="NSWidth">40</double>
-																		<double key="NSMinWidth">40</double>
-																		<double key="NSMaxWidth">1000</double>
-																		<object class="NSTableHeaderCell" key="NSHeaderCell">
-																			<int key="NSCellFlags">75628096</int>
-																			<int key="NSCellFlags2">2048</int>
-																			<string key="NSContents"/>
-																			<reference key="NSSupport" ref="26"/>
-																			<object class="NSColor" key="NSBackgroundColor" id="493217232">
-																				<int key="NSColorSpace">3</int>
-																				<bytes key="NSWhite">MC4zMzMzMzI5OQA</bytes>
-																			</object>
-																			<reference key="NSTextColor" ref="233860393"/>
-																		</object>
-																		<object class="NSTextFieldCell" key="NSDataCell" id="67026163">
-																			<int key="NSCellFlags">338820672</int>
-																			<int key="NSCellFlags2">1024</int>
-																			<reference key="NSSupport" ref="176803233"/>
-																			<reference key="NSControlView" ref="529832261"/>
-																			<reference key="NSBackgroundColor" ref="258245832"/>
-																			<reference key="NSTextColor" ref="139571658"/>
-																		</object>
-																		<int key="NSResizingMask">3</int>
-																		<bool key="NSIsResizeable">YES</bool>
-																		<bool key="NSIsEditable">YES</bool>
-																		<reference key="NSTableView" ref="529832261"/>
-																	</object>
-																	<object class="NSTableColumn" id="779023805">
-																		<double key="NSWidth">202</double>
-																		<double key="NSMinWidth">40</double>
-																		<double key="NSMaxWidth">1000</double>
-																		<object class="NSTableHeaderCell" key="NSHeaderCell">
-																			<int key="NSCellFlags">75628096</int>
-																			<int key="NSCellFlags2">2048</int>
-																			<string key="NSContents"/>
-																			<reference key="NSSupport" ref="26"/>
-																			<reference key="NSBackgroundColor" ref="493217232"/>
-																			<reference key="NSTextColor" ref="233860393"/>
-																		</object>
-																		<object class="NSTextFieldCell" key="NSDataCell" id="730887004">
-																			<int key="NSCellFlags">338820672</int>
-																			<int key="NSCellFlags2">1024</int>
-																			<reference key="NSSupport" ref="176803233"/>
-																			<reference key="NSControlView" ref="529832261"/>
-																			<reference key="NSBackgroundColor" ref="258245832"/>
-																			<reference key="NSTextColor" ref="139571658"/>
-																		</object>
-																		<int key="NSResizingMask">3</int>
-																		<bool key="NSIsResizeable">YES</bool>
-																		<bool key="NSIsEditable">YES</bool>
-																		<reference key="NSTableView" ref="529832261"/>
-																	</object>
-																</array>
-																<double key="NSIntercellSpacingWidth">3</double>
-																<double key="NSIntercellSpacingHeight">2</double>
-																<reference key="NSBackgroundColor" ref="258245832"/>
-																<reference key="NSGridColor" ref="908348512"/>
-																<double key="NSRowHeight">17</double>
-																<int key="NSTvFlags">306184192</int>
-																<reference key="NSDelegate"/>
-																<reference key="NSDataSource"/>
-																<int key="NSColumnAutoresizingStyle">4</int>
-																<int key="NSDraggingSourceMaskForLocal">-1</int>
-																<int key="NSDraggingSourceMaskForNonLocal">0</int>
-																<bool key="NSAllowsTypeSelect">YES</bool>
-																<int key="NSTableViewDraggingDestinationStyle">0</int>
-																<int key="NSTableViewGroupRowStyle">1</int>
-															</object>
-														</array>
-														<string key="NSFrame">{{1, 1}, {248, 51}}</string>
-														<reference key="NSSuperview" ref="353648572"/>
-														<reference key="NSNextKeyView" ref="529832261"/>
-														<reference key="NSDocView" ref="529832261"/>
-														<reference key="NSBGColor" ref="913089569"/>
-														<int key="NScvFlags">4</int>
-													</object>
-													<object class="NSScroller" id="545622103">
-														<reference key="NSNextResponder" ref="353648572"/>
-														<int key="NSvFlags">-2147483392</int>
-														<string key="NSFrame">{{-22, 1}, {11, 40}}</string>
-														<reference key="NSSuperview" ref="353648572"/>
-														<int key="NSsFlags">256</int>
-														<reference key="NSTarget" ref="353648572"/>
-														<string key="NSAction">_doScroller:</string>
-														<double key="NSPercent">0.21052631735801697</double>
-													</object>
-													<object class="NSScroller" id="132767948">
-														<reference key="NSNextResponder" ref="353648572"/>
-														<int key="NSvFlags">-2147483392</int>
-														<string key="NSFrame">{{1, -22}, {237, 11}}</string>
-														<reference key="NSSuperview" ref="353648572"/>
-														<int key="NSsFlags">257</int>
-														<reference key="NSTarget" ref="353648572"/>
-														<string key="NSAction">_doScroller:</string>
-														<double key="NSPercent">0.95564514398574829</double>
-													</object>
-												</array>
-												<string key="NSFrame">{{0, 59}, {250, 53}}</string>
-												<reference key="NSSuperview" ref="271589426"/>
-												<reference key="NSNextKeyView" ref="50086218"/>
-												<int key="NSsFlags">133682</int>
-												<reference key="NSVScroller" ref="545622103"/>
-												<reference key="NSHScroller" ref="132767948"/>
-												<reference key="NSContentView" ref="50086218"/>
-												<bytes key="NSScrollAmts">QSAAAEEgAABBmAAAQZgAAA</bytes>
-											</object>
-										</array>
-										<string key="NSFrameSize">{250, 139}</string>
-									</object>
-									<string key="NSLabel">Circuit</string>
-									<reference key="NSColor" ref="416351043"/>
-									<reference key="NSTabView" ref="784758328"/>
-								</object>
-							</array>
-							<reference key="NSSelectedTabViewItem" ref="834231900"/>
-							<object class="NSFont" key="NSFont">
-								<string key="NSName">LucidaGrande</string>
-								<double key="NSSize">9</double>
-								<int key="NSfFlags">3614</int>
-							</object>
-							<int key="NSTvFlags">268435462</int>
-							<bool key="NSAllowTruncatedLabels">YES</bool>
-							<array class="NSMutableArray" key="NSSubviews">
-								<reference ref="839201370"/>
-							</array>
-						</object>
-						<object class="NSTextField" id="1028951864">
-							<reference key="NSNextResponder" ref="796334903"/>
-							<int key="NSvFlags">10</int>
-							<string key="NSFrame">{{73, 177}, {163, 62}}</string>
-							<reference key="NSSuperview" ref="796334903"/>
-							<reference key="NSWindow"/>
-							<bool key="NSEnabled">YES</bool>
-							<object class="NSTextFieldCell" key="NSCell" id="501688070">
-								<int key="NSCellFlags">-1805517311</int>
-								<int key="NSCellFlags2">0</int>
-								<string key="NSContents">[comment]</string>
-								<reference key="NSSupport" ref="176803233"/>
-								<reference key="NSControlView" ref="1028951864"/>
-								<bool key="NSDrawsBackground">YES</bool>
-								<object class="NSColor" key="NSBackgroundColor">
-									<int key="NSColorSpace">1</int>
-									<bytes key="NSRGB">MC45MzcyNDc4NyAwLjk2MTk1NjUgMC43OTY1NDI4OAA</bytes>
-								</object>
-								<object class="NSColor" key="NSTextColor">
-									<int key="NSColorSpace">1</int>
-									<bytes key="NSRGB">MC4yNzE3MzkxMyAwLjI3MTczOTEzIDAuMjcxNzM5MTMAA</bytes>
-								</object>
-							</object>
-						</object>
-						<object class="NSBox" id="399339435">
-							<reference key="NSNextResponder" ref="796334903"/>
-							<int key="NSvFlags">12</int>
-							<array class="NSMutableArray" key="NSSubviews">
-								<object class="NSView" id="508003347">
-									<reference key="NSNextResponder" ref="399339435"/>
-									<int key="NSvFlags">274</int>
-									<array class="NSMutableArray" key="NSSubviews">
-										<object class="NSCustomView" id="559213511">
-											<reference key="NSNextResponder" ref="508003347"/>
-											<int key="NSvFlags">12</int>
-											<string key="NSFrame">{{6, 44}, {37, 37}}</string>
-											<reference key="NSSuperview" ref="508003347"/>
-											<reference key="NSWindow"/>
-											<string key="NSClassName">MI_DirectionChooser</string>
-											<string key="NSExtension">NSView</string>
-										</object>
-										<object class="NSButton" id="361746180">
-											<reference key="NSNextResponder" ref="508003347"/>
-											<int key="NSvFlags">12</int>
-											<string key="NSFrame">{{6, 88}, {37, 34}}</string>
-											<reference key="NSSuperview" ref="508003347"/>
-											<reference key="NSWindow"/>
-											<bool key="NSEnabled">YES</bool>
-											<object class="NSButtonCell" key="NSCell" id="579246982">
-												<int key="NSCellFlags">67239424</int>
-												<int key="NSCellFlags2">134217728</int>
-												<string key="NSContents">rot +90</string>
-												<reference key="NSSupport" ref="26"/>
-												<reference key="NSControlView" ref="361746180"/>
-												<int key="NSButtonFlags">-2042347265</int>
-												<int key="NSButtonFlags2">6</int>
-												<object class="NSCustomResource" key="NSNormalImage">
-													<string key="NSClassName">NSImage</string>
-													<string key="NSResourceName">rotate_left</string>
-												</object>
-												<string key="NSAlternateContents"/>
-												<object class="NSMutableString" key="NSKeyEquivalent">
-													<characters key="NS.bytes"/>
-												</object>
-												<int key="NSPeriodicDelay">200</int>
-												<int key="NSPeriodicInterval">25</int>
-											</object>
-										</object>
-										<object class="NSButton" id="815687480">
-											<reference key="NSNextResponder" ref="508003347"/>
-											<int key="NSvFlags">12</int>
-											<string key="NSFrame">{{5, 8}, {37, 26}}</string>
-											<reference key="NSSuperview" ref="508003347"/>
-											<reference key="NSWindow"/>
-											<bool key="NSEnabled">YES</bool>
-											<object class="NSButtonCell" key="NSCell" id="629533562">
-												<int key="NSCellFlags">67239424</int>
-												<int key="NSCellFlags2">134348800</int>
-												<string key="NSContents">rot +90</string>
-												<reference key="NSSupport" ref="26"/>
-												<reference key="NSControlView" ref="815687480"/>
-												<int key="NSButtonFlags">-2042347265</int>
-												<int key="NSButtonFlags2">6</int>
-												<object class="NSCustomResource" key="NSNormalImage">
-													<string key="NSClassName">NSImage</string>
-													<string key="NSResourceName">flip</string>
-												</object>
-												<string key="NSAlternateContents"/>
-												<object class="NSMutableString" key="NSKeyEquivalent">
-													<characters key="NS.bytes"/>
-												</object>
-												<int key="NSPeriodicDelay">200</int>
-												<int key="NSPeriodicInterval">25</int>
-											</object>
-										</object>
-										<object class="NSBox" id="305621127">
-											<reference key="NSNextResponder" ref="508003347"/>
-											<string key="NSFrame">{{6, 83}, {37, 5}}</string>
-											<reference key="NSSuperview" ref="508003347"/>
-											<reference key="NSWindow"/>
-											<string key="NSOffsets">{0, 0}</string>
-											<object class="NSTextFieldCell" key="NSTitleCell">
-												<int key="NSCellFlags">67239424</int>
-												<int key="NSCellFlags2">0</int>
-												<string key="NSContents">Box</string>
-												<reference key="NSSupport" ref="176803233"/>
-												<reference key="NSBackgroundColor" ref="46306036"/>
-												<object class="NSColor" key="NSTextColor">
-													<int key="NSColorSpace">3</int>
-													<bytes key="NSWhite">MCAwLjgAA</bytes>
-												</object>
-											</object>
-											<int key="NSBorderType">3</int>
-											<int key="NSBoxType">2</int>
-											<int key="NSTitlePosition">0</int>
-											<bool key="NSTransparent">NO</bool>
-										</object>
-										<object class="NSBox" id="70321051">
-											<reference key="NSNextResponder" ref="508003347"/>
-											<string key="NSFrame">{{6, 38}, {37, 5}}</string>
-											<reference key="NSSuperview" ref="508003347"/>
-											<reference key="NSWindow"/>
-											<string key="NSOffsets">{0, 0}</string>
-											<object class="NSTextFieldCell" key="NSTitleCell">
-												<int key="NSCellFlags">67239424</int>
-												<int key="NSCellFlags2">0</int>
-												<string key="NSContents">Box</string>
-												<reference key="NSSupport" ref="176803233"/>
-												<reference key="NSBackgroundColor" ref="46306036"/>
-												<object class="NSColor" key="NSTextColor">
-													<int key="NSColorSpace">3</int>
-													<bytes key="NSWhite">MCAwLjgAA</bytes>
-												</object>
-											</object>
-											<int key="NSBorderType">3</int>
-											<int key="NSBoxType">2</int>
-											<int key="NSTitlePosition">0</int>
-											<bool key="NSTransparent">NO</bool>
-										</object>
-									</array>
-									<string key="NSFrame">{{2, 2}, {48, 126}}</string>
-									<reference key="NSSuperview" ref="399339435"/>
-									<reference key="NSWindow"/>
-								</object>
-							</array>
-							<string key="NSFrame">{{9, 173}, {52, 130}}</string>
-							<reference key="NSSuperview" ref="796334903"/>
-							<reference key="NSWindow"/>
-							<string key="NSOffsets">{0, 0}</string>
-							<object class="NSTextFieldCell" key="NSTitleCell">
-								<int key="NSCellFlags">67239424</int>
-								<int key="NSCellFlags2">0</int>
-								<string key="NSContents">Title</string>
-								<object class="NSFont" key="NSSupport">
-									<string key="NSName">LucidaGrande</string>
-									<double key="NSSize">11</double>
-									<int key="NSfFlags">16</int>
-								</object>
-								<reference key="NSBackgroundColor" ref="46306036"/>
-								<object class="NSColor" key="NSTextColor">
-									<int key="NSColorSpace">3</int>
-									<bytes key="NSWhite">MCAwLjgwMDAwMDAxAA</bytes>
-								</object>
-							</object>
-							<reference key="NSContentView" ref="508003347"/>
-							<int key="NSBorderType">3</int>
-							<int key="NSBoxType">0</int>
-							<int key="NSTitlePosition">0</int>
-							<bool key="NSTransparent">NO</bool>
-						</object>
-					</array>
-					<string key="NSFrameSize">{250, 308}</string>
-					<reference key="NSSuperview"/>
-					<reference key="NSWindow"/>
-				</object>
-				<string key="NSScreenRect">{{0, 0}, {1024, 746}}</string>
-				<string key="NSMinSize">{134, 301}</string>
-				<string key="NSMaxSize">{350, 566}</string>
-				<bool key="NSWindowIsRestorable">YES</bool>
-			</object>
-			<object class="NSView" id="590943541">
-				<nil key="NSNextResponder"/>
-				<string key="NSFrameSize">{125, 1}</string>
-			</object>
-			<object class="NSView" id="200614823">
-				<nil key="NSNextResponder"/>
-				<string key="NSFrameSize">{125, 1}</string>
-			</object>
-		</array>
-		<object class="IBObjectContainer" key="IBDocument.Objects">
-			<array class="NSMutableArray" key="connectionRecords">
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">infoPanel</string>
-						<reference key="source" ref="648477946"/>
-						<reference key="destination" ref="3297886"/>
-					</object>
-					<int key="connectionID">15</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">infoPanelTransparencyAdjustment</string>
-						<reference key="source" ref="648477946"/>
-						<reference key="destination" ref="755618878"/>
-					</object>
-					<int key="connectionID">18</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">labelField</string>
-						<reference key="source" ref="648477946"/>
-						<reference key="destination" ref="856044852"/>
-					</object>
-					<int key="connectionID">19</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">elementNameField</string>
-						<reference key="source" ref="648477946"/>
-						<reference key="destination" ref="491604759"/>
-					</object>
-					<int key="connectionID">20</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">setInfoPanelTransparency:</string>
-						<reference key="source" ref="648477946"/>
-						<reference key="destination" ref="755618878"/>
-					</object>
-					<int key="connectionID">21</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">setLabelOfInspectedElement:</string>
-						<reference key="source" ref="648477946"/>
-						<reference key="destination" ref="856044852"/>
-					</object>
-					<int key="connectionID">23</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">inspectionViewContainer</string>
-						<reference key="source" ref="648477946"/>
-						<reference key="destination" ref="784758328"/>
-					</object>
-					<int key="connectionID">48</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">circuitElementInspectionView</string>
-						<reference key="source" ref="648477946"/>
-						<reference key="destination" ref="338219652"/>
-					</object>
-					<int key="connectionID">58</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">subcircuitElementInspectionView</string>
-						<reference key="source" ref="648477946"/>
-						<reference key="destination" ref="264151885"/>
-					</object>
-					<int key="connectionID">59</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">subcircuitNamespaceField</string>
-						<reference key="source" ref="648477946"/>
-						<reference key="destination" ref="715295528"/>
-					</object>
-					<int key="connectionID">63</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">revisionField</string>
-						<reference key="source" ref="648477946"/>
-						<reference key="destination" ref="140475598"/>
-					</object>
-					<int key="connectionID">70</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">circuitInspectionValueColumn</string>
-						<reference key="source" ref="648477946"/>
-						<reference key="destination" ref="861992516"/>
-					</object>
-					<int key="connectionID">72</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">textColorChooser</string>
-						<reference key="source" ref="648477946"/>
-						<reference key="destination" ref="273626854"/>
-					</object>
-					<int key="connectionID">77</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">textFontChooser</string>
-						<reference key="source" ref="648477946"/>
-						<reference key="destination" ref="92107761"/>
-					</object>
-					<int key="connectionID">78</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">setTextColor:</string>
-						<reference key="source" ref="648477946"/>
-						<reference key="destination" ref="273626854"/>
-					</object>
-					<int key="connectionID">79</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">setTextFont:</string>
-						<reference key="source" ref="648477946"/>
-						<reference key="destination" ref="92107761"/>
-					</object>
-					<int key="connectionID">80</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">textFrameSetter</string>
-						<reference key="source" ref="648477946"/>
-						<reference key="destination" ref="889969648"/>
-					</object>
-					<int key="connectionID">83</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">toggleTextFrame:</string>
-						<reference key="source" ref="648477946"/>
-						<reference key="destination" ref="889969648"/>
-					</object>
-					<int key="connectionID">84</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">commentArea</string>
-						<reference key="source" ref="648477946"/>
-						<reference key="destination" ref="1028951864"/>
-					</object>
-					<int key="connectionID">92</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">setComment:</string>
-						<reference key="source" ref="648477946"/>
-						<reference key="destination" ref="1028951864"/>
-					</object>
-					<int key="connectionID">93</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">analysisTasksTable</string>
-						<reference key="source" ref="648477946"/>
-						<reference key="destination" ref="529832261"/>
-					</object>
-					<int key="connectionID">110</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">labelPositionChooser</string>
-						<reference key="source" ref="648477946"/>
-						<reference key="destination" ref="559213511"/>
-					</object>
-					<int key="connectionID">91</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">rotateSelectionCCW:</string>
-						<reference key="source" ref="648477946"/>
-						<reference key="destination" ref="361746180"/>
-					</object>
-					<int key="connectionID">94</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">flipHorizontally:</string>
-						<reference key="source" ref="648477946"/>
-						<reference key="destination" ref="815687480"/>
-					</object>
-					<int key="connectionID">95</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">delegate</string>
-						<reference key="source" ref="3297886"/>
-						<reference key="destination" ref="648477946"/>
-					</object>
-					<int key="connectionID">64</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">initialFirstResponder</string>
-						<reference key="source" ref="3297886"/>
-						<reference key="destination" ref="856044852"/>
-					</object>
-					<int key="connectionID">81</int>
-				</object>
-			</array>
-			<object class="IBMutableOrderedSet" key="objectRecords">
-				<array key="orderedObjects">
-					<object class="IBObjectRecord">
-						<int key="objectID">0</int>
-						<array key="object" id="0"/>
-						<reference key="children" ref="301007777"/>
-						<nil key="parent"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">-2</int>
-						<reference key="object" ref="648477946"/>
-						<reference key="parent" ref="0"/>
-						<string key="objectName">File's Owner</string>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">-1</int>
-						<reference key="object" ref="695111664"/>
-						<reference key="parent" ref="0"/>
-						<string key="objectName">First Responder</string>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">6</int>
-						<reference key="object" ref="3297886"/>
-						<array class="NSMutableArray" key="children">
-							<reference ref="796334903"/>
-						</array>
-						<reference key="parent" ref="0"/>
-						<string key="objectName">Info Panel</string>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">5</int>
-						<reference key="object" ref="796334903"/>
-						<array class="NSMutableArray" key="children">
-							<reference ref="755618878"/>
-							<reference ref="856044852"/>
-							<reference ref="491604759"/>
-							<reference ref="784758328"/>
-							<reference ref="1028951864"/>
-							<reference ref="399339435"/>
-						</array>
-						<reference key="parent" ref="3297886"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">9</int>
-						<reference key="object" ref="755618878"/>
-						<array class="NSMutableArray" key="children">
-							<reference ref="897432163"/>
-						</array>
-						<reference key="parent" ref="796334903"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">10</int>
-						<reference key="object" ref="856044852"/>
-						<array class="NSMutableArray" key="children">
-							<reference ref="495640917"/>
-						</array>
-						<reference key="parent" ref="796334903"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">14</int>
-						<reference key="object" ref="491604759"/>
-						<array class="NSMutableArray" key="children">
-							<reference ref="534457410"/>
-						</array>
-						<reference key="parent" ref="796334903"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">43</int>
-						<reference key="object" ref="784758328"/>
-						<array class="NSMutableArray" key="children">
-							<reference ref="834231900"/>
-							<reference ref="946663322"/>
-							<reference ref="455731603"/>
-							<reference ref="362413286"/>
-						</array>
-						<reference key="parent" ref="796334903"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">45</int>
-						<reference key="object" ref="834231900"/>
-						<array class="NSMutableArray" key="children">
-							<reference ref="839201370"/>
-						</array>
-						<reference key="parent" ref="784758328"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">44</int>
-						<reference key="object" ref="839201370"/>
-						<array class="NSMutableArray" key="children">
-							<reference ref="1062353953"/>
-							<reference ref="266572487"/>
-							<reference ref="715295528"/>
-							<reference ref="406536141"/>
-							<reference ref="140475598"/>
-						</array>
-						<reference key="parent" ref="834231900"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">49</int>
-						<reference key="object" ref="1062353953"/>
-						<array class="NSMutableArray" key="children">
-							<reference ref="264151885"/>
-							<reference ref="483332758"/>
-							<reference ref="15790842"/>
-							<reference ref="999627211"/>
-						</array>
-						<reference key="parent" ref="839201370"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">50</int>
-						<reference key="object" ref="264151885"/>
-						<array class="NSMutableArray" key="children">
-							<reference ref="761480847"/>
-							<reference ref="550517796"/>
-						</array>
-						<reference key="parent" ref="1062353953"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">51</int>
-						<reference key="object" ref="761480847"/>
-						<array class="NSMutableArray" key="children">
-							<reference ref="454520047"/>
-						</array>
-						<reference key="parent" ref="264151885"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">52</int>
-						<reference key="object" ref="550517796"/>
-						<array class="NSMutableArray" key="children">
-							<reference ref="577706672"/>
-						</array>
-						<reference key="parent" ref="264151885"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">61</int>
-						<reference key="object" ref="266572487"/>
-						<array class="NSMutableArray" key="children">
-							<reference ref="822104225"/>
-						</array>
-						<reference key="parent" ref="839201370"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">62</int>
-						<reference key="object" ref="715295528"/>
-						<array class="NSMutableArray" key="children">
-							<reference ref="808165621"/>
-						</array>
-						<reference key="parent" ref="839201370"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">68</int>
-						<reference key="object" ref="406536141"/>
-						<array class="NSMutableArray" key="children">
-							<reference ref="627791890"/>
-						</array>
-						<reference key="parent" ref="839201370"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">69</int>
-						<reference key="object" ref="140475598"/>
-						<array class="NSMutableArray" key="children">
-							<reference ref="278194661"/>
-						</array>
-						<reference key="parent" ref="839201370"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">47</int>
-						<reference key="object" ref="946663322"/>
-						<array class="NSMutableArray" key="children">
-							<reference ref="698892731"/>
-						</array>
-						<reference key="parent" ref="784758328"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">46</int>
-						<reference key="object" ref="698892731"/>
-						<array class="NSMutableArray" key="children">
-							<reference ref="555918623"/>
-						</array>
-						<reference key="parent" ref="946663322"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">55</int>
-						<reference key="object" ref="555918623"/>
-						<array class="NSMutableArray" key="children">
-							<reference ref="338219652"/>
-							<reference ref="888559350"/>
-							<reference ref="49234157"/>
-							<reference ref="901699699"/>
-						</array>
-						<reference key="parent" ref="698892731"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">57</int>
-						<reference key="object" ref="338219652"/>
-						<array class="NSMutableArray" key="children">
-							<reference ref="861992516"/>
-							<reference ref="227641028"/>
-						</array>
-						<reference key="parent" ref="555918623"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">54</int>
-						<reference key="object" ref="861992516"/>
-						<array class="NSMutableArray" key="children">
-							<reference ref="462396579"/>
-						</array>
-						<reference key="parent" ref="338219652"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">56</int>
-						<reference key="object" ref="227641028"/>
-						<array class="NSMutableArray" key="children">
-							<reference ref="823813766"/>
-						</array>
-						<reference key="parent" ref="338219652"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">73</int>
-						<reference key="object" ref="455731603"/>
-						<array class="NSMutableArray" key="children">
-							<reference ref="94787193"/>
-						</array>
-						<reference key="parent" ref="784758328"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">74</int>
-						<reference key="object" ref="94787193"/>
-						<array class="NSMutableArray" key="children">
-							<reference ref="92107761"/>
-							<reference ref="273626854"/>
-							<reference ref="889969648"/>
-						</array>
-						<reference key="parent" ref="455731603"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">75</int>
-						<reference key="object" ref="92107761"/>
-						<array class="NSMutableArray" key="children">
-							<reference ref="360405978"/>
-						</array>
-						<reference key="parent" ref="94787193"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">76</int>
-						<reference key="object" ref="273626854"/>
-						<reference key="parent" ref="94787193"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">82</int>
-						<reference key="object" ref="889969648"/>
-						<array class="NSMutableArray" key="children">
-							<reference ref="222886655"/>
-						</array>
-						<reference key="parent" ref="94787193"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">102</int>
-						<reference key="object" ref="362413286"/>
-						<array class="NSMutableArray" key="children">
-							<reference ref="271589426"/>
-						</array>
-						<reference key="parent" ref="784758328"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">103</int>
-						<reference key="object" ref="271589426"/>
-						<array class="NSMutableArray" key="children">
-							<reference ref="353648572"/>
-						</array>
-						<reference key="parent" ref="362413286"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">105</int>
-						<reference key="object" ref="353648572"/>
-						<array class="NSMutableArray" key="children">
-							<reference ref="529832261"/>
-							<reference ref="132767948"/>
-							<reference ref="545622103"/>
-						</array>
-						<reference key="parent" ref="271589426"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">104</int>
-						<reference key="object" ref="529832261"/>
-						<array class="NSMutableArray" key="children">
-							<reference ref="779023805"/>
-							<reference ref="759744413"/>
-						</array>
-						<reference key="parent" ref="353648572"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">106</int>
-						<reference key="object" ref="779023805"/>
-						<array class="NSMutableArray" key="children">
-							<reference ref="730887004"/>
-						</array>
-						<reference key="parent" ref="529832261"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">107</int>
-						<reference key="object" ref="759744413"/>
-						<array class="NSMutableArray" key="children">
-							<reference ref="67026163"/>
-						</array>
-						<reference key="parent" ref="529832261"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">90</int>
-						<reference key="object" ref="1028951864"/>
-						<array class="NSMutableArray" key="children">
-							<reference ref="501688070"/>
-						</array>
-						<reference key="parent" ref="796334903"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">96</int>
-						<reference key="object" ref="399339435"/>
-						<array class="NSMutableArray" key="children">
-							<reference ref="559213511"/>
-							<reference ref="361746180"/>
-							<reference ref="815687480"/>
-							<reference ref="305621127"/>
-							<reference ref="70321051"/>
-						</array>
-						<reference key="parent" ref="796334903"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">117</int>
-						<reference key="object" ref="897432163"/>
-						<reference key="parent" ref="755618878"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">118</int>
-						<reference key="object" ref="495640917"/>
-						<reference key="parent" ref="856044852"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">119</int>
-						<reference key="object" ref="534457410"/>
-						<reference key="parent" ref="491604759"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">120</int>
-						<reference key="object" ref="822104225"/>
-						<reference key="parent" ref="266572487"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">121</int>
-						<reference key="object" ref="808165621"/>
-						<reference key="parent" ref="715295528"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">122</int>
-						<reference key="object" ref="627791890"/>
-						<reference key="parent" ref="406536141"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">123</int>
-						<reference key="object" ref="278194661"/>
-						<reference key="parent" ref="140475598"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">124</int>
-						<reference key="object" ref="360405978"/>
-						<reference key="parent" ref="92107761"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">125</int>
-						<reference key="object" ref="222886655"/>
-						<reference key="parent" ref="889969648"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">126</int>
-						<reference key="object" ref="501688070"/>
-						<reference key="parent" ref="1028951864"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">129</int>
-						<reference key="object" ref="454520047"/>
-						<reference key="parent" ref="761480847"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">130</int>
-						<reference key="object" ref="577706672"/>
-						<reference key="parent" ref="550517796"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">131</int>
-						<reference key="object" ref="462396579"/>
-						<reference key="parent" ref="861992516"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">132</int>
-						<reference key="object" ref="823813766"/>
-						<reference key="parent" ref="227641028"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">133</int>
-						<reference key="object" ref="730887004"/>
-						<reference key="parent" ref="779023805"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">134</int>
-						<reference key="object" ref="67026163"/>
-						<reference key="parent" ref="759744413"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">135</int>
-						<reference key="object" ref="483332758"/>
-						<reference key="parent" ref="1062353953"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">136</int>
-						<reference key="object" ref="15790842"/>
-						<reference key="parent" ref="1062353953"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">137</int>
-						<reference key="object" ref="999627211"/>
-						<reference key="parent" ref="1062353953"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">138</int>
-						<reference key="object" ref="888559350"/>
-						<reference key="parent" ref="555918623"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">139</int>
-						<reference key="object" ref="49234157"/>
-						<reference key="parent" ref="555918623"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">140</int>
-						<reference key="object" ref="901699699"/>
-						<reference key="parent" ref="555918623"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">141</int>
-						<reference key="object" ref="132767948"/>
-						<reference key="parent" ref="353648572"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">142</int>
-						<reference key="object" ref="545622103"/>
-						<reference key="parent" ref="353648572"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">-3</int>
-						<reference key="object" ref="289936763"/>
-						<reference key="parent" ref="0"/>
-						<string key="objectName">Application</string>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">85</int>
-						<reference key="object" ref="559213511"/>
-						<reference key="parent" ref="399339435"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">86</int>
-						<reference key="object" ref="361746180"/>
-						<array class="NSMutableArray" key="children">
-							<reference ref="579246982"/>
-						</array>
-						<reference key="parent" ref="399339435"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">127</int>
-						<reference key="object" ref="579246982"/>
-						<reference key="parent" ref="361746180"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">87</int>
-						<reference key="object" ref="815687480"/>
-						<array class="NSMutableArray" key="children">
-							<reference ref="629533562"/>
-						</array>
-						<reference key="parent" ref="399339435"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">128</int>
-						<reference key="object" ref="629533562"/>
-						<reference key="parent" ref="815687480"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">98</int>
-						<reference key="object" ref="305621127"/>
-						<array class="NSMutableArray" key="children"/>
-						<reference key="parent" ref="399339435"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">101</int>
-						<reference key="object" ref="70321051"/>
-						<array class="NSMutableArray" key="children"/>
-						<reference key="parent" ref="399339435"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">99</int>
-						<reference key="object" ref="590943541"/>
-						<reference key="parent" ref="0"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">100</int>
-						<reference key="object" ref="200614823"/>
-						<reference key="parent" ref="0"/>
-					</object>
-				</array>
-			</object>
-			<dictionary class="NSMutableDictionary" key="flattenedProperties">
-				<string key="-1.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="-2.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="-3.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="10.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="100.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="101.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="102.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="103.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="104.CustomClassName">MI_ClickThroughTableView</string>
-				<string key="104.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="105.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="106.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="107.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="117.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="118.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="119.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="120.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="121.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="122.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="123.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="124.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="125.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="126.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="127.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="128.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="129.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="130.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="131.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="132.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="133.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="134.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="135.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="136.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="137.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="138.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="139.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="14.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="140.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="141.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="142.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="43.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="44.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="45.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="46.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="47.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="49.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="5.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="50.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="51.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="52.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="54.CustomClassName">MI_DeviceModelAwareInspectionTableColumn</string>
-				<string key="54.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="55.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="56.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="57.CustomClassName">MI_ClickThroughTableView</string>
-				<string key="57.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="6.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="61.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="62.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="68.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="69.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="73.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="74.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="75.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="76.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="82.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="85.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<object class="NSMutableDictionary" key="86.IBAttributePlaceholdersKey">
-					<string key="NS.key.0">ToolTip</string>
-					<object class="IBToolTipAttribute" key="NS.object.0">
-						<string key="name">ToolTip</string>
-						<reference key="object" ref="361746180"/>
-						<string key="toolTip">Rotate element left 90 degrees</string>
-					</object>
-				</object>
-				<string key="86.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<object class="NSMutableDictionary" key="87.IBAttributePlaceholdersKey">
-					<string key="NS.key.0">ToolTip</string>
-					<object class="IBToolTipAttribute" key="NS.object.0">
-						<string key="name">ToolTip</string>
-						<reference key="object" ref="815687480"/>
-						<string key="toolTip">Flip element horizontally</string>
-					</object>
-				</object>
-				<string key="87.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="9.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="90.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="96.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="98.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="99.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-			</dictionary>
-			<dictionary class="NSMutableDictionary" key="unlocalizedProperties"/>
-			<nil key="activeLocalization"/>
-			<dictionary class="NSMutableDictionary" key="localizations"/>
-			<nil key="sourceID"/>
-			<int key="maxID">142</int>
-		</object>
-		<object class="IBClassDescriber" key="IBDocument.Classes">
-			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
-				<object class="IBPartialClassDescription">
-					<string key="className">MI_ClickThroughTableView</string>
-					<string key="superclassName">NSTableView</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/MI_ClickThroughTableView.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">MI_ClickThroughTextField</string>
-					<string key="superclassName">NSTextField</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/MI_ClickThroughTextField.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">MI_DeviceModelAwareInspectionTableColumn</string>
-					<string key="superclassName">NSTableColumn</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/MI_DeviceModelAwareInspectionTableColumn.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">MI_DirectionChooser</string>
-					<string key="superclassName">NSView</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/MI_DirectionChooser.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">MI_Inspector</string>
-					<string key="superclassName">NSObject</string>
-					<dictionary class="NSMutableDictionary" key="actions">
-						<string key="assignNewModel:">id</string>
-						<string key="flipHorizontally:">id</string>
-						<string key="rotateSelectionCCW:">id</string>
-						<string key="setComment:">id</string>
-						<string key="setInfoPanelTransparency:">id</string>
-						<string key="setLabelOfInspectedElement:">id</string>
-						<string key="setTextColor:">id</string>
-						<string key="setTextFont:">id</string>
-						<string key="toggleTextFrame:">id</string>
-					</dictionary>
-					<dictionary class="NSMutableDictionary" key="actionInfosByName">
-						<object class="IBActionInfo" key="assignNewModel:">
-							<string key="name">assignNewModel:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="flipHorizontally:">
-							<string key="name">flipHorizontally:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="rotateSelectionCCW:">
-							<string key="name">rotateSelectionCCW:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="setComment:">
-							<string key="name">setComment:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="setInfoPanelTransparency:">
-							<string key="name">setInfoPanelTransparency:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="setLabelOfInspectedElement:">
-							<string key="name">setLabelOfInspectedElement:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="setTextColor:">
-							<string key="name">setTextColor:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="setTextFont:">
-							<string key="name">setTextFont:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="toggleTextFrame:">
-							<string key="name">toggleTextFrame:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-					</dictionary>
-					<dictionary class="NSMutableDictionary" key="outlets">
-						<string key="analysisTasksTable">MI_ClickThroughTableView</string>
-						<string key="circuitElementInspectionView">MI_ClickThroughTableView</string>
-						<string key="circuitInspectionValueColumn">MI_DeviceModelAwareInspectionTableColumn</string>
-						<string key="commentArea">NSTextField</string>
-						<string key="elementNameField">NSTextField</string>
-						<string key="infoPanel">NSPanel</string>
-						<string key="infoPanelTransparencyAdjustment">NSSlider</string>
-						<string key="inspectionViewContainer">NSTabView</string>
-						<string key="labelField">MI_ClickThroughTextField</string>
-						<string key="labelPositionChooser">MI_DirectionChooser</string>
-						<string key="revisionField">NSTextField</string>
-						<string key="subcircuitElementInspectionView">NSTableView</string>
-						<string key="subcircuitNamespaceField">NSTextField</string>
-						<string key="textColorChooser">NSColorWell</string>
-						<string key="textFontChooser">NSButton</string>
-						<string key="textFrameSetter">NSButton</string>
-					</dictionary>
-					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
-						<object class="IBToOneOutletInfo" key="analysisTasksTable">
-							<string key="name">analysisTasksTable</string>
-							<string key="candidateClassName">MI_ClickThroughTableView</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="circuitElementInspectionView">
-							<string key="name">circuitElementInspectionView</string>
-							<string key="candidateClassName">MI_ClickThroughTableView</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="circuitInspectionValueColumn">
-							<string key="name">circuitInspectionValueColumn</string>
-							<string key="candidateClassName">MI_DeviceModelAwareInspectionTableColumn</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="commentArea">
-							<string key="name">commentArea</string>
-							<string key="candidateClassName">NSTextField</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="elementNameField">
-							<string key="name">elementNameField</string>
-							<string key="candidateClassName">NSTextField</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="infoPanel">
-							<string key="name">infoPanel</string>
-							<string key="candidateClassName">NSPanel</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="infoPanelTransparencyAdjustment">
-							<string key="name">infoPanelTransparencyAdjustment</string>
-							<string key="candidateClassName">NSSlider</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="inspectionViewContainer">
-							<string key="name">inspectionViewContainer</string>
-							<string key="candidateClassName">NSTabView</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="labelField">
-							<string key="name">labelField</string>
-							<string key="candidateClassName">MI_ClickThroughTextField</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="labelPositionChooser">
-							<string key="name">labelPositionChooser</string>
-							<string key="candidateClassName">MI_DirectionChooser</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="revisionField">
-							<string key="name">revisionField</string>
-							<string key="candidateClassName">NSTextField</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="subcircuitElementInspectionView">
-							<string key="name">subcircuitElementInspectionView</string>
-							<string key="candidateClassName">NSTableView</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="subcircuitNamespaceField">
-							<string key="name">subcircuitNamespaceField</string>
-							<string key="candidateClassName">NSTextField</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="textColorChooser">
-							<string key="name">textColorChooser</string>
-							<string key="candidateClassName">NSColorWell</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="textFontChooser">
-							<string key="name">textFontChooser</string>
-							<string key="candidateClassName">NSButton</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="textFrameSetter">
-							<string key="name">textFrameSetter</string>
-							<string key="candidateClassName">NSButton</string>
-						</object>
-					</dictionary>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/MI_Inspector.h</string>
-					</object>
-				</object>
-			</array>
-		</object>
-		<int key="IBDocument.localizationMode">0</int>
-		<string key="IBDocument.TargetRuntimeIdentifier">IBCocoaFramework</string>
-		<object class="NSMutableDictionary" key="IBDocument.PluginDeclaredDependencies">
-			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin.macosx</string>
-			<integer value="1070" key="NS.object.0"/>
-		</object>
-		<bool key="IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion">YES</bool>
-		<int key="IBDocument.defaultPropertyAccessControl">3</int>
-		<dictionary class="NSMutableDictionary" key="IBDocument.LastKnownImageSizes">
-			<string key="NSSwitch">{15, 15}</string>
-			<string key="flip">{34, 27}</string>
-			<string key="rotate_left">{25, 25}</string>
-		</dictionary>
-	</data>
-</archive>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="13771" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+    <dependencies>
+        <deployment version="1070" identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="13771"/>
+        <capability name="box content view" minToolsVersion="7.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="MI_Inspector">
+            <connections>
+                <outlet property="analysisTasksTable" destination="104" id="110"/>
+                <outlet property="circuitElementInspectionView" destination="57" id="58"/>
+                <outlet property="circuitInspectionValueColumn" destination="54" id="72"/>
+                <outlet property="commentArea" destination="90" id="92"/>
+                <outlet property="elementNameField" destination="14" id="20"/>
+                <outlet property="infoPanel" destination="6" id="15"/>
+                <outlet property="infoPanelTransparencyAdjustment" destination="9" id="18"/>
+                <outlet property="inspectionViewContainer" destination="43" id="48"/>
+                <outlet property="labelField" destination="10" id="19"/>
+                <outlet property="labelPositionChooser" destination="85" id="91"/>
+                <outlet property="revisionField" destination="69" id="70"/>
+                <outlet property="subcircuitElementInspectionView" destination="50" id="59"/>
+                <outlet property="subcircuitNamespaceField" destination="62" id="63"/>
+                <outlet property="textColorChooser" destination="76" id="77"/>
+                <outlet property="textFontChooser" destination="75" id="78"/>
+                <outlet property="textFrameSetter" destination="82" id="83"/>
+            </connections>
+        </customObject>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application"/>
+        <window title="Info" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" hidesOnDeactivate="YES" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" id="6" userLabel="Info Panel" customClass="NSPanel">
+            <windowStyleMask key="styleMask" titled="YES" closable="YES" resizable="YES" utility="YES"/>
+            <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
+            <rect key="contentRect" x="434" y="414" width="250" height="308"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1024" height="746"/>
+            <value key="minSize" type="size" width="134" height="285"/>
+            <value key="maxSize" type="size" width="350" height="550"/>
+            <view key="contentView" autoresizesSubviews="NO" id="5">
+                <rect key="frame" x="0.0" y="0.0" width="250" height="308"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <textField autoresizesSubviews="NO" verticalHuggingPriority="750" id="10">
+                        <rect key="frame" x="73" y="247" width="163" height="21"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" alignment="left" drawsBackground="YES" id="118">
+                            <font key="font" metaFont="cellTitle"/>
+                            <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" red="0.96058100000000002" green="0.96058100000000002" blue="0.96058100000000002" alpha="1" colorSpace="calibratedRGB"/>
+                        </textFieldCell>
+                        <connections>
+                            <action selector="setLabelOfInspectedElement:" target="-2" id="23"/>
+                        </connections>
+                    </textField>
+                    <slider autoresizesSubviews="NO" verticalHuggingPriority="750" id="9">
+                        <rect key="frame" x="13" y="8" width="223" height="15"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                        <sliderCell key="cell" controlSize="small" continuous="YES" alignment="left" minValue="0.5" maxValue="1" doubleValue="0.90000000000000002" tickMarkPosition="below" sliderType="linear" id="117">
+                            <font key="font" size="12" name="Helvetica"/>
+                        </sliderCell>
+                        <connections>
+                            <action selector="setInfoPanelTransparency:" target="-2" id="21"/>
+                        </connections>
+                    </slider>
+                    <textField autoresizesSubviews="NO" verticalHuggingPriority="750" id="14">
+                        <rect key="frame" x="70" y="276" width="169" height="17"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                        <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="left" id="119">
+                            <font key="font" metaFont="system"/>
+                            <color key="textColor" red="0.14727201000000001" green="0.38843" blue="0.31867899999999999" alpha="1" colorSpace="calibratedRGB"/>
+                            <color key="backgroundColor" red="0.48957399000000001" green="0.61618298000000005" blue="0.49534499999999998" alpha="1" colorSpace="calibratedRGB"/>
+                        </textFieldCell>
+                    </textField>
+                    <tabView drawsBackground="NO" controlSize="mini" type="noTabsNoBorder" id="43">
+                        <rect key="frame" x="0.0" y="30" width="250" height="139"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <font key="font" metaFont="miniSystem"/>
+                        <tabViewItems>
+                            <tabViewItem label="Subcircuit" identifier="subcircuit" id="45">
+                                <view key="view" autoresizesSubviews="NO" id="44">
+                                    <rect key="frame" x="0.0" y="0.0" width="250" height="139"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    <subviews>
+                                        <scrollView horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" id="49">
+                                            <rect key="frame" x="0.0" y="0.0" width="251" height="123"/>
+                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                            <clipView key="contentView" id="aK9-j5-cHA">
+                                                <rect key="frame" x="1" y="23" width="249" height="99"/>
+                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                <subviews>
+                                                    <tableView autoresizesSubviews="NO" verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnReordering="NO" columnResizing="NO" multipleSelection="NO" autosaveColumns="NO" headerView="136" id="50">
+                                                        <rect key="frame" x="0.0" y="0.0" width="249" height="99"/>
+                                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                        <size key="intercellSpacing" width="3" height="2"/>
+                                                        <color key="backgroundColor" red="0.96058100000000002" green="0.96058100000000002" blue="0.96058100000000002" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
+                                                        <tableColumns>
+                                                            <tableColumn identifier="pin" width="40" minWidth="40" maxWidth="1000" id="51">
+                                                                <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Port #">
+                                                                    <font key="font" metaFont="smallSystem"/>
+                                                                    <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
+                                                                    <color key="backgroundColor" white="0.33333299" alpha="1" colorSpace="calibratedWhite"/>
+                                                                </tableHeaderCell>
+                                                                <textFieldCell key="dataCell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" alignment="left" id="129">
+                                                                    <font key="font" metaFont="system"/>
+                                                                    <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                                </textFieldCell>
+                                                                <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
+                                                            </tableColumn>
+                                                            <tableColumn identifier="node" width="202.71600341796875" minWidth="80.235000610351562" maxWidth="1000" id="52">
+                                                                <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Internally Connected to">
+                                                                    <font key="font" metaFont="smallSystem"/>
+                                                                    <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
+                                                                    <color key="backgroundColor" white="0.33333299" alpha="1" colorSpace="calibratedWhite"/>
+                                                                </tableHeaderCell>
+                                                                <textFieldCell key="dataCell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" alignment="left" id="130">
+                                                                    <font key="font" metaFont="system"/>
+                                                                    <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                                </textFieldCell>
+                                                                <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
+                                                            </tableColumn>
+                                                        </tableColumns>
+                                                    </tableView>
+                                                </subviews>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            </clipView>
+                                            <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" controlSize="small" horizontal="YES" id="135">
+                                                <rect key="frame" x="-100" y="-100" width="189" height="15"/>
+                                                <autoresizingMask key="autoresizingMask"/>
+                                            </scroller>
+                                            <scroller key="verticalScroller" verticalHuggingPriority="750" controlSize="small" horizontal="NO" id="137">
+                                                <rect key="frame" x="236" y="23" width="14" height="99"/>
+                                                <autoresizingMask key="autoresizingMask"/>
+                                            </scroller>
+                                            <tableHeaderView key="headerView" id="136">
+                                                <rect key="frame" x="0.0" y="0.0" width="249" height="23"/>
+                                                <autoresizingMask key="autoresizingMask"/>
+                                            </tableHeaderView>
+                                        </scrollView>
+                                        <textField autoresizesSubviews="NO" verticalHuggingPriority="750" id="61">
+                                            <rect key="frame" x="0.0" y="125" width="72" height="14"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="left" title="Namespace:" id="120">
+                                                <font key="font" metaFont="smallSystem"/>
+                                                <color key="textColor" red="0.45258331000000002" green="0.48913044" blue="0.43933444999999999" alpha="1" colorSpace="calibratedRGB"/>
+                                                <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                        </textField>
+                                        <textField autoresizesSubviews="NO" verticalHuggingPriority="750" id="68">
+                                            <rect key="frame" x="178" y="125" width="33" height="14"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
+                                            <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="left" title="Rev.:" id="122">
+                                                <font key="font" metaFont="smallSystem"/>
+                                                <color key="textColor" red="0.45258331000000002" green="0.48913044" blue="0.43933444999999999" alpha="1" colorSpace="calibratedRGB"/>
+                                                <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                        </textField>
+                                        <textField autoresizesSubviews="NO" verticalHuggingPriority="750" id="69">
+                                            <rect key="frame" x="212" y="124" width="31" height="15"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
+                                            <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" state="on" alignment="left" id="123">
+                                                <font key="font" metaFont="smallSystem"/>
+                                                <color key="textColor" red="0.022628433999999999" green="0.20652175" blue="0.068601764999999995" alpha="1" colorSpace="calibratedRGB"/>
+                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                        </textField>
+                                        <textField autoresizesSubviews="NO" verticalHuggingPriority="750" id="62">
+                                            <rect key="frame" x="67" y="124" width="106" height="15"/>
+                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                            <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" state="on" alignment="left" id="121">
+                                                <font key="font" metaFont="smallSystem"/>
+                                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                        </textField>
+                                    </subviews>
+                                </view>
+                            </tabViewItem>
+                            <tabViewItem label="Circuit" identifier="circuit" id="47">
+                                <view key="view" autoresizesSubviews="NO" id="46">
+                                    <rect key="frame" x="0.0" y="0.0" width="250" height="139"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <scrollView horizontalLineScroll="18" horizontalPageScroll="10" verticalLineScroll="18" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" id="55">
+                                            <rect key="frame" x="0.0" y="0.0" width="251" height="139"/>
+                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                            <clipView key="contentView" id="4av-KM-4JZ">
+                                                <rect key="frame" x="1" y="23" width="249" height="115"/>
+                                                <autoresizingMask key="autoresizingMask"/>
+                                                <subviews>
+                                                    <tableView autoresizesSubviews="NO" verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" multipleSelection="NO" autosaveColumns="NO" rowHeight="16" headerView="139" id="57" customClass="MI_ClickThroughTableView">
+                                                        <rect key="frame" x="0.0" y="0.0" width="249" height="115"/>
+                                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                        <size key="intercellSpacing" width="3" height="2"/>
+                                                        <color key="backgroundColor" red="0.96058100000000002" green="0.96058100000000002" blue="0.96058100000000002" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <color key="gridColor" red="0.65286100000000002" green="0.74481302000000005" blue="0.74481302000000005" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <tableColumns>
+                                                            <tableColumn identifier="parameter" width="73" minWidth="40" maxWidth="1000" id="56">
+                                                                <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Parameter">
+                                                                    <font key="font" metaFont="smallSystem"/>
+                                                                    <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
+                                                                    <color key="backgroundColor" white="0.33333299" alpha="1" colorSpace="calibratedWhite"/>
+                                                                </tableHeaderCell>
+                                                                <textFieldCell key="dataCell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" alignment="left" id="132">
+                                                                    <font key="font" metaFont="system"/>
+                                                                    <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                                </textFieldCell>
+                                                                <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
+                                                            </tableColumn>
+                                                            <tableColumn identifier="value" width="169.9010009765625" minWidth="37.4010009765625" maxWidth="1000" id="54" customClass="MI_DeviceModelAwareInspectionTableColumn">
+                                                                <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Value">
+                                                                    <font key="font" metaFont="smallSystem"/>
+                                                                    <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
+                                                                    <color key="backgroundColor" white="0.33333299" alpha="1" colorSpace="calibratedWhite"/>
+                                                                </tableHeaderCell>
+                                                                <textFieldCell key="dataCell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" alignment="left" id="131">
+                                                                    <font key="font" metaFont="system"/>
+                                                                    <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                                </textFieldCell>
+                                                                <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
+                                                            </tableColumn>
+                                                        </tableColumns>
+                                                    </tableView>
+                                                </subviews>
+                                            </clipView>
+                                            <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" controlSize="small" horizontal="YES" id="138">
+                                                <rect key="frame" x="-100" y="-100" width="194" height="11"/>
+                                                <autoresizingMask key="autoresizingMask"/>
+                                            </scroller>
+                                            <scroller key="verticalScroller" verticalHuggingPriority="750" controlSize="small" horizontal="NO" id="140">
+                                                <rect key="frame" x="236" y="23" width="14" height="115"/>
+                                                <autoresizingMask key="autoresizingMask"/>
+                                            </scroller>
+                                            <tableHeaderView key="headerView" id="139">
+                                                <rect key="frame" x="0.0" y="0.0" width="249" height="23"/>
+                                                <autoresizingMask key="autoresizingMask"/>
+                                            </tableHeaderView>
+                                        </scrollView>
+                                    </subviews>
+                                </view>
+                            </tabViewItem>
+                            <tabViewItem label="Text" identifier="text" id="73">
+                                <view key="view" autoresizesSubviews="NO" id="74">
+                                    <rect key="frame" x="0.0" y="0.0" width="250" height="139"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <button autoresizesSubviews="NO" imageHugsTitle="YES" id="75">
+                                            <rect key="frame" x="20" y="65" width="210" height="23"/>
+                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                            <buttonCell key="cell" type="square" title="Font" bezelStyle="shadowlessSquare" alignment="center" borderStyle="border" inset="2" id="124">
+                                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                <font key="font" metaFont="system"/>
+                                            </buttonCell>
+                                            <connections>
+                                                <action selector="setTextFont:" target="-2" id="80"/>
+                                            </connections>
+                                        </button>
+                                        <colorWell autoresizesSubviews="NO" id="76">
+                                            <rect key="frame" x="20" y="96" width="210" height="26"/>
+                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                            <color key="color" red="0.058130499000000002" green="0.055541898999999999" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                            <connections>
+                                                <action selector="setTextColor:" target="-2" id="79"/>
+                                            </connections>
+                                        </colorWell>
+                                        <button autoresizesSubviews="NO" imageHugsTitle="YES" id="82">
+                                            <rect key="frame" x="18" y="31" width="125" height="28"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <buttonCell key="cell" type="check" title="Show Frame" bezelStyle="regularSquare" imagePosition="leading" alignment="left" inset="2" id="125">
+                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                <font key="font" metaFont="system"/>
+                                            </buttonCell>
+                                            <connections>
+                                                <action selector="toggleTextFrame:" target="-2" id="84"/>
+                                            </connections>
+                                        </button>
+                                    </subviews>
+                                </view>
+                            </tabViewItem>
+                            <tabViewItem label="Circuit" identifier="circuit" id="102">
+                                <view key="view" autoresizesSubviews="NO" id="103">
+                                    <rect key="frame" x="0.0" y="0.0" width="250" height="139"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <scrollView autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" id="105">
+                                            <rect key="frame" x="0.0" y="59" width="250" height="53"/>
+                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                            <clipView key="contentView" id="FFO-NW-rqu">
+                                                <rect key="frame" x="1" y="1" width="248" height="51"/>
+                                                <autoresizingMask key="autoresizingMask"/>
+                                                <subviews>
+                                                    <tableView autoresizesSubviews="NO" verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnReordering="NO" columnResizing="NO" multipleSelection="NO" autosaveColumns="NO" id="104" customClass="MI_ClickThroughTableView">
+                                                        <rect key="frame" x="0.0" y="0.0" width="248" height="51"/>
+                                                        <autoresizingMask key="autoresizingMask"/>
+                                                        <size key="intercellSpacing" width="3" height="2"/>
+                                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                        <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
+                                                        <tableColumns>
+                                                            <tableColumn identifier="" width="40" minWidth="40" maxWidth="1000" id="107">
+                                                                <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left">
+                                                                    <font key="font" metaFont="smallSystem"/>
+                                                                    <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
+                                                                    <color key="backgroundColor" white="0.33333299" alpha="1" colorSpace="calibratedWhite"/>
+                                                                </tableHeaderCell>
+                                                                <textFieldCell key="dataCell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" alignment="left" id="134">
+                                                                    <font key="font" metaFont="system"/>
+                                                                    <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                                </textFieldCell>
+                                                                <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
+                                                            </tableColumn>
+                                                            <tableColumn identifier="" width="202" minWidth="40" maxWidth="1000" id="106">
+                                                                <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left">
+                                                                    <font key="font" metaFont="smallSystem"/>
+                                                                    <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
+                                                                    <color key="backgroundColor" white="0.33333299" alpha="1" colorSpace="calibratedWhite"/>
+                                                                </tableHeaderCell>
+                                                                <textFieldCell key="dataCell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" alignment="left" id="133">
+                                                                    <font key="font" metaFont="system"/>
+                                                                    <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                                </textFieldCell>
+                                                                <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
+                                                            </tableColumn>
+                                                        </tableColumns>
+                                                    </tableView>
+                                                </subviews>
+                                            </clipView>
+                                            <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" controlSize="small" horizontal="YES" id="141">
+                                                <rect key="frame" x="1" y="-22" width="237" height="11"/>
+                                                <autoresizingMask key="autoresizingMask"/>
+                                            </scroller>
+                                            <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" controlSize="small" horizontal="NO" id="142">
+                                                <rect key="frame" x="-22" y="1" width="11" height="40"/>
+                                                <autoresizingMask key="autoresizingMask"/>
+                                            </scroller>
+                                        </scrollView>
+                                    </subviews>
+                                </view>
+                            </tabViewItem>
+                        </tabViewItems>
+                    </tabView>
+                    <textField autoresizesSubviews="NO" verticalHuggingPriority="750" id="90">
+                        <rect key="frame" x="73" y="177" width="163" height="62"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                        <textFieldCell key="cell" selectable="YES" editable="YES" state="on" borderStyle="bezel" alignment="left" title="[comment]" drawsBackground="YES" id="126">
+                            <font key="font" metaFont="system"/>
+                            <color key="textColor" red="0.27173913" green="0.27173913" blue="0.27173913" alpha="1" colorSpace="calibratedRGB"/>
+                            <color key="backgroundColor" red="0.93724786999999998" green="0.96195649999999999" blue="0.79654287999999995" alpha="1" colorSpace="calibratedRGB"/>
+                        </textFieldCell>
+                        <connections>
+                            <action selector="setComment:" target="-2" id="93"/>
+                        </connections>
+                    </textField>
+                    <box autoresizesSubviews="NO" title="Title" titlePosition="noTitle" id="96">
+                        <rect key="frame" x="9" y="173" width="52" height="130"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <view key="contentView" id="c62-e1-saC">
+                            <rect key="frame" x="2" y="2" width="48" height="126"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            <subviews>
+                                <customView autoresizesSubviews="NO" id="85" customClass="MI_DirectionChooser">
+                                    <rect key="frame" x="6" y="44" width="37" height="37"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                </customView>
+                                <button autoresizesSubviews="NO" toolTip="Rotate element left 90 degrees" imageHugsTitle="YES" id="86">
+                                    <rect key="frame" x="6" y="88" width="37" height="34"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                    <buttonCell key="cell" type="square" title="rot +90" bezelStyle="shadowlessSquare" image="rotate_left" imagePosition="only" alignment="center" inset="2" id="127">
+                                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                        <font key="font" metaFont="smallSystem"/>
+                                    </buttonCell>
+                                    <connections>
+                                        <action selector="rotateSelectionCCW:" target="-2" id="94"/>
+                                    </connections>
+                                </button>
+                                <button autoresizesSubviews="NO" toolTip="Flip element horizontally" imageHugsTitle="YES" id="87">
+                                    <rect key="frame" x="5" y="8" width="37" height="26"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                    <buttonCell key="cell" type="square" title="rot +90" bezelStyle="shadowlessSquare" image="flip" imagePosition="only" alignment="center" controlSize="small" inset="2" id="128">
+                                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                        <font key="font" metaFont="smallSystem"/>
+                                    </buttonCell>
+                                    <connections>
+                                        <action selector="flipHorizontally:" target="-2" id="95"/>
+                                    </connections>
+                                </button>
+                                <box verticalHuggingPriority="750" boxType="separator" id="98">
+                                    <rect key="frame" x="6" y="83" width="37" height="5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </box>
+                                <box verticalHuggingPriority="750" boxType="separator" id="101">
+                                    <rect key="frame" x="6" y="38" width="37" height="5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </box>
+                            </subviews>
+                        </view>
+                    </box>
+                </subviews>
+            </view>
+            <connections>
+                <outlet property="delegate" destination="-2" id="64"/>
+                <outlet property="initialFirstResponder" destination="10" id="81"/>
+            </connections>
+        </window>
+        <view autoresizesSubviews="NO" id="99">
+            <rect key="frame" x="0.0" y="0.0" width="125" height="1"/>
+            <autoresizingMask key="autoresizingMask"/>
+        </view>
+        <view autoresizesSubviews="NO" id="100">
+            <rect key="frame" x="0.0" y="0.0" width="125" height="1"/>
+            <autoresizingMask key="autoresizingMask"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="flip" width="34" height="27"/>
+        <image name="rotate_left" width="25" height="25"/>
+    </resources>
+</document>

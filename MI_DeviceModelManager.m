@@ -706,63 +706,55 @@ constrainMaxCoordinate:(float)proposedMin
 {
     if ([itemIdentifier isEqualToString:@"Delete"])
     {
-        if (deleteButton == nil)
-        {
-            deleteButton = [[NSToolbarItem alloc] initWithItemIdentifier:@"Delete"];
-            [deleteButton setLabel:@"Delete"];
-            [deleteButton setAction:@selector(deleteSelectedDeviceModels:)];
-            [deleteButton setTarget:self];
-            [deleteButton setToolTip:@"Delete the selected device models."];
-            [deleteButton setImage:[[NSImage alloc] initWithContentsOfFile:
-                [[NSBundle mainBundle] pathForResource:@"delete_selected_device_model"
-                                                ofType:@"png"]]];
-        }
-        return deleteButton;
+      if (deleteButton == nil)
+      {
+        deleteButton = [[NSToolbarItem alloc] initWithItemIdentifier:@"Delete"];
+        [deleteButton setLabel:@"Delete"];
+        [deleteButton setAction:@selector(deleteSelectedDeviceModels:)];
+        [deleteButton setTarget:self];
+        [deleteButton setToolTip:@"Delete the selected device models."];
+        [deleteButton setImage:[NSImage imageNamed:@"delete_selected_device_model"]];
+      }
+      return deleteButton;
     }
     else if ([itemIdentifier isEqualToString:@"Copy"])
     {
-        if (copyButton == nil)
-        {
-            copyButton = [[NSToolbarItem alloc] initWithItemIdentifier:@"Copy"];
-            [copyButton setLabel:@"Copy"];
-            [copyButton setAction:@selector(copySelectedDeviceModels:)];
-            [copyButton setTarget:self];
-            [copyButton setToolTip:@"Copy the selected device models."];
-            [copyButton setImage:[[NSImage alloc] initWithContentsOfFile:
-                [[NSBundle mainBundle] pathForResource:@"copy_selected_device_model"
-                                                ofType:@"png"]]];
-        }
-        return copyButton;
+      if (copyButton == nil)
+      {
+        copyButton = [[NSToolbarItem alloc] initWithItemIdentifier:@"Copy"];
+        [copyButton setLabel:@"Copy"];
+        [copyButton setAction:@selector(copySelectedDeviceModels:)];
+        [copyButton setTarget:self];
+        [copyButton setToolTip:@"Copy the selected device models."];
+        [copyButton setImage:[NSImage imageNamed:@"copy_selected_device_model"]];
+      }
+      return copyButton;
     }
     else if ([itemIdentifier isEqualToString:@"Import"])
     {
-        if (importButton == nil)
-        {
-            importButton = [[NSToolbarItem alloc] initWithItemIdentifier:@"Import"];
-            [importButton setLabel:@"Import..."];
-            [importButton setAction:@selector(importDeviceModelsFromFile:)];
-            [importButton setTarget:self];
-            [importButton setToolTip:@"Import device models from a file."];
-            [importButton setImage:[[NSImage alloc] initWithContentsOfFile:
-                [[NSBundle mainBundle] pathForResource:@"import_device_models"
-                                                ofType:@"png"]]];
-        }
-        return importButton;
+      if (importButton == nil)
+      {
+        importButton = [[NSToolbarItem alloc] initWithItemIdentifier:@"Import"];
+        [importButton setLabel:@"Import..."];
+        [importButton setAction:@selector(importDeviceModelsFromFile:)];
+        [importButton setTarget:self];
+        [importButton setToolTip:@"Import device models from a file."];
+        [importButton setImage:[NSImage imageNamed:@"import_device_models"]];
+      }
+      return importButton;
     }
     else // if ([itemIdentifier isEqualToString:@"Export"])
     {
-        if (exportButton == nil)
-        {
-            exportButton = [[NSToolbarItem alloc] initWithItemIdentifier:@"Export"];
-            [exportButton setLabel:@"Export..."];
-            [exportButton setAction:@selector(exportSelectedDeviceModelsToFile:)];
-            [exportButton setTarget:self];
-            [exportButton setToolTip:@"Export the selected device models to file."];
-            [exportButton setImage:[[NSImage alloc] initWithContentsOfFile:
-                [[NSBundle mainBundle] pathForResource:@"export_all_device_models"
-                                                ofType:@"png"]]];
-        }
-        return exportButton;
+      if (exportButton == nil)
+      {
+        exportButton = [[NSToolbarItem alloc] initWithItemIdentifier:@"Export"];
+        [exportButton setLabel:@"Export..."];
+        [exportButton setAction:@selector(exportSelectedDeviceModelsToFile:)];
+        [exportButton setTarget:self];
+        [exportButton setToolTip:@"Export the selected device models to file."];
+        [exportButton setImage:[NSImage imageNamed:@"export_all_device_models"]];
+      }
+      return exportButton;
     }
 }        
 
