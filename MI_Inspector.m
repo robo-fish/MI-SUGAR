@@ -39,7 +39,7 @@
 // stores the index of the row of the circuit element inspection table
 // whose parameter column equals "Model". -1 means that the inspected
 // element has no parameter named "Model".
-static int modelParameterRowIndex = -1;
+static NSInteger modelParameterRowIndex = -1;
 // the popup button to be presented as the "Model" parameter's value
 static NSPopUpButtonCell* deviceModelChooser = nil;
 // the table column implementation whic enables the "Model"-awareness
@@ -58,6 +58,8 @@ NSString* MISUGAR_INFO_PANEL_FRAME = @"InfoPanelFrame";
 
 static MI_Inspector* sharedInspectorInstance = nil;
 
+@interface MI_Inspector () <NSTableViewDataSource, NSTableViewDelegate>
+@end
 
 @implementation MI_Inspector
 
@@ -76,8 +78,8 @@ static MI_Inspector* sharedInspectorInstance = nil;
         
         // Prepare info panel
         float alpha = [[[NSUserDefaults standardUserDefaults] objectForKey:MISUGAR_INFO_PANEL_ALPHA] floatValue];
-        [NSBundle loadNibNamed:@"SchematicElementInfoPanel" owner:self];
-        
+        [[NSBundle mainBundle] loadNibNamed:@"SchematicElementInfoPanel" owner:self topLevelObjects:nil];
+
         [infoPanel setDelegate:self];
         //[infoPanel setBecomesKeyOnlyIfNeeded:YES]; - not good
         [infoPanel setFloatingPanel:YES];
@@ -161,7 +163,6 @@ static MI_Inspector* sharedInspectorInstance = nil;
         }
         else if ([inspectedElement isKindOfClass:[MI_CircuitElement class]])
         {
-            NSString* usedModel;
             MI_CircuitElement* cElement = (MI_CircuitElement*) inspectedElement;
             [inspectionViewContainer selectTabViewItemWithIdentifier:@"circuit"];
             /* Finish editing before refreshing the table
@@ -169,10 +170,11 @@ static MI_Inspector* sharedInspectorInstance = nil;
                 [[[circuitElementInspectionView tableColumnWithIdentifier:@"value"] dataCellForRow:
                     [circuitElementInspectionView editedRow]] endEditing:nil];
             */
-            if (usedModel = [[cElement parameters] objectForKey:@"Model"])
+            NSString* usedModel = [[cElement parameters] objectForKey:@"Model"];
+            if (usedModel != nil)
             {
                 [deviceModelChooser removeAllItems];
-                if ([cElement usedDeviceModelType] != NO_DEVICE_MODEL_TYPE)
+                if ([cElement usedDeviceModelType] != MI_DeviceModelTypeNone)
                 {
                     NSArray* choices = [[MI_DeviceModelManager sharedManager]
                         modelsForType:[cElement usedDeviceModelType]];
@@ -278,7 +280,7 @@ static MI_Inspector* sharedInspectorInstance = nil;
 
 - (id) tableView:(NSTableView *)aTableView
 objectValueForTableColumn:(NSTableColumn *)aTableColumn
-             row:(int)rowIndex
+             row:(NSInteger)rowIndex
 {
     // Since subcircuits are subclasses of circuits the order is relevant.
     if (aTableView == subcircuitElementInspectionView &&
@@ -318,7 +320,7 @@ objectValueForTableColumn:(NSTableColumn *)aTableColumn
 - (void) tableView:(NSTableView*)aTableView
     setObjectValue:(id)anObject
     forTableColumn:(NSTableColumn*)aTableColumn
-               row:(int)rowIndex
+               row:(NSInteger)rowIndex
 {
     if ( (aTableView == circuitElementInspectionView)
         && [inspectedElement isKindOfClass:[MI_CircuitElement class]] )
@@ -347,7 +349,7 @@ objectValueForTableColumn:(NSTableColumn *)aTableColumn
 
 - (BOOL)tableView:(NSTableView *)aTableView
 shouldEditTableColumn:(NSTableColumn *)aTableColumn
-              row:(int)rowIndex
+              row:(NSInteger)rowIndex
 {
     if (aTableView == circuitElementInspectionView &&
         [inspectedElement isKindOfClass:[MI_CircuitElement class]])
@@ -366,7 +368,7 @@ shouldEditTableColumn:(NSTableColumn *)aTableColumn
 - (void) tableView:(NSTableView *)aTableView
    willDisplayCell:(id)aCell
     forTableColumn:(NSTableColumn *)aTableColumn
-               row:(int)rowIndex
+               row:(NSInteger)rowIndex
 {
     if ( aTableView == circuitElementInspectionView )
     {
@@ -407,7 +409,7 @@ shouldEditTableColumn:(NSTableColumn *)aTableColumn
 // NSTableView delegate method
 // Disallows selection of items in the subcircuit port assignment table.
 - (BOOL)tableView:(NSTableView *)aTableView
-  shouldSelectRow:(int)rowIndex
+  shouldSelectRow:(NSInteger)rowIndex
 {
     if (aTableView == subcircuitElementInspectionView)
         return NO;
@@ -462,7 +464,7 @@ shouldEditTableColumn:(NSTableColumn *)aTableColumn
     NSWindow* documentWindow = [NSApp mainWindow];
     if (documentWindow && [[documentWindow delegate] isKindOfClass:[CircuitDocument class]])
     {
-        CircuitDocument* doc = [documentWindow delegate];
+        CircuitDocument* doc = (CircuitDocument*)[documentWindow delegate];
         [doc createSchematicUndoPointForModificationType:MI_SCHEMATIC_EDIT_PROPERTY_CHANGE];
         [inspectedElement setLabel:[sender stringValue]];
         [[doc canvas] setNeedsDisplay:YES];
@@ -508,17 +510,16 @@ shouldEditTableColumn:(NSTableColumn *)aTableColumn
 
 - (IBAction) setTextFont:(id)sender
 {
-    if (inspectedElement && [inspectedElement isKindOfClass:[MI_TextElement class]])
-    {
-        MI_TextElement* te = (MI_TextElement*) inspectedElement;
-        NSFontManager* fm = [NSFontManager sharedFontManager];
-        [[fm fontPanel:YES] makeFirstResponder:nil];
-        [fm setDelegate:self];
-        [[fm fontPanel:YES] setDelegate:self];
-        [fm setSelectedFont:[te font]
-                 isMultiple:NO];
-        [fm orderFrontFontPanel:self];
-    }
+  if (inspectedElement && [inspectedElement isKindOfClass:[MI_TextElement class]])
+  {
+    MI_TextElement* te = (MI_TextElement*) inspectedElement;
+    NSFontManager* fm = [NSFontManager sharedFontManager];
+    NSFontPanel* panel = [fm fontPanel:YES];
+    [panel setDelegate:self];
+    [panel makeFirstResponder:nil];
+    [fm setSelectedFont:[te font] isMultiple:NO];
+    [fm orderFrontFontPanel:self];
+  }
 }
 
 
@@ -560,16 +561,19 @@ shouldEditTableColumn:(NSTableColumn *)aTableColumn
 
 - (IBAction) setLabelPosition:(MI_DirectionChooser*)chooser
 {
-    NSWindow* documentWindow = [NSApp mainWindow];
-    if (documentWindow &&
-        [[documentWindow delegate] isKindOfClass:[CircuitDocument class]])
+  NSWindow* documentWindow = [NSApp mainWindow];
+  if (documentWindow && [[documentWindow delegate] isKindOfClass:[CircuitDocument class]])
+  {
+    CircuitDocument* document = (CircuitDocument*)[documentWindow delegate];
+    NSEnumerator* elementEnum = [[[document model] schematic] selectedElementEnumerator];
+    MI_SchematicElement* tmpElement;
+    MI_Direction const newDirection = (chooser != nil) ? [chooser selectedDirection] : [labelPositionChooser selectedDirection];
+    while (tmpElement = [elementEnum nextObject])
     {
-        NSEnumerator* elementEnum = [[[(CircuitDocument*)[documentWindow delegate] model] schematic] selectedElementEnumerator];
-        MI_SchematicElement* tmpElement;
-        while (tmpElement = [elementEnum nextObject])
-            [tmpElement setLabelPosition:[chooser selectedDirection]];
-        [[(CircuitDocument*)[documentWindow delegate] canvas] setNeedsDisplay:YES];
+      [tmpElement setLabelPosition:newDirection];
     }
+    [[document canvas] setNeedsDisplay:YES];
+  }
 }
 
 /**************************************************************************/

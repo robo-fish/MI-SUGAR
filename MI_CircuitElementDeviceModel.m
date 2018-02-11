@@ -45,7 +45,7 @@
 
 - (MI_DeviceModelType) type
 {
-    return NO_DEVICE_MODEL_TYPE;
+    return MI_DeviceModelTypeNone;
 }
 
 
@@ -73,9 +73,9 @@
 
 - (id) copyWithZone:(NSZone*) zone
 {
-    MI_CircuitElementDeviceModel* myCopy = [[[self class] allocWithZone:zone] initWithName:self.modelName];
-    myCopy.deviceParameters = self.deviceParameters;
-    return myCopy;
+  MI_CircuitElementDeviceModel* myCopy = [[[self class] allocWithZone:zone] initWithName:self.modelName];
+  myCopy.deviceParameters = self.deviceParameters;
+  return myCopy;
 }
 
 - (id) mutableCopyWithZone:(NSZone*) zone
@@ -114,7 +114,7 @@
 
 - (MI_DeviceModelType) type
 {
-    return DIODE_DEVICE_MODEL_TYPE;
+    return MI_DeviceModelTypeDiode;
 }
 
 @end
@@ -146,7 +146,7 @@
 
 - (MI_DeviceModelType) type
 {
-    return BJT_DEVICE_MODEL_TYPE;
+    return MI_DeviceModelTypeBJT;
 }
 
 @end
@@ -171,7 +171,7 @@
 
 - (MI_DeviceModelType) type
 {
-    return JFET_DEVICE_MODEL_TYPE;
+    return MI_DeviceModelTypeJFET;
 }
 
 @end
@@ -191,7 +191,7 @@
 
 - (MI_DeviceModelType) type
 {
-    return MOS_DEVICE_MODEL_TYPE;
+    return MI_DeviceModelTypeMOSFET;
 }
 
 @end
@@ -212,7 +212,7 @@
 
 - (MI_DeviceModelType) type
 {
-  return MOS_DEVICE_MODEL_TYPE;
+  return MI_DeviceModelTypeMOSFET;
 }
 
 @end
@@ -291,7 +291,7 @@
 
 - (MI_DeviceModelType) type
 {
-    return MOS_DEVICE_MODEL_TYPE;
+    return MI_DeviceModelTypeMOSFET;
 }
 
 @end
@@ -369,7 +369,7 @@
 
 - (MI_DeviceModelType) type
 {
-    return MOS_DEVICE_MODEL_TYPE;
+    return MI_DeviceModelTypeMOSFET;
 }
 
 @end
@@ -391,7 +391,7 @@
 
 - (MI_DeviceModelType) type
 {
-    return SWITCH_DEVICE_MODEL_TYPE;
+    return MI_DeviceModelTypeSwitch;
 }
 
 @end
@@ -413,7 +413,7 @@
 
 - (MI_DeviceModelType) type
 {
-  return TRANSMISSION_LINE_DEVICE_MODEL_TYPE;
+  return MI_DeviceModelTypeTransmissionLine;
 }
 
 @end

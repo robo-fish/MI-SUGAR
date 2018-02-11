@@ -57,7 +57,7 @@ BOOL drawToBufferedImage = NO;
         selectionBoxColor = [NSColor orangeColor];
         highlightPoint = NO;
         highlightedPoint = NSMakeRect(0,0,0,0);
-        visitedPanningStrip = MI_DIRECTION_NONE;
+        visitedPanningStrip = MI_DirectionNone;
         panning = NO;
         viewportOffset = NSMakePoint(0, 0);
     }
@@ -212,13 +212,13 @@ the original clipping rectangle.
                            alpha:0.5f] set];
     switch (visitedPanningStrip)
     {
-        case MI_DIRECTION_LEFT:
+        case MI_DirectionLeft:
             [NSBezierPath fillRect:NSMakeRect(1, 1, LEFT_PANNING_STRIP_WIDTH - 1, rect.size.height - 2)]; break;
-        case MI_DIRECTION_RIGHT:
+        case MI_DirectionRight:
             [NSBezierPath fillRect:NSMakeRect(rect.size.width - RIGHT_PANNING_STRIP_WIDTH - 1, 1, RIGHT_PANNING_STRIP_WIDTH, rect.size.height - 2)]; break;
-        case MI_DIRECTION_UP:
+        case MI_DirectionUp:
             [NSBezierPath fillRect:NSMakeRect(1, rect.size.height - TOP_PANNING_STRIP_HEIGHT - 1, rect.size.width - 2, TOP_PANNING_STRIP_HEIGHT)]; break;
-        case MI_DIRECTION_DOWN:
+        case MI_DirectionDown:
             [NSBezierPath fillRect:NSMakeRect(1, 1, rect.size.width - 2, BOTTOM_PANNING_STRIP_HEIGHT - 1)]; break;
         default: /*do nothing*/;
     }
@@ -525,18 +525,18 @@ the original clipping rectangle.
     switch (visitedPanningStrip)
     {
         // Move the canvas in the opposite direction of the clicked panning strip
-        case MI_DIRECTION_LEFT:
+        case MI_DirectionLeft:
             [self relativeMoveViewportOffset:NSMakePoint( stepSize,    0.0f)]; break;
-        case MI_DIRECTION_RIGHT:
+        case MI_DirectionRight:
             [self relativeMoveViewportOffset:NSMakePoint( -stepSize,    0.0f)]; break;
-        case MI_DIRECTION_UP:
+        case MI_DirectionUp:
             [self relativeMoveViewportOffset:NSMakePoint(   0.0f, -stepSize)]; break;
-        case MI_DIRECTION_DOWN:
+        case MI_DirectionDown:
             [self relativeMoveViewportOffset:NSMakePoint(   0.0f, stepSize)]; break;
         default: ;
     }
     
-    if (visitedPanningStrip != MI_DIRECTION_NONE)
+    if (visitedPanningStrip != MI_DirectionNone)
         [self setNeedsDisplay:YES];
     else
     {
@@ -589,15 +589,15 @@ the original clipping rectangle.
     MI_Direction previouslyVisitedPanningStrip = visitedPanningStrip;
     NSSize s = [self frame].size;
     if (NSPointInRect(mousePosition, NSMakeRect(0, 0, LEFT_PANNING_STRIP_WIDTH, s.height)))
-        visitedPanningStrip = MI_DIRECTION_LEFT;
+        visitedPanningStrip = MI_DirectionLeft;
     else if (NSPointInRect(mousePosition, NSMakeRect(s.width - RIGHT_PANNING_STRIP_WIDTH, 0, RIGHT_PANNING_STRIP_WIDTH, s.height)))
-        visitedPanningStrip = MI_DIRECTION_RIGHT;
+        visitedPanningStrip = MI_DirectionRight;
     else if (NSPointInRect(mousePosition, NSMakeRect(0, s.height - TOP_PANNING_STRIP_HEIGHT, s.width, TOP_PANNING_STRIP_HEIGHT)))
-        visitedPanningStrip = MI_DIRECTION_UP;
+        visitedPanningStrip = MI_DirectionUp;
     else if (NSPointInRect(mousePosition, NSMakeRect(0, 0, s.width, BOTTOM_PANNING_STRIP_HEIGHT)))
-        visitedPanningStrip = MI_DIRECTION_DOWN;
+        visitedPanningStrip = MI_DirectionDown;
     else
-        visitedPanningStrip = MI_DIRECTION_NONE;
+        visitedPanningStrip = MI_DirectionNone;
     
     [[[SugarManager sharedManager] currentTool]
           mouseMoved:[[controller model] schematic]

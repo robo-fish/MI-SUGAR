@@ -35,7 +35,7 @@
 }
 
 
-- (AnalysisVariable*) variableAtIndex:(int)index
+- (AnalysisVariable*) variableAtIndex:(long)index
 {
     //if (index > -1 && index < [variables count])
         return [variables objectAtIndex:index];

@@ -98,16 +98,16 @@
             currentPoint = [[currentElement connectionPoints] objectForKey:[nodeTableItem pointName]];
             effectivePosition = (int)[currentPoint preferredNodeNumberPlacement];
             // Check the rotation and flip of the element and change the position accordingly
-            if (effectivePosition != MI_DIRECTION_NONE)
+            if (effectivePosition != MI_DirectionNone)
             {
                 if ([currentElement flippedHorizontally])
                 {
                     switch (effectivePosition)
                     {
-                        case MI_DIRECTION_NORTHEAST: effectivePosition = MI_DIRECTION_NORTHWEST; break;
-                        case MI_DIRECTION_NORTHWEST: effectivePosition = MI_DIRECTION_NORTHEAST; break;
-                        case MI_DIRECTION_SOUTHEAST: effectivePosition = MI_DIRECTION_SOUTHWEST; break;
-                        case MI_DIRECTION_SOUTHWEST: effectivePosition = MI_DIRECTION_SOUTHEAST; break;
+                        case MI_DirectionNortheast: effectivePosition = MI_DirectionNorthwest; break;
+                        case MI_DirectionNorthwest: effectivePosition = MI_DirectionNortheast; break;
+                        case MI_DirectionSoutheast: effectivePosition = MI_DirectionSouthwest; break;
+                        case MI_DirectionSouthwest: effectivePosition = MI_DirectionSoutheast; break;
                         default: /*do nothing*/;
                     }
                 }
@@ -136,36 +136,36 @@
             switch (effectivePosition)
             {
 #ifdef ROUNDED_NODE_NUMBER_BACKGROUND
-                case MI_DIRECTION_NORTHWEST:
+                case MI_DirectionNorthwest:
                     xOffset = -3.0f - stringSize.width - stringSize.height/2.0f;
                     yOffset = 3.0f;
                     break;
-                case MI_DIRECTION_NORTHEAST:
+                case MI_DirectionNortheast:
                     xOffset = 3.0f + stringSize.height/2.0f;
                     yOffset = 3.0f;
                     break;
-                case MI_DIRECTION_SOUTHWEST:
+                case MI_DirectionSouthwest:
                     xOffset = -3.0f - stringSize.width - stringSize.height/2.0f;
                     yOffset = -3.0f - stringSize.height;
                     break;
-                case MI_DIRECTION_SOUTHEAST:
+                case MI_DirectionSoutheast:
                     xOffset = 3.0f + stringSize.height/2.0f;
                     yOffset = -3.0f - stringSize.height;
                     break;
 #else
-                case MI_DIRECTION_NORTHWEST:
+                case MI_DirectionNorthwest:
                     xOffset = -3.0f - stringSize.width;
                     yOffset = 3.0f;
                     break;
-                case MI_DIRECTION_NORTHEAST:
+                case MI_DirectionNortheast:
                     xOffset = 3.0f;
                     yOffset = 3.0f;
                     break;
-                case MI_DIRECTION_SOUTHWEST:
+                case MI_DirectionSouthwest:
                     xOffset = -3.0f - stringSize.width;
                     yOffset = -3.0f - stringSize.height;
                     break;
-                case MI_DIRECTION_SOUTHEAST:
+                case MI_DirectionSoutheast:
                     xOffset = 3.0f;
                     yOffset = -3.0f - stringSize.height;
                     break;

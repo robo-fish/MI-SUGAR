@@ -241,23 +241,23 @@ NSString* MI_SCHEMATIC_EDIT_PROPERTY_CHANGE = @"Edit Property";
 - (MI_ConnectionPoint*) connectionPointOfElement:(MI_SchematicElement*)element
                              forRelativePosition:(NSPoint)relPosition
 {
-    NSEnumerator* pointEnum = [[element connectionPoints] objectEnumerator];
-    MI_ConnectionPoint* currentPoint;
-    while (currentPoint = [pointEnum nextObject])
+  for (MI_ConnectionPoint* currentPoint in [[element connectionPoints] allValues])
+  {
+    /*
+    NSLog(@"relative position = (%f, %f)", relPosition.x, relPosition.y);
+    NSLog(@"checking connection at (%f, %f)", [currentPoint relativePosition].x,
+          [currentPoint relativePosition].y);
+    */
+    NSRect const rect = NSMakeRect([currentPoint relativePosition].x - [currentPoint size].width / 2,
+                                   [currentPoint relativePosition].y - [currentPoint size].height / 2,
+                                   [currentPoint size].width,
+                                   [currentPoint size].height);
+    if (NSPointInRect(relPosition, rect))
     {
-        /*
-        NSLog(@"relative position = (%f, %f)", relPosition.x, relPosition.y);
-        NSLog(@"checking connection at (%f, %f)", [currentPoint relativePosition].x,
-              [currentPoint relativePosition].y);
-        */      
-        if (NSPointInRect(relPosition,
-                     NSMakeRect([currentPoint relativePosition].x - [currentPoint size].width / 2,
-                                [currentPoint relativePosition].y - [currentPoint size].height / 2,
-                                [currentPoint size].width,
-                                [currentPoint size].height)))
-            return currentPoint;
+      return currentPoint;
     }
-    return nil;
+  }
+  return nil;
 }
 
 
@@ -393,19 +393,19 @@ NSString* MI_SCHEMATIC_EDIT_PROPERTY_CHANGE = @"Edit Property";
             NSPoint quickInfoPosition;
             switch ([currentElement labelPosition])
             {
-                case MI_DIRECTION_LEFT:
+                case MI_DirectionLeft:
                     quickInfoPosition = NSMakePoint([currentElement position].x + [currentElement size].width/2.0f + 2.0f,
                         [currentElement position].y - quickInfoSize.height/2.0f);
                     break;
-                case MI_DIRECTION_RIGHT:
+                case MI_DirectionRight:
                     quickInfoPosition = NSMakePoint([currentElement position].x - [currentElement size].width/2.0f -
                         quickInfoSize.width - 2.0f, [currentElement position].y - quickInfoSize.height/2.0f);
                     break;
-                case MI_DIRECTION_UP:
+                case MI_DirectionUp:
                     quickInfoPosition = NSMakePoint([currentElement position].x - quickInfoSize.width/2.0f,
                         [currentElement position].y - [currentElement size].height/2.0f - quickInfoSize.height - 2.0f);
                     break;
-                default: /* MI_DIRECTION_DOWN */
+                default: /* MI_DirectionDown */
                     quickInfoPosition = NSMakePoint([currentElement position].x - quickInfoSize.width/2.0f,
                         [currentElement position].y + [currentElement size].height/2.0f + 2.0f);
             }
@@ -487,10 +487,7 @@ NSString* MI_SCHEMATIC_EDIT_PROPERTY_CHANGE = @"Edit Property";
 - (MI_SchematicInfo*) infoForLocation:(NSPoint)location
 {
   MI_SchematicElement* targetElement;
-  MI_SchematicInfo* info = [MI_SchematicInfo new];
-  info.element = nil;
-  info.connectionPoint = nil;
-  info.isConnected = NO;
+  MI_SchematicInfo* info = [[MI_SchematicInfo alloc] init];
 
   targetElement = [self elementAtPosition:location];
 
@@ -822,14 +819,14 @@ NSString* MI_SCHEMATIC_EDIT_PROPERTY_CHANGE = @"Edit Property";
         // Update label positions
         if (left || right)
         {
-            if ([currentElement labelPosition] == MI_DIRECTION_UP)
-                [currentElement setLabelPosition:(left ? MI_DIRECTION_LEFT : MI_DIRECTION_RIGHT)];
-            else if ([currentElement labelPosition] == MI_DIRECTION_LEFT)
-                [currentElement setLabelPosition:(left ? MI_DIRECTION_DOWN : MI_DIRECTION_UP)];
-            else if ([currentElement labelPosition] == MI_DIRECTION_DOWN)
-                [currentElement setLabelPosition:(left ? MI_DIRECTION_RIGHT : MI_DIRECTION_LEFT)];
-            else if ([currentElement labelPosition] == MI_DIRECTION_RIGHT)
-                [currentElement setLabelPosition:(left ? MI_DIRECTION_UP : MI_DIRECTION_DOWN)];
+            if ([currentElement labelPosition] == MI_DirectionUp)
+                [currentElement setLabelPosition:(left ? MI_DirectionLeft : MI_DirectionRight)];
+            else if ([currentElement labelPosition] == MI_DirectionLeft)
+                [currentElement setLabelPosition:(left ? MI_DirectionDown : MI_DirectionUp)];
+            else if ([currentElement labelPosition] == MI_DirectionDown)
+                [currentElement setLabelPosition:(left ? MI_DirectionRight : MI_DirectionLeft)];
+            else if ([currentElement labelPosition] == MI_DirectionRight)
+                [currentElement setLabelPosition:(left ? MI_DirectionUp : MI_DirectionDown)];
         }
         
         pointEnum = [[currentElement connectionPoints] objectEnumerator];
@@ -850,10 +847,10 @@ NSString* MI_SCHEMATIC_EDIT_PROPERTY_CHANGE = @"Edit Property";
     {
         [currentElement flip:horizontally];
         // update label position
-        if ([currentElement labelPosition] == MI_DIRECTION_RIGHT)
-            [currentElement setLabelPosition:MI_DIRECTION_LEFT];
-        else if ([currentElement labelPosition] == MI_DIRECTION_LEFT)
-            [currentElement setLabelPosition:MI_DIRECTION_RIGHT];
+        if ([currentElement labelPosition] == MI_DirectionRight)
+            [currentElement setLabelPosition:MI_DirectionLeft];
+        else if ([currentElement labelPosition] == MI_DirectionLeft)
+            [currentElement setLabelPosition:MI_DirectionRight];
         // update connection lines
         pointEnum = [[currentElement connectionPoints] objectEnumerator];
         while (currentPoint = [pointEnum nextObject])

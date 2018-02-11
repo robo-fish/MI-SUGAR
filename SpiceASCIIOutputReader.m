@@ -56,7 +56,7 @@
     BOOL sweepIsComplex = NO; // indicates whether the sweep variable is complex-valued
     ResultsTable* table = nil;
     NSString* circuitName = nil;
-    int variableIndexOffset = 0;
+    NSInteger variableIndexOffset = 0;
     double sweepStartValue = 0.0;
     NSString* input = [model output];
 

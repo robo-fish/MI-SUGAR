@@ -37,11 +37,6 @@
     NSTextContainer *textContainer = [NSTextContainer new];
     [layoutManager addTextContainer:textContainer];
     [textStorage addLayoutManager:layoutManager];
-        
-    // Screen fonts are not suitable for scaled or rotated drawing.
-    // Views that use NSLayoutManager directly for text drawing should
-    // set this parameter appropriately.
-    [layoutManager setUsesScreenFonts:NO];
     
     // Note that usedRectForTextContainer: does not force layout, so it must
     // be called after glyphRangeForTextContainer:, which does force layout.

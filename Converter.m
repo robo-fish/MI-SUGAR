@@ -419,6 +419,7 @@ NSString* schematicToNetlistCore(CircuitDocumentModel* circuit)
         else if ([currentElement isKindOfClass:[MI_TransmissionLineElement class]])
         {
             model = [[currentElement parameters] objectForKey:@"Model"];
+            assert(model != nil);
             if (![[currentElement label] hasPrefix:@"O"])
                 [netlist appendString:@"O"];
             [netlist appendFormat:@"%@ %@ %@ %@ %@ %@\n",
@@ -429,8 +430,7 @@ NSString* schematicToNetlistCore(CircuitDocumentModel* circuit)
                 nodeForConnectionPoint(@"B2", [currentElement identifier], globalNodeTable),
                 model
             ];
-            [models setObject:[NSNumber numberWithInt:LTRA]
-                       forKey:model];
+            [models setObject:[NSNumber numberWithInt:LTRA] forKey:model];
         }
         else if ([currentElement isKindOfClass:[MI_DiodeElement class]] ||
                  [currentElement isKindOfClass:[MI_ZenerDiodeElement class]] ||
@@ -438,6 +438,7 @@ NSString* schematicToNetlistCore(CircuitDocumentModel* circuit)
                  [currentElement isKindOfClass:[MI_PhotoDiodeElement class]] )
         {
             model = [[currentElement parameters] objectForKey:@"Model"];
+            assert(model != nil);
             if (![[currentElement label] hasPrefix:@"D"])
                 [netlist appendString:@"D"];
             [netlist appendFormat:@"%@ %@ %@ %@ ",
@@ -453,13 +454,13 @@ NSString* schematicToNetlistCore(CircuitDocumentModel* circuit)
             if ([(NSString*)[[currentElement parameters] objectForKey:@"Op. Temperature"] length] > 0)
                 [netlist appendFormat:@" TEMP=%@", [[currentElement parameters] objectForKey:@"Op. Temperature"]];
             [netlist appendString:@"\n"];
-            [models setObject:[NSNumber numberWithInt:D]
-                       forKey:model];
+            [models setObject:[NSNumber numberWithInt:D] forKey:model];
         }
         else if ([currentElement isKindOfClass:[MI_NPNTransistorElement class]] ||
                  [currentElement isKindOfClass:[MI_PNPTransistorElement class]] )
         {
             model = [[currentElement parameters] objectForKey:@"Model"];
+            assert(model != nil);
             if (![[currentElement label] hasPrefix:@"Q"])
                 [netlist appendString:@"Q"];
             [netlist appendFormat:@"%@ %@ %@ %@ %@ ",
@@ -476,13 +477,13 @@ NSString* schematicToNetlistCore(CircuitDocumentModel* circuit)
             if ([(NSString*)[[currentElement parameters] objectForKey:@"Op. Temperature"] length] > 0)
                 [netlist appendFormat:@" TEMP=%@", [[currentElement parameters] objectForKey:@"Op. Temperature"]];
             [netlist appendString:@"\n"];
-            [models setObject:[NSNumber numberWithInt:([currentElement isKindOfClass:[MI_NPNTransistorElement class]] ? NPN : PNP)]
-                       forKey:model];
+            [models setObject:[NSNumber numberWithInt:([currentElement isKindOfClass:[MI_NPNTransistorElement class]] ? NPN : PNP)] forKey:model];
         }
         else if ([currentElement isKindOfClass:[MI_NJFETTransistorElement class]] ||
                  [currentElement isKindOfClass:[MI_PJFETTransistorElement class]] )
         {
             model = [[currentElement parameters] objectForKey:@"Model"];
+            assert(model != nil);
             if (![[currentElement label] hasPrefix:@"J"])
                 [netlist appendString:@"J"];
             [netlist appendFormat:@"%@ %@ %@ %@ %@ ",
@@ -499,16 +500,16 @@ NSString* schematicToNetlistCore(CircuitDocumentModel* circuit)
             if ([(NSString*)[[currentElement parameters] objectForKey:@"Op. Temperature"] length] > 0)
                 [netlist appendFormat:@" TEMP=%@", [[currentElement parameters] objectForKey:@"Op. Temperature"]];
             [netlist appendString:@"\n"];
-            [models setObject:[NSNumber numberWithInt:([currentElement isKindOfClass:[MI_NJFETTransistorElement class]]) ? NJF : PJF]
-                       forKey:model];
+            [models setObject:[NSNumber numberWithInt:([currentElement isKindOfClass:[MI_NJFETTransistorElement class]]) ? NJF : PJF] forKey:model];
         }
         else if ([currentElement conformsToProtocol:@protocol(MI_MOSFET_Element)])
         {
             model = [[currentElement parameters] objectForKey:@"Model"];
+            assert(model != nil);
             if (![[currentElement label] hasPrefix:@"M"])
                 [netlist appendString:@"M"];
             NSString* fourthConnector;
-            if ([currentElement conformsToProtocol:@protocol(MI_MOSFETwithBulkConnector)])
+            if ([currentElement conformsToProtocol:@protocol(MI_MOSFETWithBulkConnector)])
                 fourthConnector = @"Bulk";
             else
                 fourthConnector = @"Source";
@@ -540,12 +541,12 @@ NSString* schematicToNetlistCore(CircuitDocumentModel* circuit)
             //if ([(NSString*)[[currentElement parameters] objectForKey:@"TEMP"] length] > 0)
             //    [netlist appendFormat:@" TEMP=%@", [[currentElement parameters] objectForKey:@"TEMP"]];
             [netlist appendString:@"\n"];
-            [models setObject:[NSNumber numberWithInt:([currentElement conformsToProtocol:@protocol(MI_NMOS_Element)] ? NMOS : PMOS)]
-                       forKey:model];
+            [models setObject:[NSNumber numberWithInt:([currentElement conformsToProtocol:@protocol(MI_NMOS_Element)] ? NMOS : PMOS)] forKey:model];
         }
         else if ([currentElement isKindOfClass:[MI_VoltageControlledSwitchElement class]])
         {
             model = [[currentElement parameters] objectForKey:@"Model"];
+            assert(model != nil);
             if (![[currentElement label] hasPrefix:@"S"])
                 [netlist appendString:@"S"];
             [netlist appendFormat:@"%@ %@ %@ %@ %@ %@ %@\n",
@@ -558,8 +559,7 @@ NSString* schematicToNetlistCore(CircuitDocumentModel* circuit)
                 [[(NSString*)[[currentElement parameters] objectForKey:@"DC Initial State"] uppercaseString]
                     isEqualToString:@"OFF"] ? @"OFF" : @"ON"
             ];
-            [models setObject:[NSNumber numberWithInt:SW]
-                       forKey:model];
+            [models setObject:[NSNumber numberWithInt:SW] forKey:model];
         }
         else if ([currentElement isKindOfClass:[MI_DCVoltageSourceElement class]])
         {

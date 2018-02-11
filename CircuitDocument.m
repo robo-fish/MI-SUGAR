@@ -104,6 +104,12 @@ NSString* SPICE_Raw                              = @"SPICE raw output";
 }
 
 
+- (void) dealloc
+{
+  [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+
 - (NSString*) windowNibName
 {
     /* Override returning the nib file name of the document
@@ -334,121 +340,124 @@ NSString* SPICE_Raw                              = @"SPICE raw output";
 - (BOOL) readFromFile:(NSString*)fileName
                ofType:(NSString*)aType
 {
-    if ([aType isEqualToString:NETLIST])
+  if ([aType isEqualToString:NETLIST])
+  {
+      NSDictionary* fileAttribs = [[NSFileManager defaultManager]
+          fileAttributesAtPath:fileName
+                  traverseLink:YES];
+      if (fileAttribs != nil)
+      {
+          if ([[fileAttribs objectForKey:NSFileSize] intValue] < 262144 /* = 256 KB */)
+          {
+              NSUInteger f1, f2;
+              NSString* fileContent = [NSString stringWithContentsOfFile:fileName];
+              NSMutableString* filteredContent =
+                  [NSMutableString stringWithCapacity:[fileContent length]];
+              [filteredContent setString:fileContent];
+              // Replace CR+LF combinations with LF
+              f1 = [filteredContent replaceOccurrencesOfString:@"\r\n"
+                                                    withString:@"\n"
+                                                       options:0
+                                                         range:NSMakeRange(0, [filteredContent length])];
+              // Replace remaining Windows-style CRs with LFs
+              f2 = [filteredContent replaceOccurrencesOfString:@"\r"
+                                                    withString:@"\n"
+                                                       options:0
+                                                         range:NSMakeRange(0, [filteredContent length])];
+              if (f1 || f2)
+              {
+                  BOOL convertTheFile = NO;
+                  NSString* policy = [[NSUserDefaults standardUserDefaults] objectForKey:MISUGAR_LINE_ENDING_CONVERSION_POLICY];
+                  if ([policy isEqualToString:@"Ask"])
+                      convertTheFile = (NSRunInformationalAlertPanel(@"Incompatible Character(s) Found",
+                          @"This file contains Windows-style line ending characters that may produce errors when running SPICE. The content has been converted for this session. Do you want me to save the converted version to the original file?",
+                          @"Yes", @"No", nil) == NSAlertDefaultReturn);
+                  else if ([policy isEqualToString:@"Always"])
+                      convertTheFile = YES;
+                  if (convertTheFile)
+                  {
+                      if (![filteredContent writeToFile:fileName
+                                             atomically:NO])
+                          NSRunInformationalAlertPanel(@"File Save Error",
+                              @"An error occured while attempting to save the converted version to the original file.", nil, nil, nil);
+                  }
+              }
+              [myModel setSource:[NSString stringWithString:filteredContent]];
+              [myModel setRawOutput:nil];
+              [self setFileName:fileName];
+              [self setFileType:NETLIST];
+              // Add this file to the list of recent files
+              [[NSDocumentController sharedDocumentController]
+                  noteNewRecentDocumentURL:[NSURL fileURLWithPath:fileName]];
+              return YES;
+          }
+          else
+              NSBeginAlertSheet(nil, nil, nil, nil, window, nil, nil, nil,
+                  nil, @"The file is too large to be a circuit description!");
+      }
+      else
+          NSBeginAlertSheet(nil, nil, nil, nil, window, nil,  nil, nil,
+              nil, @"The file does not exist!");
+  }
+  else if ([aType isEqualToString:SUGAR_FILE_TYPE])
+  {
+    CircuitDocumentModel* newModel;
+    int fileVersion;
+    NSArray* deviceModels;
+    @try
     {
-        NSDictionary* fileAttribs = [[NSFileManager defaultManager]
-            fileAttributesAtPath:fileName
-                    traverseLink:YES];
-        if (fileAttribs != nil)
-        {
-            if ([[fileAttribs objectForKey:NSFileSize] intValue] < 262144 /* = 256 KB */)
-            {
-                NSUInteger f1, f2;
-                NSString* fileContent = [NSString stringWithContentsOfFile:fileName];
-                NSMutableString* filteredContent =
-                    [NSMutableString stringWithCapacity:[fileContent length]];
-                [filteredContent setString:fileContent];
-                // Replace CR+LF combinations with LF
-                f1 = [filteredContent replaceOccurrencesOfString:@"\r\n"
-                                                      withString:@"\n"
-                                                         options:0
-                                                           range:NSMakeRange(0, [filteredContent length])];
-                // Replace remaining Windows-style CRs with LFs
-                f2 = [filteredContent replaceOccurrencesOfString:@"\r"
-                                                      withString:@"\n"
-                                                         options:0
-                                                           range:NSMakeRange(0, [filteredContent length])];
-                if (f1 || f2)
-                {
-                    BOOL convertTheFile = NO;
-                    NSString* policy = [[NSUserDefaults standardUserDefaults] objectForKey:MISUGAR_LINE_ENDING_CONVERSION_POLICY];
-                    if ([policy isEqualToString:@"Ask"])
-                        convertTheFile = (NSRunInformationalAlertPanel(@"Incompatible Character(s) Found",
-                            @"This file contains Windows-style line ending characters that may produce errors when running SPICE. The content has been converted for this session. Do you want me to save the converted version to the original file?",
-                            @"Yes", @"No", nil) == NSAlertDefaultReturn);
-                    else if ([policy isEqualToString:@"Always"])
-                        convertTheFile = YES;
-                    if (convertTheFile)
-                    {
-                        if (![filteredContent writeToFile:fileName
-                                               atomically:NO])
-                            NSRunInformationalAlertPanel(@"File Save Error",
-                                @"An error occured while attempting to save the converted version to the original file.", nil, nil, nil);
-                    }
-                }
-                [myModel setSource:[NSString stringWithString:filteredContent]];
-                [myModel setRawOutput:nil];
-                [self setFileName:fileName];
-                [self setFileType:NETLIST];
-                // Add this file to the list of recent files
-                [[NSDocumentController sharedDocumentController]
-                    noteNewRecentDocumentURL:[NSURL fileURLWithPath:fileName]];
-                return YES;
-            }
-            else
-                NSBeginAlertSheet(nil, nil, nil, nil, window, nil, nil, nil,
-                    nil, @"The file is too large to be a circuit description!");
-        }
-        else
-            NSBeginAlertSheet(nil, nil, nil, nil, window, nil,  nil, nil,
-                nil, @"The file does not exist!");
+      NSData* data = [NSData dataWithContentsOfFile:fileName];
+      if (data == nil)
+          return NO;
+      NSKeyedUnarchiver* unarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
+
+      // Convert or purge deprecated classes
+      [unarchiver setClass:[MI_MOSDeviceModel class]
+              forClassName:@"MI_BSIM3_MOSDeviceModel"];
+      [unarchiver setClass:[MI_MOSDeviceModel class]
+              forClassName:@"MI_BSIM4_NMOSDeviceModel"];
+      [unarchiver setClass:[MI_MOSDeviceModel class]
+              forClassName:@"MI_BSIM4_PMOSDeviceModel"];
+
+      fileVersion = [[unarchiver decodeObjectForKey:@"Version"] intValue];
+      newModel = [unarchiver decodeObjectForKey:@"MI-SUGAR Document Model"];
+      deviceModels = [unarchiver decodeObjectForKey:@"MI-SUGAR Circuit Device Models"];
+      [unarchiver finishDecoding];
     }
-    else if ([aType isEqualToString:SUGAR_FILE_TYPE])
+    @catch (id)
     {
-        CircuitDocumentModel* newModel;
-        int fileVersion;
-        NSArray* deviceModels;
-    NS_DURING
-        NSMutableData* data = [NSData dataWithContentsOfFile:fileName];
-        if (data == nil)
+      NSBeginInformationalAlertSheet(@"Invalid or corrupt file.",
+          nil, nil, nil, window, nil, nil, nil, nil,
+          @"Could not load %@. It was probably created by a newer version of MI-SUGAR and contains objects unknown to this version. It may also have been corrupted or maybe it's not a MI-SUGAR file at all.", fileName);
+      return NO;
+    }
+    if ([newModel isKindOfClass:[CircuitDocumentModel class]])
+    {
+      if (fileVersion > MISUGAR_DOCUMENT_VERSION)
+      {
+        if (NSRunAlertPanel(@"Encountered newer file version.",
+            @"%@ has been created by a newer version of MI-SUGAR. You may experience problems with this file.",
+             @"Abort", @"Open Anyway", nil, fileName) == NSOKButton)
             return NO;
-        NSKeyedUnarchiver* unarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
-        
-        // Convert or purge deprecated classes
-        [unarchiver setClass:[MI_MOSDeviceModel class]
-                forClassName:@"MI_BSIM3_MOSDeviceModel"];
-        [unarchiver setClass:[MI_MOSDeviceModel class]
-                forClassName:@"MI_BSIM4_NMOSDeviceModel"];
-        [unarchiver setClass:[MI_MOSDeviceModel class]
-                forClassName:@"MI_BSIM4_PMOSDeviceModel"];
-        
-        fileVersion = [[unarchiver decodeObjectForKey:@"Version"] intValue];
-        newModel = [unarchiver decodeObjectForKey:@"MI-SUGAR Document Model"];
-        deviceModels = [unarchiver decodeObjectForKey:@"MI-SUGAR Circuit Device Models"];
-        [unarchiver finishDecoding];
-    NS_HANDLER
-        NSBeginInformationalAlertSheet(@"Invalid or corrupt file.",
-            nil, nil, nil, window, nil, nil, nil, nil,
-            @"Could not load %@. It was probably created by a newer version of MI-SUGAR and contains objects unknown to this version. It may also have been corrupted or maybe it's not a MI-SUGAR file at all.", fileName);
-        return NO;
-    NS_ENDHANDLER
-        if ([newModel isKindOfClass:[CircuitDocumentModel class]])
-        {
-            if (fileVersion > MISUGAR_DOCUMENT_VERSION)
-            {
-                if (NSRunAlertPanel(@"Encountered newer file version.",
-                    @"%@ has been created by a newer version of MI-SUGAR. You may experience problems with this file.",
-                     @"Abort", @"Open Anyway", nil, fileName) == NSOKButton)
-                    return NO;
-            }
-            [self setModel:newModel];
-            [myModel setRawOutput:nil];
-            // If the opened file includes new device models they are added to the local repository
-            [[MI_DeviceModelManager sharedManager] importDeviceModels:deviceModels];
-            [self setFileType:SUGAR_FILE_TYPE];
-            [self setFileName:fileName];
-            // Add this file to the list of recent files
-            [[NSDocumentController sharedDocumentController]
-                    noteNewRecentDocumentURL:[NSURL fileURLWithPath:fileName]];
-            // Go on to open the document NIB file
-            return YES;
-        }
-        else
-            NSBeginInformationalAlertSheet(@"Invalid file format.",
-                nil, nil, nil, window, nil, nil, nil, nil,
-                @"This file is not in a format which MI-SUGAR understands.");
+      }
+      [self setModel:newModel];
+      [myModel setRawOutput:nil];
+      // If the opened file includes new device models they are added to the local repository
+      [[MI_DeviceModelManager sharedManager] importDeviceModels:deviceModels];
+      [self setFileType:SUGAR_FILE_TYPE];
+      [self setFileName:fileName];
+      // Add this file to the list of recent files
+      [[NSDocumentController sharedDocumentController]
+              noteNewRecentDocumentURL:[NSURL fileURLWithPath:fileName]];
+      // Go on to open the document NIB file
+      return YES;
     }
-    return NO;
+    else
+      NSBeginInformationalAlertSheet(@"Invalid file format.",
+          nil, nil, nil, window, nil, nil, nil, nil,
+          @"This file is not in a format which MI-SUGAR understands.");
+  }
+  return NO;
 }
 
 
@@ -901,59 +910,59 @@ NSString* SPICE_Raw                              = @"SPICE raw output";
 
 /**************** SplitView delegate methods *****************/
 
-- (float)    splitView:(NSSplitView *)sender
-constrainMinCoordinate:(float)proposedMin
-           ofSubviewAt:(int)offset
+- (CGFloat) splitView:(NSSplitView *)sender constrainMinCoordinate:(float)proposedMin ofSubviewAt:(int)offset
 {
-    if (!hasVerticalLayout)
-    {
-        if (sender == verticalSplitter)
-            return 200.0f;
-        else /* if (sender = horizontalSplitter) */
-            return 100.0f;
-    }
-    else
-        return 0.0f;
+  if (hasVerticalLayout)
+  {
+    return 0.0;
+  }
+  if (sender == verticalSplitter)
+  {
+    return 50.0f;
+  }
+  else /* if (sender = horizontalSplitter) */
+  {
+    return 100.0f;
+  }
 }
 
-- (float)    splitView:(NSSplitView *)sender
-constrainMaxCoordinate:(float)proposedMax
-           ofSubviewAt:(int)offset
+- (CGFloat) splitView:(NSSplitView *)sender constrainMaxCoordinate:(float)proposedMax ofSubviewAt:(int)offset
 {
-    if (!hasVerticalLayout)
-    {
-        if (sender == verticalSplitter)
-            return [sender bounds].size.width - 200.0f;
-        else /* if (sender == horizontalSplitter) */
-            return [sender bounds].size.height - 100.0f;
-    }
-    else
-        return [sender frame].size.height;
+  if (hasVerticalLayout)
+  {
+    return [sender frame].size.height;
+  }
+  if (sender == verticalSplitter)
+  {
+    return [sender bounds].size.width - 200.0f;
+  }
+  else /* if (sender == horizontalSplitter) */
+  {
+    return [sender bounds].size.height - 50.0f;
+  }
 }
 
-- (BOOL) splitView:(NSSplitView*)sv
-canCollapseSubview:(NSView*)view
+- (BOOL) splitView:(NSSplitView*)sv canCollapseSubview:(NSView*)view
 {
-    if (!hasVerticalLayout)
-        return YES;
-    else
-        return NO;
+  return NO;
 }
 
 
-- (void)splitViewDidResizeSubviews:(NSNotification *)aNotification
+- (void) splitViewDidResizeSubviews:(NSNotification *)aNotification
 {
-    if ([aNotification object] == verticalSplitter && !hasVerticalLayout)
+  if ([aNotification object] == verticalSplitter && !hasVerticalLayout)
+  {
+    NSScrollView* s = [inputView enclosingScrollView];
+    CGFloat newScrollerWidth = [verticalSplitter frame].size.width -
+      [verticalSplitter dividerThickness] -
+      [[inputView lineNumberingView] frame].size.width;
+    if (![verticalSplitter isSubviewCollapsed:canvas])
     {
-        NSScrollView* s = [inputView enclosingScrollView];
-        float newScrollerWidth = [verticalSplitter frame].size.width -
-            [verticalSplitter dividerThickness] -
-            [[inputView lineNumberingView] frame].size.width;
-        if (![verticalSplitter isSubviewCollapsed:canvas])
-            newScrollerWidth -= [canvas frame].size.width;
-        [s setFrameSize:NSMakeSize(newScrollerWidth,[s frame].size.height)];
-        [s setNeedsDisplay:YES];
+      newScrollerWidth -= [canvas frame].size.width;
     }
+    [s setFrameSize:NSMakeSize(newScrollerWidth,[s frame].size.height)];
+    [s setNeedsDisplay:YES];
+  }
 }
 
 
@@ -1422,8 +1431,8 @@ canCollapseSubview:(NSView*)view
 - (void) setFileTypeAccordingToPolicy
 {
     int policy = [[[NSUserDefaults standardUserDefaults] objectForKey:MISUGAR_FILE_SAVING_POLICY] intValue];
-    if ( (policy == MI_AlwaysSaveAsPureNetlist) ||
-         ((policy == MI_SaveAsPureNetlistIfNoSchematic) && ([[myModel schematic] numberOfElements] == 0)) )
+    if ( (policy == MI_FileSavingPolicyAlwaysPureNetlist) ||
+         ((policy == MI_FileSavingPolicyNetlistWhenNoSchematic) && ([[myModel schematic] numberOfElements] == 0)) )
         [self setFileType:NETLIST];
     else
         [self setFileType:SUGAR_FILE_TYPE];        
@@ -1615,45 +1624,41 @@ canCollapseSubview:(NSView*)view
     [[MI_Inspector sharedInspector] inspectElement:nil];
     
     // Set the undo of this undo - which is a redo
-    [[self undoManager]
-        registerUndoWithTarget:self
-                      selector:@selector(restoreSchematic:)
-                        object:[NSKeyedArchiver archivedDataWithRootObject:[myModel schematic]]];
-    NS_DURING
-        MI_CircuitSchematic* s = [NSKeyedUnarchiver unarchiveObjectWithData:archivedSchematic];
-        [[NSNotificationCenter defaultCenter]
-            removeObserver:self
-                      name:MI_SCHEMATIC_MODIFIED_NOTIFICATION
-                    object:[myModel schematic]];
-        [myModel setSchematic:s];
-        [[NSNotificationCenter defaultCenter]
-                        addObserver:self
-                           selector:@selector(processSchematicChange:)
-                               name:MI_SCHEMATIC_MODIFIED_NOTIFICATION
-                             object:s];
-    NS_HANDLER
-        NSLog(@"Undo to invalid state.");
-    NS_ENDHANDLER
-    
-    //if ([s numberOfSelectedElements] == 1)
-        //[[MI_Inspector sharedInspector] inspectElement:[s firstSelectedElement]];
-    
-    [canvas setNeedsDisplay:YES];
+    [[self undoManager] registerUndoWithTarget:self
+                                      selector:@selector(restoreSchematic:)
+                                        object:[NSKeyedArchiver archivedDataWithRootObject:[myModel schematic]]];
+    @try
+    {
+      MI_CircuitSchematic* s = [NSKeyedUnarchiver unarchiveObjectWithData:archivedSchematic];
+      [[NSNotificationCenter defaultCenter]
+          removeObserver:self
+                    name:MI_SCHEMATIC_MODIFIED_NOTIFICATION
+                  object:[myModel schematic]];
+      [myModel setSchematic:s];
+      [[NSNotificationCenter defaultCenter]
+                      addObserver:self
+                         selector:@selector(processSchematicChange:)
+                             name:MI_SCHEMATIC_MODIFIED_NOTIFICATION
+                           object:s];
+    }
+    @catch (id)
+    {
+      NSLog(@"Undo to invalid state.");
+    }
+    @finally
+    {
+      //if ([s numberOfSelectedElements] == 1)
+          //[[MI_Inspector sharedInspector] inspectElement:[s firstSelectedElement]];
+
+      [canvas setNeedsDisplay:YES];
+    }
 }
 
 
 // NSWindow delegate method
 - (NSUndoManager*) windowWillReturnUndoManager:(NSWindow *)sender
 {
-    return [self undoManager];
-}
-
-/*****************************************************************/
-
-
-- (void) dealloc
-{
-  [[NSNotificationCenter defaultCenter] removeObserver:self];
+  return [self undoManager];
 }
 
 @end

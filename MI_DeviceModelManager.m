@@ -22,8 +22,6 @@
 #import "MI_DeviceModelManager.h"
 #import "SugarManager.h"
 
-static MI_DeviceModelManager* sharedDeviceModelManager = nil;
-
 NSString* MISUGAR_DEVICE_MODELS_PANEL_FRAME = @"DeviceModelsPanelFrame";
 
 // Since the user is not allowed to change the path of the device models file
@@ -33,12 +31,31 @@ static NSString* deviceModelsFilePath = nil;
 
 
 @implementation MI_DeviceModelManager
+{
+  // The keys are NSNumber objects constructed from the type of the contained models.
+  // The values are NSMutableArray instances that contain MI_CircuitElementDeviceModel
+  // instances for one type. Device models with names starting with "Default" are
+  // reserved by MI-SUGAR.
+  NSMutableDictionary<NSNumber*,NSMutableArray*>* _deviceModels;
+
+  IBOutlet NSTextView* modelParametersArea;
+
+  // The items of the tree view can be NSNumber instances (for the
+  // the expandable items the correspond to arrays of device models
+  // of a specific type), or device models (trivial).
+  IBOutlet NSOutlineView* modelTree;
+
+  IBOutlet NSWindow* deviceModelPanel;
+  NSToolbarItem* deleteButton;
+  NSToolbarItem* copyButton;
+  NSToolbarItem* importButton;
+  NSToolbarItem* exportButton;
+}
 
 - (instancetype) init
 {
-    if (sharedDeviceModelManager == nil)
+    if ((self = [super init]) != nil)
     {
-        sharedDeviceModelManager = [super init];
         deviceModelPanel = nil;
         copyButton = nil;
         deleteButton = nil;
@@ -46,10 +63,10 @@ static NSString* deviceModelsFilePath = nil;
         
         // Construct the device model library structure
         int g;
-        deviceModels = [[NSMutableDictionary alloc] initWithCapacity:6];
-        for (g = FIRST_DEVICE_MODEL_TYPE; g <= LAST_DEVICE_MODEL_TYPE; g++)
-            [deviceModels setObject:[NSMutableArray arrayWithCapacity:3]
-                             forKey:[NSNumber numberWithInt:g]];
+        _deviceModels = [[NSMutableDictionary alloc] initWithCapacity:6];
+        for (g = MI_DeviceModelTypeFirst; g <= MI_DeviceModelTypeLast; g++)
+            [_deviceModels setObject:[NSMutableArray arrayWithCapacity:3]
+                              forKey:[NSNumber numberWithInt:g]];
 
         // Load the device models from the dedicated library file
         BOOL isDir;
@@ -58,18 +75,20 @@ static NSString* deviceModelsFilePath = nil;
         // Check if the generic application support folder exists - create if necessary
         NSString* supportFolder = [[SugarManager supportFolder] stringByDeletingLastPathComponent];
         if (![fm fileExistsAtPath:supportFolder isDirectory:&isDir] || !isDir)
-            [fm createDirectoryAtPath:supportFolder attributes:nil];
+        {
+          [fm createDirectoryAtPath:supportFolder withIntermediateDirectories:YES attributes:nil error:NULL];
+        }
         // Check if MI-SUGAR's folder in the application support folder exists
         supportFolder = [SugarManager supportFolder];
         if (![fm fileExistsAtPath:supportFolder isDirectory:&isDir])
-            [fm createDirectoryAtPath:supportFolder attributes:nil];
+        {
+          [fm createDirectoryAtPath:supportFolder withIntermediateDirectories:YES attributes:nil error:NULL];
+        }
         else if (!isDir)
         {
-            // rename the existing file
-            [fm movePath:supportFolder
-                  toPath:[NSHomeDirectory() stringByAppendingString:@"/.Trash"]
-                 handler:nil];
-            [fm createDirectoryAtPath:supportFolder attributes:nil];
+          // rename the existing file
+          [fm movePath:supportFolder toPath:[NSHomeDirectory() stringByAppendingPathComponent:@".Trash"] handler:nil];
+          [fm createDirectoryAtPath:supportFolder withIntermediateDirectories:YES attributes:nil error:NULL];
         }
         // Check if the device model library file exists
         deviceModelsFilePath = [supportFolder stringByAppendingString:@"/Device Models"];
@@ -85,9 +104,9 @@ static NSString* deviceModelsFilePath = nil;
             else
             {
                 // Unarchive the device models
-            NS_DURING
-                NSKeyedUnarchiver* unarchiver =
-                    [[NSKeyedUnarchiver alloc] initForReadingWithData:
+              @try
+              {
+                NSKeyedUnarchiver* unarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:
                         [NSData dataWithContentsOfFile:deviceModelsFilePath]];
                 id myModels = [unarchiver decodeObjectForKey:MISUGAR_CIRCUIT_DEVICE_MODELS];
                 if (myModels != nil && [myModels isKindOfClass:[NSArray class]])
@@ -98,10 +117,12 @@ static NSString* deviceModelsFilePath = nil;
                         [self addModel:currentModel];
                 }
                 [unarchiver finishDecoding];
-            NS_HANDLER
+              }
+              @catch (id)
+              {
                 if (NSRunAlertPanel(@"Corrupt device models file!",
                     @"The content of your device models library can not be read!",
-                    @"Back up", @"Delete", nil) == NSOKButton)
+                    @"Back up", @"Delete", nil) == NSModalResponseOK)
                     // backup old file
                     [fm movePath:deviceModelsFilePath
                           toPath:[supportFolder stringByAppendingString:@"/Corrupt Device Models File"]
@@ -109,8 +130,8 @@ static NSString* deviceModelsFilePath = nil;
                 else
                     // delete old file
                     [fm removeFileAtPath:deviceModelsFilePath
-                                 handler:nil];                                            
-            NS_ENDHANDLER
+                                 handler:nil];
+              }
             }
         }
         
@@ -130,7 +151,7 @@ static NSString* deviceModelsFilePath = nil;
             while (currentModel = [modelEnum nextObject])
             {
                 // Check if this is one of the old specialized MOS models
-                if ([currentModel type] == MOS_DEVICE_MODEL_TYPE)
+                if ([currentModel type] == MI_DeviceModelTypeMOSFET)
                 {
                     // Deprecate and create a generic MOS model instead
                     MI_MOSDeviceModel* mosModel =
@@ -139,7 +160,9 @@ static NSString* deviceModelsFilePath = nil;
                     [self addModel:mosModel];
                 }
                 else
+                {
                     [self addModel:currentModel];
+                }
             }
             // Set the legacy device models array in the user preference to empty.
             [[NSUserDefaults standardUserDefaults]
@@ -148,45 +171,39 @@ static NSString* deviceModelsFilePath = nil;
         }
         
         // Make sure the default device models are included.
-        NSEnumerator *e;
-        NSMutableArray *currentArray;
-        MI_CircuitElementDeviceModel *currentModel;
-        int p;
-        BOOL foundDefault;
-        for (p = FIRST_DEVICE_MODEL_TYPE; p <= LAST_DEVICE_MODEL_TYPE; p++)
+        for (int p = MI_DeviceModelTypeFirst; p <= MI_DeviceModelTypeLast; p++)
         {
-            currentArray = [deviceModels objectForKey:[NSNumber numberWithInt:p]];
+            NSMutableArray* currentArray = [_deviceModels objectForKey:[NSNumber numberWithInt:p]];
             if (currentArray == nil)
             {
-                currentArray = [NSMutableArray arrayWithCapacity:3];
-                [deviceModels setObject:currentArray
-                                 forKey:[NSNumber numberWithInt:p]];                
+              currentArray = [NSMutableArray arrayWithCapacity:3];
+              [_deviceModels setObject:currentArray forKey:[NSNumber numberWithInt:p]];
             }
-            e = [currentArray objectEnumerator];
-            foundDefault = NO;
-            while (currentModel = [e nextObject])
+            BOOL foundDefault = NO;
+            MI_CircuitElementDeviceModel* currentModel;
+            for (currentModel in currentArray)
             {
-                if ([[currentModel modelName] hasPrefix:@"Default"])
-                {
-                    foundDefault = YES;
-                    break;
-                }
+              if ([[currentModel modelName] hasPrefix:@"Default"])
+              {
+                foundDefault = YES;
+                break;
+              }
             }
             if (!foundDefault)
             {
                 switch (p)
                 {
-                    case DIODE_DEVICE_MODEL_TYPE:
+                    case MI_DeviceModelTypeDiode:
                         currentModel = [[MI_DiodeDeviceModel alloc] initWithName:@"DefaultDiode"]; break;
-                    case BJT_DEVICE_MODEL_TYPE:
+                    case MI_DeviceModelTypeBJT:
                         currentModel = [[MI_BJTDeviceModel alloc] initWithName:@"DefaultBJT"]; break;
-                    case JFET_DEVICE_MODEL_TYPE:
+                    case MI_DeviceModelTypeJFET:
                         currentModel = [[MI_JFETDeviceModel alloc] initWithName:@"DefaultJFET"]; break;
-                    case MOS_DEVICE_MODEL_TYPE:
+                    case MI_DeviceModelTypeMOSFET:
                         currentModel = [[MI_MOSDeviceModel alloc] initWithName:@"DefaultMOSFET"]; break;
-                    case SWITCH_DEVICE_MODEL_TYPE:
+                    case MI_DeviceModelTypeSwitch:
                         currentModel = [[MI_SwitchDeviceModel alloc] initWithName:@"DefaultSwitch"]; break;
-                    case TRANSMISSION_LINE_DEVICE_MODEL_TYPE:
+                    case MI_DeviceModelTypeTransmissionLine:
                         currentModel = [[MI_TransmissionLineDeviceModel alloc] initWithName:@"DefaultTransmissionLine"]; break;
                     default:
                         currentModel = nil;
@@ -196,15 +213,29 @@ static NSString* deviceModelsFilePath = nil;
             }
         }
     }
-    return sharedDeviceModelManager;
+    return self;
+}
+
+- (void) dealloc
+{
+  if (deviceModelPanel != nil)
+  {
+    [deviceModelPanel saveFrameUsingName:MISUGAR_DEVICE_MODELS_PANEL_FRAME];
+  }
+  [self saveModels];
+  deviceModelsFilePath = nil;
+  [modelTree setDelegate:nil];
 }
 
 
 + (MI_DeviceModelManager*) sharedManager
 {
-    if (sharedDeviceModelManager == nil)
-        [[MI_DeviceModelManager alloc] init];
-    return sharedDeviceModelManager;
+  static MI_DeviceModelManager* sharedDeviceModelManager = nil;
+  if (sharedDeviceModelManager == nil)
+  {
+    sharedDeviceModelManager = [[MI_DeviceModelManager alloc] init];
+  }
+  return sharedDeviceModelManager;
 }
 
 
@@ -213,8 +244,7 @@ static NSString* deviceModelsFilePath = nil;
     if (deviceModelPanel == nil)
     {
         // Load device models
-        [NSBundle loadNibNamed:@"SchematicDeviceModelsPanel"
-                         owner:self];
+        [[NSBundle mainBundle] loadNibNamed:@"SchematicDeviceModelsPanel" owner:self topLevelObjects:nil];
         
         // Use monospaced font to display the model parameters
         [modelParametersArea setFont:[NSFont fontWithName:@"Courier" size:0.0f]];
@@ -252,8 +282,8 @@ static NSString* deviceModelsFilePath = nil;
     // Collect all device models into one array
     NSMutableArray* all = [NSMutableArray arrayWithCapacity:20];
     int m;
-    for (m = FIRST_DEVICE_MODEL_TYPE; m <= LAST_DEVICE_MODEL_TYPE; m++)
-        [all addObjectsFromArray:[deviceModels objectForKey:[NSNumber numberWithInt:m]]];
+    for (m = MI_DeviceModelTypeFirst; m <= MI_DeviceModelTypeLast; m++)
+        [all addObjectsFromArray:[_deviceModels objectForKey:[NSNumber numberWithInt:m]]];
     // Save to file
     if (deviceModelsFilePath != nil)
         [self dumpModels:all
@@ -266,9 +296,9 @@ static NSString* deviceModelsFilePath = nil;
     int x;
     NSEnumerator* modelEnum;
     MI_CircuitElementDeviceModel* model;
-    for (x = FIRST_DEVICE_MODEL_TYPE; x <= LAST_DEVICE_MODEL_TYPE; x++)
+    for (x = MI_DeviceModelTypeFirst; x <= MI_DeviceModelTypeLast; x++)
     {
-        modelEnum = [[deviceModels objectForKey:[NSNumber numberWithInt:x]] objectEnumerator];
+        modelEnum = [[_deviceModels objectForKey:[NSNumber numberWithInt:x]] objectEnumerator];
         while (model = [modelEnum nextObject])
         {
             if ([[model modelName] isEqualToString:name])
@@ -292,17 +322,19 @@ static NSString* deviceModelsFilePath = nil;
 
 - (void) addModel:(MI_CircuitElementDeviceModel*)newModel
 {
-    NSMutableArray* modelTypeArray =
-        [deviceModels objectForKey:[NSNumber numberWithInt:[newModel type]]];
-    if (modelTypeArray != nil && ![modelTypeArray containsObject:newModel])
-        [modelTypeArray addObject:newModel];
+  NSMutableArray* modelTypeArray = [_deviceModels objectForKey:[NSNumber numberWithInt:[newModel type]]];
+  if (modelTypeArray != nil && ![modelTypeArray containsObject:newModel])
+  {
+    [modelTypeArray addObject:newModel];
+  }
 }
 
 
 - (BOOL) addModelsFromFile:(NSString*)filePath
 {
-    BOOL success = YES;
-NS_DURING
+  BOOL success = NO;
+  @try
+  {
     NSKeyedUnarchiver* unarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:[NSData dataWithContentsOfFile:filePath]];
     id imported = [unarchiver decodeObjectForKey:MISUGAR_CIRCUIT_DEVICE_MODELS];
     if ( (imported != nil) && [imported isKindOfClass:[NSArray class]] )
@@ -311,41 +343,37 @@ NS_DURING
       {
         [self addModel:currentModel];
       }
+      success = YES;
     }
-    else
-        success = NO;
     [unarchiver finishDecoding];
-NS_HANDLER
-    success = NO;
-NS_ENDHANDLER
-    return success;
+  }
+  @catch (id) {}
+  return success;
 }
 
 
-- (BOOL) dumpModels:(NSArray*)models
-             toFile:(NSString*)filePath
+- (BOOL) dumpModels:(NSArray*)models toFile:(NSString*)filePath
 {
-    // Using standard Mac OS X binary archiving
-    BOOL success = YES;
+  BOOL success = YES;
+  @try
+  {
     NSMutableData* data = [NSMutableData data];
-
-NS_DURING
     NSKeyedArchiver* archiver = [[NSKeyedArchiver alloc] initForWritingWithMutableData:data];
     [archiver encodeObject:models forKey:MISUGAR_CIRCUIT_DEVICE_MODELS];
     [archiver finishEncoding];
     success = [data writeToFile:filePath atomically:YES];
-NS_HANDLER
+  }
+  @catch (id)
+  {
     success = NO;
-NS_ENDHANDLER
-
-    return success;
+  }
+  return success;
 }
 
 
 - (NSArray*) modelsForType:(MI_DeviceModelType)modeltype
 {
-    return [NSArray arrayWithArray:
-        [deviceModels objectForKey:[NSNumber numberWithInt:modeltype]]];
+  return [NSArray arrayWithArray:[_deviceModels objectForKey:[NSNumber numberWithInt:modeltype]]];
 }
 
 
@@ -354,9 +382,9 @@ NS_ENDHANDLER
     int t;
     NSEnumerator* modelEnum;
     MI_CircuitElementDeviceModel* currentModel;
-    for (t = FIRST_DEVICE_MODEL_TYPE; t <= LAST_DEVICE_MODEL_TYPE; t++)
+    for (t = MI_DeviceModelTypeFirst; t <= MI_DeviceModelTypeLast; t++)
     {
-        modelEnum = [[deviceModels objectForKey:[NSNumber numberWithInt:t]] objectEnumerator];
+        modelEnum = [[_deviceModels objectForKey:[NSNumber numberWithInt:t]] objectEnumerator];
         while (currentModel = [modelEnum nextObject])
             if ([[currentModel modelName] isEqualToString:modelName])
                 return currentModel;
@@ -367,146 +395,127 @@ NS_ENDHANDLER
 
 - (IBAction) deleteSelectedDeviceModels:(id)sender
 {
-    NSIndexSet* selection = [modelTree selectedRowIndexes];
-    if ([selection count] <= 0)
-        NSBeep();
-    else
+  NSIndexSet* selection = [modelTree selectedRowIndexes];
+  if ([selection count] <= 0)
+  {
+    NSBeep();
+    return;
+  }
+
+  for (NSInteger k = [selection lastIndex]; k >= 0; k--)
+  {
+    if ([selection containsIndex:k])
     {
-        int k;
-        for (k = [selection lastIndex]; k >= 0; k--)
-            if ([selection containsIndex:k])
-            {
-                // Get the type of the target model
-                id target = [modelTree itemAtRow:k];
-                if ([target isKindOfClass:[MI_CircuitElementDeviceModel class]] &&
-                    ![[target modelName] hasPrefix:@"Default"])
-                {
-                    [[deviceModels objectForKey:[NSNumber numberWithInt:
-                        [(MI_CircuitElementDeviceModel*)target type]]] removeObject:target];
-                }
-            }
-        [modelTree deselectAll:self];
-        [modelTree reloadData];
+      id target = [modelTree itemAtRow:k];
+      if ([target isKindOfClass:[MI_CircuitElementDeviceModel class]] &&
+          ![[target modelName] hasPrefix:@"Default"])
+      {
+          [[_deviceModels objectForKey:[NSNumber numberWithInt:
+              [(MI_CircuitElementDeviceModel*)target type]]] removeObject:target];
+      }
     }
+  }
+  [modelTree deselectAll:self];
+  [modelTree reloadData];
 }
 
 
 - (IBAction) copySelectedDeviceModels:(id)sender
 {
-    MI_CircuitElementDeviceModel* tmpModel = nil;
-    NSIndexSet* selection = [modelTree selectedRowIndexes];
-    if ([selection count] <= 0)
-        NSBeep();
-    else
+  MI_CircuitElementDeviceModel* tmpModel = nil;
+  NSIndexSet* selection = [modelTree selectedRowIndexes];
+  if ([selection count] <= 0)
+  {
+    NSBeep();
+    return;
+  }
+
+  for (NSInteger k = [selection lastIndex]; k >= 0; k--)
+  {
+    if ([selection containsIndex:k])
     {
-        int k;
-        for (k = [selection lastIndex]; k >= 0; k--)
-            if ([selection containsIndex:k])
-            {
-                id target = [modelTree itemAtRow:k];
-                if ([target isKindOfClass:[MI_CircuitElementDeviceModel class]])
-                {
-                    tmpModel = [target mutableCopy];
-                    [tmpModel setModelName:[@"Copy_of_" stringByAppendingString:
-                        [tmpModel modelName]]];
-                    [self addModel:tmpModel];
-                }
-            }
-        // Refresh tree
-        [modelTree deselectAll:self];
-        [modelTree reloadData];
-        if ([selection count] == 1)
+        id target = [modelTree itemAtRow:k];
+        if ([target isKindOfClass:[MI_CircuitElementDeviceModel class]])
         {
-            [modelTree selectRow:[modelTree rowForItem:tmpModel]
-                byExtendingSelection:NO];
-            [modelTree scrollRowToVisible:[modelTree rowForItem:tmpModel]];
+            tmpModel = [target mutableCopy];
+            [tmpModel setModelName:[@"Copy_of_" stringByAppendingString:
+                [tmpModel modelName]]];
+            [self addModel:tmpModel];
         }
     }
+  }
+
+  // Refreshing tree
+  [modelTree deselectAll:self];
+  [modelTree reloadData];
+  if ([selection count] == 1)
+  {
+    NSIndexSet* set = [NSIndexSet indexSetWithIndex:[modelTree rowForItem:tmpModel]];
+    [modelTree selectRowIndexes:set byExtendingSelection:NO];
+    [modelTree scrollRowToVisible:[modelTree rowForItem:tmpModel]];
+  }
 }
 
 
 - (IBAction) importDeviceModelsFromFile:(id)sender
 {
-    // prompt for file
-    NSOpenPanel* op = [NSOpenPanel openPanel];
-    [op setCanChooseFiles:YES];
-    [op setCanChooseDirectories:NO];
-    [op beginSheetForDirectory:[SugarManager supportFolder]
-                          file:nil
-                         types:nil
-                modalForWindow:deviceModelPanel
-                 modalDelegate:self
-                didEndSelector:@selector(openPanelDidEnd:returnCode:contextInfo:)
-                   contextInfo:@"import"];
+  // prompt for file
+  NSOpenPanel* op = [NSOpenPanel openPanel];
+  op.canChooseFiles = YES;
+  op.canChooseDirectories = NO;
+  op.directoryURL = [NSURL fileURLWithPath:[SugarManager supportFolder]];
+  [op beginSheet:deviceModelPanel completionHandler:^(NSModalResponse returnCode) {
+    if (returnCode == NSModalResponseOK)
+    {
+      // Unarchiving device models from the selected file
+      NSString* filePath = [[[op URLs] objectAtIndex:0] path];
+      if (filePath != nil)
+      {
+        if ([self addModelsFromFile:filePath])
+          [modelTree reloadData];
+        else
+          NSBeginAlertSheet(nil, nil, nil, nil, deviceModelPanel, nil, nil, nil, nil, @"Could not import (all) models from file %@!", filePath);
+      }
+    }
+  }];
 }
 
 
 - (IBAction) exportSelectedDeviceModelsToFile:(id)sender
 {
-    if ([[modelTree selectedRowIndexes] count] > 0)
-    {
-        // prompt for file
-        NSSavePanel* sp = [NSSavePanel savePanel];
-        [sp setCanCreateDirectories:YES];
-        [sp beginSheetForDirectory:[SugarManager supportFolder]
-                              file:nil
-                    modalForWindow:deviceModelPanel
-                     modalDelegate:self
-                    didEndSelector:@selector(openPanelDidEnd:returnCode:contextInfo:)
-                       contextInfo:@"export"];
-    }
-    else
-        NSBeep();
+  if ([[modelTree selectedRowIndexes] count] > 0)
+  {
+    NSSavePanel* sp = [NSSavePanel savePanel];
+    sp.canCreateDirectories = YES;
+    sp.directoryURL = [NSURL fileURLWithPath:[SugarManager supportFolder]];
+    [sp beginSheet:deviceModelPanel completionHandler:^(NSModalResponse returnCode) {
+      NSIndexSet* indices = [modelTree selectedRowIndexes];
+      if ([indices count] > 0)
+      {
+        NSMutableArray* selection = [NSMutableArray arrayWithCapacity:[indices count]];
+        for (NSInteger k = [indices lastIndex]; k >= 0; k--)
+          if ( [indices containsIndex:k] &&
+              [[modelTree itemAtRow:k] isKindOfClass:[MI_CircuitElementDeviceModel class]] )
+            [selection addObject:[modelTree itemAtRow:k]];
+        // archive all device models to the selected file
+        NSString* filePath = [[sp URL] path];
+        if (![self dumpModels:selection toFile:filePath])
+        {
+          NSBeginAlertSheet(nil, nil, nil, nil, deviceModelPanel, nil, nil, nil, nil, @"Could not save to file %@!", filePath);
+        }
+      }
+    }];
+  }
+  else
+      NSBeep();
 }
 
 
-// Called when user has finished selecting a file in NSOpenPanel
-// Performs the actual export/import tasks
-- (void) openPanelDidEnd:(NSOpenPanel*)sheet
-              returnCode:(int)returnCode
-             contextInfo:(void*)contextInfo
-{
-    if (returnCode != NSModalResponseOK)
-        return;
-    if ([(__bridge id)contextInfo isKindOfClass:[NSString class]])
-    {
-        if ([(__bridge NSString*)contextInfo isEqualToString:@"export"])
-        {
-            // get the selected models
-            int k;
-            NSIndexSet* indices = [modelTree selectedRowIndexes];
-            if ([indices count] > 0)
-            {
-                NSMutableArray* selection = [NSMutableArray arrayWithCapacity:[indices count]];
-                for (k = [indices lastIndex]; k >= 0; k--)
-                    if ( [indices containsIndex:k] &&
-                         [[modelTree itemAtRow:k] isKindOfClass:[MI_CircuitElementDeviceModel class]] )
-                        [selection addObject:[modelTree itemAtRow:k]];
-                // archive all device models to the selected file
-                NSString* filePath = [[sheet URL] path];
-                if (![self dumpModels:selection toFile:filePath])
-                    NSBeginAlertSheet(nil, nil, nil, nil, deviceModelPanel, nil, nil, nil, nil, @"Could not save to file %@!", filePath);
-            }
-        }
-        else
-        {
-            // unarchive device models from the selected file
-            NSString* filePath = [[sheet URL] path];
-            if ([self addModelsFromFile:filePath])
-                [modelTree reloadData];
-            else
-                NSBeginAlertSheet(nil, nil, nil, nil, deviceModelPanel, nil, nil, nil, nil, @"Could not import (all) models from file %@!", filePath);
-        }
-    }
-}
-
-/********************************************* Data source and delegate methods ***/
-
-// NSTextView delegate method
+//MARK: NSTextView delegate method
 // This is called whenever the user modifies the device parameters and values.
 - (void) textDidChange:(NSNotification*)aNotification
 {
-    int n = [modelTree selectedRow];
+    NSInteger n = [modelTree selectedRow];
     if (n > -1)
     {
         id selection = [modelTree itemAtRow:n];
@@ -518,10 +527,33 @@ NS_ENDHANDLER
 }
 
 
-// NSOutlineView delegate method to respond to item selection events
+// Constrains the position of the vertical splitter
+- (float)    splitView:(NSSplitView *)sender
+constrainMinCoordinate:(float)proposedMin
+           ofSubviewAt:(int)offset
+{
+  return 170.0f;
+}
+
+- (float)    splitView:(NSSplitView *)sender
+constrainMaxCoordinate:(float)proposedMin
+           ofSubviewAt:(int)offset
+{
+  return [sender frame].size.width - 170.0f;
+}
+
+@end
+
+//MARK: NSOutlineViewDelegate and NSOutlineViewDataSource implementation
+
+@interface MI_DeviceModelManager (OutlineView) <NSOutlineViewDelegate, NSOutlineViewDataSource>
+@end
+
+@implementation MI_DeviceModelManager (OutlineView)
+
 - (void) outlineViewSelectionDidChange:(NSNotification *)aNotification
 {
-    int n = [modelTree selectedRow];
+    NSInteger n = [modelTree selectedRow];
     if ( (n > -1) &&
          ([[modelTree selectedRowIndexes] count] == 1) )
     {
@@ -534,8 +566,7 @@ NS_ENDHANDLER
 }
 
 
-- (BOOL) outlineView:(NSOutlineView *)outlineView
-    shouldSelectItem:(id)item
+- (BOOL) outlineView:(NSOutlineView *)outlineView shouldSelectItem:(id)item
 {
     if ([item isKindOfClass:[MI_CircuitElementDeviceModel class]])
         return YES;
@@ -544,9 +575,7 @@ NS_ENDHANDLER
 }
 
 
-- (BOOL) outlineView:(NSOutlineView *)outlineView
-shouldEditTableColumn:(NSTableColumn *)tableColumn
-                item:(id)item
+- (BOOL) outlineView:(NSOutlineView *)outlineView shouldEditTableColumn:(NSTableColumn *)tableColumn item:(id)item
 {
     if ([item isKindOfClass:[MI_CircuitElementDeviceModel class]])
         return ![[item modelName] hasPrefix:@"Default"];
@@ -555,25 +584,16 @@ shouldEditTableColumn:(NSTableColumn *)tableColumn
 }
 
 
-- (void)outlineView:(NSOutlineView *)outlineView
-    willDisplayCell:(id)aCell
-     forTableColumn:(NSTableColumn *)tableColumn
-               item:(id)item
+- (void)outlineView:(NSOutlineView *)outlineView willDisplayCell:(id)aCell forTableColumn:(NSTableColumn *)tableColumn item:(id)item
 {
-    if ( [item isKindOfClass:[MI_CircuitElementDeviceModel class]] )
-    {
-        [aCell setTextColor:[NSColor colorWithDeviceRed:(0.0f)
-                                                  green:(0.0f)
-                                                   blue:(0.3f)
-                                                  alpha:1.0f]];
-    }
-    else
-    {
-        [aCell setTextColor:[NSColor colorWithDeviceRed:(75.0f/255.0f)
-                                                  green:(99.0f/255.0f)
-                                                   blue:(84.0f/255.0f)
-                                                  alpha:1.0f]];
-    }
+  if ( [item isKindOfClass:[MI_CircuitElementDeviceModel class]] )
+  {
+    [aCell setTextColor:[NSColor colorWithDeviceRed:0.0f green:0.0f blue:0.3f alpha:1.0f]];
+  }
+  else
+  {
+    [aCell setTextColor:[NSColor colorWithDeviceRed:75.0f/255.0f green:99.0f/255.0f blue:84.0f/255.0f alpha:1.0f]];
+  }
 }
 
 
@@ -581,23 +601,22 @@ shouldEditTableColumn:(NSTableColumn *)tableColumn
              child:(int)index
             ofItem:(id)item
 {
-    if (item == nil &&
-        index >= FIRST_DEVICE_MODEL_TYPE &&
-        index <= LAST_DEVICE_MODEL_TYPE)
+  if (item == nil &&
+      index >= MI_DeviceModelTypeFirst &&
+      index <= MI_DeviceModelTypeLast)
+  {
+    for (NSNumber* a in [_deviceModels allKeys])
     {
-        // return a child of the root level - a device model type array
-        NSEnumerator* numberEnum = [deviceModels keyEnumerator];
-        NSNumber* a;
-        while (a = [numberEnum nextObject])
-            if ([a intValue] == index)
-                return a;
-        return nil;
+      if ([a intValue] == index)
+        return a;
     }
-    else if ([item isKindOfClass:[NSNumber class]])
-        // return the child of a device model type arrays - a device model
-        return [[deviceModels objectForKey:item] objectAtIndex:index];
-    else
-        return nil;
+    return nil;
+  }
+  else if ([item isKindOfClass:[NSNumber class]])
+    // return the child of a device model type arrays - a device model
+    return [[_deviceModels objectForKey:item] objectAtIndex:index];
+  else
+    return nil;
 }
 
 
@@ -605,39 +624,37 @@ shouldEditTableColumn:(NSTableColumn *)tableColumn
 objectValueForTableColumn:(NSTableColumn *)tableColumn
             byItem:(id)item
 {
-    if ([item isKindOfClass:[MI_CircuitElementDeviceModel class]])
-        return [item modelName];
-    else //if ([item isKindOfClass:[NSNumber class]])
-    {
-        switch ([((NSNumber*)item) intValue])
-        {
-            case DIODE_DEVICE_MODEL_TYPE:   return @"Diodes"; break;
-            case BJT_DEVICE_MODEL_TYPE:     return @"BJTs"; break;
-            case JFET_DEVICE_MODEL_TYPE:    return @"JFETs"; break;
-            case MOS_DEVICE_MODEL_TYPE:     return @"MOSFETs"; break;
-            case SWITCH_DEVICE_MODEL_TYPE:  return @"Switches"; break;
-            case TRANSMISSION_LINE_DEVICE_MODEL_TYPE: return @"Transmission Lines"; break;
-            default: return nil;
-        }
-    }
+  if ([item isKindOfClass:[MI_CircuitElementDeviceModel class]])
+  {
+    return [item modelName];
+  }
+  switch ([((NSNumber*)item) intValue])
+  {
+    case MI_DeviceModelTypeDiode:   return @"Diodes";
+    case MI_DeviceModelTypeBJT:     return @"BJTs";
+    case MI_DeviceModelTypeJFET:    return @"JFETs";
+    case MI_DeviceModelTypeMOSFET:     return @"MOSFETs";
+    case MI_DeviceModelTypeSwitch:  return @"Switches";
+    case MI_DeviceModelTypeTransmissionLine: return @"Transmission Lines";
+    default: return nil;
+  }
 }
 
 
-- (int) outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(id)item
+- (NSUInteger) outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(id)item
 {
-    if (item == nil)
-        return [deviceModels count];
-    else if ([item isKindOfClass:[NSNumber class]])
-        return [[deviceModels objectForKey:item] count];
-    else
-        return 0;
+  if (item == nil)
+      return [_deviceModels count];
+  else if ([item isKindOfClass:[NSNumber class]])
+      return [[_deviceModels objectForKey:item] count];
+  else
+      return 0;
 }
 
 
-- (BOOL) outlineView:(NSOutlineView *)outlineView
-    isItemExpandable:(id)item
+- (BOOL) outlineView:(NSOutlineView *)outlineView isItemExpandable:(id)item
 {
-    return [item isKindOfClass:[NSNumber class]];
+  return [item isKindOfClass:[NSNumber class]];
 }
 
 
@@ -646,48 +663,35 @@ objectValueForTableColumn:(NSTableColumn *)tableColumn
       forTableColumn:(NSTableColumn *)tableColumn
               byItem:(id)item
 {
-    if ([anObject isKindOfClass:[NSString class]] &&
-        [item isKindOfClass:[MI_CircuitElementDeviceModel class]])
+  if ([anObject isKindOfClass:[NSString class]] && [item isKindOfClass:[MI_CircuitElementDeviceModel class]])
+  {
+    NSString* modelName = (NSString*)anObject;
+    modelName = [modelName stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+    if ([modelName hasPrefix:@"Default"])
     {
-        // Remove whitespace characters, if any
-        NSMutableString* filtered = [NSMutableString stringWithCapacity:[(NSString*)anObject length]];
-        [filtered setString:anObject];
-        NSRange r;
-        while ((r = [filtered rangeOfCharacterFromSet:[NSCharacterSet whitespaceCharacterSet]]).location != NSNotFound)
-            [filtered deleteCharactersInRange:r];
-        if ([filtered hasPrefix:@"Default"])
-            [filtered replaceCharactersInRange:NSMakeRange(0, 7)
-                                    withString:@"Custom"];
-        [[modelTree itemAtRow:[modelTree selectedRow]] setModelName:[NSString stringWithString:filtered]];
-    }    
+      modelName = [modelName stringByReplacingCharactersInRange:NSMakeRange(0, 7) withString:@"Custom"];
+    }
+    [[modelTree itemAtRow:[modelTree selectedRow]] setModelName:modelName];
+  }
 }
 
+@end
 
-// Constrains the position of the vertical splitter
-- (float)    splitView:(NSSplitView *)sender
-constrainMinCoordinate:(float)proposedMin
-           ofSubviewAt:(int)offset
-{
-    return 170.0f;
-}
+//MARK: NSToolbarDelegate implementation
 
-- (float)    splitView:(NSSplitView *)sender
-constrainMaxCoordinate:(float)proposedMin
-           ofSubviewAt:(int)offset
-{
-    return [sender frame].size.width - 170.0f;
-}
+@interface MI_DeviceModelManager (ToolbarDelegate) <NSToolbarDelegate>
+@end
 
-/******************************** Toolbar delegate methods **************/
+@implementation MI_DeviceModelManager (ToolbarDelegate)
 
 - (NSArray*) toolbarDefaultItemIdentifiers:(NSToolbar*)toolbar
 {
-    return [NSArray arrayWithObjects:@"Delete", @"Copy", @"Import", @"Export",nil];
+  return [NSArray arrayWithObjects:@"Delete", @"Copy", @"Import", @"Export",nil];
 }
 
 - (NSArray*) toolbarAllowedItemIdentifiers:(NSToolbar*)toolbar
 {
-    return [NSArray arrayWithObjects:@"Delete", @"Copy", @"Import", @"Export", nil];
+  return [NSArray arrayWithObjects:@"Delete", @"Copy", @"Import", @"Export", nil];
 }
 
 
@@ -695,72 +699,58 @@ constrainMaxCoordinate:(float)proposedMin
      itemForItemIdentifier:(NSString*)itemIdentifier
  willBeInsertedIntoToolbar:(BOOL)flag
 {
-    if ([itemIdentifier isEqualToString:@"Delete"])
-    {
-      if (deleteButton == nil)
-      {
-        deleteButton = [[NSToolbarItem alloc] initWithItemIdentifier:@"Delete"];
-        [deleteButton setLabel:@"Delete"];
-        [deleteButton setAction:@selector(deleteSelectedDeviceModels:)];
-        [deleteButton setTarget:self];
-        [deleteButton setToolTip:@"Delete the selected device models."];
-        [deleteButton setImage:[NSImage imageNamed:@"delete_selected_device_model"]];
-      }
-      return deleteButton;
-    }
-    else if ([itemIdentifier isEqualToString:@"Copy"])
-    {
-      if (copyButton == nil)
-      {
-        copyButton = [[NSToolbarItem alloc] initWithItemIdentifier:@"Copy"];
-        [copyButton setLabel:@"Copy"];
-        [copyButton setAction:@selector(copySelectedDeviceModels:)];
-        [copyButton setTarget:self];
-        [copyButton setToolTip:@"Copy the selected device models."];
-        [copyButton setImage:[NSImage imageNamed:@"copy_selected_device_model"]];
-      }
-      return copyButton;
-    }
-    else if ([itemIdentifier isEqualToString:@"Import"])
-    {
-      if (importButton == nil)
-      {
-        importButton = [[NSToolbarItem alloc] initWithItemIdentifier:@"Import"];
-        [importButton setLabel:@"Import..."];
-        [importButton setAction:@selector(importDeviceModelsFromFile:)];
-        [importButton setTarget:self];
-        [importButton setToolTip:@"Import device models from a file."];
-        [importButton setImage:[NSImage imageNamed:@"import_device_models"]];
-      }
-      return importButton;
-    }
-    else // if ([itemIdentifier isEqualToString:@"Export"])
-    {
-      if (exportButton == nil)
-      {
-        exportButton = [[NSToolbarItem alloc] initWithItemIdentifier:@"Export"];
-        [exportButton setLabel:@"Export..."];
-        [exportButton setAction:@selector(exportSelectedDeviceModelsToFile:)];
-        [exportButton setTarget:self];
-        [exportButton setToolTip:@"Export the selected device models to file."];
-        [exportButton setImage:[NSImage imageNamed:@"export_all_device_models"]];
-      }
-      return exportButton;
-    }
-}        
-
-/**********************************************************************************/
-
-- (void) dealloc
-{
-  if (deviceModelPanel != nil)
+  if ([itemIdentifier isEqualToString:@"Delete"])
   {
-    [deviceModelPanel saveFrameUsingName:MISUGAR_DEVICE_MODELS_PANEL_FRAME];
+    if (deleteButton == nil)
+    {
+      deleteButton = [[NSToolbarItem alloc] initWithItemIdentifier:@"Delete"];
+      [deleteButton setLabel:@"Delete"];
+      [deleteButton setAction:@selector(deleteSelectedDeviceModels:)];
+      [deleteButton setTarget:self];
+      [deleteButton setToolTip:@"Delete the selected device models."];
+      [deleteButton setImage:[NSImage imageNamed:@"delete_selected_device_model"]];
+    }
+    return deleteButton;
   }
-  [self saveModels];
-  deviceModelsFilePath = nil;
-  sharedDeviceModelManager = nil;
-  [modelTree setDelegate:nil];
+  else if ([itemIdentifier isEqualToString:@"Copy"])
+  {
+    if (copyButton == nil)
+    {
+      copyButton = [[NSToolbarItem alloc] initWithItemIdentifier:@"Copy"];
+      [copyButton setLabel:@"Copy"];
+      [copyButton setAction:@selector(copySelectedDeviceModels:)];
+      [copyButton setTarget:self];
+      [copyButton setToolTip:@"Copy the selected device models."];
+      [copyButton setImage:[NSImage imageNamed:@"copy_selected_device_model"]];
+    }
+    return copyButton;
+  }
+  else if ([itemIdentifier isEqualToString:@"Import"])
+  {
+    if (importButton == nil)
+    {
+      importButton = [[NSToolbarItem alloc] initWithItemIdentifier:@"Import"];
+      [importButton setLabel:@"Import..."];
+      [importButton setAction:@selector(importDeviceModelsFromFile:)];
+      [importButton setTarget:self];
+      [importButton setToolTip:@"Import device models from a file."];
+      [importButton setImage:[NSImage imageNamed:@"import_device_models"]];
+    }
+    return importButton;
+  }
+  else // if ([itemIdentifier isEqualToString:@"Export"])
+  {
+    if (exportButton == nil)
+    {
+      exportButton = [[NSToolbarItem alloc] initWithItemIdentifier:@"Export"];
+      [exportButton setLabel:@"Export..."];
+      [exportButton setAction:@selector(exportSelectedDeviceModelsToFile:)];
+      [exportButton setTarget:self];
+      [exportButton setToolTip:@"Export the selected device models to file."];
+      [exportButton setImage:[NSImage imageNamed:@"export_all_device_models"]];
+    }
+    return exportButton;
+  }
 }
 
 @end

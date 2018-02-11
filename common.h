@@ -110,25 +110,25 @@ extern NSString* MI_SchematicElementsPboardType; // collection of elements
 
 // The directions are ordered counterclockwise so that the next direction
 // is the current direction plus PI/4 radian.
-typedef enum MI_Direction_
+typedef NS_ENUM(NSInteger,MI_Direction)
 {
-    MI_DIRECTION_NONE = -1,
-    MI_DIRECTION_UP,
-    MI_DIRECTION_NORTHWEST,
-    MI_DIRECTION_LEFT,
-    MI_DIRECTION_SOUTHWEST,
-    MI_DIRECTION_DOWN,
-    MI_DIRECTION_SOUTHEAST,
-    MI_DIRECTION_RIGHT,
-    MI_DIRECTION_NORTHEAST
-} MI_Direction;
+  MI_DirectionNone = -1,
+  MI_DirectionUp,
+  MI_DirectionNorthwest,
+  MI_DirectionLeft,
+  MI_DirectionSouthwest,
+  MI_DirectionDown,
+  MI_DirectionSoutheast,
+  MI_DirectionRight,
+  MI_DirectionNortheast
+};
 
 
-enum MISUGAR_FileSavingPolicy
+typedef NS_ENUM(NSInteger,MI_FileSavingPolicy)
 {
-    MI_AlwaysSaveAsPureNetlist,
-    MI_AlwaysSaveAsSugar,
-    MI_SaveAsPureNetlistIfNoSchematic
+  MI_FileSavingPolicyAlwaysPureNetlist,
+  MI_FileSavingPolicyAlwaysSugar,
+  MI_FileSavingPolicyNetlistWhenNoSchematic
 };
 
 // The protocol which must be adopted by classes whose objects

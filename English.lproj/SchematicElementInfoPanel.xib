@@ -406,6 +406,7 @@
                 <outlet property="delegate" destination="-2" id="64"/>
                 <outlet property="initialFirstResponder" destination="10" id="81"/>
             </connections>
+            <point key="canvasLocation" x="7" y="135"/>
         </window>
         <view autoresizesSubviews="NO" id="99">
             <rect key="frame" x="0.0" y="0.0" width="125" height="1"/>

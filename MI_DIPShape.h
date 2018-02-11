@@ -48,6 +48,6 @@
 
 @property NSString* name;
 
-- (instancetype) initWithNumberOfPins:(int)numPins;
+- (instancetype) initWithNumberOfPins:(NSInteger)numPins;
 
 @end

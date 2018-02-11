@@ -28,7 +28,7 @@
 {
     if (self = [super init])
     {
-      [NSBundle loadNibNamed:@"Nyquist.nib" owner:self];
+      [[NSBundle mainBundle] loadNibNamed:@"Nyquist.nib" owner:self topLevelObjects:nil];
       [panel setTitle:[@"Nyquist Plot: " stringByAppendingString:[variable name]]];
       [plotView setVariable:variable];
     }

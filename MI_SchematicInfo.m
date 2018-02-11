@@ -23,4 +23,13 @@
 
 @implementation MI_SchematicInfo
 
+- (instancetype) init
+{
+  self = [super init];
+  self.element = nil;
+  self.connectionPoint = nil;
+  self.isConnected = NO;
+  return self;
+}
+
 @end

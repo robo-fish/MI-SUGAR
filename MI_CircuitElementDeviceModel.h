@@ -29,20 +29,20 @@
 
 // Used both in circuit element and device model classes to indicate
 // the type of device model which is used.
-typedef enum MI_DeviceModelType_
+typedef NS_ENUM(NSInteger,MI_DeviceModelType)
 {
-    NO_DEVICE_MODEL_TYPE                  = -1,
-    FIRST_DEVICE_MODEL_TYPE               = 0,
-    
-    DIODE_DEVICE_MODEL_TYPE               = 0,
-    BJT_DEVICE_MODEL_TYPE                 = 1,
-    JFET_DEVICE_MODEL_TYPE                = 2,
-    MOS_DEVICE_MODEL_TYPE                 = 3,
-    SWITCH_DEVICE_MODEL_TYPE              = 4,
-    TRANSMISSION_LINE_DEVICE_MODEL_TYPE   = 5,
-    
-    LAST_DEVICE_MODEL_TYPE                = 5
-} MI_DeviceModelType;
+  MI_DeviceModelTypeNone               = -1,
+  MI_DeviceModelTypeFirst              = 0,
+
+  MI_DeviceModelTypeDiode              = 0,
+  MI_DeviceModelTypeBJT                = 1,
+  MI_DeviceModelTypeJFET               = 2,
+  MI_DeviceModelTypeMOSFET             = 3,
+  MI_DeviceModelTypeSwitch             = 4,
+  MI_DeviceModelTypeTransmissionLine   = 5,
+
+  MI_DeviceModelTypeLast               = 5
+};
 
 
 @interface MI_CircuitElementDeviceModel : NSObject
@@ -51,8 +51,8 @@ typedef enum MI_DeviceModelType_
   int MI_version; // version of the class
 }
 - (instancetype) initWithName:(NSString*)theName;
-@property NSString* modelName;
-@property NSString* deviceParameters;
+@property (copy) NSString* modelName;
+@property (copy) NSString* deviceParameters;
 
 // name of the type of device which this model applies to
 // must be overriden by subclasses

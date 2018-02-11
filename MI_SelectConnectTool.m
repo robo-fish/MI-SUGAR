@@ -27,11 +27,11 @@
 static BOOL wasHoveringOverConnectionPoint = NO;
 
 // Next block of variables is used to constrain element dragging.
-// allowedMoveDirection == MI_DIRECTION_UP means up/down
-// allowedMoveDirection == MI_DIRECTION_RIGHT means left/right
+// allowedMoveDirection == MI_DirectionUp means up/down
+// allowedMoveDirection == MI_DirectionRight means left/right
 // every other value means no movement is allowed
-MI_Direction allowedMoveDirection = MI_DIRECTION_NONE;  // valid only when the dragged elements are totally within the work area
-MI_Direction allowedMoveDirectionWhenVirtuallyDraggedOutsideWorkArea = MI_DIRECTION_NONE; // the allowed direction when the dragged elements are virtually not totally inside the work area
+MI_Direction allowedMoveDirection = MI_DirectionNone;  // valid only when the dragged elements are totally within the work area
+MI_Direction allowedMoveDirectionWhenVirtuallyDraggedOutsideWorkArea = MI_DirectionNone; // the allowed direction when the dragged elements are virtually not totally inside the work area
 BOOL moveIsConstrained = NO; // indicates if element dragging INSIDE THE WORK AREA is constrained to a specific direction
 BOOL dragGestureJustStarted = NO; // needed to detect which direction is constrained
 BOOL elementsVirtuallyDraggedOutsideWorkArea; // indicates whether the bounding box of the ghost image of the selected elements is not totally inside the work area
@@ -472,15 +472,15 @@ NSRect boundingBoxForElementDragging;
                     {
                         // constrain movement to vertical or horizontal only
                         moveIsConstrained = YES;
-                        allowedMoveDirection = (fabs(yMotion) > fabs(xMotion)) ? MI_DIRECTION_UP : MI_DIRECTION_RIGHT;
+                        allowedMoveDirection = (fabs(yMotion) > fabs(xMotion)) ? MI_DirectionUp : MI_DirectionRight;
                     }
                     dragGestureJustStarted = NO;
                 }
                 if (moveIsConstrained)
                 {
-                    if (allowedMoveDirection != MI_DIRECTION_RIGHT)
+                    if (allowedMoveDirection != MI_DirectionRight)
                         xMotion = 0.0f; // drag vertical only
-                    if (allowedMoveDirection != MI_DIRECTION_UP)
+                    if (allowedMoveDirection != MI_DirectionUp)
                         yMotion = 0.0f; // drag horizontal only
                 }
 
@@ -500,12 +500,12 @@ NSRect boundingBoxForElementDragging;
                     // are dragged into a corner.
                     if ( !elementsHorizontallyInWorkArea && elementsVerticallyInWorkArea )
                         allowedMoveDirectionWhenVirtuallyDraggedOutsideWorkArea = (moveIsConstrained &&
-                            allowedMoveDirection != MI_DIRECTION_UP) ? MI_DIRECTION_NONE : MI_DIRECTION_UP;
+                            allowedMoveDirection != MI_DirectionUp) ? MI_DirectionNone : MI_DirectionUp;
                     else if ( elementsHorizontallyInWorkArea && !elementsVerticallyInWorkArea )
                         allowedMoveDirectionWhenVirtuallyDraggedOutsideWorkArea = (moveIsConstrained &&
-                            allowedMoveDirection != MI_DIRECTION_RIGHT) ? MI_DIRECTION_NONE : MI_DIRECTION_RIGHT;
+                            allowedMoveDirection != MI_DirectionRight) ? MI_DirectionNone : MI_DirectionRight;
                     else
-                        allowedMoveDirectionWhenVirtuallyDraggedOutsideWorkArea = MI_DIRECTION_NONE;
+                        allowedMoveDirectionWhenVirtuallyDraggedOutsideWorkArea = MI_DirectionNone;
                 }
                 
                 [self moveSelectedElementsVertically:yMotion
@@ -719,7 +719,7 @@ NSRect boundingBoxForElementDragging;
             MI_Direction allowedDirection = elementsVirtuallyDraggedOutsideWorkArea ? allowedMoveDirectionWhenVirtuallyDraggedOutsideWorkArea : allowedMoveDirection;
             
             if ( (alignment.alignment & MI_alignsVertically) &&
-                !(constrainedMove && (allowedDirection == MI_DIRECTION_UP)) )
+                !(constrainedMove && (allowedDirection == MI_DirectionUp)) )
             {
                 [canvas addAlignmentPoint:
                     [[MI_AlignmentPoint alloc] initWithPosition:[canvas schematicPointToCanvasPoint:alignment.verticalAlignmentPoint]
@@ -739,7 +739,7 @@ NSRect boundingBoxForElementDragging;
             // Check for alignment with other connection points on the horizontal and snap up/down.
             // But only if the movement is not constrained to left/right.
             if ( (alignment.alignment & MI_alignsHorizontally) &&
-                 !(constrainedMove && (allowedDirection == MI_DIRECTION_RIGHT)) )
+                 !(constrainedMove && (allowedDirection == MI_DirectionRight)) )
             {
                 [canvas addAlignmentPoint:
                     [[MI_AlignmentPoint alloc] initWithPosition:[canvas schematicPointToCanvasPoint:alignment.horizontalAlignmentPoint]
@@ -763,9 +763,9 @@ NSRect boundingBoxForElementDragging;
                 effectiveMoveY = mouse.y + elementPositionRelativeToMouseAtDragStart.y - currentPosition.y;
                 if (constrainedMove)
                 {
-                    if (allowedDirection != MI_DIRECTION_RIGHT)
+                    if (allowedDirection != MI_DirectionRight)
                         effectiveMoveX = 0.0f;
-                    if (allowedDirection != MI_DIRECTION_UP)
+                    if (allowedDirection != MI_DirectionUp)
                         effectiveMoveY = 0.0f;
                 }
             }

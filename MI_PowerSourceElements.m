@@ -28,24 +28,23 @@
 
 - (instancetype) init
 {
-  if (self = [super init])
+  if (self = [super initWithSize:NSMakeSize(32.0f, 48.0f)])
   {
-    originalSize = size = NSMakeSize(32.0f, 48.0f);
     [self setName:@"DC Voltage Source"];
     [self setLabel:@"Vdc"];
-    [self setLabelPosition:MI_DIRECTION_RIGHT];
+    [self setLabelPosition:MI_DirectionRight];
     MI_ConnectionPoint* anode = [[MI_ConnectionPoint alloc]
         initWithPosition:NSMakePoint(0.0f, 24.0f)
                     size:NSMakeSize(6.0f, 6.0f)
                     name:@"Anode"
-     nodeNumberPlacement:MI_DIRECTION_NORTHEAST];
+     nodeNumberPlacement:MI_DirectionNortheast];
     MI_ConnectionPoint* cathode = [[MI_ConnectionPoint alloc]
         initWithPosition:NSMakePoint(0.0f, -24.0f)
                     size:NSMakeSize(6.0f, 6.0f)
                     name:@"Cathode"
-     nodeNumberPlacement:MI_DIRECTION_SOUTHEAST];
+     nodeNumberPlacement:MI_DirectionSoutheast];
     self.connectionPoints = @{@"Anode": anode, @"Cathode": cathode};
-    [parameters setObject:@"12.0" forKey:@"Voltage"];
+    [self.parameters setObject:@"12.0" forKey:@"Voltage"];
   }
   return self;
 }
@@ -86,25 +85,24 @@
 
 - (instancetype) init
 {
-  if (self = [super init])
+  if (self = [super initWithSize:NSMakeSize(32.0f, 48.0f)])
   {
-    originalSize = size = NSMakeSize(32.0f, 48.0f);
     [self setName:@"AC Voltage Source"];
     [self setLabel:@"Vac"];
-    [self setLabelPosition:MI_DIRECTION_RIGHT];
+    [self setLabelPosition:MI_DirectionRight];
     MI_ConnectionPoint* anode = [[MI_ConnectionPoint alloc]
         initWithPosition:NSMakePoint(0.0f, 24.0f)
                     size:NSMakeSize(6.0f, 6.0f)
                     name:@"Anode"
-     nodeNumberPlacement:MI_DIRECTION_NORTHEAST];
+     nodeNumberPlacement:MI_DirectionNortheast];
     MI_ConnectionPoint* cathode = [[MI_ConnectionPoint alloc]
         initWithPosition:NSMakePoint(0.0f, -24.0f)
                     size:NSMakeSize(6.0f, 6.0f)
                     name:@"Cathode"
-     nodeNumberPlacement:MI_DIRECTION_SOUTHEAST];
+     nodeNumberPlacement:MI_DirectionSoutheast];
     self.connectionPoints = @{@"Anode": anode, @"Cathode": cathode };
-    [parameters setObject:@"380" forKey:@"Magnitude"];
-    [parameters setObject:@"0" forKey:@"Phase"];
+    [self.parameters setObject:@"380" forKey:@"Magnitude"];
+    [self.parameters setObject:@"0" forKey:@"Phase"];
   }
   return self;
 }
@@ -147,30 +145,29 @@
 
 - (instancetype) init
 {
-  if (self = [super init])
+  if (self = [super initWithSize:NSMakeSize(32.0f, 48.0f)])
   {
-    originalSize = size = NSMakeSize(32.0f, 48.0f);
     [self setName:@"Pulse Voltage Source"];
     [self setLabel:@"VPulse"];
-    [self setLabelPosition:MI_DIRECTION_RIGHT];
+    [self setLabelPosition:MI_DirectionRight];
     MI_ConnectionPoint* anode = [[MI_ConnectionPoint alloc]
         initWithPosition:NSMakePoint(0.0f, 24.0f)
                     size:NSMakeSize(6.0f, 6.0f)
                     name:@"Anode"
-     nodeNumberPlacement:MI_DIRECTION_NORTHEAST];
+     nodeNumberPlacement:MI_DirectionNortheast];
     MI_ConnectionPoint* cathode = [[MI_ConnectionPoint alloc]
         initWithPosition:NSMakePoint(0.0f, -24.0f)
                     size:NSMakeSize(6.0f, 6.0f)
                     name:@"Cathode"
-     nodeNumberPlacement:MI_DIRECTION_SOUTHEAST];
+     nodeNumberPlacement:MI_DirectionSoutheast];
     self.connectionPoints = @{@"Anode": anode, @"Cathode": cathode};
-    [parameters setObject:@"0" forKey:@"Initial Value"];
-    [parameters setObject:@"5" forKey:@"Pulsed Value"];
-    [parameters setObject:@"0" forKey:@"Delay Time"];
-    [parameters setObject:@"0" forKey:@"Rise Time"];
-    [parameters setObject:@"0" forKey:@"Fall Time"];
-    [parameters setObject:@"0.001" forKey:@"Pulse Width"];
-    [parameters setObject:@"1" forKey:@"Period"];
+    [self.parameters setObject:@"0" forKey:@"Initial Value"];
+    [self.parameters setObject:@"5" forKey:@"Pulsed Value"];
+    [self.parameters setObject:@"0" forKey:@"Delay Time"];
+    [self.parameters setObject:@"0" forKey:@"Rise Time"];
+    [self.parameters setObject:@"0" forKey:@"Fall Time"];
+    [self.parameters setObject:@"0.001" forKey:@"Pulse Width"];
+    [self.parameters setObject:@"1" forKey:@"Period"];
   }
   return self;
 }
@@ -213,28 +210,27 @@
 
 - (instancetype) init
 {
-  if (self = [super init])
+  if (self = [super initWithSize:NSMakeSize(32.0f, 48.0f)])
   {
-    originalSize = size = NSMakeSize(32.0f, 48.0f);
     [self setName:@"Sinusoidal Voltage Source"];
     [self setLabel:@"VSin"];
-    [self setLabelPosition:MI_DIRECTION_RIGHT];
+    [self setLabelPosition:MI_DirectionRight];
     MI_ConnectionPoint* anode = [[MI_ConnectionPoint alloc]
         initWithPosition:NSMakePoint(0.0f, 24.0f)
                     size:NSMakeSize(6.0f, 6.0f)
                     name:@"Anode"
-     nodeNumberPlacement:MI_DIRECTION_NORTHEAST];
+     nodeNumberPlacement:MI_DirectionNortheast];
     MI_ConnectionPoint* cathode = [[MI_ConnectionPoint alloc]
         initWithPosition:NSMakePoint(0.0f, -24.0f)
                     size:NSMakeSize(6.0f, 6.0f)
                     name:@"Cathode"
-     nodeNumberPlacement:MI_DIRECTION_SOUTHEAST];
+     nodeNumberPlacement:MI_DirectionSoutheast];
     self.connectionPoints = @{@"Anode": anode, @"Cathode": cathode};
-    [parameters setObject:@"0.0" forKey:@"Offset"];
-    [parameters setObject:@"1.0" forKey:@"Amplitude"];
-    [parameters setObject:@"50.0" forKey:@"Frequency"];
-    [parameters setObject:@"0.0" forKey:@"Delay"];
-    [parameters setObject:@"0.0" forKey:@"Damping Factor"];
+    [self.parameters setObject:@"0.0" forKey:@"Offset"];
+    [self.parameters setObject:@"1.0" forKey:@"Amplitude"];
+    [self.parameters setObject:@"50.0" forKey:@"Frequency"];
+    [self.parameters setObject:@"0.0" forKey:@"Delay"];
+    [self.parameters setObject:@"0.0" forKey:@"Damping Factor"];
   }
   return self;
 }
@@ -278,26 +274,25 @@
 
 - (instancetype) init
 {
-  if (self = [super init])
+  if (self = [super initWithSize:NSMakeSize(32.0f, 48.0f)])
   {
-    originalSize = size = NSMakeSize(32.0f, 48.0f);
     [self setName:@"Current Source"];
     [self setLabel:@"I"];
-    [self setLabelPosition:MI_DIRECTION_RIGHT];
+    [self setLabelPosition:MI_DirectionRight];
     MI_ConnectionPoint* anode = [[MI_ConnectionPoint alloc]
         initWithPosition:NSMakePoint(0.0f, -24.0f)
                     size:NSMakeSize(6.0f, 6.0f)
                     name:@"Anode"
-     nodeNumberPlacement:MI_DIRECTION_NORTHEAST];
+     nodeNumberPlacement:MI_DirectionNortheast];
     MI_ConnectionPoint* cathode = [[MI_ConnectionPoint alloc]
         initWithPosition:NSMakePoint(0.0f, 24.0f)
                     size:NSMakeSize(6.0f, 6.0f)
                     name:@"Cathode"
-     nodeNumberPlacement:MI_DIRECTION_SOUTHEAST];
+     nodeNumberPlacement:MI_DirectionSoutheast];
     self.connectionPoints = @{@"Anode": anode, @"Cathode": cathode};
-    [parameters setObject:@"1m" forKey:@"DC_Current"];
-    [parameters setObject:@"0" forKey:@"AC_Magnitude"];
-    [parameters setObject:@"0" forKey:@"AC_Phase"];
+    [self.parameters setObject:@"1m" forKey:@"DC_Current"];
+    [self.parameters setObject:@"0" forKey:@"AC_Magnitude"];
+    [self.parameters setObject:@"0" forKey:@"AC_Phase"];
   }
   return self;
 }
@@ -344,31 +339,30 @@
 
 - (instancetype) init
 {
-    if (self = [super init])
+    if (self = [super initWithSize:NSMakeSize(32.0f, 48.0f)])
     {
-        originalSize = size = NSMakeSize(32.0f, 48.0f);
         [self setName:@"Pulse Current Source"];
         [self setLabel:@"IPulse"];
-        [self setLabelPosition:MI_DIRECTION_RIGHT];
+        [self setLabelPosition:MI_DirectionRight];
         MI_ConnectionPoint* anode = [[MI_ConnectionPoint alloc]
             initWithPosition:NSMakePoint(0.0f, -24.0f)
                         size:NSMakeSize(6.0f, 6.0f)
                         name:@"Anode"
-         nodeNumberPlacement:MI_DIRECTION_NORTHEAST];
+         nodeNumberPlacement:MI_DirectionNortheast];
         MI_ConnectionPoint* cathode = [[MI_ConnectionPoint alloc]
             initWithPosition:NSMakePoint(0.0f, 24.0f)
                         size:NSMakeSize(6.0f, 6.0f)
                         name:@"Cathode"
-         nodeNumberPlacement:MI_DIRECTION_SOUTHEAST];
+         nodeNumberPlacement:MI_DirectionSoutheast];
         self.connectionPoints = [NSDictionary dictionaryWithObjectsAndKeys:
             anode, @"Anode", cathode, @"Cathode", NULL];
-        [parameters setObject:@"0" forKey:@"Initial Value"];
-        [parameters setObject:@"5" forKey:@"Pulsed Value"];
-        [parameters setObject:@"0" forKey:@"Delay Time"];
-        [parameters setObject:@"0" forKey:@"Rise Time"];
-        [parameters setObject:@"0" forKey:@"Fall Time"];
-        [parameters setObject:@"0.001" forKey:@"Pulse Width"];
-        [parameters setObject:@"1" forKey:@"Period"];
+        [self.parameters setObject:@"0" forKey:@"Initial Value"];
+        [self.parameters setObject:@"5" forKey:@"Pulsed Value"];
+        [self.parameters setObject:@"0" forKey:@"Delay Time"];
+        [self.parameters setObject:@"0" forKey:@"Rise Time"];
+        [self.parameters setObject:@"0" forKey:@"Fall Time"];
+        [self.parameters setObject:@"0.001" forKey:@"Pulse Width"];
+        [self.parameters setObject:@"1" forKey:@"Period"];
     }
     return self;
 }
@@ -434,35 +428,34 @@
 
 - (instancetype) init
 {
-    if (self = [super init])
+    if (self = [super initWithSize:NSMakeSize(36.0f, 48.0f)])
     {
-        originalSize = size = NSMakeSize(36.0f, 48.0f);
         [self setName:@"Voltage-Controlled Current Source"];
         [self setLabel:@"G"];
-        [self setLabelPosition:MI_DIRECTION_RIGHT];
+        [self setLabelPosition:MI_DirectionRight];
         MI_ConnectionPoint* np = [[MI_ConnectionPoint alloc]
             initWithPosition:NSMakePoint(2.0f, 24.0f)
                         size:NSMakeSize(6.0f, 6.0f)
                         name:@"N+"
-         nodeNumberPlacement:MI_DIRECTION_NORTHEAST];
+         nodeNumberPlacement:MI_DirectionNortheast];
         MI_ConnectionPoint* nm = [[MI_ConnectionPoint alloc]
             initWithPosition:NSMakePoint(2.0f, -24.0f)
                         size:NSMakeSize(6.0f, 6.0f)
                         name:@"N-"
-         nodeNumberPlacement:MI_DIRECTION_SOUTHEAST];
+         nodeNumberPlacement:MI_DirectionSoutheast];
         MI_ConnectionPoint* ncp = [[MI_ConnectionPoint alloc]
             initWithPosition:NSMakePoint(-18.0f, 8.0f)
                         size:NSMakeSize(6.0f, 6.0f)
                         name:@"NC+"
-         nodeNumberPlacement:MI_DIRECTION_NORTHWEST];
+         nodeNumberPlacement:MI_DirectionNorthwest];
         MI_ConnectionPoint* ncm = [[MI_ConnectionPoint alloc]
             initWithPosition:NSMakePoint(-18.0f, -8.0f)
                         size:NSMakeSize(6.0f, 6.0f)
                         name:@"NC-"
-         nodeNumberPlacement:MI_DIRECTION_SOUTHWEST];
+         nodeNumberPlacement:MI_DirectionSouthwest];
         self.connectionPoints = [NSDictionary dictionaryWithObjectsAndKeys:
             np, @"N+", nm, @"N-", ncp, @"NC+", ncm, @"NC-", NULL];
-        [parameters setObject:@"0.5" forKey:@"Transconductance"];
+        [self.parameters setObject:@"0.5" forKey:@"Transconductance"];
     }
     return self;
 }
@@ -519,35 +512,34 @@
 
 - (instancetype) init
 {
-    if (self = [super init])
+    if (self = [super initWithSize:NSMakeSize(36.0f, 48.0f)])
     {
-        originalSize = size = NSMakeSize(36.0f, 48.0f);
         [self setName:@"Voltage-Controlled Voltage Source"];
         [self setLabel:@"E"];
-        [self setLabelPosition:MI_DIRECTION_RIGHT];
+        [self setLabelPosition:MI_DirectionRight];
         MI_ConnectionPoint* np = [[MI_ConnectionPoint alloc]
             initWithPosition:NSMakePoint(2.0f, 24.0f)
                         size:NSMakeSize(6.0f, 6.0f)
                         name:@"N+"
-         nodeNumberPlacement:MI_DIRECTION_NORTHEAST];
+         nodeNumberPlacement:MI_DirectionNortheast];
         MI_ConnectionPoint* nm = [[MI_ConnectionPoint alloc]
             initWithPosition:NSMakePoint(2.0f, -24.0f)
                         size:NSMakeSize(6.0f, 6.0f)
                         name:@"N-"
-         nodeNumberPlacement:MI_DIRECTION_SOUTHEAST];
+         nodeNumberPlacement:MI_DirectionSoutheast];
         MI_ConnectionPoint* ncp = [[MI_ConnectionPoint alloc]
             initWithPosition:NSMakePoint(-18.0f, 8.0f)
                         size:NSMakeSize(6.0f, 6.0f)
                         name:@"NC+"
-         nodeNumberPlacement:MI_DIRECTION_NORTHWEST];
+         nodeNumberPlacement:MI_DirectionNorthwest];
         MI_ConnectionPoint* ncm = [[MI_ConnectionPoint alloc]
             initWithPosition:NSMakePoint(-18.0f, -8.0f)
                         size:NSMakeSize(6.0f, 6.0f)
                         name:@"NC-"
-         nodeNumberPlacement:MI_DIRECTION_SOUTHWEST];
+         nodeNumberPlacement:MI_DirectionSouthwest];
         self.connectionPoints = [NSDictionary dictionaryWithObjectsAndKeys:
             np, @"N+", nm, @"N-", ncp, @"NC+", ncm, @"NC-", NULL];
-        [parameters setObject:@"0.5" forKey:@"Gain"];
+        [self.parameters setObject:@"0.5" forKey:@"Gain"];
     }
     return self;
 }
@@ -597,25 +589,24 @@
 
 - (instancetype) init
 {
-  if (self = [super init])
+  if (self = [super initWithSize:NSMakeSize(32.0f, 48.0f)])
   {
-    originalSize = size = NSMakeSize(32.0f, 48.0f);
     [self setName:@"Current-Controlled Current Source"];
     [self setLabel:@"F"];
-    [self setLabelPosition:MI_DIRECTION_RIGHT];
+    [self setLabelPosition:MI_DirectionRight];
     MI_ConnectionPoint* anode = [[MI_ConnectionPoint alloc]
         initWithPosition:NSMakePoint(0.0f, -24.0f)
                     size:NSMakeSize(6.0f, 6.0f)
                     name:@"N+"
-     nodeNumberPlacement:MI_DIRECTION_NORTHEAST];
+     nodeNumberPlacement:MI_DirectionNortheast];
     MI_ConnectionPoint* cathode = [[MI_ConnectionPoint alloc]
         initWithPosition:NSMakePoint(0.0f, 24.0f)
                     size:NSMakeSize(6.0f, 6.0f)
                     name:@"N-"
-     nodeNumberPlacement:MI_DIRECTION_SOUTHEAST];
+     nodeNumberPlacement:MI_DirectionSoutheast];
     self.connectionPoints = @{@"N+": anode, @"N-": cathode};
-    [parameters setObject:@"0.5" forKey:@"Gain"];
-    [parameters setObject:@""    forKey:@"VNAM"];
+    [self.parameters setObject:@"0.5" forKey:@"Gain"];
+    [self.parameters setObject:@""    forKey:@"VNAM"];
   }
   return self;
 }
@@ -675,26 +666,25 @@
 
 - (instancetype) init
 {
-    if (self = [super init])
+    if (self = [super initWithSize:NSMakeSize(32.0f, 48.0f)])
     {
-        originalSize = size = NSMakeSize(32.0f, 48.0f);
         [self setName:@"Current-Controlled Voltage Source"];
         [self setLabel:@"H"];
-        [self setLabelPosition:MI_DIRECTION_RIGHT];
+        [self setLabelPosition:MI_DirectionRight];
         MI_ConnectionPoint* anode = [[MI_ConnectionPoint alloc]
             initWithPosition:NSMakePoint(0.0f, -24.0f)
                         size:NSMakeSize(6.0f, 6.0f)
                         name:@"N+"
-         nodeNumberPlacement:MI_DIRECTION_NORTHEAST];
+         nodeNumberPlacement:MI_DirectionNortheast];
         MI_ConnectionPoint* cathode = [[MI_ConnectionPoint alloc]
             initWithPosition:NSMakePoint(0.0f, 24.0f)
                         size:NSMakeSize(6.0f, 6.0f)
                         name:@"N-"
-         nodeNumberPlacement:MI_DIRECTION_SOUTHEAST];
+         nodeNumberPlacement:MI_DirectionSoutheast];
         self.connectionPoints = [NSDictionary dictionaryWithObjectsAndKeys:
             anode, @"N+", cathode, @"N-", NULL];
-        [parameters setObject:@"0.5" forKey:@"Transresistance"];
-        [parameters setObject:@""    forKey:@"VNAM"];
+        [self.parameters setObject:@"0.5" forKey:@"Transresistance"];
+        [self.parameters setObject:@""    forKey:@"VNAM"];
     }
     return self;
 }
@@ -747,25 +737,24 @@
 
 - (instancetype) init
 {
-    if (self = [super init])
+    if (self = [super initWithSize:NSMakeSize(32.0f, 48.0f)])
     {
-        originalSize = size = NSMakeSize(32.0f, 48.0f);
         [self setName:@"Nonlinear Dependent Power Source"];
         [self setLabel:@"B"];
-        [self setLabelPosition:MI_DIRECTION_RIGHT];
+        [self setLabelPosition:MI_DirectionRight];
         MI_ConnectionPoint* anode = [[MI_ConnectionPoint alloc]
             initWithPosition:NSMakePoint(0.0f, 24.0f)
                         size:NSMakeSize(6.0f, 6.0f)
                         name:@"N+"
-         nodeNumberPlacement:MI_DIRECTION_NORTHEAST];
+         nodeNumberPlacement:MI_DirectionNortheast];
         MI_ConnectionPoint* cathode = [[MI_ConnectionPoint alloc]
             initWithPosition:NSMakePoint(0.0f, -24.0f)
                         size:NSMakeSize(6.0f, 6.0f)
                         name:@"N-"
-         nodeNumberPlacement:MI_DIRECTION_SOUTHEAST];
+         nodeNumberPlacement:MI_DirectionSoutheast];
         self.connectionPoints = [NSDictionary dictionaryWithObjectsAndKeys:
             anode, @"N+", cathode, @"N-", NULL];
-        [parameters setObject:@"V=1+V(0)" forKey:@"Expression"];
+        [self.parameters setObject:@"V=1+V(0)" forKey:@"Expression"];
     }
     return self;
 }

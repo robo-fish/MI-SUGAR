@@ -21,99 +21,50 @@
 ****************************************************************************/
 #import "MI_CircuitElement.h"
 
+// Diodes
 @interface MI_DiodeElement : MI_CircuitElement
-{
-}
 @end
-
 @interface MI_ZenerDiodeElement : MI_CircuitElement
-{
-}
 @end
-
 @interface MI_LightEmittingDiodeElement : MI_CircuitElement
-{
-}
 @end
-
 @interface MI_PhotoDiodeElement : MI_CircuitElement
-{
-}
 @end
 
+// Transistors
 @interface MI_NPNTransistorElement : MI_CircuitElement
-{
-}
 @end
-
 @interface MI_PNPTransistorElement : MI_CircuitElement
-{
-}
 @end
-
 @interface MI_NJFETTransistorElement : MI_CircuitElement
-{
-}
 @end
-
 @interface MI_PJFETTransistorElement : MI_CircuitElement
-{
-}
 @end
-
 @protocol MI_MOSFET_Element
 @end
-@protocol MI_NMOS_Element
+@protocol MI_NMOS_Element <MI_MOSFET_Element>
 @end
-@protocol MI_PMOS_Element
+@protocol MI_PMOS_Element <MI_MOSFET_Element>
 @end
-
-@interface MI_EnhancementNMOSTransistorElement : MI_CircuitElement
-    <MI_MOSFET_Element, MI_NMOS_Element>
-{
-}
+@interface MI_EnhancementNMOSTransistorElement : MI_CircuitElement <MI_NMOS_Element>
 @end
-
-@interface MI_EnhancementPMOSTransistorElement : MI_CircuitElement
-    <MI_MOSFET_Element, MI_PMOS_Element>
-{
-}
+@interface MI_EnhancementPMOSTransistorElement : MI_CircuitElement <MI_PMOS_Element>
 @end
-
-@interface MI_DepletionNMOSTransistorElement : MI_CircuitElement
-    <MI_MOSFET_Element, MI_NMOS_Element>
-{
-}
+@interface MI_DepletionNMOSTransistorElement : MI_CircuitElement <MI_NMOS_Element>
 @end
-
-@interface MI_DepletionPMOSTransistorElement : MI_CircuitElement
-    <MI_MOSFET_Element, MI_PMOS_Element>
-{
-}
+@interface MI_DepletionPMOSTransistorElement : MI_CircuitElement <MI_PMOS_Element>
 @end
-
-@protocol MI_MOSFETwithBulkConnector @end
-
-@interface MI_EnhancementNMOSwBulkTransistorElement : MI_CircuitElement
-    <MI_MOSFET_Element, MI_NMOS_Element, MI_MOSFETwithBulkConnector>
-{
-}
+@protocol MI_MOSFETWithBulkConnector
 @end
-
-@interface MI_EnhancementPMOSwBulkTransistorElement : MI_CircuitElement
-    <MI_MOSFET_Element, MI_PMOS_Element, MI_MOSFETwithBulkConnector>
-{
-}
+@protocol MI_NMOSWithBulkConnector <MI_NMOS_Element, MI_MOSFETWithBulkConnector>
 @end
-
-@interface MI_DepletionNMOSwBulkTransistorElement : MI_CircuitElement
-    <MI_MOSFET_Element, MI_NMOS_Element, MI_MOSFETwithBulkConnector>
-{
-}
+@protocol MI_PMOSWithBulkConnector <MI_PMOS_Element, MI_MOSFETWithBulkConnector>
 @end
-
-@interface MI_DepletionPMOSwBulkTransistorElement : MI_CircuitElement
-    <MI_MOSFET_Element, MI_PMOS_Element, MI_MOSFETwithBulkConnector>
-{
-}
+@interface MI_EnhancementNMOSwBulkTransistorElement : MI_CircuitElement <MI_NMOSWithBulkConnector>
+@end
+@interface MI_EnhancementPMOSwBulkTransistorElement : MI_CircuitElement <MI_PMOSWithBulkConnector>
+@end
+@interface MI_DepletionNMOSwBulkTransistorElement : MI_CircuitElement <MI_NMOSWithBulkConnector>
+@end
+@interface MI_DepletionPMOSwBulkTransistorElement : MI_CircuitElement <MI_PMOSWithBulkConnector>
 @end

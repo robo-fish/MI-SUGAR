@@ -193,7 +193,9 @@ NSArray<MI_SubcircuitWithFile*>* extractSubcircuitFromSubpath(NSString* path);
     if (openDocument)
     {
       // automatically open the new subcircuit's definition
-      [[NSDocumentController sharedDocumentController] openDocumentWithContentsOfURL:[[NSURL alloc] initFileURLWithPath:targetFile]  display:YES completionHandler:nil];
+      [[NSDocumentController sharedDocumentController] openDocumentWithContentsOfURL:[[NSURL alloc] initFileURLWithPath:targetFile]  display:YES completionHandler:^(NSDocument * _Nullable document, BOOL documentWasAlreadyOpen, NSError * _Nullable error) {
+        /* nothing */
+      }];
     }
     return YES;
 }
@@ -326,7 +328,7 @@ shouldEditTableColumn:(NSTableColumn *)tableColumn
         [[subcircuits objectAtIndex:0] isKindOfClass:[MI_SubcircuitWithFile class]])
     {
         [self displaySubcircuitElement:[[subcircuits objectAtIndex:0] subcircuit]];
-        [table selectRow:0 byExtendingSelection:NO];
+        [table selectRowIndexes:[NSIndexSet indexSetWithIndex:0] byExtendingSelection:NO];
     }
     else
     {
@@ -405,64 +407,66 @@ shouldEditTableColumn:(NSTableColumn *)tableColumn
 // found at the given path, where sublist elements are inserted for subpaths.
 NSArray<MI_SubcircuitWithFile*>* extractSubcircuitFromSubpath(NSString* path)
 {
-    // First, Get all files in the repository folder, including subfolders
-    NSArray* files = [[NSFileManager defaultManager] directoryContentsAtPath:path];
-    NSMutableArray<MI_SubcircuitWithFile*>* result = [NSMutableArray arrayWithCapacity:10];
-    // Now build a list where directories are sublists
-    // and subcircuit elements are items
-    NSEnumerator* dirEnum = [files objectEnumerator];
-    NSString* filePath;
-    MI_SubcircuitElement* element;
-    MI_SubcircuitWithFile* tableItem;
-    
-    while (filePath = [dirEnum nextObject])
+  // First, Get all files in the repository folder, including subfolders
+  NSArray* files = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:path error:NULL];
+  NSMutableArray<MI_SubcircuitWithFile*>* result = [NSMutableArray arrayWithCapacity:10];
+  // Now build a list where directories are sublists
+  // and subcircuit elements are items
+  MI_SubcircuitElement* element;
+  MI_SubcircuitWithFile* tableItem;
+
+  for (NSString* fileName in files)
+  {
+    NSString* filePath = [path stringByAppendingPathComponent:fileName];
+    if ([[[[NSFileManager defaultManager] attributesOfItemAtPath:filePath error:NULL]
+            objectForKey:NSFileType] isEqualToString:NSFileTypeDirectory])
     {
-        filePath = [path stringByAppendingFormat:@"/%@", filePath];
-        if ([[[[NSFileManager defaultManager] fileAttributesAtPath:filePath
-                                                      traverseLink:YES]
-                objectForKey:NSFileType] isEqualToString:NSFileTypeDirectory])
-        {
-            // recursing into sub-directory
-            [result addObjectsFromArray:extractSubcircuitFromSubpath(filePath)];
-        }
-        else
-        {
-            // Deserialize the sugar files
-            MI_SubcircuitDocumentModel* newModel;
-            int fileVersion;
-            NSArray* deviceModels;
-            NSKeyedUnarchiver* unarchiver;
-    NS_DURING
-            NSMutableData* data = [NSData dataWithContentsOfFile:filePath];
-            if (data == nil)
-                continue;
-            unarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
-            fileVersion = [[unarchiver decodeObjectForKey:@"Version"] intValue];
-            newModel = [unarchiver decodeObjectForKey:@"MI-SUGAR Document Model"];
-            deviceModels = [unarchiver decodeObjectForKey:@"MI-SUGAR Circuit Device Models"];
-            [unarchiver finishDecoding];
-    NS_HANDLER
-            continue; // skip this file
-    NS_ENDHANDLER
-            if (newModel != nil &&
-                [newModel isKindOfClass:[MI_SubcircuitDocumentModel class]])
-            {
-                // Add the definition of the subcircuit to the database
-                NSString* fullyQualifiedName = [newModel fullyQualifiedCircuitName];
-                if (![elementDefinitions objectForKey:fullyQualifiedName])
-                    [elementDefinitions setObject:newModel
-                                           forKey:fullyQualifiedName];
-                // If the opened file includes new device models they must be added to the local repository
-                if (deviceModels != nil)
-                    [[MI_DeviceModelManager sharedManager] importDeviceModels:deviceModels];
-                // create MI_SubcircuitElement object
-                element = [[MI_SubcircuitElement alloc] initWithDefinition:newModel];
-                // add them to the list
-                tableItem = [[MI_SubcircuitWithFile alloc] initWithSubcircuit:element
-                                                                     filepath:filePath];
-                [result addObject:tableItem];
-            }
-        } // else
+      // recursing into sub-directory
+      [result addObjectsFromArray:extractSubcircuitFromSubpath(filePath)];
     }
-    return result;
+    else
+    {
+      // Deserialize the sugar files
+      MI_SubcircuitDocumentModel* newModel = nil;
+      int fileVersion;
+      NSArray* deviceModels = nil;
+      @try
+      {
+        NSData* data = [NSData dataWithContentsOfFile:filePath];
+        if (data == nil)
+            continue;
+        NSKeyedUnarchiver* unarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
+        fileVersion = [[unarchiver decodeObjectForKey:@"Version"] intValue];
+        newModel = [unarchiver decodeObjectForKey:@"MI-SUGAR Document Model"];
+        deviceModels = [unarchiver decodeObjectForKey:@"MI-SUGAR Circuit Device Models"];
+        [unarchiver finishDecoding];
+      }
+      @catch (id)
+      {
+        continue; // skip this file
+      }
+      if (newModel != nil && [newModel isKindOfClass:[MI_SubcircuitDocumentModel class]])
+      {
+        MI_SubcircuitDocumentModel* subcircuitModel = (MI_SubcircuitDocumentModel*)newModel;
+        // Add the definition of the subcircuit to the database
+        NSString* fullyQualifiedName = [subcircuitModel fullyQualifiedCircuitName];
+        if (![elementDefinitions objectForKey:fullyQualifiedName])
+        {
+          [elementDefinitions setObject:newModel forKey:fullyQualifiedName];
+        }
+        // If the opened file includes new device models they must be added to the local repository
+        if (deviceModels != nil)
+        {
+          [[MI_DeviceModelManager sharedManager] importDeviceModels:deviceModels];
+        }
+        // create MI_SubcircuitElement object
+        element = [[MI_SubcircuitElement alloc] initWithDefinition:newModel];
+        // add them to the list
+        tableItem = [[MI_SubcircuitWithFile alloc] initWithSubcircuit:element
+                                                             filepath:filePath];
+        [result addObject:tableItem];
+      }
+    } // else
+  }
+  return result;
 }

@@ -84,7 +84,7 @@
         previousTab = nil;
         drawerWasClosed = YES;
 
-        [NSBundle loadNibNamed:@"PlotWindow.nib" owner:self];
+        [[NSBundle mainBundle] loadNibNamed:@"PlotWindow.nib" owner:self topLevelObjects:nil];
 
         // Build the entries of the analysis type chooser popup button
         [plotChooser removeAllItems];
@@ -229,24 +229,26 @@
 
 - (void)printShowingPrintPanel:(BOOL)flag
 {
-    NSPrintOperation* printOp;
-    NS_DURING
-        
-        printOp = [NSPrintOperation printOperationWithView:plotView];
-        [printOp setAccessoryView:printOptionsView];
-        
-        [printOp runOperationModalForWindow:plotWindow
-                                   delegate:nil
-                             didRunSelector:nil
-                                contextInfo:NULL];
-        
-        /*
-        [printOp setShowPanels:YES];
-        [printOp runOperation];
-        */
-    NS_HANDLER
-        NSLog(@"Exception occured: %@", [localException name]);
-    NS_ENDHANDLER
+  NSPrintOperation* printOp;
+  @try
+  {
+    printOp = [NSPrintOperation printOperationWithView:plotView];
+    printOp.accessoryView = printOptionsView;
+
+    [printOp runOperationModalForWindow:plotWindow
+                               delegate:nil
+                         didRunSelector:nil
+                            contextInfo:NULL];
+
+    /*
+    [printOp setShowPanels:YES];
+    [printOp runOperation];
+    */
+  }
+  @catch (NSException* localException)
+  {
+    NSLog(@"Exception occured: %@", [localException name]);
+  }
 }
 /*
 - (void) printOperationDidRun:(NSPrintOperation *)printOperation
@@ -623,7 +625,7 @@
 
 
 /* NSTableDataSource protocol implementation */
-- (int)numberOfRowsInTableView:(NSTableView *)aTableView
+- (NSInteger) numberOfRowsInTableView:(NSTableView *)aTableView
 {
     return [[dataTable objectAtIndex:[plotChooser indexOfSelectedItem]] numberOfVariables] - 1;
 }
@@ -669,7 +671,7 @@ objectValueForTableColumn:(NSTableColumn *)aTableColumn
 - (void)tableView:(NSTableView*)aTableView
   willDisplayCell:(id)aCell
    forTableColumn:(NSTableColumn*)aTableColumn
-              row:(int)rowIndex
+              row:(NSInteger)rowIndex
 {
     if ([[aTableColumn identifier] isEqualToString:@"state"])
     {

@@ -27,9 +27,9 @@ static const float mi_drawing_unit_fraction = 0.05f;
 @implementation MI_VariantSelectionView
 {
 @private
-  MI_VariantChoice _selectedVariant;
+  MI_SchematicVariant _selectedVariant;
   int flashingCounter; // needed for flashing animation - counts the animation steps
-  MI_VariantChoice flashedVariant; // the variant which is flashed
+  MI_SchematicVariant flashedVariant; // the variant which is flashed
   NSColor* flashColor; // the color used for flashing
 }
 
@@ -38,28 +38,28 @@ static const float mi_drawing_unit_fraction = 0.05f;
 {
   if (self = [super initWithFrame:frame])
   {
-    _selectedVariant = MI_SCHEMATIC_VARIANT_NONE;
-    flashedVariant = MI_SCHEMATIC_VARIANT_NONE;
+    _selectedVariant = MI_SchematicVariantNone;
+    flashedVariant = MI_SchematicVariantNone;
     flashColor = [NSColor redColor];
   }
   return self;
 }
 
 
-- (void) setSelectedVariant:(MI_VariantChoice)variant
+- (void) setSelectedVariant:(MI_SchematicVariant)variant
 {
   _selectedVariant = variant;
   [self setNeedsDisplay:YES];
 }
 
 
-- (MI_VariantChoice) selectedVariant
+- (MI_SchematicVariant) selectedVariant
 {
   return _selectedVariant;
 }
 
 
-- (void) flashVariant:(MI_VariantChoice)variant
+- (void) flashVariant:(MI_SchematicVariant)variant
 {
   if (variant != _selectedVariant)
   {
@@ -83,7 +83,7 @@ static const float mi_drawing_unit_fraction = 0.05f;
   else if (flashingCounter >= 7)
   {
     [timer invalidate];
-    flashedVariant = MI_SCHEMATIC_VARIANT_NONE;
+    flashedVariant = MI_SchematicVariantNone;
   }
   flashingCounter++;
   [self setNeedsDisplay:YES];
@@ -102,37 +102,37 @@ static const float mi_drawing_unit_fraction = 0.05f;
 // The position of the dots is vertically centered.
 - (void) drawRect:(NSRect)rect
 {
-    int i;
-    float unit = mi_drawing_unit_fraction;
-    for (i = 0; i < 4; i++)
-    {
-        if (i == [self selectedVariant])
-            [[NSColor colorWithDeviceRed:0.35f green:0.1f blue:0.1f alpha:1.0f] set];
-        else if (i == flashedVariant)
-            [flashColor set];
-        else
-            [[NSColor colorWithDeviceRed:0.75f green:0.75f blue:0.9f alpha:1.0f] set];
-        [[NSBezierPath bezierPathWithOvalInRect:
-            NSMakeRect( (1 + i*5) * unit * rect.size.width,
-                        rect.size.height/2.0f - 1.5f * unit * rect.size.width,
-                        3 * unit * rect.size.width,
-                        3 * unit * rect.size.width)
-            ] fill];
-    }
+  float unit = mi_drawing_unit_fraction;
+  for (int i = 0; i < 4; i++)
+  {
+    if (i == [self selectedVariant])
+      [[NSColor colorWithDeviceRed:0.35f green:0.1f blue:0.1f alpha:1.0f] set];
+    else if (i == flashedVariant)
+      [flashColor set];
+    else
+      [[NSColor colorWithDeviceRed:0.75f green:0.75f blue:0.9f alpha:1.0f] set];
+
+    NSRect const filledRect = NSMakeRect(
+      (1 + i*5) * unit * rect.size.width,
+      rect.size.height/2.0f - 1.5f * unit * rect.size.width,
+      3 * unit * rect.size.width,
+      3 * unit * rect.size.width);
+
+    [[NSBezierPath bezierPathWithOvalInRect:filledRect] fill];
+  }
 }
 
 
 - (BOOL) isOpaque
 {
-    return NO;
+  return NO;
 }
 
 // Needed for putting this item into toolbars.
 - (BOOL) isEnabled
 {
-    return YES;
+  return YES;
 }
-
 
 - (void) mouseDown:(NSEvent*)theEvent
 {

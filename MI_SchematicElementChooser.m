@@ -165,11 +165,9 @@
     MI_SchematicElement* copiedElement = [activeElement mutableCopy];
     [copiedElement setShowsLabel:YES];
     // Put the active element into the drag pasteboard
-    NSPasteboard *dragPboard = [NSPasteboard pasteboardWithName:NSDragPboard];
-    [dragPboard declareTypes:[NSArray arrayWithObject:MI_SchematicElementPboardType]
-                       owner:self];
-    [dragPboard setData:[NSKeyedArchiver archivedDataWithRootObject:copiedElement]
-                forType:MI_SchematicElementPboardType];
+    NSPasteboard *dragPboard = [NSPasteboard pasteboardWithName:NSPasteboardNameDrag];
+    [dragPboard declareTypes:@[MI_SchematicElementPboardType] owner:self];
+    [dragPboard setData:[NSKeyedArchiver archivedDataWithRootObject:copiedElement] forType:MI_SchematicElementPboardType];
     // Set the drag image and its location
     p = [self convertPoint:[self frame].origin
                   fromView:[self superview]];

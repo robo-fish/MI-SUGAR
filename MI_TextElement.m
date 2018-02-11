@@ -38,7 +38,7 @@
     self.label = @"Text";
     _textFont = [NSFont userFontOfSize:0]; // the default font is the system-wide user font
     _textColor = [NSColor blackColor];
-    labelPosition = MI_DIRECTION_NONE;
+    self.labelPosition = MI_DirectionNone;
     self.drawsFrame = NO;
     _locked = NO;
   }
@@ -100,7 +100,7 @@
   [MI_TroubleShooter drawString:self.label
                      attributes:attributes
                         atPoint:NSMakePoint(self.position.x - s.width/2.0, self.position.y - s.height/2.0)
-                       rotation:rotation];
+                       rotation:self.rotation];
   [super endDraw];
 }
 
@@ -108,8 +108,8 @@
 - (NSSize) size
 {
   NSSize s = [self.label sizeWithAttributes:@{NSFontAttributeName:_textFont, NSForegroundColorAttributeName:_textColor}];
-  s.width = fabs(s.width * cos(rotation)) + fabs(s.height * sin(rotation));
-  s.height = fabs(s.height * cos(rotation)) + fabs(s.width * sin(rotation));
+  s.width = fabs(s.width * cos(self.rotation)) + fabs(s.height * sin(self.rotation));
+  s.height = fabs(s.height * cos(self.rotation)) + fabs(s.width * sin(self.rotation));
   return s;
 }
 

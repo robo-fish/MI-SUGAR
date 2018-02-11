@@ -26,22 +26,21 @@
 
 - (instancetype) init
 {
-  if (self = [super init])
+  if (self = [super initWithSize:NSMakeSize(32.0f, 48.0f)])
   {
-    originalSize = size = NSMakeSize(32.0f, 48.0f);
     [self setName:@"Ammeter"];
     [self setLabel:@""];
-    [self setLabelPosition:MI_DIRECTION_UP];
+    [self setLabelPosition:MI_DirectionUp];
     MI_ConnectionPoint* anode = [[MI_ConnectionPoint alloc]
         initWithPosition:NSMakePoint(0.0f, 24.0f)
                     size:NSMakeSize(6.0f, 6.0f)
                     name:@"Anode"
-     nodeNumberPlacement:MI_DIRECTION_NONE];
+     nodeNumberPlacement:MI_DirectionNone];
     MI_ConnectionPoint* cathode = [[MI_ConnectionPoint alloc]
         initWithPosition:NSMakePoint(0.0f, -24.0f)
                     size:NSMakeSize(6.0f, 6.0f)
                     name:@"Cathode"
-     nodeNumberPlacement:MI_DIRECTION_NONE];
+     nodeNumberPlacement:MI_DirectionNone];
     self.connectionPoints = @{@"Anode": anode, @"Cathode" : cathode};
   }
   return self;

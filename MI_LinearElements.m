@@ -27,24 +27,23 @@
 
 - (instancetype) init
 {
-  if (self = [super init])
+  if (self = [super initWithSize:NSMakeSize(42.0f, 12.0f)])
   {
-    originalSize = size = NSMakeSize(42.0f, 12.0f);
     [self setName:@"Resistor"];
     [self setLabel:@"R"];
-    [self setLabelPosition:MI_DIRECTION_UP];
+    [self setLabelPosition:MI_DirectionUp];
     MI_ConnectionPoint* A = [[MI_ConnectionPoint alloc]
         initWithPosition:NSMakePoint(-21.0f, 0.0f)
                     size:NSMakeSize(6.0f, 6.0f)
                     name:@"A"
-     nodeNumberPlacement:MI_DIRECTION_NORTHWEST];
+     nodeNumberPlacement:MI_DirectionNorthwest];
     MI_ConnectionPoint* B = [[MI_ConnectionPoint alloc]
         initWithPosition:NSMakePoint(21.0f, 0.0f)
                     size:NSMakeSize(6.0f, 6.0f)
                     name:@"B"
-     nodeNumberPlacement:MI_DIRECTION_NORTHEAST];
+     nodeNumberPlacement:MI_DirectionNortheast];
     self.connectionPoints = @{@"A": A, @"B": B};
-    [parameters setObject:@"1k" forKey:@"Resistance"];
+    [self.parameters setObject:@"1k" forKey:@"Resistance"];
   }
   return self;
 }
@@ -80,24 +79,23 @@
 
 - (instancetype) init
 {
-  if (self = [super init])
+  if (self = [super initWithSize:NSMakeSize(42.0f, 12.0f)])
   {
-    originalSize = size = NSMakeSize(42.0f, 12.0f);
     [self setName:@"Resistor"];
     [self setLabel:@"R"];
-    [self setLabelPosition:MI_DIRECTION_UP];
+    [self setLabelPosition:MI_DirectionUp];
     MI_ConnectionPoint* A = [[MI_ConnectionPoint alloc]
         initWithPosition:NSMakePoint(-21.0f, 0.0f)
                     size:NSMakeSize(6.0f, 6.0f)
                     name:@"A"
-     nodeNumberPlacement:MI_DIRECTION_NORTHWEST];
+     nodeNumberPlacement:MI_DirectionNorthwest];
     MI_ConnectionPoint* B = [[MI_ConnectionPoint alloc]
         initWithPosition:NSMakePoint(21.0f, 0.0f)
                     size:NSMakeSize(6.0f, 6.0f)
                     name:@"B"
-     nodeNumberPlacement:MI_DIRECTION_NORTHEAST];
+     nodeNumberPlacement:MI_DirectionNortheast];
     self.connectionPoints = @{@"A": A, @"B": B};
-    [parameters setObject:@"1k" forKey:@"Resistance"];
+    [self.parameters setObject:@"1k" forKey:@"Resistance"];
   }
   return self;
 }
@@ -136,24 +134,23 @@
 
 - (instancetype) init
 {
-  if (self = [super init])
+  if (self = [super initWithSize:NSMakeSize(42.0f, 28.0f)])
   {
-    originalSize = size = NSMakeSize(42.0f, 28.0f);
     [self setName:@"Rheostat"];
     [self setLabel:@"R"];
-    [self setLabelPosition:MI_DIRECTION_UP];
+    [self setLabelPosition:MI_DirectionUp];
     MI_ConnectionPoint* A = [[MI_ConnectionPoint alloc]
         initWithPosition:NSMakePoint(-21.0f, 0.0f)
                     size:NSMakeSize(6.0f, 6.0f)
                     name:@"A"
-     nodeNumberPlacement:MI_DIRECTION_NORTHWEST];
+     nodeNumberPlacement:MI_DirectionNorthwest];
     MI_ConnectionPoint* B = [[MI_ConnectionPoint alloc]
         initWithPosition:NSMakePoint(21.0f, 0.0f)
                     size:NSMakeSize(6.0f, 6.0f)
                     name:@"B"
-     nodeNumberPlacement:MI_DIRECTION_NORTHEAST];
+     nodeNumberPlacement:MI_DirectionNortheast];
     self.connectionPoints = @{@"A": A, @"B": B};
-    [parameters setObject:@"1k" forKey:@"Resistance"];
+    [self.parameters setObject:@"1k" forKey:@"Resistance"];
   }
   return self;
 }
@@ -202,24 +199,23 @@
 
 - (instancetype) init
 {
-  if (self = [super init])
+  if (self = [super initWithSize:NSMakeSize(42.0f, 28.0f)])
   {
-    originalSize = size = NSMakeSize(42.0f, 28.0f);
     [self setName:@"Rheostat"];
     [self setLabel:@"R"];
-    [self setLabelPosition:MI_DIRECTION_UP];
+    [self setLabelPosition:MI_DirectionUp];
     MI_ConnectionPoint* A = [[MI_ConnectionPoint alloc]
         initWithPosition:NSMakePoint(-21.0f, 0.0f)
                     size:NSMakeSize(6.0f, 6.0f)
                     name:@"A"
-     nodeNumberPlacement:MI_DIRECTION_NORTHWEST];
+     nodeNumberPlacement:MI_DirectionNorthwest];
     MI_ConnectionPoint* B = [[MI_ConnectionPoint alloc]
         initWithPosition:NSMakePoint(21.0f, 0.0f)
                     size:NSMakeSize(6.0f, 6.0f)
                     name:@"B"
-     nodeNumberPlacement:MI_DIRECTION_NORTHEAST];
+     nodeNumberPlacement:MI_DirectionNortheast];
     self.connectionPoints = @{@"A": A, @"B": B};
-    [parameters setObject:@"1k" forKey:@"Resistance"];
+    [self.parameters setObject:@"1k" forKey:@"Resistance"];
   }
   return self;
 }
@@ -272,24 +268,23 @@
 
 - (instancetype) init
 {
-  if (self = [super init])
+  if (self = [super initWithSize:NSMakeSize(42.0f, 12.0f)])
   {
-    originalSize = size = NSMakeSize(42.0f, 12.0f);
     [self setName:@"Inductor"];
     [self setLabel:@"L"];
-    [self setLabelPosition:MI_DIRECTION_UP];
+    [self setLabelPosition:MI_DirectionUp];
     MI_ConnectionPoint* A = [[MI_ConnectionPoint alloc]
         initWithPosition:NSMakePoint(-21.0f, 0.0f)
                     size:NSMakeSize(6.0f, 6.0f)
                     name:@"A"
-     nodeNumberPlacement:MI_DIRECTION_NORTHWEST];
+     nodeNumberPlacement:MI_DirectionNorthwest];
     MI_ConnectionPoint* B = [[MI_ConnectionPoint alloc]
         initWithPosition:NSMakePoint(21.0f, 0.0f)
                     size:NSMakeSize(6.0f, 6.0f)
                     name:@"B"
-     nodeNumberPlacement:MI_DIRECTION_NORTHEAST];
+     nodeNumberPlacement:MI_DirectionNortheast];
     self.connectionPoints = @{@"A": A, @"B": B};
-    [parameters setObject:@"1u" forKey:@"Inductance"];
+    [self.parameters setObject:@"1u" forKey:@"Inductance"];
   }
   return self;
 }
@@ -325,24 +320,23 @@
 
 - (instancetype) init
 {
-  if (self = [super init])
+  if (self = [super initWithSize:NSMakeSize(42.0f, 12.0f)])
   {
-    originalSize = size = NSMakeSize(42.0f, 12.0f);
     [self setName:@"Inductor"];
     [self setLabel:@"L"];
-    [self setLabelPosition:MI_DIRECTION_UP];
+    [self setLabelPosition:MI_DirectionUp];
     MI_ConnectionPoint* A = [[MI_ConnectionPoint alloc]
         initWithPosition:NSMakePoint(-21.0f, -6.0f)
                     size:NSMakeSize(6.0f, 6.0f)
                     name:@"A"
-     nodeNumberPlacement:MI_DIRECTION_NORTHWEST];
+     nodeNumberPlacement:MI_DirectionNorthwest];
     MI_ConnectionPoint* B = [[MI_ConnectionPoint alloc]
         initWithPosition:NSMakePoint(21.0f, -6.0f)
                     size:NSMakeSize(6.0f, 6.0f)
                     name:@"B"
-     nodeNumberPlacement:MI_DIRECTION_NORTHEAST];
+     nodeNumberPlacement:MI_DirectionNortheast];
     self.connectionPoints = @{@"A": A, @"B": B};
-    [parameters setObject:@"1u" forKey:@"Inductance"];
+    [self.parameters setObject:@"1u" forKey:@"Inductance"];
   }
   return self;
 }
@@ -400,36 +394,35 @@
 
 - (instancetype) init
 {
-  if (self = [super init])
+  if (self = [super initWithSize:NSMakeSize(36.0f, 42.0f)])
   {
-    originalSize = size = NSMakeSize(36.0f, 42.0f);
     [self setName:@"Transformer"];
     [self setLabel:@"TR"];
-    [self setLabelPosition:MI_DIRECTION_UP];
+    [self setLabelPosition:MI_DirectionUp];
     MI_ConnectionPoint* L11 = [[MI_ConnectionPoint alloc]
         initWithPosition:NSMakePoint(-18.0f, -21.0f)
                     size:NSMakeSize(6.0f, 6.0f)
                     name:@"L11"
-     nodeNumberPlacement:MI_DIRECTION_NORTHWEST];
+     nodeNumberPlacement:MI_DirectionNorthwest];
     MI_ConnectionPoint* L12 = [[MI_ConnectionPoint alloc]
         initWithPosition:NSMakePoint(-18.0f, 21.0f)
                     size:NSMakeSize(6.0f, 6.0f)
                     name:@"L12"
-     nodeNumberPlacement:MI_DIRECTION_SOUTHWEST];
+     nodeNumberPlacement:MI_DirectionSouthwest];
     MI_ConnectionPoint* L21 = [[MI_ConnectionPoint alloc]
         initWithPosition:NSMakePoint( 18.0f, -21.0f)
                     size:NSMakeSize(6.0f, 6.0f)
                     name:@"L21"
-     nodeNumberPlacement:MI_DIRECTION_NORTHEAST];
+     nodeNumberPlacement:MI_DirectionNortheast];
     MI_ConnectionPoint* L22 = [[MI_ConnectionPoint alloc]
         initWithPosition:NSMakePoint( 18.0f, 21.0f)
                     size:NSMakeSize(6.0f, 6.0f)
                     name:@"L22"
-     nodeNumberPlacement:MI_DIRECTION_SOUTHEAST];
+     nodeNumberPlacement:MI_DirectionSoutheast];
     self.connectionPoints = @{@"L11": L11, @"L12":L12, @"L21":L21, @"L22":L22};
-    [parameters setObject:@"1u" forKey:@"Inductance 1"];
-    [parameters setObject:@"1u" forKey:@"Inductance 2"];
-    [parameters setObject:@"0.8" forKey:@"Coupling"];
+    [self.parameters setObject:@"1u" forKey:@"Inductance 1"];
+    [self.parameters setObject:@"1u" forKey:@"Inductance 2"];
+    [self.parameters setObject:@"0.8" forKey:@"Coupling"];
   }
   return self;
 }
@@ -549,36 +542,35 @@
 
 - (instancetype) init
 {
-  if (self = [super init])
+  if (self = [super initWithSize:NSMakeSize(36.0f, 42.0f)])
   {
-    originalSize = size = NSMakeSize(36.0f, 42.0f);
     [self setName:@"Transformer"];
     [self setLabel:@"TR"];
-    [self setLabelPosition:MI_DIRECTION_UP];
+    [self setLabelPosition:MI_DirectionUp];
     MI_ConnectionPoint* L11 = [[MI_ConnectionPoint alloc]
         initWithPosition:NSMakePoint(-12.0f, -21.0f)
                     size:NSMakeSize(6.0f, 6.0f)
                     name:@"L11"
-     nodeNumberPlacement:MI_DIRECTION_NORTHWEST];
+     nodeNumberPlacement:MI_DirectionNorthwest];
     MI_ConnectionPoint* L12 = [[MI_ConnectionPoint alloc]
         initWithPosition:NSMakePoint(-12.0f, 21.0f)
                     size:NSMakeSize(6.0f, 6.0f)
                     name:@"L12"
-     nodeNumberPlacement:MI_DIRECTION_SOUTHWEST];
+     nodeNumberPlacement:MI_DirectionSouthwest];
     MI_ConnectionPoint* L21 = [[MI_ConnectionPoint alloc]
         initWithPosition:NSMakePoint( 12.0f, -21.0f)
                     size:NSMakeSize(6.0f, 6.0f)
                     name:@"L21"
-     nodeNumberPlacement:MI_DIRECTION_NORTHEAST];
+     nodeNumberPlacement:MI_DirectionNortheast];
     MI_ConnectionPoint* L22 = [[MI_ConnectionPoint alloc]
         initWithPosition:NSMakePoint( 12.0f, 21.0f)
                     size:NSMakeSize(6.0f, 6.0f)
                     name:@"L22"
-     nodeNumberPlacement:MI_DIRECTION_SOUTHEAST];
+     nodeNumberPlacement:MI_DirectionSoutheast];
     self.connectionPoints = @{@"L11": L11, @"L12":L12, @"L21":L21, @"L22":L22};
-    [parameters setObject:@"1u" forKey:@"Inductance A"];
-    [parameters setObject:@"1u" forKey:@"Inductance B"];
-    [parameters setObject:@"0.8" forKey:@"Coupling"];
+    [self.parameters setObject:@"1u" forKey:@"Inductance A"];
+    [self.parameters setObject:@"1u" forKey:@"Inductance B"];
+    [self.parameters setObject:@"0.8" forKey:@"Coupling"];
   }
   return self;
 }
@@ -647,24 +639,23 @@
 
 - (instancetype) init
 {
-  if (self = [super init])
+  if (self = [super initWithSize:NSMakeSize(32.0f, 24.0f)])
   {
-    originalSize = size = NSMakeSize(32.0f, 24.0f);
     [self setName:@"Capacitor"];
     [self setLabel:@"C"];
-    [self setLabelPosition:MI_DIRECTION_UP];
+    [self setLabelPosition:MI_DirectionUp];
     MI_ConnectionPoint* A = [[MI_ConnectionPoint alloc]
         initWithPosition:NSMakePoint(-16.0f, 0.0f)
                     size:NSMakeSize(6.0f, 6.0f)
                     name:@"A"
-     nodeNumberPlacement:MI_DIRECTION_NORTHWEST];
+     nodeNumberPlacement:MI_DirectionNorthwest];
     MI_ConnectionPoint* B = [[MI_ConnectionPoint alloc]
         initWithPosition:NSMakePoint(16.0f, 0.0f)
                     size:NSMakeSize(6.0f, 6.0f)
                     name:@"B"
-     nodeNumberPlacement:MI_DIRECTION_NORTHEAST];
+     nodeNumberPlacement:MI_DirectionNortheast];
     self.connectionPoints = @{A: @"A", B: @"B"};
-    [parameters setObject:@"1u" forKey:@"Capacitance"];
+    [self.parameters setObject:@"1u" forKey:@"Capacitance"];
   }
   return self;
 }
@@ -701,24 +692,23 @@
 
 - (instancetype) init
 {
-  if (self = [super init])
+  if (self = [super initWithSize:NSMakeSize(32.0f, 24.0f)])
   {
-    originalSize = size = NSMakeSize(32.0f, 24.0f);
     [self setName:@"Polarized Capacitor"];
     [self setLabel:@"C"];
-    [self setLabelPosition:MI_DIRECTION_UP];
+    [self setLabelPosition:MI_DirectionUp];
     MI_ConnectionPoint* A = [[MI_ConnectionPoint alloc]
         initWithPosition:NSMakePoint(-16.0f, 0.0f)
                     size:NSMakeSize(6.0f, 6.0f)
                     name:@"A"
-     nodeNumberPlacement:MI_DIRECTION_NORTHWEST];
+     nodeNumberPlacement:MI_DirectionNorthwest];
     MI_ConnectionPoint* B = [[MI_ConnectionPoint alloc]
         initWithPosition:NSMakePoint(16.0f, 0.0f)
                     size:NSMakeSize(6.0f, 6.0f)
                     name:@"B"
-     nodeNumberPlacement:MI_DIRECTION_NORTHEAST];
+     nodeNumberPlacement:MI_DirectionNortheast];
     self.connectionPoints = @{@"A": A, @"B": B};
-    [parameters setObject:@"1u" forKey:@"Capacitance"];
+    [self.parameters setObject:@"1u" forKey:@"Capacitance"];
   }
   return self;
 }
@@ -757,34 +747,33 @@
 
 - (instancetype) init
 {
-  if (self = [super init])
+  if (self = [super initWithSize:NSMakeSize(50.0f, 24.0f)])
   {
-    originalSize = size = NSMakeSize(50.0f, 24.0f);
     [self setName:@"Transmission Line"];
     [self setLabel:@"TL"];
-    [self setLabelPosition:MI_DIRECTION_UP];
+    [self setLabelPosition:MI_DirectionUp];
     MI_ConnectionPoint* A1 = [[MI_ConnectionPoint alloc]
         initWithPosition:NSMakePoint(-25.0f, 9.0f)
                     size:NSMakeSize(6.0f, 6.0f)
                     name:@"A1"
-     nodeNumberPlacement:MI_DIRECTION_NORTHWEST];
+     nodeNumberPlacement:MI_DirectionNorthwest];
     MI_ConnectionPoint* A2 = [[MI_ConnectionPoint alloc]
         initWithPosition:NSMakePoint(-25.0f, -9.0f)
                     size:NSMakeSize(6.0f, 6.0f)
                     name:@"A2"
-     nodeNumberPlacement:MI_DIRECTION_SOUTHWEST];
+     nodeNumberPlacement:MI_DirectionSouthwest];
     MI_ConnectionPoint* B1 = [[MI_ConnectionPoint alloc]
         initWithPosition:NSMakePoint(25.0f, 9.0f)
                     size:NSMakeSize(6.0f, 6.0f)
                     name:@"B1"
-     nodeNumberPlacement:MI_DIRECTION_NORTHEAST];
+     nodeNumberPlacement:MI_DirectionNortheast];
     MI_ConnectionPoint* B2 = [[MI_ConnectionPoint alloc]
         initWithPosition:NSMakePoint(25.0f, -9.0f)
                     size:NSMakeSize(6.0f, 6.0f)
                     name:@"B2"
-     nodeNumberPlacement:MI_DIRECTION_SOUTHEAST];
+     nodeNumberPlacement:MI_DirectionSoutheast];
     self.connectionPoints = @{@"A1": A1, @"B1": B1, @"A2": A2, @"B2": B2};
-    [parameters setObject:@"DefaultTransmissionLine" forKey:@"Model"];
+    [self.parameters setObject:@"DefaultTransmissionLine" forKey:@"Model"];
   }
   return self;
 }
@@ -823,7 +812,7 @@
 
 - (MI_DeviceModelType) usedDeviceModelType
 {
-  return TRANSMISSION_LINE_DEVICE_MODEL_TYPE;
+  return MI_DeviceModelTypeTransmissionLine;
 }
 
 

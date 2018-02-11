@@ -87,19 +87,19 @@ static NSString* xmlSpecialCharacters = @"<>&'\"";
             // The quick info will be shown at the position opposite to the label
             switch ([currentElement labelPosition])
             {
-                case MI_DIRECTION_LEFT:
+                case MI_DirectionLeft:
                     quickInfoPositionX = [currentElement position].x + [currentElement size].width/2.0f + 2.0f;
                     quickInfoPositionY = [currentElement position].y - quickInfoSize.height/2.0f;
                     break;
-                case MI_DIRECTION_RIGHT:
+                case MI_DirectionRight:
                     quickInfoPositionX = [currentElement position].x - [currentElement size].width/2.0f - quickInfoSize.width - 2.0f;
                     quickInfoPositionY = [currentElement position].y - quickInfoSize.height/2.0f;
                     break;
-                case MI_DIRECTION_UP:
+                case MI_DirectionUp:
                     quickInfoPositionX = [currentElement position].x - quickInfoSize.width/2.0f;
                     quickInfoPositionY = [currentElement position].y - [currentElement size].height/2.0f - quickInfoSize.height - 2.0f;
                     break;
-                default: /* MI_DIRECTION_DOWN */
+                default: /* MI_DirectionDown */
                     quickInfoPositionX = [currentElement position].x - quickInfoSize.width/2.0f;
                     quickInfoPositionY = [currentElement position].y + [currentElement size].height/2.0f + 2.0f;
             }

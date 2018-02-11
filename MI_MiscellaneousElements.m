@@ -28,9 +28,9 @@
 
 - (instancetype) init
 {
-  if (self = [super init])
+
+  if (self = [super initWithSize:NSMakeSize(6.0f, 6.0f)])
   {
-    originalSize = size = NSMakeSize(6.0f, 6.0f);
     [self setName:@"Node (4 Connectors)"];
     [self setLabel:@""];
     [self setShowsLabel:NO];
@@ -93,9 +93,8 @@
 
 - (instancetype) init
 {
-  if (self = [super init])
+  if (self = [super initWithSize:NSMakeSize(10.0f, 10.0f)])
   {
-    originalSize = size = NSMakeSize(10.0f, 10.0f);
     [self setName:@"Alt. Node (4 Connectors)"];
     [self setLabel:@""];
     [self setShowsLabel:NO];
@@ -167,9 +166,8 @@
 
 - (instancetype) init
 {
-  if (self = [super init])
+  if (self = [super initWithSize:NSMakeSize(16.0f, 24.0f)])
   {
-    originalSize = size = NSMakeSize(16.0f, 24.0f);
     [self setName:@"Ground (3 Connectors)"];
     [self setLabel:@""];
     [self setShowsLabel:NO];
@@ -236,9 +234,8 @@
 
 - (instancetype) init
 {
-    if (self = [super init])
+    if (self = [super initWithSize:NSMakeSize(16.0f, 18.0f)])
     {
-      originalSize = size = NSMakeSize(16.0f, 18.0f);
       [self setName:@"Ground"];
       [self setLabel:@""];
       [self setShowsLabel:NO];
@@ -283,35 +280,34 @@
 
 - (instancetype) init
 {
-  if (self = [super init])
+  if (self = [super initWithSize:NSMakeSize(36.0f, 20.0f)])
   {
-    originalSize = size = NSMakeSize(36.0f, 20.0f);
     [self setName:@"Voltage-controlled Switch"];
     [self setLabel:@"S"];
-    [self setLabelPosition:MI_DIRECTION_UP];
+    [self setLabelPosition:MI_DirectionUp];
     MI_ConnectionPoint* terminal1 = [[MI_ConnectionPoint alloc]
         initWithPosition:NSMakePoint(-18.0f, 6.0f)
                     size:NSMakeSize(6.0f, 6.0f)
                     name:@"Terminal1"
-     nodeNumberPlacement:MI_DIRECTION_NORTHWEST];
+     nodeNumberPlacement:MI_DirectionNorthwest];
     MI_ConnectionPoint* terminal2 = [[MI_ConnectionPoint alloc]
         initWithPosition:NSMakePoint(18.0f, 6.0f)
                     size:NSMakeSize(6.0f, 6.0f)
                     name:@"Terminal2"
-     nodeNumberPlacement:MI_DIRECTION_NORTHEAST];
+     nodeNumberPlacement:MI_DirectionNortheast];
     MI_ConnectionPoint* controlPlus = [[MI_ConnectionPoint alloc]
         initWithPosition:NSMakePoint(-6.0f, -10.0f)
                     size:NSMakeSize(6.0f, 6.0f)
                     name:@"ControlPlus"
-     nodeNumberPlacement:MI_DIRECTION_SOUTHWEST];
+     nodeNumberPlacement:MI_DirectionSouthwest];
     MI_ConnectionPoint* controlMinus = [[MI_ConnectionPoint alloc]
         initWithPosition:NSMakePoint(6.0f, -10.0f)
                     size:NSMakeSize(6.0f, 6.0f)
                     name:@"ControlMinus"
-     nodeNumberPlacement:MI_DIRECTION_SOUTHEAST];
+     nodeNumberPlacement:MI_DirectionSoutheast];
     self.connectionPoints = @{ @"Terminal1": terminal1, @"Terminal2": terminal2, @"ControlPlus" : controlPlus, @"ControlMinus": controlMinus };
-    [parameters setObject:@"DefaultSwitch" forKey:@"Model"];
-    [parameters setObject:@"OFF" forKey:@"Initial State"];
+    [self.parameters setObject:@"DefaultSwitch" forKey:@"Model"];
+    [self.parameters setObject:@"OFF" forKey:@"Initial State"];
   }
   return self;
 }
@@ -346,7 +342,7 @@
 
 - (MI_DeviceModelType) usedDeviceModelType
 {
-    return SWITCH_DEVICE_MODEL_TYPE;
+    return MI_DeviceModelTypeSwitch;
 }
 
 

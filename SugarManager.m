@@ -244,7 +244,7 @@ static SugarManager* managerInstance = nil;
                                forKey:MISUGAR_PLOTTER_HAS_LOG_LABELS_FOR_LOG_SCALE];
         [defaultsDictionary setObject:@"Ask"
                                forKey:MISUGAR_LINE_ENDING_CONVERSION_POLICY];
-        [defaultsDictionary setObject:[NSNumber numberWithInt:MI_SaveAsPureNetlistIfNoSchematic]
+        [defaultsDictionary setObject:[NSNumber numberWithInt:MI_FileSavingPolicyNetlistWhenNoSchematic]
                                forKey:MISUGAR_FILE_SAVING_POLICY];
         [defaultsDictionary setObject:[NSNumber numberWithFloat:0.90f]
                                forKey:MISUGAR_ELEMENTS_PANEL_ALPHA];
@@ -338,7 +338,7 @@ static SugarManager* managerInstance = nil;
     NSFont* rawOutputFont =
         [NSFont fontWithName:[userdefs objectForKey:MISUGAR_RAW_OUTPUT_VIEW_FONT_NAME]
                         size:[[userdefs objectForKey:MISUGAR_RAW_OUTPUT_VIEW_FONT_SIZE] floatValue]];
-    [NSBundle loadNibNamed:@"SugarPreferences.nib" owner:self];
+    [[NSBundle mainBundle] loadNibNamed:@"SugarPreferences.nib" owner:self topLevelObjects:nil];
 
     if ([[userdefs objectForKey:MISUGAR_USE_CUSTOM_SIMULATOR] boolValue])
     {
@@ -377,7 +377,7 @@ static SugarManager* managerInstance = nil;
     [fileSavingPolicyChooser selectItemAtIndex:[[userdefs objectForKey:MISUGAR_FILE_SAVING_POLICY] intValue]];
     [autoInsertNodeElement setState:([[userdefs objectForKey:MISUGAR_AUTOINSERT_NODE_ELEMENT] boolValue] ? NSOnState : NSOffState)];
     [showPlacementGuides setState:([[userdefs objectForKey:MISUGAR_SHOW_PLACEMENT_GUIDES] boolValue] ? NSOnState : NSOffState)];
-    NSColor* schematicBackgroundColor = [NSUnarchiver unarchiveObjectWithData:[userdefs objectForKey:MISUGAR_SCHEMATIC_CANVAS_BACKGROUND_COLOR]];
+    NSColor* schematicBackgroundColor = [NSKeyedUnarchiver unarchiveObjectWithData:[userdefs objectForKey:MISUGAR_SCHEMATIC_CANVAS_BACKGROUND_COLOR]];
     if (schematicBackgroundColor == nil) { schematicBackgroundColor = [NSColor whiteColor]; }
     [schematicCanvasBackground setColor:schematicBackgroundColor];
     [subcircuitLibraryPathField setStringValue:[userdefs objectForKey:MISUGAR_SUBCIRCUIT_LIBRARY_FOLDER]];
@@ -392,7 +392,7 @@ static SugarManager* managerInstance = nil;
 
 - (IBAction) showAboutPanel:(id)sender
 {
-  [NSBundle loadNibNamed:@"About.nib" owner:self];
+  [[NSBundle mainBundle] loadNibNamed:@"About.nib" owner:self topLevelObjects:nil];
   [versionField setStringValue:MISUGAR_VERSION];
   [releaseDateField setStringValue:MISUGAR_RELEASE_DATE];
   [aboutPanel makeKeyAndOrderFront:self];
@@ -459,10 +459,10 @@ static SugarManager* managerInstance = nil;
     NSFont* oldFont =
         [NSFont fontWithName:[userdefs objectForKey:MISUGAR_SOURCE_VIEW_FONT_NAME]
                         size:[[userdefs objectForKey:MISUGAR_SOURCE_VIEW_FONT_SIZE] floatValue]];
-    [fmanager setDelegate:self];
-    [fmanager setSelectedFont:oldFont
-                   isMultiple:NO];
-    [[fmanager fontPanel:YES] makeFirstResponder:self];
+    NSFontPanel* panel = [fmanager fontPanel:YES];
+    panel.delegate = self;
+    [fmanager setSelectedFont:oldFont isMultiple:NO];
+    [panel makeFirstResponder:self];
     settingSourceFont = YES;
     [fmanager orderFrontFontPanel:self];
 }
@@ -470,17 +470,17 @@ static SugarManager* managerInstance = nil;
 
 - (IBAction) setRawOutputFont:(id)sender
 {
-    NSUserDefaults* userdefs = [NSUserDefaults standardUserDefaults];
-    NSFontManager* fmanager = [NSFontManager sharedFontManager];
-    NSFont* oldFont =
-        [NSFont fontWithName:[userdefs objectForKey:MISUGAR_RAW_OUTPUT_VIEW_FONT_NAME]
-                        size:[[userdefs objectForKey:MISUGAR_RAW_OUTPUT_VIEW_FONT_SIZE] floatValue]];
-    settingSourceFont = NO;
-    [fmanager setDelegate:self];
-    [fmanager setSelectedFont:oldFont
-                   isMultiple:NO];
-    [[fmanager fontPanel:YES] makeFirstResponder:self];
-    [fmanager orderFrontFontPanel:self];
+  NSUserDefaults* userdefs = [NSUserDefaults standardUserDefaults];
+  NSFontManager* fmanager = [NSFontManager sharedFontManager];
+  NSFont* oldFont =
+    [NSFont fontWithName:[userdefs objectForKey:MISUGAR_RAW_OUTPUT_VIEW_FONT_NAME]
+                    size:[[userdefs objectForKey:MISUGAR_RAW_OUTPUT_VIEW_FONT_SIZE] floatValue]];
+  settingSourceFont = NO;
+  NSFontPanel* panel = [fmanager fontPanel:YES];
+  [panel setDelegate:self];
+  [fmanager setSelectedFont:oldFont isMultiple:NO];
+  [panel makeFirstResponder:self];
+  [fmanager orderFrontFontPanel:self];
 }
 
 
@@ -1173,7 +1173,7 @@ static SugarManager* managerInstance = nil;
     [te setFont:[NSFont fontWithName:@"Lucida Grande" size:14.0f]];
     [te lock];
     NSArray* specialsArray = @[te];
-    [NSBundle loadNibNamed:@"SchematicElementsPanel" owner:self];
+    [[NSBundle mainBundle] loadNibNamed:@"SchematicElementsPanel" owner:self topLevelObjects:nil];
     [transistorChooser setSchematicElementList:transistorArray];
     [diodeChooser setSchematicElementList:diodeArray];
     [resistorChooser setSchematicElementList:resistorArray];

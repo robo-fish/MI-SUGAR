@@ -307,216 +307,215 @@ int PlotterLabelsFontSize[] = { 10, 12, 14, 18 };
 
 - (void) drawRect:(NSRect)rect
 {
-    int i, j, k;
-    NSSize tmpSize; // used to temporarily store the size of the on-screen plotting area when printing
-    tmpSize.width = 0;
-    tmpSize.height = 0;
+  int i, j, k;
+  NSSize tmpSize; // used to temporarily store the size of the on-screen plotting area when printing
+  tmpSize.width = 0;
+  tmpSize.height = 0;
 
-    if ([ordinateVariables count] == 0)
-        return;
+  if ([ordinateVariables count] == 0)
+      return;
 
-    // Are we printing on paper or drawing to screen?
-    if (![[NSGraphicsContext currentContext] isDrawingToScreen])
-    {
-        tmpSize = currentSize;
-        currentSize = rect.size;
-    }
-    // NOTE: The order in which the components are drawn is important.
-    
-    /* Draw background */
-    [self.backgroundColor set];
-    NSRectFill(rect);
+  // Are we printing on paper or drawing to screen?
+  if (![[NSGraphicsContext currentContext] isDrawingToScreen])
+  {
+      tmpSize = currentSize;
+      currentSize = rect.size;
+  }
+  // NOTE: The order in which the components are drawn is important.
 
-    if (!viewArea)
-        [self setViewArea:
-            [[MI_ViewArea alloc] initWithMinX:abscissaMinValue
-                                          maxX:abscissaMaxValue
-                                          minY:totalOrdinateMinValue
-                                          maxY:totalOrdinateMaxValue]];
-    
-    if (!didCalculateGridMetrics)
-        [self calculateGridMetrics];
+  /* Draw background */
+  [self.backgroundColor set];
+  NSRectFill(rect);
 
-    /* Draw labels */
-    if (labels)
-    {
-        if (!labelFontAttributes)
-            [self setPreferences];
-        [self drawLabels];
-    }
+  if (!viewArea)
+      [self setViewArea:
+          [[MI_ViewArea alloc] initWithMinX:abscissaMinValue
+                                        maxX:abscissaMaxValue
+                                        minY:totalOrdinateMinValue
+                                        maxY:totalOrdinateMaxValue]];
 
-    /* Draw frame */
-    [[NSColor colorWithDeviceRed:0.3 green:0.3 blue:0.3 alpha:1.0] set];
-    [NSBezierPath strokeRect:NSMakeRect(leftMargin - 1, bottomMargin - 1,
-        currentSize.width - rightMargin - leftMargin + 2, currentSize.height - topMargin - bottomMargin + 2)];
+  if (!didCalculateGridMetrics)
+      [self calculateGridMetrics];
 
-    /* Clip plot area */
-    [NSGraphicsContext saveGraphicsState];
-    [NSBezierPath clipRect:NSMakeRect(leftMargin - 1, bottomMargin - 1,
-        currentSize.width - rightMargin - leftMargin + 2, currentSize.height - topMargin - bottomMargin + 2)];
-    
-    /* Draw grid */
-    if (grid)
-        [self drawGrid];
+  /* Draw labels */
+  if (labels)
+  {
+      if (!labelFontAttributes)
+          [self setPreferences];
+      [self drawLabels];
+  }
 
+  /* Draw frame */
+  [[NSColor colorWithDeviceRed:0.3 green:0.3 blue:0.3 alpha:1.0] set];
+  [NSBezierPath strokeRect:NSMakeRect(leftMargin - 1, bottomMargin - 1,
+      currentSize.width - rightMargin - leftMargin + 2, currentSize.height - topMargin - bottomMargin + 2)];
+
+  /* Clip plot area */
+  [NSGraphicsContext saveGraphicsState];
+  [NSBezierPath clipRect:NSMakeRect(leftMargin - 1, bottomMargin - 1,
+      currentSize.width - rightMargin - leftMargin + 2, currentSize.height - topMargin - bottomMargin + 2)];
+
+  /* Draw grid */
+  if (grid)
+      [self drawGrid];
+
+  @try
+  {
     /* Draw the visible variables */
-    NS_DURING
     for (i = 0; i < [ordinateVariables count]; i++)
     {
-        AnalysisVariable* currentVar = [ordinateVariables objectAtIndex:i];
-        double scale = [currentVar scaleFactor];
-        if (![[ordinateVisibilities objectAtIndex:i] boolValue])
-            continue;
-        if ([currentVar isScalingAroundAverage])
-        {
-            double average = [currentVar averageValue];
+      AnalysisVariable* currentVar = [ordinateVariables objectAtIndex:i];
+      double scale = [currentVar scaleFactor];
+      if (![[ordinateVisibilities objectAtIndex:i] boolValue])
+        continue;
+      if ([currentVar isScalingAroundAverage])
+      {
+        double average = [currentVar averageValue];
 
-            for (k = 0; k < [[ordinateVariables objectAtIndex:i] numberOfSets]; k++)
-            {
-                NSBezierPath* ordinatePath = [NSBezierPath bezierPath];
-                [ordinatePath setLineWidth:graphsLineWidth];
-                [[ordinateColors objectAtIndex:i] set];
-                [ordinatePath moveToPoint:NSMakePoint(
-                    [self xValueToView:[[abscissaValues objectAtIndex:0] doubleValue]],
-                    [self yValueToView:(average + scale * ([currentVar valueAtIndex:0
-                                                                            forSet:k] - average))])];
-                for (j = 1; j < numberOfAbscissaPoints; j++)
-                    [ordinatePath lineToPoint:NSMakePoint(
-                        [self xValueToView:[[abscissaValues objectAtIndex:j] doubleValue]],
-                        [self yValueToView:(average + scale * ([currentVar valueAtIndex:j
-                                                                                 forSet:k] - average))])];
-
-                [ordinatePath stroke];
-            }
-        }
-        else
+        for (k = 0; k < [[ordinateVariables objectAtIndex:i] numberOfSets]; k++)
         {
-            for (k = 0; k < [[ordinateVariables objectAtIndex:i] numberOfSets]; k++)
-            {
-                NSBezierPath* ordinatePath = [NSBezierPath bezierPath];
-                [ordinatePath setLineWidth:graphsLineWidth];
-                [[ordinateColors objectAtIndex:i] set];
-                [ordinatePath moveToPoint:NSMakePoint(
-                    [self xValueToView:[[abscissaValues objectAtIndex:0] doubleValue]],
-                    [self yValueToView:(scale * [currentVar valueAtIndex:0
-                                                                  forSet:k])])
-                ];
-                for (j = 1; j < numberOfAbscissaPoints; j++)
-                {
-                    [ordinatePath lineToPoint:NSMakePoint(
-                        [self xValueToView:[[abscissaValues objectAtIndex:j] doubleValue]],
-                        [self yValueToView:(scale * [currentVar valueAtIndex:j
-                                                                      forSet:k])])
-                    ];
-                }
-                [ordinatePath stroke];
-            }
+          NSBezierPath* ordinatePath = [NSBezierPath bezierPath];
+          [ordinatePath setLineWidth:graphsLineWidth];
+          [[ordinateColors objectAtIndex:i] set];
+          [ordinatePath moveToPoint:NSMakePoint(
+            [self xValueToView:[[abscissaValues objectAtIndex:0] doubleValue]],
+            [self yValueToView:(average + scale * ([currentVar valueAtIndex:0 forSet:k] - average))])];
+
+          for (j = 1; j < numberOfAbscissaPoints; j++)
+              [ordinatePath lineToPoint:NSMakePoint(
+                  [self xValueToView:[[abscissaValues objectAtIndex:j] doubleValue]],
+                  [self yValueToView:(average + scale * ([currentVar valueAtIndex:j forSet:k] - average))])];
+
+          [ordinatePath stroke];
         }
+      }
+      else
+      {
+        for (k = 0; k < [[ordinateVariables objectAtIndex:i] numberOfSets]; k++)
+        {
+          NSBezierPath* ordinatePath = [NSBezierPath bezierPath];
+          [ordinatePath setLineWidth:graphsLineWidth];
+          [[ordinateColors objectAtIndex:i] set];
+          [ordinatePath moveToPoint:NSMakePoint(
+            [self xValueToView:[[abscissaValues objectAtIndex:0] doubleValue]],
+            [self yValueToView:(scale * [currentVar valueAtIndex:0 forSet:k])])];
+
+          for (j = 1; j < numberOfAbscissaPoints; j++)
+          {
+            [ordinatePath lineToPoint:NSMakePoint(
+              [self xValueToView:[[abscissaValues objectAtIndex:j] doubleValue]],
+              [self yValueToView:(scale * [currentVar valueAtIndex:j forSet:k])])];
+          }
+          [ordinatePath stroke];
+        }
+      }
     }
-    NS_HANDLER
-        if ([[localException name] isEqualToString:@"MISUGARIndexException"])
-            NSLog(@"Invalid set index while accessing value of analysis variable!");
-    NS_ENDHANDLER
+  }
+  @catch (NSException* localException)
+  {
+    if ([[localException name] isEqualToString:@"MISUGARIndexException"])
+      NSLog(@"Invalid set index while accessing value of analysis variable!");
+  }
 
-    // Disable clipping
-    [NSGraphicsContext restoreGraphicsState];
+  // Disable clipping
+  [NSGraphicsContext restoreGraphicsState];
 
-    // Draw the region delimiter handles if drawing to screen
-    if ([[NSGraphicsContext currentContext] isDrawingToScreen])
-        [self drawHandles];
-    else // printing
+  // Draw the region delimiter handles if drawing to screen
+  if ([[NSGraphicsContext currentContext] isDrawingToScreen])
+      [self drawHandles];
+  else // printing
+  {
+    if (self.plotDescription != nil)
     {
-        if (self.plotDescription != nil)
-        {
-            // print circuit name
-            [self.plotDescription drawAtPoint:NSMakePoint(leftMargin, 2) withAttributes:labelFontAttributes];
-            bottomMargin -= PLOT_DESCRIPTION_AREA_HEIGHT;
-        }
-        currentSize = tmpSize;
+      // print circuit name
+      [self.plotDescription drawAtPoint:NSMakePoint(leftMargin, 2) withAttributes:labelFontAttributes];
+      bottomMargin -= PLOT_DESCRIPTION_AREA_HEIGHT;
     }
-    
-    firstDrawing = NO;
+    currentSize = tmpSize;
+  }
+
+  firstDrawing = NO;
 }
 
 
 - (void) drawGrid
 {
-    int drawPos;
-    double currentPos = 0.0f; // the current drawing position
-    double basePos = 0.0f; // needed to draw uneven logarithmic-scale grid lines corresponding to the even linear-scale grid
-    int multiplier = 0; // needed for calculating positions of the logarithmic-scale grid lines
-    NSBezierPath* gridPath = [NSBezierPath bezierPath];
+  int drawPos;
+  double currentPos = 0.0f; // the current drawing position
+  double basePos = 0.0f; // needed to draw uneven logarithmic-scale grid lines corresponding to the even linear-scale grid
+  int multiplier = 0; // needed for calculating positions of the logarithmic-scale grid lines
+  NSBezierPath* gridPath = [NSBezierPath bezierPath];
 
-    [gridPath setLineWidth:gridLineWidth];
-    [gridColor set];
-    
-    // Draw the vertical grid lines
-    if (logarithmicAbscissa)
+  [gridPath setLineWidth:gridLineWidth];
+  [gridColor set];
+
+  // Draw the vertical grid lines
+  if (logarithmicAbscissa)
+  {
+    if ( ([viewArea maxX] > 0.0) && ([viewArea minX] > 0.0) )
     {
-        if ( ([viewArea maxX] > 0.0) && ([viewArea minX] > 0.0) )
+      basePos = pow(10, floor(log10([viewArea maxX])));
+      multiplier = (int) floor([viewArea maxX] / basePos);
+      currentPos = multiplier * basePos;
+      while (currentPos > [viewArea minX]) // not >= because if maxX == minX  and width == 0 then infinite loop
+      {
+        drawPos = [self xValueToView:currentPos];
+        [gridPath moveToPoint:NSMakePoint(drawPos, bottomMargin)];
+        [gridPath lineToPoint:NSMakePoint(drawPos, currentSize.height - topMargin)];
+        if (--multiplier == 0)
         {
-            basePos = pow(10, floor(log10([viewArea maxX])));
-            multiplier = (int) floor([viewArea maxX] / basePos);
-            currentPos = multiplier * basePos;
-            while (currentPos > [viewArea minX]) // not >= because if maxX == minX  and width == 0 then infinite loop
-            {
-                drawPos = [self xValueToView:currentPos];
-                [gridPath moveToPoint:NSMakePoint(drawPos, bottomMargin)];
-                [gridPath lineToPoint:NSMakePoint(drawPos, currentSize.height - topMargin)];
-                if (--multiplier == 0)
-                {
-                    basePos /= 10.0;
-                    multiplier = 9;
-                }
-                currentPos = multiplier * basePos;
-            }
+          basePos /= 10.0;
+          multiplier = 9;
         }
+        currentPos = multiplier * basePos;
+      }
     }
-    else
+  }
+  else
+  {
+    currentPos = gridMaxX;
+    while (currentPos > gridMinX)  // not >= because if maxX == minX and width == 0 then infinite loop
     {
-        currentPos = gridMaxX;
-        while (currentPos > gridMinX)  // not >= because if maxX == minX and width == 0 then infinite loop
-        {
-            drawPos = [self xValueToView:currentPos];
-            [gridPath moveToPoint:NSMakePoint(drawPos, bottomMargin)];
-            [gridPath lineToPoint:NSMakePoint(drawPos, currentSize.height - topMargin)];
-            currentPos -= gridWidth;
-        }
+      drawPos = [self xValueToView:currentPos];
+      [gridPath moveToPoint:NSMakePoint(drawPos, bottomMargin)];
+      [gridPath lineToPoint:NSMakePoint(drawPos, currentSize.height - topMargin)];
+      currentPos -= gridWidth;
     }
-    // Draw the horizontal grid lines
-    if (logarithmicOrdinate)
+  }
+  // Draw the horizontal grid lines
+  if (logarithmicOrdinate)
+  {
+    if ( ([viewArea maxY] > 0.0) && ([viewArea minY] > 0.0) )
     {
-        if ( ([viewArea maxY] > 0.0) && ([viewArea minY] > 0.0) )
+      basePos = pow(10, floor(log10([viewArea maxY])));
+      multiplier = (int) floor([viewArea maxY] / basePos);
+      currentPos = multiplier * basePos;
+      while (currentPos > [viewArea minY]) // not >= because if maxY == minY and height == 0 then infinite loop
+      {
+        drawPos = [self yValueToView:currentPos];
+        [gridPath moveToPoint:NSMakePoint(leftMargin, drawPos)];
+        [gridPath lineToPoint:NSMakePoint(currentSize.width - rightMargin, drawPos)];
+        if (--multiplier == 0)
         {
-            basePos = pow(10, floor(log10([viewArea maxY])));
-            multiplier = (int) floor([viewArea maxY] / basePos);
-            currentPos = multiplier * basePos;
-            while (currentPos > [viewArea minY]) // not >= because if maxY == minY and height == 0 then infinite loop
-            {
-                drawPos = [self yValueToView:currentPos];
-                [gridPath moveToPoint:NSMakePoint(leftMargin, drawPos)];
-                [gridPath lineToPoint:NSMakePoint(currentSize.width - rightMargin, drawPos)];
-                if (--multiplier == 0)
-                {
-                    basePos /= 10.0;
-                    multiplier = 9;
-                }
-                currentPos = multiplier * basePos;
-            }
+          basePos /= 10.0;
+          multiplier = 9;
         }
+        currentPos = multiplier * basePos;
+      }
     }
-    else
+  }
+  else
+  {
+    currentPos = gridMaxY;
+    while (currentPos > gridMinY) // not >= because if maxY == minY and height == 0 then infinite loop
     {
-        currentPos = gridMaxY;
-        while (currentPos > gridMinY) // not >= because if maxY == minY and height == 0 then infinite loop
-        {
-            drawPos = [self yValueToView:currentPos];
-            [gridPath moveToPoint:NSMakePoint(leftMargin, drawPos)];
-            [gridPath lineToPoint:NSMakePoint(currentSize.width - rightMargin, drawPos)];
-            currentPos -= gridHeight;
-        }
+      drawPos = [self yValueToView:currentPos];
+      [gridPath moveToPoint:NSMakePoint(leftMargin, drawPos)];
+      [gridPath lineToPoint:NSMakePoint(currentSize.width - rightMargin, drawPos)];
+      currentPos -= gridHeight;
     }
-    [gridPath stroke];
+  }
+  [gridPath stroke];
 }
 
 
@@ -836,7 +835,7 @@ int PlotterLabelsFontSize[] = { 10, 12, 14, 18 };
 }
 
 
-- (NSColor*) colorOfOrdinateAtIndex:(int)index
+- (NSColor*) colorOfOrdinateAtIndex:(NSInteger)index
 {
     if ((index >= 0) && (index < [ordinateColors count]))
         return [ordinateColors objectAtIndex:index];
@@ -891,7 +890,7 @@ int PlotterLabelsFontSize[] = { 10, 12, 14, 18 };
 }
 
 
-- (BOOL) isHidden:(int)index
+- (BOOL) isHidden:(NSInteger)index
 {
     if (index > -1 && index < [ordinateVisibilities count])
         return ![[ordinateVisibilities objectAtIndex:index] boolValue];
@@ -1118,7 +1117,7 @@ int PlotterLabelsFontSize[] = { 10, 12, 14, 18 };
 
 - (void) mouseDragged:(NSEvent*)theEvent
 {
-    if ([theEvent modifierFlags] & NSCommandKeyMask)
+    if ([theEvent modifierFlags] & NSEventModifierFlagCommand)
     {        
         // Creates an image of the schematic and puts it into the pasteboard
         NSSize imageSize = [self frame].size;
@@ -1134,16 +1133,13 @@ int PlotterLabelsFontSize[] = { 10, 12, 14, 18 };
         [plotterImage unlockFocus];
         
         // Put the image on the pasteboard
-        NSPasteboard *dragPboard = [NSPasteboard pasteboardWithName:NSDragPboard];
-        [dragPboard declareTypes:[NSArray arrayWithObject:NSTIFFPboardType]
-                           owner:self];
-        [dragPboard setData:[plotterImage TIFFRepresentation]
-                    forType:NSTIFFPboardType];
+        NSPasteboard *dragPboard = [NSPasteboard pasteboardWithName:NSPasteboardNameDrag];
+        [dragPboard declareTypes:@[NSTIFFPboardType] owner:self];
+        [dragPboard setData:[plotterImage TIFFRepresentation] forType:NSTIFFPboardType];
         // Create a semi-transparent drag image
         NSImage* dragImage = [[NSImage alloc] initWithSize:imageBox.size];
         [dragImage lockFocus];
-        [plotterImage dissolveToPoint:NSMakePoint(0,0)
-                               fraction:0.8f];
+        [plotterImage dissolveToPoint:NSMakePoint(0,0) fraction:0.8f];
         [dragImage unlockFocus];
         // Drag the image
         [self dragImage:dragImage
@@ -1236,37 +1232,38 @@ int PlotterLabelsFontSize[] = { 10, 12, 14, 18 };
 
 - (IBAction) copy:(id)sender
 {
-    NSArray *types = [NSArray arrayWithObject:NSTIFFPboardType];
-    NSPasteboard *pb = [NSPasteboard generalPasteboard];
-    [pb declareTypes:types
-               owner:self];
+  NSPasteboard* pb = [NSPasteboard generalPasteboard];
+  [pb declareTypes:@[NSTIFFPboardType] owner:self];
+//  [pb setData: forType:NSTIFFPboardType];
 }
 
 
-- (void) pasteboard:(NSPasteboard *)sender
- provideDataForType:(NSString *)type
+- (void) pasteboard:(NSPasteboard *)sender provideDataForType:(NSString *)type
 {
-    // the image type is provided lazily
-    if ([type compare:NSTIFFPboardType] == NSOrderedSame)
+  // the image type is provided lazily
+  if ([type compare:NSTIFFPboardType] == NSOrderedSame)
+  {
+    NSData *tiffData;
+    NSRect bds = [self bounds];
+    NSImage *plot = [[NSImage alloc] initWithSize:bds.size];
+    [plot lockFocus];
+    [self drawRect:bds];
+    [plot unlockFocus];
+    tiffData = [plot TIFFRepresentationUsingCompression:NSTIFFCompressionLZW factor:0.0];
+    @try
     {
-        NSData *tiffData;
-        NSRect bds = [self bounds];
-        NSImage *plot = [[NSImage alloc] initWithSize:bds.size];
-        [plot lockFocus];
-        [self drawRect:bds];
-        [plot unlockFocus];
-        tiffData = [plot TIFFRepresentationUsingCompression:NSTIFFCompressionLZW factor:0.0];
-        NS_DURING
-            [sender setData:tiffData
-                    forType:type];
-        NS_HANDLER
-            NSLog(@"An exception occurred while trying to paste the plot into the clipboard.");
-        NS_ENDHANDLER
+      [sender setData:tiffData forType:type];
     }
-    else
-        // put something on to avoid a crash
-        [sender setString:@"MI-SUGAR plot image"
-                  forType:type];
+    @catch (id)
+    {
+      NSLog(@"An exception occurred while trying to paste the plot into the clipboard.");
+    }
+  }
+  else
+  {
+    // put something on to avoid a crash
+    [sender setString:@"MI-SUGAR plot image" forType:type];
+  }
 }
 
 

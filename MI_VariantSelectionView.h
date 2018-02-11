@@ -20,15 +20,15 @@
 *
 ****************************************************************************/
 
-typedef enum MI_VariantChoice_
+typedef NS_ENUM(NSInteger,MI_SchematicVariant)
 {
-    MI_SCHEMATIC_VARIANT_NONE   = -1,
-    MI_SCHEMATIC_VARIANT_1      = 0,
-    MI_SCHEMATIC_VARIANT_2      = 1,
-    MI_SCHEMATIC_VARIANT_3      = 2,
-    MI_SCHEMATIC_VARIANT_4      = 3,
-    MI_SCHEMATIC_VARIANT_LAST   = 3
-} MI_VariantChoice;
+  MI_SchematicVariantNone   = -1,
+  MI_SchematicVariant1      = 0,
+  MI_SchematicVariant2      = 1,
+  MI_SchematicVariant3      = 2,
+  MI_SchematicVariant4      = 3,
+  MI_SchematicVariantLast   = 3
+};
 
 // Displays 4 dots, representing the 4 available schematic variants.
 // Empty slots are greyed out, used ones are bluish grey, current selection
@@ -37,10 +37,10 @@ typedef enum MI_VariantChoice_
 
 // There can only be one selected variant.
 // Only an occupied variant can be selected.
-@property (nonatomic) MI_VariantChoice selectedVariant;
+@property (nonatomic) MI_SchematicVariant selectedVariant;
 
 // Initatiates a flashing animation of an unselected variant.
-- (void) flashVariant:(MI_VariantChoice)variant;
+- (void) flashVariant:(MI_SchematicVariant)variant;
 // This method is called by the timer which drives the flashing animation.
 - (void) handleFlashingTimer:(NSTimer*)timer;
 

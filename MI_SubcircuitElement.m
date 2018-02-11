@@ -30,14 +30,14 @@
 
 - (instancetype) initWithDefinition:(MI_SubcircuitDocumentModel*)model
 {
-  if (self = [super init])
+  NSSize const s = [[model shape] size];
+  if (self = [super initWithSize:s])
   {
     self.numberOfPins = [model numberOfPins];
-    originalSize = size = [[model shape] size];
     [self setName:[model circuitName]];
     [self setElementNamespace:[model circuitNamespace]];
     [self setLabel:@"X"];
-    [self setLabelPosition:MI_DIRECTION_RIGHT];
+    [self setLabelPosition:MI_DirectionRight];
     [self setConnectionPoints:[[model shape] connectionPoints]];
   }
   return self;

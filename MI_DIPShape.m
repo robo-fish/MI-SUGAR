@@ -30,10 +30,10 @@ static const float NOTCH_RADIUS = 6.0f;
 @implementation MI_DIPShape
 {
 @private
-  int _numberOfPins;
+  NSInteger _numberOfPins;
 }
 
-- (instancetype) initWithNumberOfPins:(int)numPins
+- (instancetype) initWithNumberOfPins:(NSInteger)numPins
 {
   NSSize const size = NSMakeSize(10.0f * numPins / 2, 36.0f);
   if (self = [super initWithSize:size])
@@ -72,7 +72,7 @@ static const float NOTCH_RADIUS = 6.0f;
 
 - (void) drawAtPoint:(NSPoint)position
 {
-  int const pinsPerSide = _numberOfPins / 2;
+  NSInteger const pinsPerSide = _numberOfPins / 2;
   NSSize const size = self.size;
 
   // Draw main body rectangle with rounded corners
@@ -156,10 +156,11 @@ static const float NOTCH_RADIUS = 6.0f;
   // Drawing pins
   [svg appendFormat:@"\n<path stroke=\"black\" fill=\"none\" d=\"M %g -18",
       5.0f - size.width/2.0f];
-  int pinsPerSide = _numberOfPins / 2;
-  int i;
-  for (i = 0; i < pinsPerSide; i++)
-      [svg appendFormat:@" v 5 m 0 26 v 5 m 10 -36"];
+  NSInteger pinsPerSide = _numberOfPins / 2;
+  for (NSInteger i = 0; i < pinsPerSide; i++)
+  {
+    [svg appendFormat:@" v 5 m 0 26 v 5 m 10 -36"];
+  }
   [svg appendString:@"\"/>"];
   // Drawing notch
   [svg appendFormat:@"\n<path stroke=\"black\" fill=\"none\" d=\"M %g %g a %g %g 0 0 1 0 %g\"/>",
@@ -187,7 +188,7 @@ static const float NOTCH_RADIUS = 6.0f;
   if (self = [super initWithCoder:decoder])
   {
     self.name = [decoder decodeObjectForKey:@"DIPShapeName"];
-    _numberOfPins = [decoder decodeIntForKey:@"DIPShapePinCount"];
+    _numberOfPins = [decoder decodeIntegerForKey:@"DIPShapePinCount"];
   }
   return self;
 }
@@ -196,7 +197,7 @@ static const float NOTCH_RADIUS = 6.0f;
 {
   [super encodeWithCoder:encoder];
   [encoder encodeObject:self.name forKey:@"DIPShapeName"];
-  [encoder encodeInt:_numberOfPins forKey:@"DIPShapePinCount"];
+  [encoder encodeInteger:_numberOfPins forKey:@"DIPShapePinCount"];
 }
 
 /******** NSCopying protocol implementation *********/

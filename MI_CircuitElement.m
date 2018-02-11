@@ -23,43 +23,35 @@
 
 @implementation MI_CircuitElement
 
+- (instancetype) initWithSize:(NSSize)size;
+{
+  if (self = [super initWithSize:size])
+  {
+    _parameters = [[NSMutableDictionary<NSString*,NSString*> alloc] init];
+  }
+  return self;
+}
+
 - (instancetype) init
 {
-    if (self = [super init])
-    {
-        parameters = [[NSMutableDictionary alloc] initWithCapacity:3];
-    }
-    return self;
+  assert(!"This initializer should not be called.");
 }
-
-
-- (NSMutableDictionary*) parameters
-{
-    return parameters;
-}
-
-
-- (void) setParameters:(NSMutableDictionary*)newParameters
-{
-    parameters = newParameters;
-}
-
 
 - (NSString*) quickInfo
 {
-    /* Overrides parent method by returning the parameter that best gives
-    information about the device. For example the resistance value of a
-    resistor. Returns nil if there is no suitable value. */
-    if ( (parameters == nil) || ([parameters count] != 1) )
-        return nil;
-    else
-        return (NSString*)[[parameters allValues] objectAtIndex:0];
+  /* Overrides parent method by returning the parameter that best gives
+  information about the device. For example the resistance value of a
+  resistor. Returns nil if there is no suitable value. */
+  if ( (self.parameters == nil) || ([self.parameters count] != 1) )
+      return nil;
+  else
+      return [[self.parameters allValues] objectAtIndex:0];
 }
 
 
 - (MI_DeviceModelType) usedDeviceModelType
 {
-    return NO_DEVICE_MODEL_TYPE;
+    return MI_DeviceModelTypeNone;
 }
 
 
@@ -67,33 +59,31 @@
 
 - (id)initWithCoder:(NSCoder *)decoder
 {
-    if (self = [super initWithCoder:decoder])
-    {
-        parameters = [decoder decodeObjectForKey:@"Parameters"];
-    }
-    return self;
+  if (self = [super initWithCoder:decoder])
+  {
+    self.parameters = [decoder decodeObjectForKey:@"Parameters"];
+  }
+  return self;
 }
 
 - (void)encodeWithCoder:(NSCoder *)encoder
 {
-    [super encodeWithCoder:encoder];
-    [encoder encodeObject:parameters
-                   forKey:@"Parameters"];
+  [super encodeWithCoder:encoder];
+  [encoder encodeObject:self.parameters forKey:@"Parameters"];
 }
 
 /******************* NSCopying protocol implementation ******************/
 
 - (id) copyWithZone:(NSZone*) zone
 {
-    MI_CircuitElement* myCopy = [super copyWithZone:zone];
-    myCopy->parameters = nil;
-    [myCopy setParameters:[parameters mutableCopy]];
-    return myCopy;
+  MI_CircuitElement* myCopy = [super copyWithZone:zone];
+  myCopy.parameters = self.parameters;
+  return myCopy;
 }
 
 - (id) mutableCopyWithZone:(NSZone*) zone
 {
-    return [self copyWithZone:zone];
+  return [self copyWithZone:zone];
 }
 
 

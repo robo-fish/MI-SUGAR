@@ -25,26 +25,7 @@
 // The instance is responsible for managing the device model collection
 // and for providing related services.
 @interface MI_DeviceModelManager : NSObject
-{
-    // The keys are NSNumber objects constructed from the type of the contained models.
-    // The values are NSMutableArray instances that contain MI_CircuitElementDeviceModel
-    // instances for one type. Device models with names starting with "Default" are 
-    // reserved by MI-SUGAR.
-    NSMutableDictionary* deviceModels;
 
-    IBOutlet NSTextView* modelParametersArea;
-    
-    // The items of the tree view can be NSNumber instances (for the
-    // the expandable items the correspond to arrays of device models
-    // of a specific type), or device models (trivial).
-    IBOutlet NSOutlineView* modelTree;
-    
-    IBOutlet NSWindow* deviceModelPanel;
-    NSToolbarItem* deleteButton;
-    NSToolbarItem* copyButton;
-    NSToolbarItem* importButton;
-    NSToolbarItem* exportButton;
-}
 // Returns the singleton instance.
 + (MI_DeviceModelManager*) sharedManager;
 

@@ -26,12 +26,11 @@
   Sends keyboard events to its delegate.
 */
 @interface MI_Window : NSWindow
-{
-    NSObject <MI_DropHandler>* dropHandler;
-}
+
 @property NSObject<MI_DropHandler>* dropHandler;
 - (NSDragOperation) draggingEntered:(id <NSDraggingInfo>)sender;
 - (BOOL) prepareForDragOperation:(id <NSDraggingInfo>)sender;
 - (BOOL) performDragOperation:(id <NSDraggingInfo>)sender;
 - (void) concludeDragOperation:(id <NSDraggingInfo>)sender;
+
 @end

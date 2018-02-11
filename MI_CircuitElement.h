@@ -26,21 +26,17 @@
 elements. */
 @interface MI_CircuitElement : MI_SchematicElement
     <NSCoding, NSCopying, NSMutableCopying, MI_Inspectable>
-{
-    NSMutableDictionary* parameters;
-}
+
 /* Returns a key-value pair collection of the parameters of the
     circuit element. The keys are the names of the parameters. */
-- (NSMutableDictionary*) parameters;
-
-/* Sets the parameters of the circuit element. Returns NO if there
-    was an error (invalid parameter type) and YES otherwise. */
-- (void) setParameters:(NSMutableDictionary*)newParameters;
+@property NSMutableDictionary<NSString*,NSString*>* parameters;
 
 // since 0.5.4
 // Returns 'no device'. Should be overriden by subclasses that represent
 // devices which do use models.
 - (MI_DeviceModelType) usedDeviceModelType;
+
+- (instancetype) initWithSize:(NSSize)size;
 
 @end
 

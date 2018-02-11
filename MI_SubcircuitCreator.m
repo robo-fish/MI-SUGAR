@@ -28,78 +28,95 @@
 
 static MI_SubcircuitCreator* theCreator = nil;
 
+@interface MI_SubcircuitCreator () <NSTableViewDataSource, NSTableViewDelegate>
+@end
 
 @implementation MI_SubcircuitCreator
+{
+  IBOutlet NSTableView* pinAssignmentTable;       // displays the pin to node assignment matrix
+  IBOutlet NSTableColumn* nodeNameColumn;         // will be populated with popup button cells
+  IBOutlet NSTextField* subcircuitNameField;      // for entering the name of the subcircuit
+  IBOutlet NSTextField* subcircuitNamespaceField; // for entering the namespace of the subcircuit
+  IBOutlet NSTextField* revisionField;            // for entering the revision of the subcircuit
+  IBOutlet NSWindow* creatorSheet;                // the panel which contains the widgets
+  IBOutlet NSPopUpButton* pinChooser;             // presents choice of number of pins
+  IBOutlet NSButton* createButton;                // user presses this button to finalize creation
+  IBOutlet MI_ShapePreviewer* shapePreviewer;
+  IBOutlet NSButton* dipShapeSelectionButton;
+  IBOutlet NSButton* customShapeSelectionButton;
+  IBOutlet NSButton* customShapeFileBrowseButton;
+  BOOL usesCustomShape;
+  NSPopUpButtonCell* nodeNameChooser;             // cell object in the node name column
+  NSInteger _numberOfConnectionPoints;            // the number of pins of the selected shape
+  CircuitDocument* currentDoc;
+  NSMutableDictionary* pinMapping;                // maps external port names to internal node names
+  NSMutableArray* customShapeConnectionPointNames;
+}
 
 - (instancetype) init
 {
-    if (theCreator == nil)
-    {
-        // load nib file
-        theCreator = [super init];
-        [NSBundle loadNibNamed:@"SubcircuitCreationSheet.nib"
-                         owner:self];
-        [pinAssignmentTable setDataSource:self];
-        [pinAssignmentTable setDelegate:self];
-        nodeNameChooser = [[NSPopUpButtonCell alloc] init];
-        [nodeNameChooser setBordered:NO];
-        [nodeNameChooser setTarget:self];
-        [nodeNameChooser setAction:@selector(setNodeNameForPin:)];
-        [nodeNameColumn setDataCell:nodeNameChooser];
-        [creatorSheet setDefaultButtonCell:[createButton cell]];
-        pinMapping = [[NSMutableDictionary alloc] initWithCapacity:6];
-        customShapeConnectionPointNames = [[NSMutableArray alloc] initWithCapacity:4];
-        currentDoc = nil;
-        usesCustomShape = NO;
-    }
-    return theCreator;
+  if (theCreator == nil)
+  {
+    theCreator = [super init];
+    [[NSBundle mainBundle] loadNibNamed:@"SubcircuitCreationSheet.nib" owner:self topLevelObjects:nil];
+    [pinAssignmentTable setDataSource:self];
+    [pinAssignmentTable setDelegate:self];
+    nodeNameChooser = [[NSPopUpButtonCell alloc] init];
+    [nodeNameChooser setBordered:NO];
+    [nodeNameChooser setTarget:self];
+    [nodeNameChooser setAction:@selector(setNodeNameForPin:)];
+    [nodeNameColumn setDataCell:nodeNameChooser];
+    [creatorSheet setDefaultButtonCell:[createButton cell]];
+    pinMapping = [[NSMutableDictionary alloc] initWithCapacity:6];
+    customShapeConnectionPointNames = [[NSMutableArray alloc] initWithCapacity:4];
+    currentDoc = nil;
+    usesCustomShape = NO;
+  }
+  return theCreator;
 }
 
 
 + (MI_SubcircuitCreator*) sharedCreator
 {
-    if (theCreator == nil)
-        [[MI_SubcircuitCreator alloc] init];
-    return theCreator;
+  if (theCreator == nil)
+  {
+    theCreator = [[MI_SubcircuitCreator alloc] init];
+  }
+  return theCreator;
 }
 
 
 - (void) createSubcircuitForCircuitDocument:(CircuitDocument*)doc
 {
-    currentDoc = doc;
-    [pinChooser selectItemWithTitle:@"6"]; // default number of pins
-    [self setNumberOfConnectionPoints:6];
-    [self selectShapeType:dipShapeSelectionButton];
-    [shapePreviewer setShape:[[MI_DIPShape alloc] initWithNumberOfPins:6]];
-    [self resetPinMapping];
-    // add names from the schematic to the node name chooser button
-    NSEnumerator* elementEnum = [[[doc model] schematic] elementEnumerator];
-    MI_SchematicElement* element;
-    NSMenu* chooserMenu = [[NSMenu alloc] initWithTitle:@""];
-    NSMenuItem* item = [[NSMenuItem alloc] initWithTitle:@""
-                                                  action:@selector(setNodeNameForPin:)
-                                           keyEquivalent:@""];
-    [item setTarget:self];
-    [chooserMenu addItem:item];
-    while (element = [elementEnum nextObject])
+  currentDoc = doc;
+  [pinChooser selectItemWithTitle:@"6"]; // default number of pins
+  [self setNumberOfConnectionPoints:6];
+  [self selectShapeType:dipShapeSelectionButton];
+  [shapePreviewer setShape:[[MI_DIPShape alloc] initWithNumberOfPins:6]];
+  [self resetPinMapping];
+  // add names from the schematic to the node name chooser button
+  NSEnumerator* elementEnum = [[[doc model] schematic] elementEnumerator];
+  MI_SchematicElement* element;
+  NSMenu* chooserMenu = [[NSMenu alloc] initWithTitle:@""];
+  NSMenuItem* item = [[NSMenuItem alloc] initWithTitle:@"" action:@selector(setNodeNameForPin:) keyEquivalent:@""];
+  [item setTarget:self];
+  [chooserMenu addItem:item];
+  while (element = [elementEnum nextObject])
+  {
+    if ([element conformsToProtocol:@protocol(MI_ElectricallyTransparentElement)] &&
+        [[element label] length] > 0)
     {
-        if ([element conformsToProtocol:@protocol(MI_ElectricallyTransparentElement)] &&
-            [[element label] length] > 0)
-        {
-            item = [[NSMenuItem alloc] initWithTitle:[element label]
-                                              action:@selector(setNodeNameForPin:)
-                                       keyEquivalent:@""];
-            [item setTarget:self];
-            [chooserMenu addItem:item];
-        }
+      item = [[NSMenuItem alloc] initWithTitle:[element label] action:@selector(setNodeNameForPin:) keyEquivalent:@""];
+      [item setTarget:self];
+      [chooserMenu addItem:item];
     }
-    [nodeNameChooser setMenu:chooserMenu];
-    [pinAssignmentTable reloadData];
-    [NSApp beginSheet:creatorSheet
-       modalForWindow:[[[doc windowControllers] objectAtIndex:0] window]
-        modalDelegate:nil
-       didEndSelector:nil
-          contextInfo:nil];
+  }
+  [nodeNameChooser setMenu:chooserMenu];
+  [pinAssignmentTable reloadData];
+  NSWindow* window = [[[doc windowControllers] objectAtIndex:0] window];
+  [window beginSheet:creatorSheet completionHandler:^(NSModalResponse returnCode) {
+    /* do nothing */
+  }];
 }
 
 
@@ -133,7 +150,7 @@ static MI_SubcircuitCreator* theCreator = nil;
         else
         {
             MI_DIPShape* defaultShape =
-                [[MI_DIPShape alloc] initWithNumberOfPins:numberOfConnectionPoints];
+                [[MI_DIPShape alloc] initWithNumberOfPins:_numberOfConnectionPoints];
             [defaultShape setName:[subckt circuitName]];
             [subckt setShape:defaultShape];
         }
@@ -159,9 +176,9 @@ static MI_SubcircuitCreator* theCreator = nil;
 }
 
 
-- (void) setNumberOfConnectionPoints:(int)number
+- (void) setNumberOfConnectionPoints:(NSInteger)number
 {
-    numberOfConnectionPoints = number;
+    _numberOfConnectionPoints = number;
     [self resetPinMapping];
     [pinAssignmentTable reloadData];
 }
@@ -192,7 +209,7 @@ static MI_SubcircuitCreator* theCreator = nil;
              returnCode:(int)returnCode
             contextInfo:(void*)contextInfo
 {
-    if (returnCode == NSOKButton)
+    if (returnCode == NSModalResponseOK)
     {
         MI_Shape* s = [MI_SESDLParser parseSESDL:[sheet filename]];
         [shapePreviewer setShape:s];
@@ -223,7 +240,7 @@ static MI_SubcircuitCreator* theCreator = nil;
     }
     else
     {
-        for (i = 1; i <= numberOfConnectionPoints; i++)
+        for (i = 1; i <= _numberOfConnectionPoints; i++)
         {
             [pinMapping setObject:@""
                            forKey:[NSString stringWithFormat:@"Pin%d", i]];
@@ -233,15 +250,15 @@ static MI_SubcircuitCreator* theCreator = nil;
 }
 
 
-- (int) numberOfRowsInTableView:(NSTableView *)aTableView
+- (NSInteger) numberOfRowsInTableView:(NSTableView *)aTableView
 {
-    return numberOfConnectionPoints;
+    return _numberOfConnectionPoints;
 }
 
 
 - (id) tableView:(NSTableView *)aTableView
 objectValueForTableColumn:(NSTableColumn *)aTableColumn
-             row:(int)rowIndex
+             row:(NSInteger)rowIndex
 {
     if ([[aTableColumn identifier] isEqualToString:@"pin"])
     {
@@ -258,7 +275,7 @@ objectValueForTableColumn:(NSTableColumn *)aTableColumn
 - (void)tableView:(NSTableView*)aTableView
   willDisplayCell:(id)aCell
    forTableColumn:(NSTableColumn*)aTableColumn
-              row:(int)rowIndex
+              row:(NSInteger)rowIndex
 {
     if ([[aTableColumn identifier] isEqualToString:@"node"])
     {
@@ -287,7 +304,7 @@ objectValueForTableColumn:(NSTableColumn *)aTableColumn
     if (sender == dipShapeSelectionButton)
     {
         [customShapeSelectionButton setState:NSOffState];
-        [shapePreviewer setShape: [[MI_DIPShape alloc] initWithNumberOfPins:numberOfConnectionPoints]];
+        [shapePreviewer setShape: [[MI_DIPShape alloc] initWithNumberOfPins:_numberOfConnectionPoints]];
         usesCustomShape = NO;
         [self setNumberOfConnectionPoints:[[[pinChooser selectedItem] title] intValue]];
         [customShapeFileBrowseButton setEnabled:NO];

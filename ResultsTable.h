@@ -28,7 +28,7 @@
     NSMutableArray* variables;
 }
 /* Gets the analysis variable at the specified index */
-- (AnalysisVariable*) variableAtIndex:(int)varIndex;
+- (AnalysisVariable*) variableAtIndex:(long)varIndex;
 
 /* Sets the array that contains the descriptions of the variables */
 - (void) addVariable:(AnalysisVariable*)var;

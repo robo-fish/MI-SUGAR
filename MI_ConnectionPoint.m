@@ -23,6 +23,12 @@
 
 
 @implementation MI_ConnectionPoint
+{
+  NSSize _size; // size is needed although the point is invisible
+  NSString* _name;
+  MI_Direction _preferredNodeNumberPlacement;
+  int MI_version; // see version note above
+}
 
 - (instancetype) initWithPosition:(NSPoint)myRelativePos
                    size:(NSSize)theSize
@@ -31,10 +37,10 @@
 {
   if (self == [super init])
   {
-    relativePosition = myRelativePos;
-    size = theSize;
-    name = myName;
-    preferredNodeNumberPlacement = nodePlacement;
+    self.relativePosition = myRelativePos;
+    _size = theSize;
+    _name = [myName copy];
+    _preferredNodeNumberPlacement = nodePlacement;
     MI_version = MI_CONNECTION_POINT_VERSION;
   }
   return self;
@@ -48,37 +54,25 @@
   return [self initWithPosition:myRelativePos
                            size:theSize
                            name:myName
-            nodeNumberPlacement:MI_DIRECTION_NONE];
-}
-
-
-- (NSPoint) relativePosition
-{
-  return relativePosition;
-}
-
-
-- (void) setRelativePosition:(NSPoint)newPosition
-{
-  relativePosition = newPosition;
+            nodeNumberPlacement:MI_DirectionNone];
 }
 
 
 - (NSString*) name
 {
-  return [name copy];
+  return _name;
 }
 
 
 - (NSSize) size
 {
-  return size;
+  return _size;
 }
 
 
 - (MI_Direction) preferredNodeNumberPlacement
 {
-    return preferredNodeNumberPlacement;
+    return _preferredNodeNumberPlacement;
 }
 
 
@@ -87,34 +81,34 @@
 
 - (id)initWithCoder:(NSCoder*)decoder
 {
-    if (self = [super init])
-    {
-        MI_version = [decoder decodeIntForKey:@"Version"];
-        name = [decoder decodeObjectForKey:@"Name"];
-        relativePosition = [decoder decodePointForKey:@"Position"];
-        size = [decoder decodeSizeForKey:@"Size"];
-        preferredNodeNumberPlacement = [decoder decodeIntForKey:@"NodeNumberPlacement"];
-    }
-    return self;
+  if (self = [super init])
+  {
+    MI_version = [decoder decodeIntForKey:@"Version"];
+    _name = [decoder decodeObjectForKey:@"Name"];
+    self.relativePosition = [decoder decodePointForKey:@"Position"];
+    _size = [decoder decodeSizeForKey:@"Size"];
+    _preferredNodeNumberPlacement = [decoder decodeIntForKey:@"NodeNumberPlacement"];
+  }
+  return self;
 }
 
 - (void)encodeWithCoder:(NSCoder*)encoder
 {
   [encoder encodeInt:MI_version forKey:@"Version"];
-  [encoder encodeObject:name forKey:@"Name"];
-  [encoder encodePoint:relativePosition forKey:@"Position"];
-  [encoder encodeSize:size forKey:@"Size"];
-  [encoder encodeInt:preferredNodeNumberPlacement forKey:@"NodeNumberPlacement"];
+  [encoder encodeObject:_name forKey:@"Name"];
+  [encoder encodePoint:self.relativePosition forKey:@"Position"];
+  [encoder encodeSize:_size forKey:@"Size"];
+  [encoder encodeInt:_preferredNodeNumberPlacement forKey:@"NodeNumberPlacement"];
 }
 
 /******************* NSCopying protocol implementation ******************/
 
 - (id) copyWithZone:(NSZone*) zone
 {
-    return [[[self class] allocWithZone:zone] initWithPosition:relativePosition
-                                                          size:size
-                                                          name:name
-                                           nodeNumberPlacement:preferredNodeNumberPlacement];
+    return [[[self class] allocWithZone:zone] initWithPosition:self.relativePosition
+                                                          size:_size
+                                                          name:_name
+                                           nodeNumberPlacement:_preferredNodeNumberPlacement];
 }
 
 

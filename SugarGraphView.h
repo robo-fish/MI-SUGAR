@@ -48,7 +48,7 @@
                color:(NSColor*)color;
 
 /* Returns the color assigned to the ordinate variable at the given index. */
-- (NSColor*) colorOfOrdinateAtIndex:(int)index;
+- (NSColor*) colorOfOrdinateAtIndex:(NSInteger)index;
 
 /* Sets the color of the ordinate variable given by its index number. */
 - (void) setColor:(NSColor*)newColor
@@ -106,7 +106,7 @@
 - (void) hideAll;
 
 /* returns true if the variable at the given index is hidden, false otherwise */
-- (BOOL) isHidden:(int)index;
+- (BOOL) isHidden:(NSInteger)index;
 
 /* Converts the abscissa values to logarithmic scale before drawing if 'logarithmic' is YES*/
 - (void) showLogarithmicAbscissa:(BOOL)logarithmic;

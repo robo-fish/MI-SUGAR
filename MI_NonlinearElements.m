@@ -29,27 +29,26 @@
 
 - (instancetype) init
 {
-  if (self = [super init])
+  if (self = [super initWithSize:NSMakeSize(32.0f, 14.0f)])
   {
-    originalSize = size = NSMakeSize(32.0f, 14.0f);
     [self setName:@"Diode"];
     [self setLabel:@"D"];
-    [self setLabelPosition:MI_DIRECTION_UP];
+    [self setLabelPosition:MI_DirectionUp];
     MI_ConnectionPoint* anode = [[MI_ConnectionPoint alloc]
         initWithPosition:NSMakePoint(-16.0f, 0.0f)
                     size:NSMakeSize(6.0f, 6.0f)
                     name:@"Anode"
-     nodeNumberPlacement:MI_DIRECTION_NORTHWEST];
+     nodeNumberPlacement:MI_DirectionNorthwest];
     MI_ConnectionPoint* cathode = [[MI_ConnectionPoint alloc]
         initWithPosition:NSMakePoint(16.0f, 0.0f)
                     size:NSMakeSize(6.0f, 6.0f)
                     name:@"Cathode"
-     nodeNumberPlacement:MI_DIRECTION_NORTHEAST];
+     nodeNumberPlacement:MI_DirectionNortheast];
     self.connectionPoints = @{@"Anode": anode, @"Cathode": cathode};
-    [parameters setObject:@"DefaultDiode" forKey:@"Model"];
-    [parameters setObject:@"1.0" forKey:@"Area Factor"];
-    [parameters setObject:@"OFF" forKey:@"DC Initial State"];
-    [parameters setObject:@"27" forKey:@"Op. Temperature"];
+    [self.parameters setObject:@"DefaultDiode" forKey:@"Model"];
+    [self.parameters setObject:@"1.0" forKey:@"Area Factor"];
+    [self.parameters setObject:@"OFF" forKey:@"DC Initial State"];
+    [self.parameters setObject:@"27" forKey:@"Op. Temperature"];
   }
   return self;
 }
@@ -78,7 +77,7 @@
 
 - (MI_DeviceModelType) usedDeviceModelType
 {
-  return DIODE_DEVICE_MODEL_TYPE;
+  return MI_DeviceModelTypeDiode;
 }
 
 - (NSString*) shapeToSVG
@@ -100,27 +99,26 @@
 
 - (instancetype) init
 {
-  if (self = [super init])
+  if (self = [super initWithSize:NSMakeSize(32.0f, 16.0f)])
   {
-    originalSize = size = NSMakeSize(32.0f, 16.0f);
     [self setName:@"Zener Diode"];
     [self setLabel:@"D"];
-    [self setLabelPosition:MI_DIRECTION_UP];
+    [self setLabelPosition:MI_DirectionUp];
     MI_ConnectionPoint* anode = [[MI_ConnectionPoint alloc]
         initWithPosition:NSMakePoint(-16.0f, 0.0f)
                     size:NSMakeSize(6.0f, 6.0f)
                     name:@"Anode"
-     nodeNumberPlacement:MI_DIRECTION_NORTHWEST];
+     nodeNumberPlacement:MI_DirectionNorthwest];
     MI_ConnectionPoint* cathode = [[MI_ConnectionPoint alloc]
         initWithPosition:NSMakePoint(16.0f, 0.0f)
                     size:NSMakeSize(6.0f, 6.0f)
                     name:@"Cathode"
-     nodeNumberPlacement:MI_DIRECTION_NORTHEAST];
+     nodeNumberPlacement:MI_DirectionNortheast];
     self.connectionPoints = @{@"Anode": anode, @"Cathode": cathode};
-    [parameters setObject:@"DefaultDiode" forKey:@"Model"];
-    [parameters setObject:@"1.0" forKey:@"Area Factor"];
-    [parameters setObject:@"OFF" forKey:@"DC Initial State"];
-    [parameters setObject:@"27" forKey:@"Op. Temperature"];
+    [self.parameters setObject:@"DefaultDiode" forKey:@"Model"];
+    [self.parameters setObject:@"1.0" forKey:@"Area Factor"];
+    [self.parameters setObject:@"OFF" forKey:@"DC Initial State"];
+    [self.parameters setObject:@"27" forKey:@"Op. Temperature"];
   }
   return self;
 }
@@ -150,7 +148,7 @@
 
 - (MI_DeviceModelType) usedDeviceModelType
 {
-  return DIODE_DEVICE_MODEL_TYPE;
+  return MI_DeviceModelTypeDiode;
 }
 
 - (NSString*) shapeToSVG
@@ -171,27 +169,26 @@
 
 - (instancetype) init
 {
-  if (self = [super init])
+  if (self = [super initWithSize:NSMakeSize(32.0f, 24.0f)])
   {
-    originalSize = size = NSMakeSize(32.0f, 24.0f);
     [self setName:@"Light Emitting Diode"];
     [self setLabel:@"LED"];
-    [self setLabelPosition:MI_DIRECTION_DOWN];
+    [self setLabelPosition:MI_DirectionDown];
     MI_ConnectionPoint* anode = [[MI_ConnectionPoint alloc]
         initWithPosition:NSMakePoint(-16.0f, -6.0f)
                     size:NSMakeSize(6.0f, 6.0f)
                     name:@"Anode"
-     nodeNumberPlacement:MI_DIRECTION_NORTHWEST];
+     nodeNumberPlacement:MI_DirectionNorthwest];
     MI_ConnectionPoint* cathode = [[MI_ConnectionPoint alloc]
         initWithPosition:NSMakePoint(16.0f, -6.0f)
                     size:NSMakeSize(6.0f, 6.0f)
                     name:@"Cathode"
-     nodeNumberPlacement:MI_DIRECTION_NORTHEAST];
+     nodeNumberPlacement:MI_DirectionNortheast];
     self.connectionPoints = @{@"Anode": anode, @"Cathode": cathode};
-    [parameters setObject:@"DefaultDiode" forKey:@"Model"];
-    [parameters setObject:@"1.0" forKey:@"Area Factor"];
-    [parameters setObject:@"OFF" forKey:@"DC Initial State"];
-    [parameters setObject:@"27" forKey:@"Op. Temperature"];
+    [self.parameters setObject:@"DefaultDiode" forKey:@"Model"];
+    [self.parameters setObject:@"1.0" forKey:@"Area Factor"];
+    [self.parameters setObject:@"OFF" forKey:@"DC Initial State"];
+    [self.parameters setObject:@"27" forKey:@"Op. Temperature"];
   }
   return self;
 }
@@ -238,7 +235,7 @@
 
 - (MI_DeviceModelType) usedDeviceModelType
 {
-    return DIODE_DEVICE_MODEL_TYPE;
+    return MI_DeviceModelTypeDiode;
 }
 
 
@@ -267,27 +264,26 @@
 
 - (instancetype) init
 {
-  if (self = [super init])
+  if (self = [super initWithSize:NSMakeSize(32.0f, 24.0f)])
   {
-    originalSize = size = NSMakeSize(32.0f, 24.0f);
     [self setName:@"Photo Diode"];
     [self setLabel:@"D"];
-    [self setLabelPosition:MI_DIRECTION_DOWN];
+    [self setLabelPosition:MI_DirectionDown];
     MI_ConnectionPoint* anode = [[MI_ConnectionPoint alloc]
         initWithPosition:NSMakePoint(-16.0f, -6.0f)
                     size:NSMakeSize(6.0f, 6.0f)
                     name:@"Anode"
-     nodeNumberPlacement:MI_DIRECTION_NORTHWEST];
+     nodeNumberPlacement:MI_DirectionNorthwest];
     MI_ConnectionPoint* cathode = [[MI_ConnectionPoint alloc]
         initWithPosition:NSMakePoint(16.0f, -6.0f)
                     size:NSMakeSize(6.0f, 6.0f)
                     name:@"Cathode"
-     nodeNumberPlacement:MI_DIRECTION_NORTHEAST];
+     nodeNumberPlacement:MI_DirectionNortheast];
     self.connectionPoints = @{@"Anode": anode, @"Cathode": cathode};
-    [parameters setObject:@"DefaultDiode" forKey:@"Model"];
-    [parameters setObject:@"1.0" forKey:@"Area Factor"];
-    [parameters setObject:@"OFF" forKey:@"DC Initial State"];
-    [parameters setObject:@"27" forKey:@"Op. Temperature"];
+    [self.parameters setObject:@"DefaultDiode" forKey:@"Model"];
+    [self.parameters setObject:@"1.0" forKey:@"Area Factor"];
+    [self.parameters setObject:@"OFF" forKey:@"DC Initial State"];
+    [self.parameters setObject:@"27" forKey:@"Op. Temperature"];
   }
   return self;
 }
@@ -330,7 +326,7 @@
 
 - (MI_DeviceModelType) usedDeviceModelType
 {
-    return DIODE_DEVICE_MODEL_TYPE;
+    return MI_DeviceModelTypeDiode;
 }
 
 
@@ -359,32 +355,31 @@
 
 - (instancetype) init
 {
-  if (self = [super init])
+  if (self = [super initWithSize:NSMakeSize(32.0f, 32.0f)])
   {
-    originalSize = size = NSMakeSize(32.0f, 32.0f);
     [self setName:@"BJT (NPN)"];
     [self setLabel:@"NPN"];
-    [self setLabelPosition:MI_DIRECTION_RIGHT];
+    [self setLabelPosition:MI_DirectionRight];
     MI_ConnectionPoint* base = [[MI_ConnectionPoint alloc]
         initWithPosition:NSMakePoint(-16.0f, 0.0f)
                     size:NSMakeSize(6.0f, 6.0f)
                     name:@"Base"
-     nodeNumberPlacement:MI_DIRECTION_NORTHWEST];
+     nodeNumberPlacement:MI_DirectionNorthwest];
     MI_ConnectionPoint* collector = [[MI_ConnectionPoint alloc]
         initWithPosition:NSMakePoint(16.0f, 16.0f)
                     size:NSMakeSize(6.0f, 6.0f)
                     name:@"Collector"
-     nodeNumberPlacement:MI_DIRECTION_NORTHEAST];
+     nodeNumberPlacement:MI_DirectionNortheast];
     MI_ConnectionPoint* emitter = [[MI_ConnectionPoint alloc]
         initWithPosition:NSMakePoint(16.0f, -16.0f)
                     size:NSMakeSize(6.0f, 6.0f)
                     name:@"Emitter"
-     nodeNumberPlacement:MI_DIRECTION_SOUTHEAST];
+     nodeNumberPlacement:MI_DirectionSoutheast];
     self.connectionPoints = @{@"Base" : base, @"Collector" : collector, @"Emitter" : emitter};
-    [parameters setObject:@"DefaultBJT" forKey:@"Model"];
-    [parameters setObject:@"1.0" forKey:@"Area Factor"];
-    [parameters setObject:@"OFF" forKey:@"DC Initial State"];
-    [parameters setObject:@"27" forKey:@"Op. Temperature"];
+    [self.parameters setObject:@"DefaultBJT" forKey:@"Model"];
+    [self.parameters setObject:@"1.0" forKey:@"Area Factor"];
+    [self.parameters setObject:@"OFF" forKey:@"DC Initial State"];
+    [self.parameters setObject:@"27" forKey:@"Op. Temperature"];
   }
   return self;
 }
@@ -417,7 +412,7 @@
 
 - (MI_DeviceModelType) usedDeviceModelType
 {
-  return BJT_DEVICE_MODEL_TYPE;
+  return MI_DeviceModelTypeBJT;
 }
 
 
@@ -440,32 +435,31 @@
 
 - (instancetype) init
 {
-  if (self = [super init])
+  if (self = [super initWithSize:NSMakeSize(32.0f, 32.0f)])
   {
-    originalSize = size = NSMakeSize(32.0f, 32.0f);
     [self setName:@"BJT (PNP)"];
     [self setLabel:@"PNP"];
-    [self setLabelPosition:MI_DIRECTION_RIGHT];
+    [self setLabelPosition:MI_DirectionRight];
     MI_ConnectionPoint* base = [[MI_ConnectionPoint alloc]
         initWithPosition:NSMakePoint(-16.0f, 0.0f)
                     size:NSMakeSize(6.0f, 6.0f)
                     name:@"Base"
-     nodeNumberPlacement:MI_DIRECTION_NORTHWEST];
+     nodeNumberPlacement:MI_DirectionNorthwest];
     MI_ConnectionPoint* collector = [[MI_ConnectionPoint alloc]
         initWithPosition:NSMakePoint(16.0f, 16.0f)
                     size:NSMakeSize(6.0f, 6.0f)
                     name:@"Collector"
-     nodeNumberPlacement:MI_DIRECTION_NORTHEAST];
+     nodeNumberPlacement:MI_DirectionNortheast];
     MI_ConnectionPoint* emitter = [[MI_ConnectionPoint alloc]
         initWithPosition:NSMakePoint(16.0f, -16.0f)
                     size:NSMakeSize(6.0f, 6.0f)
                     name:@"Emitter"
-     nodeNumberPlacement:MI_DIRECTION_SOUTHEAST];
+     nodeNumberPlacement:MI_DirectionSoutheast];
     self.connectionPoints = @{@"Base" : base, @"Collector" : collector, @"Emitter" : emitter};
-    [parameters setObject:@"DefaultBJT" forKey:@"Model"];
-    [parameters setObject:@"1.0" forKey:@"Area Factor"];
-    [parameters setObject:@"OFF" forKey:@"DC Initial State"];
-    [parameters setObject:@"27" forKey:@"Op. Temperature"];
+    [self.parameters setObject:@"DefaultBJT" forKey:@"Model"];
+    [self.parameters setObject:@"1.0" forKey:@"Area Factor"];
+    [self.parameters setObject:@"OFF" forKey:@"DC Initial State"];
+    [self.parameters setObject:@"27" forKey:@"Op. Temperature"];
   }
   return self;
 }
@@ -499,7 +493,7 @@
 
 - (MI_DeviceModelType) usedDeviceModelType
 {
-    return BJT_DEVICE_MODEL_TYPE;
+    return MI_DeviceModelTypeBJT;
 }
 
 
@@ -522,32 +516,31 @@
 
 - (instancetype) init
 {
-  if (self = [super init])
+  if (self = [super initWithSize:NSMakeSize(32.0f, 32.0f)])
   {
-    originalSize = size = NSMakeSize(32.0f, 32.0f);
     [self setName:@"JFET, N-Channel"];
     [self setLabel:@"NJF"];
-    [self setLabelPosition:MI_DIRECTION_RIGHT];
+    [self setLabelPosition:MI_DirectionRight];
     MI_ConnectionPoint* gate = [[MI_ConnectionPoint alloc]
         initWithPosition:NSMakePoint(-16.0f, 0.0f)
                     size:NSMakeSize(6.0f, 6.0f)
                     name:@"Gate"
-     nodeNumberPlacement:MI_DIRECTION_NORTHWEST];
+     nodeNumberPlacement:MI_DirectionNorthwest];
     MI_ConnectionPoint* drain = [[MI_ConnectionPoint alloc]
         initWithPosition:NSMakePoint(16.0f, 16.0f)
                     size:NSMakeSize(6.0f, 6.0f)
                     name:@"Drain"
-     nodeNumberPlacement:MI_DIRECTION_NORTHEAST];
+     nodeNumberPlacement:MI_DirectionNortheast];
     MI_ConnectionPoint* source = [[MI_ConnectionPoint alloc]
         initWithPosition:NSMakePoint(16.0f, -16.0f)
                     size:NSMakeSize(6.0f, 6.0f)
                     name:@"Source"
-     nodeNumberPlacement:MI_DIRECTION_SOUTHEAST];
+     nodeNumberPlacement:MI_DirectionSoutheast];
     self.connectionPoints = @{@"Gate" : gate, @"Drain" : drain, @"Source" : source};
-    [parameters setObject:@"DefaultJFET" forKey:@"Model"];
-    [parameters setObject:@"1.0" forKey:@"Area Factor"];
-    [parameters setObject:@"OFF" forKey:@"DC Initial State"];
-    [parameters setObject:@"27" forKey:@"Op. Temperature"];
+    [self.parameters setObject:@"DefaultJFET" forKey:@"Model"];
+    [self.parameters setObject:@"1.0" forKey:@"Area Factor"];
+    [self.parameters setObject:@"OFF" forKey:@"DC Initial State"];
+    [self.parameters setObject:@"27" forKey:@"Op. Temperature"];
   }
   return self;
 }
@@ -580,7 +573,7 @@
 
 - (MI_DeviceModelType) usedDeviceModelType
 {
-    return JFET_DEVICE_MODEL_TYPE;
+    return MI_DeviceModelTypeJFET;
 }
 
 
@@ -603,32 +596,31 @@
 
 - (instancetype) init
 {
-  if (self = [super init])
+  if (self = [super initWithSize:NSMakeSize(32.0f, 32.0f)])
   {
-    originalSize = size = NSMakeSize(32.0f, 32.0f);
     [self setName:@"JFET, P-Channel"];
     [self setLabel:@"PJF"];
-    [self setLabelPosition:MI_DIRECTION_RIGHT];
+    [self setLabelPosition:MI_DirectionRight];
     MI_ConnectionPoint* gate = [[MI_ConnectionPoint alloc]
         initWithPosition:NSMakePoint(-16.0f, 0.0f)
                     size:NSMakeSize(6.0f, 6.0f)
                     name:@"Gate"
-     nodeNumberPlacement:MI_DIRECTION_NORTHWEST];
+     nodeNumberPlacement:MI_DirectionNorthwest];
     MI_ConnectionPoint* drain = [[MI_ConnectionPoint alloc]
         initWithPosition:NSMakePoint(16.0f, 16.0f)
                     size:NSMakeSize(6.0f, 6.0f)
                     name:@"Drain"
-     nodeNumberPlacement:MI_DIRECTION_NORTHEAST];
+     nodeNumberPlacement:MI_DirectionNortheast];
     MI_ConnectionPoint* source = [[MI_ConnectionPoint alloc]
         initWithPosition:NSMakePoint(16.0f, -16.0f)
                     size:NSMakeSize(6.0f, 6.0f)
                     name:@"Source"
-     nodeNumberPlacement:MI_DIRECTION_SOUTHEAST];
+     nodeNumberPlacement:MI_DirectionSoutheast];
     self.connectionPoints = @{@"Gate" : gate, @"Drain" : drain, @"Source" : source};
-    [parameters setObject:@"DefaultJFET" forKey:@"Model"];
-    [parameters setObject:@"1.0" forKey:@"Area Factor"];
-    [parameters setObject:@"OFF" forKey:@"DC Initial State"];
-    [parameters setObject:@"27" forKey:@"Op. Temperature"];
+    [self.parameters setObject:@"DefaultJFET" forKey:@"Model"];
+    [self.parameters setObject:@"1.0" forKey:@"Area Factor"];
+    [self.parameters setObject:@"OFF" forKey:@"DC Initial State"];
+    [self.parameters setObject:@"27" forKey:@"Op. Temperature"];
   }
   return self;
 }
@@ -661,7 +653,7 @@
 
 - (MI_DeviceModelType) usedDeviceModelType
 {
-    return JFET_DEVICE_MODEL_TYPE;
+    return MI_DeviceModelTypeJFET;
 }
 
 - (NSString*) shapeToSVG
@@ -683,37 +675,36 @@
 
 - (instancetype) init
 {
-  if (self = [super init])
+  if (self = [super initWithSize:NSMakeSize(32.0f, 32.0f)])
   {
-    originalSize = size = NSMakeSize(32.0f, 32.0f);
     [self setName:@"MOSFET, N-Channel, Depletion"];
     [self setLabel:@"NMOS"];
-    [self setLabelPosition:MI_DIRECTION_RIGHT];
+    [self setLabelPosition:MI_DirectionRight];
     MI_ConnectionPoint* gate = [[MI_ConnectionPoint alloc]
         initWithPosition:NSMakePoint(-16.0f, -11.0f)
                     size:NSMakeSize(6.0f, 6.0f)
                     name:@"Gate"
-     nodeNumberPlacement:MI_DIRECTION_SOUTHWEST];
+     nodeNumberPlacement:MI_DirectionSouthwest];
     MI_ConnectionPoint* drain = [[MI_ConnectionPoint alloc]
         initWithPosition:NSMakePoint(16.0f, 16.0f)
                     size:NSMakeSize(6.0f, 6.0f)
                     name:@"Drain"
-     nodeNumberPlacement:MI_DIRECTION_NORTHEAST];
+     nodeNumberPlacement:MI_DirectionNortheast];
     MI_ConnectionPoint* source = [[MI_ConnectionPoint alloc]
         initWithPosition:NSMakePoint(16.0f, -16.0f)
                     size:NSMakeSize(6.0f, 6.0f)
                     name:@"Source"
-     nodeNumberPlacement:MI_DIRECTION_SOUTHEAST];
+     nodeNumberPlacement:MI_DirectionSoutheast];
     self.connectionPoints = @{@"Gate" : gate, @"Drain" : drain, @"Source" : source};
-    [parameters setObject:@"DefaultMOSFET" forKey:@"Model"];
-    [parameters setObject:@"5u" forKey:@"W"];
-    [parameters setObject:@"10u" forKey:@"L"];
-    [parameters setObject:@"100p" forKey:@"AD"];
-    [parameters setObject:@"100p" forKey:@"AS"];
-    [parameters setObject:@"40u" forKey:@"PD"];
-    [parameters setObject:@"40u" forKey:@"PS"];
-    [parameters setObject:@"1" forKey:@"NRD"];
-    [parameters setObject:@"1" forKey:@"NRS"];
+    [self.parameters setObject:@"DefaultMOSFET" forKey:@"Model"];
+    [self.parameters setObject:@"5u" forKey:@"W"];
+    [self.parameters setObject:@"10u" forKey:@"L"];
+    [self.parameters setObject:@"100p" forKey:@"AD"];
+    [self.parameters setObject:@"100p" forKey:@"AS"];
+    [self.parameters setObject:@"40u" forKey:@"PD"];
+    [self.parameters setObject:@"40u" forKey:@"PS"];
+    [self.parameters setObject:@"1" forKey:@"NRD"];
+    [self.parameters setObject:@"1" forKey:@"NRS"];
   }
   return self;
 }
@@ -748,7 +739,7 @@
 
 - (MI_DeviceModelType) usedDeviceModelType
 {
-    return MOS_DEVICE_MODEL_TYPE;
+    return MI_DeviceModelTypeMOSFET;
 }
 
 - (NSString*) shapeToSVG
@@ -772,37 +763,36 @@
 
 - (instancetype) init
 {
-  if (self = [super init])
+  if (self = [super initWithSize:NSMakeSize(32.0f, 32.0f)])
   {
-    originalSize = size = NSMakeSize(32.0f, 32.0f);
     [self setName:@"MOSFET, P-Channel, Depletion"];
     [self setLabel:@"PMOS"];
-    [self setLabelPosition:MI_DIRECTION_RIGHT];
+    [self setLabelPosition:MI_DirectionRight];
     MI_ConnectionPoint* gate = [[MI_ConnectionPoint alloc]
         initWithPosition:NSMakePoint(-16.0f, -11.0f)
                     size:NSMakeSize(6.0f, 6.0f)
                     name:@"Gate"
-     nodeNumberPlacement:MI_DIRECTION_SOUTHWEST];
+     nodeNumberPlacement:MI_DirectionSouthwest];
     MI_ConnectionPoint* drain = [[MI_ConnectionPoint alloc]
         initWithPosition:NSMakePoint(16.0f, 16.0f)
                     size:NSMakeSize(6.0f, 6.0f)
                     name:@"Drain"
-     nodeNumberPlacement:MI_DIRECTION_NORTHEAST];
+     nodeNumberPlacement:MI_DirectionNortheast];
     MI_ConnectionPoint* source = [[MI_ConnectionPoint alloc]
         initWithPosition:NSMakePoint(16.0f, -16.0f)
                     size:NSMakeSize(6.0f, 6.0f)
                     name:@"Source"
-     nodeNumberPlacement:MI_DIRECTION_SOUTHEAST];
+     nodeNumberPlacement:MI_DirectionSoutheast];
     self.connectionPoints = @{@"Gate" : gate, @"Drain" : drain, @"Source" : source};
-    [parameters setObject:@"DefaultMOSFET" forKey:@"Model"];
-    [parameters setObject:@"5u" forKey:@"W"];
-    [parameters setObject:@"10u" forKey:@"L"];
-    [parameters setObject:@"100p" forKey:@"AD"];
-    [parameters setObject:@"100p" forKey:@"AS"];
-    [parameters setObject:@"40u" forKey:@"PD"];
-    [parameters setObject:@"40u" forKey:@"PS"];
-    [parameters setObject:@"1" forKey:@"NRD"];
-    [parameters setObject:@"1" forKey:@"NRS"];
+    [self.parameters setObject:@"DefaultMOSFET" forKey:@"Model"];
+    [self.parameters setObject:@"5u" forKey:@"W"];
+    [self.parameters setObject:@"10u" forKey:@"L"];
+    [self.parameters setObject:@"100p" forKey:@"AD"];
+    [self.parameters setObject:@"100p" forKey:@"AS"];
+    [self.parameters setObject:@"40u" forKey:@"PD"];
+    [self.parameters setObject:@"40u" forKey:@"PS"];
+    [self.parameters setObject:@"1" forKey:@"NRD"];
+    [self.parameters setObject:@"1" forKey:@"NRS"];
   }
   return self;
 }
@@ -838,7 +828,7 @@
 
 - (MI_DeviceModelType) usedDeviceModelType
 {
-  return MOS_DEVICE_MODEL_TYPE;
+  return MI_DeviceModelTypeMOSFET;
 }
 
 - (NSString*) shapeToSVG
@@ -862,37 +852,36 @@
 
 - (instancetype) init
 {
-  if (self = [super init])
+  if (self = [super initWithSize:NSMakeSize(32.0f, 32.0f)])
   {
-    originalSize = size = NSMakeSize(32.0f, 32.0f);
     [self setName:@"MOSFET, N-Channel"];
     [self setLabel:@"NMOS"];
-    [self setLabelPosition:MI_DIRECTION_RIGHT];
+    [self setLabelPosition:MI_DirectionRight];
     MI_ConnectionPoint* gate = [[MI_ConnectionPoint alloc]
         initWithPosition:NSMakePoint(-16.0f, -11.0f)
                     size:NSMakeSize(6.0f, 6.0f)
                     name:@"Gate"
-     nodeNumberPlacement:MI_DIRECTION_SOUTHWEST];
+     nodeNumberPlacement:MI_DirectionSouthwest];
     MI_ConnectionPoint* drain = [[MI_ConnectionPoint alloc]
         initWithPosition:NSMakePoint(16.0f, 16.0f)
                     size:NSMakeSize(6.0f, 6.0f)
                     name:@"Drain"
-     nodeNumberPlacement:MI_DIRECTION_NORTHEAST];
+     nodeNumberPlacement:MI_DirectionNortheast];
     MI_ConnectionPoint* source = [[MI_ConnectionPoint alloc]
         initWithPosition:NSMakePoint(16.0f, -16.0f)
                     size:NSMakeSize(6.0f, 6.0f)
                     name:@"Source"
-     nodeNumberPlacement:MI_DIRECTION_SOUTHEAST];
+     nodeNumberPlacement:MI_DirectionSoutheast];
     self.connectionPoints = @{@"Gate" : gate, @"Drain" : drain, @"Source" : source};
-    [parameters setObject:@"DefaultMOSFET" forKey:@"Model"];
-    [parameters setObject:@"5u" forKey:@"W"];
-    [parameters setObject:@"10u" forKey:@"L"];
-    [parameters setObject:@"100p" forKey:@"AD"];
-    [parameters setObject:@"100p" forKey:@"AS"];
-    [parameters setObject:@"40u" forKey:@"PD"];
-    [parameters setObject:@"40u" forKey:@"PS"];
-    [parameters setObject:@"1" forKey:@"NRD"];
-    [parameters setObject:@"1" forKey:@"NRS"];
+    [self.parameters setObject:@"DefaultMOSFET" forKey:@"Model"];
+    [self.parameters setObject:@"5u" forKey:@"W"];
+    [self.parameters setObject:@"10u" forKey:@"L"];
+    [self.parameters setObject:@"100p" forKey:@"AD"];
+    [self.parameters setObject:@"100p" forKey:@"AS"];
+    [self.parameters setObject:@"40u" forKey:@"PD"];
+    [self.parameters setObject:@"40u" forKey:@"PS"];
+    [self.parameters setObject:@"1" forKey:@"NRD"];
+    [self.parameters setObject:@"1" forKey:@"NRS"];
   }
   return self;
 }
@@ -930,7 +919,7 @@
 
 - (MI_DeviceModelType) usedDeviceModelType
 {
-    return MOS_DEVICE_MODEL_TYPE;
+    return MI_DeviceModelTypeMOSFET;
 }
 
 
@@ -960,37 +949,36 @@
 
 - (instancetype) init
 {
-    if (self = [super init])
+    if (self = [super initWithSize:NSMakeSize(32.0f, 32.0f)])
     {
-        originalSize = size = NSMakeSize(32.0f, 32.0f);
         [self setName:@"MOSFET, P-Channel"];
         [self setLabel:@"PMOS"];
-        [self setLabelPosition:MI_DIRECTION_RIGHT];
+        [self setLabelPosition:MI_DirectionRight];
         MI_ConnectionPoint* gate = [[MI_ConnectionPoint alloc]
             initWithPosition:NSMakePoint(-16.0f, -11.0f)
                         size:NSMakeSize(6.0f, 6.0f)
                         name:@"Gate"
-         nodeNumberPlacement:MI_DIRECTION_SOUTHWEST];
+         nodeNumberPlacement:MI_DirectionSouthwest];
         MI_ConnectionPoint* drain = [[MI_ConnectionPoint alloc]
             initWithPosition:NSMakePoint(16.0f, 16.0f)
                         size:NSMakeSize(6.0f, 6.0f)
                         name:@"Drain"
-         nodeNumberPlacement:MI_DIRECTION_NORTHEAST];
+         nodeNumberPlacement:MI_DirectionNortheast];
         MI_ConnectionPoint* source = [[MI_ConnectionPoint alloc]
             initWithPosition:NSMakePoint(16.0f, -16.0f)
                         size:NSMakeSize(6.0f, 6.0f)
                         name:@"Source"
-         nodeNumberPlacement:MI_DIRECTION_SOUTHEAST];
+         nodeNumberPlacement:MI_DirectionSoutheast];
     self.connectionPoints = @{@"Gate" : gate, @"Drain" : drain, @"Source" : source};
-    [parameters setObject:@"DefaultMOSFET" forKey:@"Model"];
-    [parameters setObject:@"5u" forKey:@"W"];
-    [parameters setObject:@"10u" forKey:@"L"];
-    [parameters setObject:@"100p" forKey:@"AD"];
-    [parameters setObject:@"100p" forKey:@"AS"];
-    [parameters setObject:@"40u" forKey:@"PD"];
-    [parameters setObject:@"40u" forKey:@"PS"];
-    [parameters setObject:@"1" forKey:@"NRD"];
-    [parameters setObject:@"1" forKey:@"NRS"];
+    [self.parameters setObject:@"DefaultMOSFET" forKey:@"Model"];
+    [self.parameters setObject:@"5u" forKey:@"W"];
+    [self.parameters setObject:@"10u" forKey:@"L"];
+    [self.parameters setObject:@"100p" forKey:@"AD"];
+    [self.parameters setObject:@"100p" forKey:@"AS"];
+    [self.parameters setObject:@"40u" forKey:@"PD"];
+    [self.parameters setObject:@"40u" forKey:@"PS"];
+    [self.parameters setObject:@"1" forKey:@"NRD"];
+    [self.parameters setObject:@"1" forKey:@"NRS"];
   }
   return self;
 }
@@ -1028,7 +1016,7 @@
 
 - (MI_DeviceModelType) usedDeviceModelType
 {
-  return MOS_DEVICE_MODEL_TYPE;
+  return MI_DeviceModelTypeMOSFET;
 }
 
 
@@ -1057,42 +1045,41 @@
 
 - (instancetype) init
 {
-  if (self = [super init])
+  if (self = [super initWithSize:NSMakeSize(32.0f, 32.0f)])
   {
-    originalSize = size = NSMakeSize(32.0f, 32.0f);
     [self setName:@"MOSFET w/ bulk conn., N-Channel, Depletion"];
     [self setLabel:@"NMOS"];
-    [self setLabelPosition:MI_DIRECTION_LEFT];
+    [self setLabelPosition:MI_DirectionLeft];
     MI_ConnectionPoint* gate = [[MI_ConnectionPoint alloc]
         initWithPosition:NSMakePoint(-16.0f, -11.0f)
                     size:NSMakeSize(6.0f, 6.0f)
                     name:@"Gate"
-     nodeNumberPlacement:MI_DIRECTION_SOUTHWEST];
+     nodeNumberPlacement:MI_DirectionSouthwest];
     MI_ConnectionPoint* drain = [[MI_ConnectionPoint alloc]
         initWithPosition:NSMakePoint(16.0f, 16.0f)
                     size:NSMakeSize(6.0f, 6.0f)
                     name:@"Drain"
-     nodeNumberPlacement:MI_DIRECTION_NORTHEAST];
+     nodeNumberPlacement:MI_DirectionNortheast];
     MI_ConnectionPoint* source = [[MI_ConnectionPoint alloc]
         initWithPosition:NSMakePoint(16.0f, -16.0f)
                     size:NSMakeSize(6.0f, 6.0f)
                     name:@"Source"
-     nodeNumberPlacement:MI_DIRECTION_SOUTHEAST];
+     nodeNumberPlacement:MI_DirectionSoutheast];
     MI_ConnectionPoint* bulk = [[MI_ConnectionPoint alloc]
         initWithPosition:NSMakePoint(16.0f, 0.0f)
                     size:NSMakeSize(6.0f, 6.0f)
                     name:@"Bulk"
-     nodeNumberPlacement:MI_DIRECTION_NORTHEAST];
+     nodeNumberPlacement:MI_DirectionNortheast];
     self.connectionPoints = @{@"Gate": gate, @"Drain": drain, @"Source": source, @"Bulk":bulk};
-    [parameters setObject:@"DefaultMOSFET" forKey:@"Model"];
-    [parameters setObject:@"5u" forKey:@"W"];
-    [parameters setObject:@"10u" forKey:@"L"];
-    [parameters setObject:@"100p" forKey:@"AD"];
-    [parameters setObject:@"100p" forKey:@"AS"];
-    [parameters setObject:@"40u" forKey:@"PD"];
-    [parameters setObject:@"40u" forKey:@"PS"];
-    [parameters setObject:@"1" forKey:@"NRD"];
-    [parameters setObject:@"1" forKey:@"NRS"];
+    [self.parameters setObject:@"DefaultMOSFET" forKey:@"Model"];
+    [self.parameters setObject:@"5u" forKey:@"W"];
+    [self.parameters setObject:@"10u" forKey:@"L"];
+    [self.parameters setObject:@"100p" forKey:@"AD"];
+    [self.parameters setObject:@"100p" forKey:@"AS"];
+    [self.parameters setObject:@"40u" forKey:@"PD"];
+    [self.parameters setObject:@"40u" forKey:@"PS"];
+    [self.parameters setObject:@"1" forKey:@"NRD"];
+    [self.parameters setObject:@"1" forKey:@"NRS"];
   }
   return self;
 }
@@ -1128,7 +1115,7 @@
 
 - (MI_DeviceModelType) usedDeviceModelType
 {
-  return MOS_DEVICE_MODEL_TYPE;
+  return MI_DeviceModelTypeMOSFET;
 }
 
 - (NSString*) shapeToSVG
@@ -1152,42 +1139,41 @@
 
 - (instancetype) init
 {
-  if (self = [super init])
+  if (self = [super initWithSize:NSMakeSize(32.0f, 32.0f)])
   {
-    originalSize = size = NSMakeSize(32.0f, 32.0f);
     [self setName:@"MOSFET w/ bulk conn., P-Channel, Depletion"];
     [self setLabel:@"PMOS"];
-    [self setLabelPosition:MI_DIRECTION_LEFT];
+    [self setLabelPosition:MI_DirectionLeft];
     MI_ConnectionPoint* gate = [[MI_ConnectionPoint alloc]
         initWithPosition:NSMakePoint(-16.0f, -11.0f)
                     size:NSMakeSize(6.0f, 6.0f)
                     name:@"Gate"
-     nodeNumberPlacement:MI_DIRECTION_SOUTHWEST];
+     nodeNumberPlacement:MI_DirectionSouthwest];
     MI_ConnectionPoint* drain = [[MI_ConnectionPoint alloc]
         initWithPosition:NSMakePoint(16.0f, 16.0f)
                     size:NSMakeSize(6.0f, 6.0f)
                     name:@"Drain"
-     nodeNumberPlacement:MI_DIRECTION_NORTHEAST];
+     nodeNumberPlacement:MI_DirectionNortheast];
     MI_ConnectionPoint* source = [[MI_ConnectionPoint alloc]
         initWithPosition:NSMakePoint(16.0f, -16.0f)
                     size:NSMakeSize(6.0f, 6.0f)
                     name:@"Source"
-     nodeNumberPlacement:MI_DIRECTION_SOUTHEAST];
+     nodeNumberPlacement:MI_DirectionSoutheast];
     MI_ConnectionPoint* bulk = [[MI_ConnectionPoint alloc]
         initWithPosition:NSMakePoint(16.0f, 0.0f)
                     size:NSMakeSize(6.0f, 6.0f)
                     name:@"Bulk"
-     nodeNumberPlacement:MI_DIRECTION_NORTHEAST];
+     nodeNumberPlacement:MI_DirectionNortheast];
     self.connectionPoints = @{@"Gate": gate, @"Drain": drain, @"Source": source, @"Bulk":bulk};
-    [parameters setObject:@"DefaultMOSFET" forKey:@"Model"];
-    [parameters setObject:@"5u" forKey:@"W"];
-    [parameters setObject:@"10u" forKey:@"L"];
-    [parameters setObject:@"100p" forKey:@"AD"];
-    [parameters setObject:@"100p" forKey:@"AS"];
-    [parameters setObject:@"40u" forKey:@"PD"];
-    [parameters setObject:@"40u" forKey:@"PS"];
-    [parameters setObject:@"1" forKey:@"NRD"];
-    [parameters setObject:@"1" forKey:@"NRS"];
+    [self.parameters setObject:@"DefaultMOSFET" forKey:@"Model"];
+    [self.parameters setObject:@"5u" forKey:@"W"];
+    [self.parameters setObject:@"10u" forKey:@"L"];
+    [self.parameters setObject:@"100p" forKey:@"AD"];
+    [self.parameters setObject:@"100p" forKey:@"AS"];
+    [self.parameters setObject:@"40u" forKey:@"PD"];
+    [self.parameters setObject:@"40u" forKey:@"PS"];
+    [self.parameters setObject:@"1" forKey:@"NRD"];
+    [self.parameters setObject:@"1" forKey:@"NRS"];
   }
   return self;
 }
@@ -1224,7 +1210,7 @@
 
 - (MI_DeviceModelType) usedDeviceModelType
 {
-    return MOS_DEVICE_MODEL_TYPE;
+    return MI_DeviceModelTypeMOSFET;
 }
 
 - (NSString*) shapeToSVG
@@ -1249,42 +1235,41 @@
 
 - (instancetype) init
 {
-    if (self = [super init])
+    if (self = [super initWithSize:NSMakeSize(32.0f, 32.0f)])
     {
-        originalSize = size = NSMakeSize(32.0f, 32.0f);
         [self setName:@"MOSFET w/ bulk conn., N-Channel"];
         [self setLabel:@"NMOS"];
-        [self setLabelPosition:MI_DIRECTION_LEFT];
+        [self setLabelPosition:MI_DirectionLeft];
         MI_ConnectionPoint* gate = [[MI_ConnectionPoint alloc]
             initWithPosition:NSMakePoint(-16.0f, -11.0f)
                         size:NSMakeSize(6.0f, 6.0f)
                         name:@"Gate"
-         nodeNumberPlacement:MI_DIRECTION_SOUTHWEST];
+         nodeNumberPlacement:MI_DirectionSouthwest];
         MI_ConnectionPoint* drain = [[MI_ConnectionPoint alloc]
             initWithPosition:NSMakePoint(16.0f, 16.0f)
                         size:NSMakeSize(6.0f, 6.0f)
                         name:@"Drain"
-         nodeNumberPlacement:MI_DIRECTION_NORTHEAST];
+         nodeNumberPlacement:MI_DirectionNortheast];
         MI_ConnectionPoint* source = [[MI_ConnectionPoint alloc]
             initWithPosition:NSMakePoint(16.0f, -16.0f)
                         size:NSMakeSize(6.0f, 6.0f)
                         name:@"Source"
-         nodeNumberPlacement:MI_DIRECTION_SOUTHEAST];
+         nodeNumberPlacement:MI_DirectionSoutheast];
         MI_ConnectionPoint* bulk = [[MI_ConnectionPoint alloc]
             initWithPosition:NSMakePoint(16.0f, 0.0f)
                         size:NSMakeSize(6.0f, 6.0f)
                         name:@"Bulk"
-         nodeNumberPlacement:MI_DIRECTION_NORTHEAST];
+         nodeNumberPlacement:MI_DirectionNortheast];
     self.connectionPoints = @{@"Gate": gate, @"Drain": drain, @"Source": source, @"Bulk":bulk};
-    [parameters setObject:@"DefaultMOSFET" forKey:@"Model"];
-    [parameters setObject:@"5u" forKey:@"W"];
-    [parameters setObject:@"10u" forKey:@"L"];
-    [parameters setObject:@"100p" forKey:@"AD"];
-    [parameters setObject:@"100p" forKey:@"AS"];
-    [parameters setObject:@"40u" forKey:@"PD"];
-    [parameters setObject:@"40u" forKey:@"PS"];
-    [parameters setObject:@"1" forKey:@"NRD"];
-    [parameters setObject:@"1" forKey:@"NRS"];
+    [self.parameters setObject:@"DefaultMOSFET" forKey:@"Model"];
+    [self.parameters setObject:@"5u" forKey:@"W"];
+    [self.parameters setObject:@"10u" forKey:@"L"];
+    [self.parameters setObject:@"100p" forKey:@"AD"];
+    [self.parameters setObject:@"100p" forKey:@"AS"];
+    [self.parameters setObject:@"40u" forKey:@"PD"];
+    [self.parameters setObject:@"40u" forKey:@"PS"];
+    [self.parameters setObject:@"1" forKey:@"NRD"];
+    [self.parameters setObject:@"1" forKey:@"NRS"];
   }
   return self;
 }
@@ -1323,7 +1308,7 @@
 
 - (MI_DeviceModelType) usedDeviceModelType
 {
-    return MOS_DEVICE_MODEL_TYPE;
+    return MI_DeviceModelTypeMOSFET;
 }
 
 
@@ -1353,42 +1338,41 @@
 
 - (instancetype) init
 {
-  if (self = [super init])
+  if (self = [super initWithSize:NSMakeSize(32.0f, 32.0f)])
   {
-    originalSize = size = NSMakeSize(32.0f, 32.0f);
     [self setName:@"MOSFET w/ bulk conn., P-Channel"];
     [self setLabel:@"PMOS"];
-    [self setLabelPosition:MI_DIRECTION_LEFT];
+    [self setLabelPosition:MI_DirectionLeft];
     MI_ConnectionPoint* gate = [[MI_ConnectionPoint alloc]
         initWithPosition:NSMakePoint(-16.0f, -11.0f)
                     size:NSMakeSize(6.0f, 6.0f)
                     name:@"Gate"
-     nodeNumberPlacement:MI_DIRECTION_SOUTHWEST];
+     nodeNumberPlacement:MI_DirectionSouthwest];
     MI_ConnectionPoint* drain = [[MI_ConnectionPoint alloc]
         initWithPosition:NSMakePoint(16.0f, 16.0f)
                     size:NSMakeSize(6.0f, 6.0f)
                     name:@"Drain"
-     nodeNumberPlacement:MI_DIRECTION_NORTHEAST];
+     nodeNumberPlacement:MI_DirectionNortheast];
     MI_ConnectionPoint* source = [[MI_ConnectionPoint alloc]
         initWithPosition:NSMakePoint(16.0f, -16.0f)
                     size:NSMakeSize(6.0f, 6.0f)
                     name:@"Source"
-     nodeNumberPlacement:MI_DIRECTION_SOUTHEAST];
+     nodeNumberPlacement:MI_DirectionSoutheast];
     MI_ConnectionPoint* bulk = [[MI_ConnectionPoint alloc]
         initWithPosition:NSMakePoint(16.0f, 0.0f)
                     size:NSMakeSize(6.0f, 6.0f)
                     name:@"Bulk"
-     nodeNumberPlacement:MI_DIRECTION_NORTHEAST];
+     nodeNumberPlacement:MI_DirectionNortheast];
     self.connectionPoints = @{@"Gate": gate, @"Drain": drain, @"Source": source, @"Bulk":bulk};
-    [parameters setObject:@"DefaultMOSFET" forKey:@"Model"];
-    [parameters setObject:@"5u" forKey:@"W"];
-    [parameters setObject:@"10u" forKey:@"L"];
-    [parameters setObject:@"100p" forKey:@"AD"];
-    [parameters setObject:@"100p" forKey:@"AS"];
-    [parameters setObject:@"40u" forKey:@"PD"];
-    [parameters setObject:@"40u" forKey:@"PS"];
-    [parameters setObject:@"1" forKey:@"NRD"];
-    [parameters setObject:@"1" forKey:@"NRS"];
+    [self.parameters setObject:@"DefaultMOSFET" forKey:@"Model"];
+    [self.parameters setObject:@"5u" forKey:@"W"];
+    [self.parameters setObject:@"10u" forKey:@"L"];
+    [self.parameters setObject:@"100p" forKey:@"AD"];
+    [self.parameters setObject:@"100p" forKey:@"AS"];
+    [self.parameters setObject:@"40u" forKey:@"PD"];
+    [self.parameters setObject:@"40u" forKey:@"PS"];
+    [self.parameters setObject:@"1" forKey:@"NRD"];
+    [self.parameters setObject:@"1" forKey:@"NRS"];
   }
   return self;
 }
@@ -1427,7 +1411,7 @@
 
 - (MI_DeviceModelType) usedDeviceModelType
 {
-    return MOS_DEVICE_MODEL_TYPE;
+    return MI_DeviceModelTypeMOSFET;
 }
 
 

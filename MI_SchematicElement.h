@@ -36,37 +36,28 @@ is inserted. */
 @end
 
 @interface MI_SchematicElement : NSObject <NSCoding, NSCopying, MI_Inspectable>
-{
-  NSString* identifier;
-  NSSize originalSize;            // size when rotation is 0 (see 'size' below)
-  NSSize size;                    // size of the rectangle into which the element's graphical representation fits - depends on rotation
-  float rotation;                 // the rotation of the graphical representation, in degrees
-  BOOL flippedHorizontally;
-  BOOL showsLabel;
-  int revision;                   // the version number of the element - since 0.5.3
-  MI_Direction labelPosition;
-}
+
+- (instancetype) initWithSize:(NSSize)size;
 
 - (NSString*) identifier;
-- (NSSize) size;
+@property (readonly) NSSize size;
+@property (readonly) NSSize originalSize; // size when rotation is 0
 @property (nonatomic) NSPoint position; // center of the rectangle into which the element's graphical representation fits
-@property NSDictionary<NSString*, MI_ConnectionPoint*>* connectionPoints;
-- (void) setConnectionPoints:(NSDictionary*)newConnectionPoints;
+@property NSDictionary<NSString*,MI_ConnectionPoint*>* connectionPoints;
 - (NSDictionary*) alignableConnectionPoints; // returns the connection points which can be used for checking alignment with other connection points
-@property NSString* label;
+@property (copy, nonatomic) NSString* label;
 - (NSImage*) image;
-@property (nonatomic) NSString* name;
+@property (copy, nonatomic) NSString* name;
 
-@property NSString* elementNamespace;
+@property (copy) NSString* elementNamespace;
 - (NSString*) fullyQualifiedName;                           // convenience method which concatenates the namespace and the name, with a dot inbetween
 @property MI_Direction labelPosition;
-- (void) setShowsLabel:(BOOL)showLabel;
-- (float) rotation;                                         // rotation in degrees, value between 0 and 360
-- (void) setRotation:(float)newRotation;                    // newRotation must be in degrees
+@property BOOL showsLabel;
+@property float rotation;                                         // rotation in degrees, value between 0 and 360
 - (void) flip:(BOOL)horizontally;
 - (BOOL) flippedHorizontally;                               // returns YES if the element's graphical representation is flipped horizontally
-- (int) revision;                                           // returns the revision number - there must be no setter method
-@property NSString* comment; // stores user comments about instances - since 0.5.3
+@property (readonly) int revision;                          // the revision number. Since version 0.5.3
+@property NSString* comment; // stores user comments about instances. Since version 0.5.3
 
 - (NSRect) totalRect;                                       // calculates the area occupied by this elements together with its label - needed for printing
 

@@ -25,9 +25,11 @@
 
 - (instancetype) init
 {
-    if (self = [super init])
-        self.dropHandler = nil;
-    return self;
+  if (self = [super init])
+  {
+    _dropHandler = nil;
+  }
+  return self;
 }
 
 

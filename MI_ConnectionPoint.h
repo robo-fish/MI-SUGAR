@@ -35,13 +35,7 @@ be connected to by an element connector. The connection point itself
 knows nothing about a connection. Connection information is managed by
 the schematic. */
 @interface MI_ConnectionPoint : NSObject <NSCoding, NSCopying>
-{
-    NSPoint relativePosition; // position of the center of the point, relative to the center of parent
-    NSSize size; // size is needed although the point is invisible
-    NSString* name;
-    MI_Direction preferredNodeNumberPlacement;
-    int MI_version; // see version note above
-}
+
 - (instancetype) initWithPosition:(NSPoint)relativePos
                    size:(NSSize)theSize
                    name:(NSString*)name
@@ -52,14 +46,12 @@ the schematic. */
                    size:(NSSize)theSize
                    name:(NSString*)myName;
 
-- (NSPoint) relativePosition; // center position relative to parent
+@property NSPoint relativePosition; // center position relative to center of parent
 
-- (void) setRelativePosition:(NSPoint)newPosition; // needs to be called when the parent element is transformed
+@property (readonly, nonatomic) NSString* name; // name of this connection point
 
-- (NSString*) name; // name of this connection point
+@property (readonly, nonatomic) NSSize size;
 
-- (NSSize) size;
-
-- (MI_Direction) preferredNodeNumberPlacement; 
+@property (readonly, nonatomic) MI_Direction preferredNodeNumberPlacement; 
 
 @end

@@ -24,26 +24,7 @@
 
 // A singleton object which manages the task of creating new subcircuits.
 @interface MI_SubcircuitCreator : NSObject
-{
-    IBOutlet NSTableView* pinAssignmentTable;       // displays the pin to node assignment matrix
-    IBOutlet NSTableColumn* nodeNameColumn;         // will be populated with popup button cells
-    IBOutlet NSTextField* subcircuitNameField;      // for entering the name of the subcircuit
-    IBOutlet NSTextField* subcircuitNamespaceField; // for entering the namespace of the subcircuit
-    IBOutlet NSTextField* revisionField;            // for entering the revision of the subcircuit
-    IBOutlet NSWindow* creatorSheet;                // the panel which contains the widgets
-    IBOutlet NSPopUpButton* pinChooser;             // presents choice of number of pins
-    IBOutlet NSButton* createButton;                // user presses this button to finalize creation
-    IBOutlet MI_ShapePreviewer* shapePreviewer;
-    IBOutlet NSButton* dipShapeSelectionButton;
-    IBOutlet NSButton* customShapeSelectionButton;
-    IBOutlet NSButton* customShapeFileBrowseButton;
-    BOOL usesCustomShape;
-    NSPopUpButtonCell* nodeNameChooser;             // cell object in the node name column
-    int numberOfConnectionPoints;                   // the number of pins of the selected shape
-    CircuitDocument* currentDoc;
-    NSMutableDictionary* pinMapping;                // maps external port names to internal node names
-    NSMutableArray* customShapeConnectionPointNames;
-}
+
 + (MI_SubcircuitCreator*) sharedCreator;
 
 // Creates a subcircuit based on given CircuitDocument
@@ -56,7 +37,7 @@
 // Called when the user chooses the number of pins for the DIP shape
 - (IBAction) setNumberOfDIPPins:(id)sender;
 
-- (void) setNumberOfConnectionPoints:(int)number;
+- (void) setNumberOfConnectionPoints:(NSInteger)number;
 
 - (IBAction) loadShapeDefinitionFile:(id)sender;
 

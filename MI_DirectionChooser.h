@@ -24,14 +24,10 @@
 
 
 @interface MI_DirectionChooser : NSView
-{
-    SEL action;
-    NSObject* target;
-    MI_Direction direction;
-    NSImage* backgroundImage;
-}
+
 - (void) setTarget:(NSObject*)newTarget;
 - (void) setAction:(SEL)newAction;
 - (MI_Direction) selectedDirection;
 - (void) setDirection:(MI_Direction)newDirection;
+
 @end

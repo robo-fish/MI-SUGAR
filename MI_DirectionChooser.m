@@ -22,6 +22,12 @@
 #import "MI_DirectionChooser.h"
 
 @implementation MI_DirectionChooser
+{
+  SEL action;
+  IBOutlet NSObject* target;
+  MI_Direction direction;
+  NSImage* backgroundImage;
+}
 
 - (id)initWithFrame:(NSRect)frame
 {
@@ -29,7 +35,7 @@
     if (self)
     {
         target = nil;
-        direction = MI_DIRECTION_UP;
+        direction = MI_DirectionUp;
         backgroundImage = [[NSImage alloc] initWithContentsOfFile:
             [[[NSBundle mainBundle] resourcePath] stringByAppendingString:@"/palette_button_background.png"]];
     }
@@ -55,22 +61,22 @@
     [[NSBezierPath bezierPathWithOvalInRect:
         NSInsetRect(rect, rect.size.width * 0.35, rect.size.height * 0.35)] stroke];
 
-    if (direction == MI_DIRECTION_UP)
+    if (direction == MI_DirectionUp)
         [[NSBezierPath bezierPathWithOvalInRect:
             NSMakeRect(rect.origin.x + rect.size.width * 0.375f,
                        rect.origin.y + rect.size.height * 0.70f,
                        rect.size.width * 0.25f, rect.size.height * 0.25f)] fill];
-    else if (direction == MI_DIRECTION_DOWN)
+    else if (direction == MI_DirectionDown)
         [[NSBezierPath bezierPathWithOvalInRect:
             NSMakeRect(rect.origin.x + rect.size.width * 0.375f,
                        rect.origin.y + rect.size.height * 0.05f,
                        rect.size.width * 0.25f, rect.size.height * 0.25f)] fill];
-    else if (direction == MI_DIRECTION_LEFT)
+    else if (direction == MI_DirectionLeft)
         [[NSBezierPath bezierPathWithOvalInRect:
             NSMakeRect(rect.origin.x + rect.size.width * 0.05f,
                        rect.origin.y + rect.size.height * 0.375f,
                        rect.size.width * 0.25f, rect.size.height * 0.25f)] fill];
-    else if (direction == MI_DIRECTION_RIGHT)
+    else if (direction == MI_DirectionRight)
         [[NSBezierPath bezierPathWithOvalInRect:
             NSMakeRect(rect.origin.x + rect.size.width * 0.70f,
                        rect.origin.y + rect.size.height * 0.375f,
@@ -88,15 +94,15 @@
 
   if ( (fabs(x) < rect.size.width * 0.15) && (fabs(y) < rect.size.height * 0.15) )
   {
-    direction = MI_DIRECTION_NONE;
+    direction = MI_DirectionNone;
   }
   else if (fabs(x) >= fabs(y))
   {
-    direction = (x >= 0.0f) ? MI_DIRECTION_RIGHT : MI_DIRECTION_LEFT;
+    direction = (x >= 0.0f) ? MI_DirectionRight : MI_DirectionLeft;
   }
   else
   {
-    direction = (y >= 0.0f) ? MI_DIRECTION_UP : MI_DIRECTION_DOWN;
+    direction = (y >= 0.0f) ? MI_DirectionUp : MI_DirectionDown;
   }
   [self setNeedsDisplay:YES];
 
