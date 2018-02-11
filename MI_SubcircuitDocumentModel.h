@@ -23,52 +23,36 @@
 #import "MI_Shape.h"
 
 @interface MI_SubcircuitDocumentModel : CircuitDocumentModel <NSCoding>
-{
-    // Maps external port names to node names in the schematic.
-    // If the port is not bound to a node the node name is an
-    // empty string (length = 0). In older versions only DIP shaped
-    // subcircuits were considered and the mapping was from pin
-    // numbers (NSNumber objects) to node names. Hence the naming.
-    NSDictionary* pinToNodeNameMap;
 
-    // Set of names of other subcircuits used in this subcircuit.
-    // Used in conversion to netlist.
-    NSMutableSet* subcircuitsUsed;
-
-    // Mapping of used device models to the model type name
-    // Used in conversion to netlist.
-    NSMutableDictionary* deviceModelsUsed;
-
-    // the shape of the subcircuit
-    MI_Shape* shape;
-}
 // Initializes the subcircuit model based on a plain circuit model
 // and mapping info for the pins. The pinMap should map external
 // port names to the node names within the subcircuit to which they
 // have been assigned.
-- (id) initWithCircuitDocumentModel:(CircuitDocumentModel*)model
-                             pinMap:(NSDictionary*)pinMap;
+- (instancetype) initWithCircuitDocumentModel:(CircuitDocumentModel*)model
+                             pinMap:(NSDictionary<NSString*,NSString*>*)pinMap;
 
 
-- (int) numberOfPins;
+- (NSUInteger) numberOfPins;
 
 // returns the name of the node element in the schematic
 // which is connected to the external port given by name.
 - (NSString*) nodeNameForPin:(NSString*)portName;
 
-// autoreleased copy of the pin map
-- (NSDictionary*) pinMap;
+// Maps external port names to node names in the schematic.
+// If the port is not bound to a node the node name is an
+// empty string (length = 0). In older versions only DIP shaped
+// subcircuits were considered and the mapping was from pin
+// numbers (NSNumber objects) to node names. Hence the naming.
+@property (readonly) NSDictionary<NSString*,NSString*>* pinMap;
 
-- (NSSet*) subcircuitsUsed;
+// Set of names of other subcircuits used in this subcircuit.
+// Used in conversion to netlist.
+@property NSSet* usedSubcircuits;
 
-- (void) setUsedSubcircuits:(NSSet*)newUsedSubcircuits;
+// Mapping of used device models to the model type name
+// Used in conversion to netlist.
+@property NSDictionary* usedDeviceModels;
 
-- (NSDictionary*) deviceModelsUsed;
-
-- (void) setUsedDeviceModels:(NSDictionary*)newUsedDeviceModels;
-
-- (MI_Shape*) shape;
-
-- (void) setShape:(MI_Shape*)newShape;
+@property MI_Shape* shape; // the shape of the subcircuit
 
 @end

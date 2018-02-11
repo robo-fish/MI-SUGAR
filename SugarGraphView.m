@@ -48,8 +48,8 @@ int PlotterLabelsFontSize[] = { 10, 12, 14, 18 };
   NSArray* abscissaValues; // x-axis
   NSUInteger numberOfAbscissaPoints;
   NSString* abscissaLabel;
-  NSColor* backgroundColor;
   NSColor* gridColor;
+  NSColor* _backgroundColor;
 
   /* growing array of AnalysisVariable objects */
   NSMutableArray* ordinateVariables; // y-axis variables
@@ -100,7 +100,6 @@ int PlotterLabelsFontSize[] = { 10, 12, 14, 18 };
   MI_ViewArea* viewArea; // the view area rectangle in value space
 
   BOOL logLabelsForLogScale; // Indicates that the axis labels should be in logarithmic scale, too, whenever the axes are in logarithmic scale
-  NSString* plotDescription; // is nil a plot description should not be printed
 
 #ifdef GRAPHVIEW_WITH_TOOLTIP
   NSToolTipTag tooltip;
@@ -122,17 +121,16 @@ int PlotterLabelsFontSize[] = { 10, 12, 14, 18 };
     abscissaValues = nil;
     observer = nil;
     viewArea = nil;
-    ordinateVariables = [[NSMutableArray arrayWithCapacity:3] retain];
-    ordinateLengths = [[NSMutableArray arrayWithCapacity:3] retain];
-    ordinateLabels = [[NSMutableArray arrayWithCapacity:3] retain];
-    ordinateColors = [[NSMutableArray arrayWithCapacity:3] retain];
-    ordinateVisibilities = [[NSMutableArray arrayWithCapacity:3] retain];
-    ordinateMaximumValues = [[NSMutableArray arrayWithCapacity:3] retain];
-    ordinateMinimumValues = [[NSMutableArray arrayWithCapacity:3] retain];
+    ordinateVariables = [NSMutableArray arrayWithCapacity:3];
+    ordinateLengths = [NSMutableArray arrayWithCapacity:3];
+    ordinateLabels = [NSMutableArray arrayWithCapacity:3];
+    ordinateColors = [NSMutableArray arrayWithCapacity:3];
+    ordinateVisibilities = [NSMutableArray arrayWithCapacity:3];
+    ordinateMaximumValues = [NSMutableArray arrayWithCapacity:3];
+    ordinateMinimumValues = [NSMutableArray arrayWithCapacity:3];
     currentSize = [self bounds].size;
-    gridColor = [[NSColor  colorWithDeviceWhite:0.5f
-                                          alpha:1.0f] retain];
-    backgroundColor = nil;
+    gridColor = [NSColor colorWithDeviceWhite:0.5f alpha:1.0f];
+    self.backgroundColor = nil;
     gridLineWidth = 1;
     graphsLineWidth = 1;
     gridHeight = gridWidth = gridMinX = gridMaxX = gridMinY = gridMaxY = 0.0;
@@ -143,19 +141,24 @@ int PlotterLabelsFontSize[] = { 10, 12, 14, 18 };
     logLabelsForLogScale = [[[NSUserDefaults standardUserDefaults]
         objectForKey:MISUGAR_PLOTTER_HAS_LOG_LABELS_FOR_LOG_SCALE] boolValue];
     /*
-    labelFontAttributes = [[NSDictionary dictionaryWithObjectsAndKeys:
+    labelFontAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
         [NSFont fontWithName:@"Helvetica-Regular" size:10], NSFontAttributeName,
         [NSColor colorWithDeviceWhite:0.5f alpha:1.0f], NSForegroundColorAttributeName,
-        NULL] retain];
+        NULL];
      */
     handlesAreActive = NO;
-    plotDescription = nil;
+    self.plotDescription = nil;
 
 #ifdef GRAPHVIEW_WITH_TOOLTIP
     showPointerPosition = YES;
 #endif
   }
   return self;
+}
+
+- (void) dealloc
+{
+  [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 
@@ -265,7 +268,6 @@ int PlotterLabelsFontSize[] = { 10, 12, 14, 18 };
                                      maxX:[v_area maxX]
                                      minY:[v_area minY]
                                      maxY:[v_area maxY]];
-    [viewArea release];
     viewArea = varea;
     // Check if the view area is flipped, i.e., min > max
     if ([viewArea minX] > [viewArea maxX])
@@ -322,15 +324,15 @@ int PlotterLabelsFontSize[] = { 10, 12, 14, 18 };
     // NOTE: The order in which the components are drawn is important.
     
     /* Draw background */
-    [backgroundColor set];
+    [self.backgroundColor set];
     NSRectFill(rect);
 
     if (!viewArea)
         [self setViewArea:
-            [[[MI_ViewArea alloc] initWithMinX:abscissaMinValue
+            [[MI_ViewArea alloc] initWithMinX:abscissaMinValue
                                           maxX:abscissaMaxValue
                                           minY:totalOrdinateMinValue
-                                          maxY:totalOrdinateMaxValue] autorelease]];
+                                          maxY:totalOrdinateMaxValue]];
     
     if (!didCalculateGridMetrics)
         [self calculateGridMetrics];
@@ -361,7 +363,7 @@ int PlotterLabelsFontSize[] = { 10, 12, 14, 18 };
     NS_DURING
     for (i = 0; i < [ordinateVariables count]; i++)
     {
-        AnalysisVariable* currentVar = [[ordinateVariables objectAtIndex:i] retain];
+        AnalysisVariable* currentVar = [ordinateVariables objectAtIndex:i];
         double scale = [currentVar scaleFactor];
         if (![[ordinateVisibilities objectAtIndex:i] boolValue])
             continue;
@@ -410,7 +412,6 @@ int PlotterLabelsFontSize[] = { 10, 12, 14, 18 };
                 [ordinatePath stroke];
             }
         }
-        [currentVar release];
     }
     NS_HANDLER
         if ([[localException name] isEqualToString:@"MISUGARIndexException"])
@@ -425,11 +426,10 @@ int PlotterLabelsFontSize[] = { 10, 12, 14, 18 };
         [self drawHandles];
     else // printing
     {
-        if (plotDescription != nil)
+        if (self.plotDescription != nil)
         {
             // print circuit name
-            [plotDescription drawAtPoint:NSMakePoint(leftMargin, 2)
-                          withAttributes:labelFontAttributes];
+            [self.plotDescription drawAtPoint:NSMakePoint(leftMargin, 2) withAttributes:labelFontAttributes];
             bottomMargin -= PLOT_DESCRIPTION_AREA_HEIGHT;
         }
         currentSize = tmpSize;
@@ -640,7 +640,7 @@ int PlotterLabelsFontSize[] = { 10, 12, 14, 18 };
     bottomMargin = (int)fmaxf([labelXMin sizeWithAttributes:labelFontAttributes].height,
         [labelXMax sizeWithAttributes:labelFontAttributes].height) + 4;
     // Make more room at the bottom if a description has to be printed
-    if (![[NSGraphicsContext currentContext] isDrawingToScreen] && (plotDescription != nil))
+    if (![[NSGraphicsContext currentContext] isDrawingToScreen] && (self.plotDescription != nil))
         bottomMargin += PLOT_DESCRIPTION_AREA_HEIGHT;
     leftMargin = (int)fmaxf([labelYMax sizeWithAttributes:labelFontAttributes].width,
         [labelYMin sizeWithAttributes:labelFontAttributes].width) + 6;
@@ -702,7 +702,7 @@ int PlotterLabelsFontSize[] = { 10, 12, 14, 18 };
     }
     else
     {
-        float br = [backgroundColor brightnessComponent];
+        float br = [self.backgroundColor brightnessComponent];
         if (br > 0.8f)
             [[NSColor colorWithDeviceWhite:(br * 0.9f) alpha:1.0f] set];
         else if (br < 0.4f)
@@ -748,33 +748,28 @@ int PlotterLabelsFontSize[] = { 10, 12, 14, 18 };
     gridLineWidth = PlotterGridLineWidth[(int) [[userdefs objectForKey:MISUGAR_PLOT_GRID_LINE_WIDTH] charValue]];
     graphsLineWidth = PlotterGraphsLineWidth[(int) [[userdefs objectForKey:MISUGAR_PLOT_GRAPHS_LINE_WIDTH] charValue]];
     labelFontSize = PlotterLabelsFontSize[(int) [[userdefs objectForKey:MISUGAR_PLOT_LABELS_FONT_SIZE] charValue]];
-    [backgroundColor release];
-    backgroundColor = [[NSKeyedUnarchiver unarchiveObjectWithData:[userdefs objectForKey:MISUGAR_PLOTTER_BACKGROUND_COLOR]] retain];
-    gridColor = [[NSKeyedUnarchiver unarchiveObjectWithData:[userdefs objectForKey:MISUGAR_PLOTTER_GRID_COLOR]] retain];
+    NSColor* newBackgroundColor = [NSKeyedUnarchiver unarchiveObjectWithData:[userdefs objectForKey:MISUGAR_PLOTTER_BACKGROUND_COLOR]];
+    if (newBackgroundColor == nil) { newBackgroundColor = [NSColor whiteColor]; }
+    self.backgroundColor = newBackgroundColor;
+    NSColor* newGridColor = [NSKeyedUnarchiver unarchiveObjectWithData:[userdefs objectForKey:MISUGAR_PLOTTER_GRID_COLOR]];
+    if (newGridColor == nil) { newGridColor = [NSColor grayColor]; }
+    gridColor = newGridColor;
     // Choose the label color so that it contrasts nicely with the background
-    labelColor = ([backgroundColor brightnessComponent] > 0.5) ? [[NSColor blackColor] retain] : [[NSColor whiteColor] retain];
+    labelColor = ([self.backgroundColor brightnessComponent] > 0.5) ? [NSColor blackColor] : [NSColor whiteColor];
     
-    [labelFontAttributes release];
-    labelFontAttributes = [[NSDictionary dictionaryWithObjectsAndKeys:
-        /* [[NSFont fontWithName:@"Helvetica-Regular"
-                            size:labelFontSize] retain] */
-        [NSFont systemFontOfSize:labelFontSize], NSFontAttributeName,
-        labelColor, NSForegroundColorAttributeName,
-        NULL] retain];
+    labelFontAttributes = @{
+        NSFontAttributeName : [NSFont systemFontOfSize:labelFontSize], // [NSFont fontWithName:@"Helvetica-Regular" size:labelFontSize]
+        NSForegroundColorAttributeName : labelColor
+      };
 }
 
 
 - (void) setAbscissa:(AnalysisVariable*)variable
                 name:(NSString*)label
 {
-    //int i;
     if ([variable valuesOfSet:0] == nil) return;
-    [variable retain];
-    if (abscissaValues) [abscissaValues release];
-    abscissaValues = [[variable valuesOfSet:0] retain];
+    abscissaValues = [variable valuesOfSet:0];
     numberOfAbscissaPoints = [abscissaValues count];
-    [label retain];
-    if (abscissaLabel) [abscissaLabel release];
     abscissaLabel = label;
     abscissaMinValue = [[abscissaValues objectAtIndex:0] doubleValue];
     abscissaMaxValue = [[abscissaValues objectAtIndex:(numberOfAbscissaPoints - 1)] doubleValue];
@@ -785,7 +780,7 @@ int PlotterLabelsFontSize[] = { 10, 12, 14, 18 };
         abscissaMinValue = tmp;
     }
     /*
-    for (i = 1; i < numberOfAbscissaPoints; i++)
+    for (int i = 1; i < numberOfAbscissaPoints; i++)
     {
         if ( abscissaMaxValue < [[abscissaValues objectAtIndex:i] doubleValue])
             abscissaMaxValue = [[abscissaValues objectAtIndex:i] doubleValue];
@@ -795,12 +790,11 @@ int PlotterLabelsFontSize[] = { 10, 12, 14, 18 };
     */
     /*
     fprintf(stderr, "abscissa values:\n");
-    for (i = 0; i < numberOfAbscissaPoints; i++)
+    for (int i = 0; i < numberOfAbscissaPoints; i++)
         fprintf(stderr, "%03d - %5.3f\n", i, [[abscissaValues objectAtIndex:i] doubleValue]);
     */
     didCalculateGridMetrics = NO;
     firstDrawing = YES;
-    [viewArea release];
     viewArea = nil;
 }
 
@@ -838,7 +832,6 @@ int PlotterLabelsFontSize[] = { 10, 12, 14, 18 };
             totalOrdinateMinValue = min;
     }
     didCalculateGridMetrics = NO;
-    [viewArea release];
     viewArea = nil;
 }
 
@@ -882,8 +875,7 @@ int PlotterLabelsFontSize[] = { 10, 12, 14, 18 };
 
 - (void) showAll
 {
-    int j;
-    for (j = [ordinateVisibilities count] - 1; j >= 0; j--)
+    for (long j = [ordinateVisibilities count] - 1; j >= 0; j--)
         [ordinateVisibilities replaceObjectAtIndex:j
                                         withObject:[NSNumber numberWithBool:YES]];
     [self setNeedsDisplay:YES];
@@ -892,8 +884,7 @@ int PlotterLabelsFontSize[] = { 10, 12, 14, 18 };
 
 - (void) hideAll
 {
-    int j;
-    for (j = [ordinateVisibilities count] - 1; j >= 0; j--)
+    for (long j = [ordinateVisibilities count] - 1; j >= 0; j--)
         [ordinateVisibilities replaceObjectAtIndex:j
                                         withObject:[NSNumber numberWithBool:NO]];
     [self setNeedsDisplay:YES];
@@ -953,8 +944,6 @@ int PlotterLabelsFontSize[] = { 10, 12, 14, 18 };
 
 - (void) setGridColor:(NSColor*)color
 {
-    [color retain];
-    if (gridColor) [gridColor release];
     gridColor = color;
     [self setNeedsDisplay:YES];
 }
@@ -986,15 +975,13 @@ int PlotterLabelsFontSize[] = { 10, 12, 14, 18 };
 
 - (void) setBackgroundColor:(NSColor*)color
 {
-    if (backgroundColor) [backgroundColor release];
-    backgroundColor = [color retain];
-    [self setNeedsDisplay:YES];
+  _backgroundColor = color;
+  [self setNeedsDisplay:YES];
 }
-
 
 - (NSColor*) backgroundColor
 {
-    return backgroundColor;
+  return _backgroundColor;
 }
 
 
@@ -1025,7 +1012,7 @@ int PlotterLabelsFontSize[] = { 10, 12, 14, 18 };
 #endif
 
 
-- (int) numberOfOrdinateVariables
+- (NSUInteger) numberOfOrdinateVariables
 {
     return [ordinateVariables count];
 }
@@ -1039,9 +1026,7 @@ int PlotterLabelsFontSize[] = { 10, 12, 14, 18 };
 
 - (void) removeAll
 {
-    [abscissaLabel release];
     abscissaLabel = nil;
-    [abscissaValues release];
     abscissaValues = nil;
     numberOfAbscissaPoints = 0;
     [ordinateVariables removeAllObjects];
@@ -1142,7 +1127,7 @@ int PlotterLabelsFontSize[] = { 10, 12, 14, 18 };
         
         [plotterImage lockFocus];
         // Making sure there are no artefacts at the edges
-        [backgroundColor set];
+        [self.backgroundColor set];
         [NSBezierPath fillRect:NSInsetRect(imageBox, -2, -2)];
         // Drawing into the image
         [self drawRect:imageBox];
@@ -1161,15 +1146,13 @@ int PlotterLabelsFontSize[] = { 10, 12, 14, 18 };
                                fraction:0.8f];
         [dragImage unlockFocus];
         // Drag the image
-        [self dragImage:[dragImage autorelease]
+        [self dragImage:dragImage
                      at:NSMakePoint(imageBox.origin.x, imageBox.origin.y)
                  offset:NSMakeSize(0,0)
                   event:theEvent
              pasteboard:dragPboard
                  source:self
               slideBack:YES];
-        
-        [plotterImage autorelease];
     }
     else if (handlesAreActive)
     {
@@ -1272,15 +1255,13 @@ int PlotterLabelsFontSize[] = { 10, 12, 14, 18 };
         [plot lockFocus];
         [self drawRect:bds];
         [plot unlockFocus];
-        tiffData = [plot TIFFRepresentationUsingCompression:NSTIFFCompressionLZW
-                                                     factor:0.0];
+        tiffData = [plot TIFFRepresentationUsingCompression:NSTIFFCompressionLZW factor:0.0];
         NS_DURING
             [sender setData:tiffData
                     forType:type];
         NS_HANDLER
             NSLog(@"An exception occurred while trying to paste the plot into the clipboard.");
         NS_ENDHANDLER
-        [plot autorelease];
     }
     else
         // put something on to avoid a crash
@@ -1289,38 +1270,9 @@ int PlotterLabelsFontSize[] = { 10, 12, 14, 18 };
 }
 
 
-- (void) setPlotDescription:(NSString*)description
-{
-    [description retain];
-    [plotDescription release];
-    plotDescription = description;
-}
-
-
 - (double) leftHandlePosition { return handleLeftPos; }
 - (double) rightHandlePosition { return handleRightPos; }
 - (double) topHandlePosition { return handleTopPos; }
 - (double) bottomHandlePosition { return handleBottomPos; }
-
-
-- (void) dealloc
-{
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-    [abscissaLabel release];
-    [abscissaValues release];
-    [ordinateVariables release];
-    [ordinateLengths release];
-    [ordinateVisibilities release];
-    [ordinateLabels release];
-    [ordinateMaximumValues release];
-    [ordinateMinimumValues release];
-    [ordinateColors release];
-    [backgroundColor release];
-    [gridColor release];
-    [labelFontAttributes release];
-    [viewArea release];
-    [plotDescription release];
-    [super dealloc];
-}
 
 @end

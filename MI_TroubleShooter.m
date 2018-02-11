@@ -33,10 +33,10 @@
     // Solution posted by Erez Anzel to Apple's Cocoa development mailing list
     NSTextStorage *textStorage = [[NSTextStorage alloc] initWithString:string
                                                             attributes:stringAttribs];
-    NSLayoutManager *layoutManager = [[NSLayoutManager alloc] init];
-    NSTextContainer *textContainer = [[NSTextContainer alloc] init];
-    [layoutManager addTextContainer:[textContainer autorelease]];
-    [textStorage addLayoutManager:[layoutManager autorelease]];
+    NSLayoutManager *layoutManager = [NSLayoutManager new];
+    NSTextContainer *textContainer = [NSTextContainer new];
+    [layoutManager addTextContainer:textContainer];
+    [textStorage addLayoutManager:layoutManager];
         
     // Screen fonts are not suitable for scaled or rotated drawing.
     // Views that use NSLayoutManager directly for text drawing should
@@ -54,7 +54,6 @@
                                    atPoint:NSMakePoint(point.x - loc.x,
                                                        point.y + 1.0f - loc.y)];
 
-    [textStorage autorelease];
     /*
     NSRect usedRect = [layoutManager usedRectForTextContainer:textContainer];
     unsigned glyphIndex;

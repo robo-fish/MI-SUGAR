@@ -23,7 +23,7 @@
 
 @implementation MI_CircuitElement
 
-- (id) init
+- (instancetype) init
 {
     if (self = [super init])
     {
@@ -41,8 +41,6 @@
 
 - (void) setParameters:(NSMutableDictionary*)newParameters
 {
-    [newParameters retain];
-    [parameters release];
     parameters = newParameters;
 }
 
@@ -71,7 +69,7 @@
 {
     if (self = [super initWithCoder:decoder])
     {
-        parameters = [[decoder decodeObjectForKey:@"Parameters"] retain];
+        parameters = [decoder decodeObjectForKey:@"Parameters"];
     }
     return self;
 }
@@ -89,7 +87,7 @@
 {
     MI_CircuitElement* myCopy = [super copyWithZone:zone];
     myCopy->parameters = nil;
-    [myCopy setParameters:[[parameters mutableCopy] autorelease]];
+    [myCopy setParameters:[parameters mutableCopy]];
     return myCopy;
 }
 
@@ -98,12 +96,5 @@
     return [self copyWithZone:zone];
 }
 
-/**************************************************************************/
-
-- (void) dealloc
-{
-    [parameters release];
-    [super dealloc];
-}
 
 @end

@@ -22,12 +22,8 @@
 #import <Foundation/Foundation.h>
 
 @interface MI_ComplexNumber : NSObject
-{
-    double real;
-    double imaginary;
-    double magnitude;
-}
-- (id) initWithReal:(double)realPart
+
+- (instancetype) initWithReal:(double)realPart
           imaginary:(double)imaginaryPart;
 
 /* returns the real part */

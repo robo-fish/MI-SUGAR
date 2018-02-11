@@ -42,13 +42,13 @@ the schematic. */
     MI_Direction preferredNodeNumberPlacement;
     int MI_version; // see version note above
 }
-- (id) initWithPosition:(NSPoint)relativePos
+- (instancetype) initWithPosition:(NSPoint)relativePos
                    size:(NSSize)theSize
                    name:(NSString*)name
     nodeNumberPlacement:(MI_Direction)nodePlacement;
 
 /* for compatibility */
-- (id) initWithPosition:(NSPoint)myRelativePos
+- (instancetype) initWithPosition:(NSPoint)myRelativePos
                    size:(NSSize)theSize
                    name:(NSString*)myName;
 

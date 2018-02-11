@@ -47,7 +47,7 @@ NSString* MI_SCHEMATIC_EDIT_PROPERTY_CHANGE = @"Edit Property";
   BOOL calculateBoundingBoxForSelectedElementsOnly;
 }
 
-- (id) init
+- (instancetype) init
 {
     if (self = [super init])
     {
@@ -484,35 +484,31 @@ NSString* MI_SCHEMATIC_EDIT_PROPERTY_CHANGE = @"Edit Property";
 }
 
 
-- (MI_SchematicInfo) infoForLocation:(NSPoint)location
+- (MI_SchematicInfo*) infoForLocation:(NSPoint)location
 {
-    MI_SchematicElement* targetElement;
-    MI_SchematicInfo info;
-    info.element = nil;
-    info.connectionPoint = nil;
-    info.isConnected = NO;
+  MI_SchematicElement* targetElement;
+  MI_SchematicInfo* info = [MI_SchematicInfo new];
+  info.element = nil;
+  info.connectionPoint = nil;
+  info.isConnected = NO;
 
-    targetElement = [self elementAtPosition:location];
+  targetElement = [self elementAtPosition:location];
 
-    if (targetElement != nil)
+  if (targetElement != nil)
+  {
+    info.element = targetElement;
+    NSPoint const relPosition = NSMakePoint( location.x - [targetElement position].x, location.y - [targetElement position].y );
+    MI_ConnectionPoint* targetPoint = [self connectionPointOfElement:targetElement forRelativePosition:relPosition];
+    if ( targetPoint != nil )
     {
-        info.element = targetElement;
-        NSPoint relPosition =
-            NSMakePoint( location.x - [targetElement position].x,
-                         location.y - [targetElement position].y );
-        MI_ConnectionPoint* targetPoint =
-            [self connectionPointOfElement:targetElement
-                       forRelativePosition:relPosition];
-        if ( targetPoint )
-        {
-            info.connectionPoint = targetPoint;
-
-            if ([self connectorForConnectionPoint:targetPoint
-                                        ofElement:targetElement] )
-                info.isConnected = YES;
-        }
+      info.connectionPoint = targetPoint;
+      if ([self connectorForConnectionPoint:targetPoint ofElement:targetElement])
+      {
+        info.isConnected = YES;
+      }
     }
-    return info;
+  }
+  return info;
 }
 
 
@@ -800,17 +796,14 @@ NSString* MI_SCHEMATIC_EDIT_PROPERTY_CHANGE = @"Edit Property";
 
 - (NSEnumerator*) selectedElementEnumerator
 {
-    return [selectedElements objectEnumerator];
+  return [selectedElements objectEnumerator];
 }
 
 /***********************************************************************/
 
 - (NSArray*) copyOfSelectedElements
 {
-    NSArray* copies = [[NSArray alloc] initWithArray:selectedElements
-                                           copyItems:YES];
-        
-    return [copies autorelease];
+  return [[NSArray alloc] initWithArray:selectedElements copyItems:YES];
 }
 
 /*********************** Transforming elements ***************************/
@@ -881,8 +874,8 @@ NSString* MI_SCHEMATIC_EDIT_PROPERTY_CHANGE = @"Edit Property";
 {
     if (self = [super initWithCoder:decoder])
     {
-        elements = [[decoder decodeObjectForKey:@"Elements"] retain];
-        connectors = [[decoder decodeObjectForKey:@"Connectors"] retain];
+        elements = [decoder decodeObjectForKey:@"Elements"];
+        connectors = [decoder decodeObjectForKey:@"Connectors"];
         selectedElements = [[NSMutableArray alloc] initWithCapacity:5];
         hasBeenModified = NO;
     }
@@ -902,43 +895,27 @@ NSString* MI_SCHEMATIC_EDIT_PROPERTY_CHANGE = @"Edit Property";
 
 - (id) copyWithZone:(NSZone*) zone
 {
-    MI_Schematic* myCopy = [super copyWithZone:zone];
-    if (myCopy->elements)
-        [myCopy->elements release];
-    myCopy->elements = [[NSMutableArray alloc] initWithArray:elements
-                                                   copyItems:YES];
-    if (myCopy->connectors)
-        [myCopy->connectors release];
-    myCopy->connectors = [[NSMutableArray alloc] initWithArray:connectors
-                                                     copyItems:YES];
-    // Iterate over connectors and make sure they get connected to the right
-    // element. This needs to be done because the ID of an element changes
-    // when it's copied.
-    NSEnumerator* connectorEnum = [myCopy connectorEnumerator];
-    MI_ElementConnector* connector;
-    MI_SchematicInfo i;
-    while (connector = [connectorEnum nextObject])
-    {
-        i = [myCopy infoForLocation:*[connector route]];
-        [connector setStartElementID:[i.element identifier]];
-        i = [myCopy infoForLocation:*([connector route] + [connector numberOfRoutePoints] - 1)];
-        [connector setEndElementID:[i.element identifier]];
-    }
-    
-    [myCopy setShowsQuickInfo:NO];
-    [myCopy markAsModified:NO];
-    return myCopy;
+  MI_Schematic* myCopy = [super copyWithZone:zone];
+  myCopy->elements = [[NSMutableArray alloc] initWithArray:elements copyItems:YES];
+  myCopy->connectors = [[NSMutableArray alloc] initWithArray:connectors copyItems:YES];
+  // Iterate over connectors and make sure they get connected to the right
+  // element. This needs to be done because the ID of an element changes
+  // when it's copied.
+  NSEnumerator* connectorEnum = [myCopy connectorEnumerator];
+  MI_ElementConnector* connector;
+  MI_SchematicInfo* i;
+  while (connector = [connectorEnum nextObject])
+  {
+    i = [myCopy infoForLocation:*[connector route]];
+    [connector setStartElementID:[i.element identifier]];
+    i = [myCopy infoForLocation:*([connector route] + [connector numberOfRoutePoints] - 1)];
+    [connector setEndElementID:[i.element identifier]];
+  }
+
+  [myCopy setShowsQuickInfo:NO];
+  [myCopy markAsModified:NO];
+  return myCopy;
 }
 
-/************************************************************/
-
-
-- (void) dealloc
-{
-    [connectors release];
-    [elements release];
-    [selectedElements release];
-    [super dealloc];
-}
 
 @end

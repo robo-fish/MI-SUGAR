@@ -36,15 +36,15 @@ BOOL drawToBufferedImage = NO;
 
 @implementation MI_SchematicsCanvas
 
-- (id) initWithFrame:(NSRect)rect
+- (instancetype) initWithFrame:(NSRect)rect
 {
     if (self = [super initWithFrame:rect])
     {
         WorkArea = NSMakeRect(-1000, -1000, 2000, 2000);
-        backgroundColor = [[NSColor whiteColor] retain];
-        passiveColor = [[NSColor blackColor] retain];
-        highlightColor = [[NSColor redColor] retain];
-        gridColor = [[NSColor grayColor] retain];
+        backgroundColor = [NSColor whiteColor];
+        passiveColor = [NSColor blackColor];
+        highlightColor = [NSColor redColor];
+        gridColor = [NSColor grayColor];
         frameColor = passiveColor;
         scale = 1.0f;
         printScale = 1.0f;
@@ -53,11 +53,8 @@ BOOL drawToBufferedImage = NO;
         selectionBoxIsActive = NO;
         controller = nil;
         alignmentPoints = [[NSMutableArray alloc] initWithCapacity:3];
-        placementGuideColor = [[NSColor colorWithDeviceRed:0.4f
-                                                     green:1.0f
-                                                      blue:0.4f
-                                                     alpha:1.0f] retain];
-        selectionBoxColor = [[NSColor orangeColor] retain];
+        placementGuideColor = [NSColor colorWithDeviceRed:0.4f green:1.0f blue:0.4f alpha:1.0f];
+        selectionBoxColor = [NSColor orangeColor];
         highlightPoint = NO;
         highlightedPoint = NSMakeRect(0,0,0,0);
         visitedPanningStrip = MI_DIRECTION_NONE;
@@ -65,6 +62,11 @@ BOOL drawToBufferedImage = NO;
         viewportOffset = NSMakePoint(0, 0);
     }
     return self;
+}
+
+- (void) dealloc
+{
+  [self unregisterDraggedTypes];
 }
 
 
@@ -284,8 +286,6 @@ the original clipping rectangle.
 
 - (void) setBackgroundColor:(NSColor*)newBackground
 {
-    [newBackground retain];
-    [backgroundColor release];
     backgroundColor = newBackground;
     [self setNeedsDisplay:YES];
 }
@@ -293,7 +293,7 @@ the original clipping rectangle.
 
 - (NSColor*) backgroundColor
 {
-    return [[backgroundColor copy] autorelease];
+    return [backgroundColor copy];
 }
 
 
@@ -861,19 +861,5 @@ the original clipping rectangle.
     return @"MI-SUGAR schematic";
 }
 
-/****************************************************/
-
-- (void) dealloc
-{
-    [alignmentPoints release];
-    [placementGuideColor release];
-    [selectionBoxColor release];
-    [passiveColor release];
-    [highlightColor release];
-    [backgroundColor release];
-    [gridColor release];
-    [self unregisterDraggedTypes];
-    [super dealloc];
-}
 
 @end

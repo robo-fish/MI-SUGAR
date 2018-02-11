@@ -34,30 +34,17 @@ typedef enum MI_VariantChoice_
 // Empty slots are greyed out, used ones are bluish grey, current selection
 // is dark red.
 @interface MI_VariantSelectionView : NSView
-{
-    MI_VariantChoice selectedVariant;
-    
-    int flashingCounter; // needed for flashing animation - counts the animation steps
-    MI_VariantChoice flashedVariant; // the variant which is flashed
-    NSColor* flashColor; // the color used for flashing
-    
-    SEL action; // must have a single argument, the selected variant as an NSNumber object, i.e., targetMethod:(NSNumber*)variant
-    NSObject* target; // the object whose target method will be called
-}
-// Makes the given variant show up as selected.
+
 // There can only be one selected variant.
 // Only an occupied variant can be selected.
-- (void) setSelectedVariant:(MI_VariantChoice)variant;
-
-// Returns the selected variant
-- (MI_VariantChoice) selectedVariant;
+@property (nonatomic) MI_VariantChoice selectedVariant;
 
 // Initatiates a flashing animation of an unselected variant.
 - (void) flashVariant:(MI_VariantChoice)variant;
 // This method is called by the timer which drives the flashing animation.
 - (void) handleFlashingTimer:(NSTimer*)timer;
 
-- (void) setTarget:(NSObject*)newTarget;
-- (void) setAction:(SEL)newAction;
+@property NSObject* target;
+@property SEL action; // must have a single argument, the selected variant as an NSNumber object, i.e., targetMethod:(NSNumber*)variant
 
 @end

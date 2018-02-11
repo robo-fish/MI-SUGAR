@@ -46,12 +46,6 @@
   return self;
 }
 
-- (void) dealloc
-{
-  [schematicElementList release];
-  [myContextMenu release];
-  [super dealloc];
-}
 
 /* NSView method, overwritten */
 - (void) drawRect:(NSRect)rect
@@ -95,9 +89,6 @@
     MI_SchematicElement* tmpElement;
     BOOL showsImageInMenu = ([elements count] <= 8);
 
-    [elements retain];
-    [schematicElementList release];
-    [myContextMenu release];
     myContextMenu = [[NSMenu alloc] initWithTitle:@""];
     schematicElementList = elements;
     [self setActiveElement:(MI_SchematicElement*)[schematicElementList objectAtIndex:0]];
@@ -121,10 +112,8 @@
   }
   else
   {
-    [schematicElementList release];
     schematicElementList = nil;
     activeElement = nil;
-    [myContextMenu release];
     myContextMenu = nil;
   }
 }
@@ -135,10 +124,8 @@
   [self setActiveElement:element];
   if (element == nil)
       return;
-  [myContextMenu release];
   myContextMenu = nil;
-  [schematicElementList release];
-  schematicElementList = [[NSArray arrayWithObject:element] retain];
+  schematicElementList = @[element];
   [element setShowsLabel:NO]; // no annoying labels please
 }
 

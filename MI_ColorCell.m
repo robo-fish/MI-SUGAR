@@ -28,7 +28,7 @@ published in the cocoa-dev mailing list at Apple's
 web site.
 */
 
-- (id) init
+- (instancetype) init
 {
     if (self = [super init])
     {
@@ -88,8 +88,6 @@ web site.
 
 - (void) setColor:(NSColor*)newColor
 {
-    [newColor retain];
-    [myColor release];
     myColor = newColor;
 }
 
@@ -97,13 +95,6 @@ web site.
 - (NSColor*) color
 {
     return myColor;
-}
-
-
-- (void) dealloc
-{
-    //[myColor release];
-    [super dealloc];
 }
 
 

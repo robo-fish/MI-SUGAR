@@ -23,11 +23,17 @@
 
 @implementation MI_TextView
 
-- (id) init
+- (instancetype) init
 {
     if (self = [super init])
-        dropHandler = nil;
+        self.dropHandler = nil;
     return self;
+}
+
+
+- (void) dealloc
+{
+  [self unregisterDraggedTypes];
 }
 
 
@@ -52,20 +58,6 @@
     if (lineNumberingView)
         [lineNumberingView setNeedsDisplay:YES];
     [super drawRect:rect];
-}
-
-
-- (void) setDropHandler:(NSObject <MI_DropHandler>*)handler
-{
-    [handler retain];
-    [dropHandler release];
-    dropHandler = handler;
-}
-
-
-- (NSObject <MI_DropHandler>*) dropHandler
-{
-    return dropHandler;
 }
 
 
@@ -116,7 +108,7 @@
 - (BOOL) performDragOperation:(id <NSDraggingInfo>)sender
 {
     //NSLog(@"perform drag op");
-    [dropHandler processDrop:sender];
+    [self.dropHandler processDrop:sender];
     return YES;
 }
 
@@ -132,14 +124,6 @@
     [[self window] makeFirstResponder:self];
     [super mouseDown:theEvent];
 }    
-
-
-- (void) dealloc
-{
-    [dropHandler release];
-    [self unregisterDraggedTypes];
-    [super dealloc];
-}
 
 
 @end

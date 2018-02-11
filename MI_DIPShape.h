@@ -45,13 +45,9 @@
  
 */
 @interface MI_DIPShape : MI_Shape <NSCoding, NSCopying>
-{
-    int numberOfPins;
-    NSString* name;
-}
-- (id) initWithNumberOfPins:(int)numPins;
 
-- (void) setName:(NSString*)newName;
+@property NSString* name;
 
-- (NSString*) name;
+- (instancetype) initWithNumberOfPins:(int)numPins;
+
 @end

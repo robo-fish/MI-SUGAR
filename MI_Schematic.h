@@ -22,16 +22,10 @@
 #import "MI_SchematicElement.h"
 #import "MI_ElementConnector.h"
 #import "MI_ConnectionPoint.h"
+#import "MI_SchematicInfo.h"
 
 extern int MI_alignsVertically;
 extern int MI_alignsHorizontally;
-
-typedef struct MI_SchematicInfo_
-{
-    MI_SchematicElement* element;
-    MI_ConnectionPoint* connectionPoint;
-    BOOL isConnected;
-} MI_SchematicInfo;
 
 // Used for storing data about the point that alignment occurs with
 typedef struct MI_Alignment_
@@ -133,7 +127,7 @@ element could be found at the given position. */
                                     ofUnselectedElements:(BOOL)unselectedOnly
                                                tolerance:(float)tol;
 
-- (MI_SchematicInfo) infoForLocation:(NSPoint)location;
+- (MI_SchematicInfo*) infoForLocation:(NSPoint)location;
 
 /* Returns the connector whose route intersects the circle given by its
     center point 'p' and radius 'r' */
@@ -159,7 +153,6 @@ element could be found at the given position. */
 - (NSEnumerator*) selectedElementEnumerator;
 /***************************************/
 
-// Returns an autoreleased array with copies of all selected elements
 // An underscore character ('_') is appended to the label of each copied element.
 - (NSArray*) copyOfSelectedElements;
 

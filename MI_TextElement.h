@@ -23,19 +23,11 @@
 
 // This class implements text objects for use in the schematic
 @interface MI_TextElement : MI_SchematicElement <NSCoding, NSCopying>
-{
-@protected
-    NSFont* textFont;
-    NSColor* textColor;
-    BOOL drawsFrame;
-    BOOL locked;
-}
-- (void) setColor:(NSColor*) newColor;
-- (NSColor*) color; // Returns the current color of the text.
-- (void) setFont:(NSFont*) newFont;
-- (NSFont*) font; // Returns current font. Do not release the returned object!
-- (BOOL) drawsFrame;
-- (void) setDrawsFrame:(BOOL)drawFrame;
+
+@property (nonatomic) NSColor* color; // Returns the current color of the text.
+@property (nonatomic) NSFont* font; // Returns current font. Do not release the returned object!
+@property BOOL drawsFrame;
 - (void) lock; // makes the text properties immutable
 - (void) unlock; // makes the text properties mutable
+
 @end

@@ -25,73 +25,68 @@ static const float mi_drawing_unit_fraction = 0.05f;
 
 
 @implementation MI_VariantSelectionView
+{
+@private
+  MI_VariantChoice _selectedVariant;
+  int flashingCounter; // needed for flashing animation - counts the animation steps
+  MI_VariantChoice flashedVariant; // the variant which is flashed
+  NSColor* flashColor; // the color used for flashing
+}
 
 
 - (id)initWithFrame:(NSRect)frame
 {
-    if (self = [super initWithFrame:frame])
-    {
-        selectedVariant = MI_SCHEMATIC_VARIANT_NONE;
-        flashedVariant = MI_SCHEMATIC_VARIANT_NONE;
-        flashColor = [NSColor redColor];
-    }
-    return self;
+  if (self = [super initWithFrame:frame])
+  {
+    _selectedVariant = MI_SCHEMATIC_VARIANT_NONE;
+    flashedVariant = MI_SCHEMATIC_VARIANT_NONE;
+    flashColor = [NSColor redColor];
+  }
+  return self;
 }
 
 
 - (void) setSelectedVariant:(MI_VariantChoice)variant
 {
-    selectedVariant = variant;
-    [self setNeedsDisplay:YES];
+  _selectedVariant = variant;
+  [self setNeedsDisplay:YES];
 }
 
 
 - (MI_VariantChoice) selectedVariant
 {
-    return selectedVariant;
+  return _selectedVariant;
 }
 
 
 - (void) flashVariant:(MI_VariantChoice)variant
 {
-    if (variant != selectedVariant)
-    {
-        flashingCounter = 0;
-        flashedVariant = variant;
-        [NSTimer scheduledTimerWithTimeInterval:0.05
-                                         target:self
-                                       selector:@selector(handleFlashingTimer:)
-                                       userInfo:nil
-                                        repeats:YES];
-    }
+  if (variant != _selectedVariant)
+  {
+    flashingCounter = 0;
+    flashedVariant = variant;
+    [NSTimer scheduledTimerWithTimeInterval:0.05 target:self selector:@selector(handleFlashingTimer:) userInfo:nil repeats:YES];
+  }
 }
 
 
 - (void) handleFlashingTimer:(NSTimer*)timer
 {
-    if (flashingCounter >= 0 && flashingCounter < 2)
-    {
-        [flashColor release];
-        flashColor = [[NSColor colorWithDeviceRed:0.0f
-                                            green:0.0f
-                                             blue:0.9f
-                                            alpha:1.0f] retain];
-    }
-    else if (flashingCounter >= 2 && flashingCounter < 7)
-    {
-        [flashColor release];
-        flashColor = [[NSColor colorWithDeviceRed:0.15f * (flashingCounter - 1)
-                                            green:0.15f * (flashingCounter - 1)
-                                             blue:0.9f
-                                            alpha:1.0f] retain];
-    }
-    else if (flashingCounter >= 7)
-    {
-        [timer invalidate];
-        flashedVariant = MI_SCHEMATIC_VARIANT_NONE;
-    }
-    flashingCounter++;
-    [self setNeedsDisplay:YES];
+  if (flashingCounter >= 0 && flashingCounter < 2)
+  {
+    flashColor = [NSColor colorWithDeviceRed:0.0f green:0.0f blue:0.9f alpha:1.0f];
+  }
+  else if (flashingCounter >= 2 && flashingCounter < 7)
+  {
+    flashColor = [NSColor colorWithDeviceRed:0.15f * (flashingCounter - 1) green:0.15f * (flashingCounter - 1) blue:0.9f alpha:1.0f];
+  }
+  else if (flashingCounter >= 7)
+  {
+    [timer invalidate];
+    flashedVariant = MI_SCHEMATIC_VARIANT_NONE;
+  }
+  flashingCounter++;
+  [self setNeedsDisplay:YES];
 }
 
 
@@ -139,27 +134,11 @@ static const float mi_drawing_unit_fraction = 0.05f;
 }
 
 
-- (void) setAction:(SEL)newAction
-{
-    action = newAction;
-}
-
-
-- (void) setTarget:(NSObject*)newTarget
-{
-    target = newTarget;
-}
-
-
 - (void) mouseDown:(NSEvent*)theEvent
 {
-    NSPoint currentPoint = [self convertPoint:[theEvent locationInWindow]
-                                     fromView:nil];
-    int theVariant = (int) floor(currentPoint.x/(5 * [self frame].size.width * mi_drawing_unit_fraction));
-    
-    [target performSelector:action
-                 withObject:[NSNumber numberWithInt:theVariant]
-                 afterDelay:0.0];
+  NSPoint currentPoint = [self convertPoint:[theEvent locationInWindow] fromView:nil];
+  int const theVariant = (int) floor(currentPoint.x/(5 * [self frame].size.width * mi_drawing_unit_fraction));
+  [self.target performSelector:self.action withObject:[NSNumber numberWithInt:theVariant] afterDelay:0.0];
 }
 
 @end

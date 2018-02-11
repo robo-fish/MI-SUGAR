@@ -23,7 +23,7 @@
 
 @implementation MI_AlignmentPoint
 
-- (id) initWithPosition:(NSPoint)pos
+- (instancetype) initWithPosition:(NSPoint)pos
        alignsVertically:(BOOL)valign
      alignsHorizontally:(BOOL)halign
 {

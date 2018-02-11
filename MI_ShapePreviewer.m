@@ -26,74 +26,52 @@
 
 - (id)initWithFrame:(NSRect)frame
 {
-    self = [super initWithFrame:frame];
-    if (self)
-    {
-        shape = nil;
-    }
-    return self;
+  self = [super initWithFrame:frame];
+  if (self)
+  {
+    _shape = nil;
+  }
+  return self;
 }
 
 - (void)drawRect:(NSRect)rect
 {
-    // Draw background
-    [[NSColor whiteColor] set];
-    [NSBezierPath fillRect:rect];
-    
-    // Draw shape
-    [[NSColor blackColor] set];
-    if (shape != nil)
-    {
-        NSAffineTransform* positionTransform = [NSAffineTransform transform];
-        NSGraphicsContext* currentContext = [NSGraphicsContext currentContext];
-        [positionTransform translateXBy:rect.size.width/2.0f
-                                    yBy:rect.size.height/2.0f];
-        [currentContext saveGraphicsState];
-        [positionTransform concat];
-        [shape drawAtPoint:NSMakePoint(0,0)];
-        [currentContext restoreGraphicsState];
-    }
-    
-    // Draw frame
-    // Draw border - in Mac OS X the desktop light shines from the top
-    NSBezierPath* bp = [NSBezierPath bezierPath];
-    [bp moveToPoint:NSMakePoint(0, rect.size.height)];
-    [bp relativeLineToPoint:NSMakePoint(rect.size.width, 0)];
-    [bp stroke];
-    [[NSColor grayColor] set];
-    bp = [NSBezierPath bezierPath];
-    [bp moveToPoint:NSMakePoint(rect.size.width, rect.size.height)];
-    [bp lineToPoint:NSMakePoint(rect.size.width, 0)];
-    [bp lineToPoint:NSMakePoint(0, 0)];
-    [bp lineToPoint:NSMakePoint(0, rect.size.height)];
-    [bp stroke];
+  // Drawing background
+  [[NSColor whiteColor] set];
+  [NSBezierPath fillRect:rect];
+
+  // Drawing shape
+  [[NSColor blackColor] set];
+  if (_shape != nil)
+  {
+    NSAffineTransform* positionTransform = [NSAffineTransform transform];
+    NSGraphicsContext* currentContext = [NSGraphicsContext currentContext];
+    [positionTransform translateXBy:rect.size.width/2.0f
+                                yBy:rect.size.height/2.0f];
+    [currentContext saveGraphicsState];
+    [positionTransform concat];
+    [_shape drawAtPoint:NSMakePoint(0,0)];
+    [currentContext restoreGraphicsState];
+  }
+
+  // Drawing frame
+  // According to macOS convention the shadow is straight at the bottom.
+  NSBezierPath* bp = [NSBezierPath bezierPath];
+  [bp moveToPoint:NSMakePoint(0, rect.size.height)];
+  [bp relativeLineToPoint:NSMakePoint(rect.size.width, 0)];
+  [bp stroke];
+  [[NSColor grayColor] set];
+  bp = [NSBezierPath bezierPath];
+  [bp moveToPoint:NSMakePoint(rect.size.width, rect.size.height)];
+  [bp lineToPoint:NSMakePoint(rect.size.width, 0)];
+  [bp lineToPoint:NSMakePoint(0, 0)];
+  [bp lineToPoint:NSMakePoint(0, rect.size.height)];
+  [bp stroke];
 }
-
-
-- (void) setShape:(MI_Shape*)theShape
-{
-    [theShape retain];
-    [shape release];
-    shape = theShape;
-}
-
-
-- (MI_Shape*) shape
-{
-    return shape;
-}
-
 
 - (BOOL) isOpaque
 {
-    return YES;
-}
-
-
-- (void) dealloc
-{
-    [shape release];
-    [super dealloc];
+  return YES;
 }
 
 @end

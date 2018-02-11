@@ -29,8 +29,7 @@
 {
     NSObject <MI_DropHandler>* dropHandler;
 }
-- (NSObject <MI_DropHandler>*) dropHandler;
-- (void) setDropHandler:(NSObject <MI_DropHandler>*)handler;
+@property NSObject<MI_DropHandler>* dropHandler;
 - (NSDragOperation) draggingEntered:(id <NSDraggingInfo>)sender;
 - (BOOL) prepareForDragOperation:(id <NSDraggingInfo>)sender;
 - (BOOL) performDragOperation:(id <NSDraggingInfo>)sender;

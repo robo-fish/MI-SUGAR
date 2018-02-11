@@ -40,8 +40,30 @@ NSRect boundingBoxForElementDragging;
 
 
 @implementation MI_SelectConnectTool
+{
+  // Information needed to construct the current dragged connector
+  MI_ConnectionPoint* draggedConnectorDragStartConnectionPoint;
+  MI_SchematicElement* draggedConnectorDragStartElement;
 
-- (id) init
+  // Set to YES when the user presses the button while the mouse is over
+  // a connection point. Set to NO when the mouse button is released or the
+  // timer expires.
+  BOOL connectorIsDragged;
+
+  // This is used to indicate that the user wants to pan the view
+  BOOL panning;
+  BOOL panningRequested;
+
+  // The element that was last dragged. Reference pointer. Do not release object!
+  MI_SchematicElement* draggedElement;
+
+  BOOL selectionIsDragged; // used to indicate whether selected elements are dragged or a connector
+  BOOL copyDragSelectedElements;
+  NSPoint dragStartPosition;
+  NSPoint elementPositionRelativeToMouseAtDragStart; // in schematic space
+}
+
+- (instancetype) init
 {
     if (self = [super init])
     {
@@ -52,7 +74,7 @@ NSRect boundingBoxForElementDragging;
 
 - (void) reset
 {
-    draggedConnector = nil;
+    self.draggedConnector = nil;
     draggedConnectorDragStartElement = nil;
     draggedConnectorDragStartConnectionPoint = nil;
     connectorIsDragged = NO;
@@ -66,7 +88,7 @@ NSRect boundingBoxForElementDragging;
 
 - (void) timeUp:(NSTimer*)timer
 {
-    if (connectorIsDragged && (draggedConnector == nil))
+    if (connectorIsDragged && (self.draggedConnector == nil))
     {
         // The user wants to drag a node element
         NSDictionary* info = (NSDictionary*)[timer userInfo];
@@ -113,7 +135,7 @@ NSRect boundingBoxForElementDragging;
     
     clickPosition = [canvas canvasPointToSchematicPoint:clickPosition];
 
-    MI_SchematicInfo info = [schematic infoForLocation:clickPosition];
+    MI_SchematicInfo* info = [schematic infoForLocation:clickPosition];
     
     MI_SchematicElement* dragCandidateElement = info.element;
  
@@ -206,7 +228,7 @@ NSRect boundingBoxForElementDragging;
            event:(NSEvent*)theEvent
           canvas:(MI_SchematicsCanvas*) canvas
 {
-    if (draggedConnector)
+    if (self.draggedConnector)
     {
         NSPoint dropLocation =
         [canvas convertPoint:[theEvent locationInWindow]
@@ -214,27 +236,27 @@ NSRect boundingBoxForElementDragging;
         
         dropLocation = [canvas canvasPointToSchematicPoint:dropLocation];
         
-        MI_SchematicInfo info = [schematic infoForLocation:dropLocation];
+        MI_SchematicInfo* info = [schematic infoForLocation:dropLocation];
         
         if (info.element && info.connectionPoint && !info.isConnected)
         {
-            if (![[draggedConnector startElementID] length])
+            if (![[self.draggedConnector startElementID] length])
             {
-                [draggedConnector setStartElementID:[info.element identifier]];
-                [draggedConnector setStartPointName:[info.connectionPoint name]];
+                [self.draggedConnector setStartElementID:[info.element identifier]];
+                [self.draggedConnector setStartPointName:[info.connectionPoint name]];
             }
             else
             {
-                [draggedConnector setEndElementID:[info.element identifier]];
-                [draggedConnector setEndPointName:[info.connectionPoint name]];
+                [self.draggedConnector setEndElementID:[info.element identifier]];
+                [self.draggedConnector setEndPointName:[info.connectionPoint name]];
             }
-            [draggedConnector setHighlighted:NO];
-            [draggedConnector setNeedsRouting:YES]; // to make the connection line 'snap' to the connection point
+            [self.draggedConnector setHighlighted:NO];
+            [self.draggedConnector setNeedsRouting:YES]; // to make the connection line 'snap' to the connection point
         }
         else
         {
             // this is not an undo point because if we don't want to restore an unconnected connector
-            [schematic removeConnector:draggedConnector]; // discard the dragged connector
+            [schematic removeConnector:self.draggedConnector]; // discard the dragged connector
         }
     }
     else
@@ -283,15 +305,13 @@ NSRect boundingBoxForElementDragging;
         [schematicImage drawAtPoint:NSMakePoint(0,0) fromRect:imageBox operation:NSCompositingOperationCopy fraction:0.8f];
         [dragImage unlockFocus];
         // Drag the image
-        [canvas dragImage:[dragImage autorelease]
+        [canvas dragImage:dragImage
                        at:NSMakePoint(0,0)
                    offset:NSMakeSize(0,0)
                     event:theEvent
                pasteboard:dragPboard
                    source:canvas
                 slideBack:YES];
-        
-        [schematicImage autorelease];
     }
     else
     {
@@ -302,7 +322,7 @@ NSRect boundingBoxForElementDragging;
         if (connectorIsDragged)
         {
             // THE USER IS DRAGGING THE END OF A CONNECTOR
-            if (draggedConnector == nil)
+            if (self.draggedConnector == nil)
             {
                 // The dragged connector does not exist yet. It has to be assigned.
                 MI_ElementConnector* connectedConnector =
@@ -334,20 +354,20 @@ NSRect boundingBoxForElementDragging;
                     [connectedConnector setStartElementID:[draggedConnectorDragStartElement identifier]];
                     [connectedConnector setStartPointName:[draggedConnectorDragStartConnectionPoint name]];
                     [schematic addConnector:connectedConnector];
-                    [self setDraggedConnector:[connectedConnector autorelease]];
+                    [self setDraggedConnector:connectedConnector];
                 }
             }
             //NSLog(@"updating route");
             // Update route of the connector
-            if ([[draggedConnector startPointName] length])
+            if ([[self.draggedConnector startPointName] length])
             {
                 // get location of start point
                 MI_SchematicElement* startElement =
-                [schematic elementForIdentifier:[draggedConnector startElementID]];
+                [schematic elementForIdentifier:[self.draggedConnector startElementID]];
                 if (startElement)
                 {
                     MI_ConnectionPoint* startPoint =
-                    [[startElement connectionPoints] objectForKey:[draggedConnector startPointName]];
+                    [[startElement connectionPoints] objectForKey:[self.draggedConnector startPointName]];
                     NSPoint startLocation =
                         NSMakePoint([startElement position].x + [startPoint relativePosition].x,
                                     [startElement position].y + [startPoint relativePosition].y);
@@ -355,9 +375,9 @@ NSRect boundingBoxForElementDragging;
                     NSPoint* route = [schematic makeRouteFrom:startLocation
                                                            to:dragPosition
                                                numberOfPoints:&numPoints
-                                                previousRoute:[draggedConnector route]
-                                       previousNumberOfPoints:[draggedConnector numberOfRoutePoints]];
-                    [draggedConnector setRoute:route
+                                                previousRoute:[self.draggedConnector route]
+                                       previousNumberOfPoints:[self.draggedConnector numberOfRoutePoints]];
+                    [self.draggedConnector setRoute:route
                                 numberOfPoints:numPoints];
                 }
             }
@@ -365,11 +385,11 @@ NSRect boundingBoxForElementDragging;
             {
                 // get location of end point
                 MI_SchematicElement* endElement =
-                [schematic elementForIdentifier:[draggedConnector endElementID]];
+                [schematic elementForIdentifier:[self.draggedConnector endElementID]];
                 if (endElement)
                 {
                     MI_ConnectionPoint* endPoint =
-                    [[endElement connectionPoints] objectForKey:[draggedConnector endPointName]];
+                    [[endElement connectionPoints] objectForKey:[self.draggedConnector endPointName]];
                     NSPoint endLocation =
                         NSMakePoint([endElement position].x + [endPoint relativePosition].x,
                                     [endElement position].y + [endPoint relativePosition].y);
@@ -377,18 +397,18 @@ NSRect boundingBoxForElementDragging;
                     NSPoint* route = [schematic makeRouteFrom:endLocation
                                                            to:dragPosition
                                                numberOfPoints:&numPoints
-                                                previousRoute:[draggedConnector route]
-                                       previousNumberOfPoints:[draggedConnector numberOfRoutePoints]];
-                    [draggedConnector setRoute:route
+                                                previousRoute:[self.draggedConnector route]
+                                       previousNumberOfPoints:[self.draggedConnector numberOfRoutePoints]];
+                    [self.draggedConnector setRoute:route
                                 numberOfPoints:numPoints];
                 }
             }
             
             // Provide feedback about connectability to the current location
-            MI_SchematicInfo info = [schematic infoForLocation:dragPosition];
+            MI_SchematicInfo* info = [schematic infoForLocation:dragPosition];
             if (info.element && info.connectionPoint && !info.isConnected)
             {
-                [draggedConnector setHighlighted:YES];
+                [self.draggedConnector setHighlighted:YES];
                 NSPoint p = [info.element position];
                 p.x += [info.connectionPoint relativePosition].x;
                 p.y += [info.connectionPoint relativePosition].y;
@@ -398,7 +418,7 @@ NSRect boundingBoxForElementDragging;
             else
             {
                 [canvas clearPointHighlight];
-                [draggedConnector setHighlighted:NO];
+                [self.draggedConnector setHighlighted:NO];
             }
             
             [canvas setNeedsDisplay:YES];
@@ -535,7 +555,7 @@ NSRect boundingBoxForElementDragging;
         [canvas convertPoint:[theEvent locationInWindow]
                     fromView:nil]];
     // Highlight connection points
-    MI_SchematicInfo info = [schematic infoForLocation:mouse];
+    MI_SchematicInfo* info = [schematic infoForLocation:mouse];
 
     if (info.element && info.connectionPoint)
     {
@@ -702,9 +722,9 @@ NSRect boundingBoxForElementDragging;
                 !(constrainedMove && (allowedDirection == MI_DIRECTION_UP)) )
             {
                 [canvas addAlignmentPoint:
-                    [[[MI_AlignmentPoint alloc] initWithPosition:[canvas schematicPointToCanvasPoint:alignment.verticalAlignmentPoint]
+                    [[MI_AlignmentPoint alloc] initWithPosition:[canvas schematicPointToCanvasPoint:alignment.verticalAlignmentPoint]
                                                 alignsVertically:YES
-                                              alignsHorizontally:NO] autorelease]];
+                                              alignsHorizontally:NO]];
                 if (selectionIsDragged)
                 {
                     if ( !hasSnappedVertically )
@@ -722,9 +742,9 @@ NSRect boundingBoxForElementDragging;
                  !(constrainedMove && (allowedDirection == MI_DIRECTION_RIGHT)) )
             {
                 [canvas addAlignmentPoint:
-                    [[[MI_AlignmentPoint alloc] initWithPosition:[canvas schematicPointToCanvasPoint:alignment.horizontalAlignmentPoint]
+                    [[MI_AlignmentPoint alloc] initWithPosition:[canvas schematicPointToCanvasPoint:alignment.horizontalAlignmentPoint]
                                                 alignsVertically:NO
-                                              alignsHorizontally:YES] autorelease]];
+                                              alignsHorizontally:YES]];
                 if (selectionIsDragged)
                 {
                     if (!hasSnappedHorizontally)
@@ -819,7 +839,7 @@ NSRect boundingBoxForElementDragging;
                         endElement = currentElement;
                     if (endElement != nil && startElement != nil)
                     {
-                        [copiedConnectors addObject:[[currentConnector copy] autorelease]];
+                        [copiedConnectors addObject:[currentConnector copy]];
                         // Copy this connector to the pasteboard
                         break;
                     }
@@ -854,20 +874,19 @@ NSRect boundingBoxForElementDragging;
                 NSEnumerator* pastedEnum = [pastedElements objectEnumerator];
                 MI_CircuitElement* element;
                 while (element = [pastedEnum nextObject])
-                    [schematic addElement:element];
-                [pastedElements release];
+                {
+                  [schematic addElement:element];
+                }
                 pastedEnum = [pastedConnectors objectEnumerator];
                 MI_ElementConnector* connector;
-                MI_SchematicInfo i;
                 while (connector = [pastedEnum nextObject])
                 {
-                    i = [schematic infoForLocation:*[connector route]];
+                    MI_SchematicInfo* i = [schematic infoForLocation:*[connector route]];
                     [connector setStartElementID:[i.element identifier]];
                     i = [schematic infoForLocation:*([connector route] + [connector numberOfRoutePoints] - 1)];
                     [connector setEndElementID:[i.element identifier]];
                     [schematic addConnector:connector];
                 }
-                [pastedConnectors release];
                 [canvas setNeedsDisplay:YES];
                 return YES;
             }
@@ -888,27 +907,6 @@ NSRect boundingBoxForElementDragging;
         }
     }
     return NO;
-}
-
-
-- (void) setDraggedConnector:(MI_ElementConnector*)theConnector
-{
-    [theConnector retain];
-    [draggedConnector release];
-    draggedConnector = theConnector;
-}
-
-
-- (MI_ElementConnector*) draggedConnector
-{
-    return draggedConnector;
-}
-
-
-- (void) dealloc
-{
-    [draggedConnector release];
-    [super dealloc];
 }
 
 @end

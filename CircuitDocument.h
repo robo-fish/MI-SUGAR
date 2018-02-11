@@ -88,9 +88,7 @@
 
 - (void) makeSubcircuit; // prompts the user for information to convert the circuit to a subcircuit
 
-- (CircuitDocumentModel*) model;
-
-- (void) setModel:(CircuitDocumentModel*)newModel;
+@property (nonatomic) CircuitDocumentModel* model;
 
 /* Checks the model and sets the contents of the text views */
 - (void) updateViews;

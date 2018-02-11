@@ -24,16 +24,10 @@
 
 @implementation MI_ScaleTool
 
-- (id) init
+- (instancetype) init
 {
-    self = [super init];
-    return self;
-}
-
-
-- (void) dealloc
-{
-    [super dealloc];
+  self = [super init];
+  return self;
 }
 
 @end

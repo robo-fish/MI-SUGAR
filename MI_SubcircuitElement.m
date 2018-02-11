@@ -22,28 +22,25 @@
 #import "MI_SubcircuitElement.h"
 #import "SugarManager.h"
 
+@interface MI_SubcircuitElement ()
+@property (readwrite) NSUInteger numberOfPins;
+@end
 
 @implementation MI_SubcircuitElement
 
-- (id) initWithDefinition:(MI_SubcircuitDocumentModel*)model
+- (instancetype) initWithDefinition:(MI_SubcircuitDocumentModel*)model
 {
-    if (self = [super init])
-    {
-        numberOfPins = [model numberOfPins];
-        originalSize = size = [[model shape] size];
-        [self setName:[model circuitName]];
-        [self setElementNamespace:[model circuitNamespace]];
-        [self setLabel:@"X"];
-        [self setLabelPosition:MI_DIRECTION_RIGHT];
-        [self setConnectionPoints:[[model shape] connectionPoints]];
-    }
-    return self;
-}
-
-
-- (int) numberOfPins
-{
-    return numberOfPins;
+  if (self = [super init])
+  {
+    self.numberOfPins = [model numberOfPins];
+    originalSize = size = [[model shape] size];
+    [self setName:[model circuitName]];
+    [self setElementNamespace:[model circuitNamespace]];
+    [self setLabel:@"X"];
+    [self setLabelPosition:MI_DIRECTION_RIGHT];
+    [self setConnectionPoints:[[model shape] connectionPoints]];
+  }
+  return self;
 }
 
 
@@ -57,7 +54,7 @@
 - (void) draw
 {
     [super draw];
-    [[[self definition] shape] drawAtPoint:position];
+    [[[self definition] shape] drawAtPoint:self.position];
     [super endDraw];
 }
 
@@ -74,50 +71,41 @@
 - (NSString*) shapeToSVG
 {
     return [NSString stringWithFormat:@"%@<g transform=\"translate(%g,%g)\">\n%@\n</g>%@", 
-        [super shapeToSVG], position.x, position.y, [[[self definition] shape] shapeToSVG], [super endSVG]];
+        [super shapeToSVG], self.position.x, self.position.y, [[[self definition] shape] shapeToSVG], [super endSVG]];
 }
 
 /******************** NSCoding methods *******************/
 
 - (id)initWithCoder:(NSCoder *)decoder
 {
-    if (self = [super initWithCoder:decoder])
-    {
-        numberOfPins = [decoder decodeIntForKey:@"NumberOfPins"];
-    }
-    return self;
+  if (self = [super initWithCoder:decoder])
+  {
+    self.numberOfPins = [decoder decodeIntegerForKey:@"NumberOfPins"];
+  }
+  return self;
 }
 
 - (void)encodeWithCoder:(NSCoder *)encoder
 {
-    [super encodeWithCoder:encoder];
-    [encoder encodeInt:numberOfPins
-                forKey:@"NumberOfPins"];
+  [super encodeWithCoder:encoder];
+  [encoder encodeInteger:self.numberOfPins forKey:@"NumberOfPins"];
 }
 
 /******************* NSCopying protocol implementation ******************/
 
 - (id) copyWithZone:(NSZone*) zone
 {
-    MI_SubcircuitElement* myCopy = [super copyWithZone:zone];
-    myCopy->numberOfPins = numberOfPins;
-    [myCopy setConnectionPoints:connectionPoints];
-    /* Note: The original connection point objects of the master copy
-        (in the elements panel) are shared among all copies. */
-    return myCopy;
+  MI_SubcircuitElement* myCopy = [super copyWithZone:zone];
+  myCopy.numberOfPins = self.numberOfPins;
+  myCopy.connectionPoints = self.connectionPoints;
+  /* Note: The original connection point objects of the master copy
+      (in the elements panel) are shared among all copies. */
+  return myCopy;
 }
 
 - (id) mutableCopyWithZone:(NSZone*) zone
 {
-    return [self copyWithZone:zone];
+  return [self copyWithZone:zone];
 }
-
-/************************************************************************/
-
-- (void) dealloc
-{
-    [super dealloc];
-}
-
 
 @end

@@ -53,9 +53,9 @@ extern NSString* MISUGAR_SUBCIRCUIT_LIBRARY_FOLDER;
     NSTextField* namespaceField;
 }
 // The view element shows the graphical representation of the selected subcircuit
-- (id) initWithChooserView:(MI_SchematicElementChooser*)chooser
-                 tableView:(NSOutlineView*)table
-             namespaceView:(NSTextField*)nsField;
+- (instancetype) initWithChooserView:(MI_SchematicElementChooser*)chooser
+                           tableView:(NSOutlineView*)table
+                       namespaceView:(NSTextField*)nsField;
 
 // Saves the model in a file in the subcircuit library directory.
 // Optionally opens the newly created subcircuit document.

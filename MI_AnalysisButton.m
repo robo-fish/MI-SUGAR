@@ -24,6 +24,15 @@
 
 
 @implementation MI_AnalysisButton
+{
+  IBOutlet NSObject* target;
+  SEL action; // called if the animation is not running
+  BOOL userStartsClick; // set to true on mouseDown and checked on mouseUp
+  unsigned animationCounter;
+  float rotation;
+  BOOL animationStopped;
+  BOOL enabled;
+}
 
 - (id)initWithFrame:(NSRect)frame
 {
@@ -98,20 +107,22 @@
 
 - (void) startAnimation
 {
-    if (!animationStopped)
-        return;
-    NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
+  if (!animationStopped) return;
+  @autoreleasepool
+  {
     // Start animation
     animationStopped = NO;
     while (!animationStopped)
     {
-        rotation += 4.0f;
-        if (rotation > 360.0f)
-            rotation -= 360.0f;
-        [self display];
-        [NSThread sleepUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.05]];
+      rotation += 4.0f;
+      if (rotation > 360.0f)
+      {
+        rotation -= 360.0f;
+      }
+      dispatch_async(dispatch_get_main_queue(), ^{ [self display]; });
+      [NSThread sleepUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.05]];
     }
-    [pool release];
+  }
 }
 
 
@@ -186,13 +197,6 @@
 - (BOOL) acceptsFirstMouse:(NSEvent*)theEvent
 {
     return YES; // for click-through behavior
-}
-
-/*******************************************************************/
-
-- (void) dealloc
-{
-    [super dealloc];
 }
 
 @end

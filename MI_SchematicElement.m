@@ -31,35 +31,35 @@ NSDictionary* labelFontAttributes = nil;
 
 @implementation MI_SchematicElement
 
-- (id) init
+- (instancetype) init
 {
-    if (self = [super init])
-    {
-        identifier = [[MI_SchematicElement newIdentifier] retain];
-        connectionPoints = nil;                                     // initialized by subclasses
-        name = [[NSMutableString alloc] initWithCapacity:15];
-        [name setString:@"schematic element"];
-        [self setElementNamespace:@"macinit.basic"];
-        rotation = 0.0f;
-        position = NSMakePoint(0.0f, 0.0f);
-        label = [[NSMutableString alloc] initWithCapacity:5];
-        [label setString:@""];
-        showsLabel = YES;
-        labelPosition = MI_DIRECTION_UP;
-        flippedHorizontally = NO;
-        size = NSMakeSize(0.0f, 0.0f);
-        revision = 0;                                               // the default value for all subclasses is 0
-        comment = [[NSMutableString alloc] initWithCapacity:25];
-    }
-    return self;
+  if (self = [super init])
+  {
+    identifier = [MI_SchematicElement newIdentifier];
+    self.connectionPoints = nil;                                     // initialized by subclasses
+    self.name = @"schematic element";
+    self.elementNamespace = @"misugar.basic";
+    rotation = 0.0f;
+    self.position = NSMakePoint(0.0f, 0.0f);
+    self.label = @"";
+    showsLabel = YES;
+    labelPosition = MI_DIRECTION_UP;
+    flippedHorizontally = NO;
+    size = NSMakeSize(0.0f, 0.0f);
+    revision = 0;                                               // the default value for all subclasses is 0
+    self.comment = @"";
+  }
+  return self;
 }
 
 
 - (NSString*) identifier
 {
-    if (identifier == nil)
-        identifier = [[MI_SchematicElement newIdentifier] retain];
-    return [NSString stringWithString:identifier];
+  if (identifier == nil)
+  {
+    identifier = [MI_SchematicElement newIdentifier];
+  }
+  return [identifier copy];
 }
 
 
@@ -71,92 +71,35 @@ NSDictionary* labelFontAttributes = nil;
 
 - (NSSize) size {return size; }
 
-- (NSPoint) position {return position; }
-
-- (void) setPosition:(NSPoint)newPosition
-{
-    position = newPosition;
-}
-
-- (NSString*) label
-{
-    if (label == nil)
-    {
-        label = [[NSMutableString alloc] initWithCapacity:1];
-        [label setString:@""];
-    }
-    return [NSString stringWithString:label];
-}
-
 
 - (void) setLabel:(NSString*)newLabel
 {
-    [label setString:
-        [newLabel stringByTrimmingCharactersInSet:
-            [NSCharacterSet whitespaceCharacterSet]]];
+  _label = [newLabel stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
 }
 
 
 - (NSImage*) image
 {
     // Create the image of the schematics Element
-    NSPoint tmpPosition = position;
+    NSPoint tmpPosition = self.position;
     NSSize s = [self size]; // this line provides compatibility with MI_TextElement
-    position = NSMakePoint(s.width / 2.0f + 1.0f, s.height / 2.0f + 1.0f);
+    self.position = NSMakePoint(s.width / 2.0f + 1.0f, s.height / 2.0f + 1.0f);
     NSImage* myImage = [[NSImage alloc] init];
     [myImage setSize:NSMakeSize(s.width + 2.0f, s.height + 2.0f)];
     [myImage lockFocus];
     [self draw];
     [myImage unlockFocus];
-    position = tmpPosition;
-    return [myImage autorelease];
-}
-
-- (NSString*) name
-{
-    if (name == nil)
-    {
-        name = [[NSMutableString alloc] initWithCapacity:15];
-        [name setString:@"schematic element"];
-    }
-    return [NSString stringWithString:name];
-}
-
-- (void) setName:(NSString*)newName
-{
-    [name setString:newName];
-}
-
-- (NSString*) elementNamespace
-{
-    return [NSString stringWithString:theNamespace];
-}
-
-- (void) setElementNamespace:(NSString*)newNamespace
-{
-    [newNamespace retain];
-    [theNamespace release];
-    theNamespace = newNamespace;
+    self.position = tmpPosition;
+    return myImage;
 }
 
 
 - (NSString*) fullyQualifiedName
 {
-    if (theNamespace && [theNamespace length])
-        return [NSString stringWithFormat:@"%@.%@", theNamespace, name];
-    else
-        return [NSString stringWithString:name];
-}
-
-
-- (MI_Direction) labelPosition
-{
-    return labelPosition;
-}
-
-- (void) setLabelPosition:(MI_Direction)newLabelPosition
-{
-    labelPosition = newLabelPosition;
+  if (self.elementNamespace && [self.elementNamespace length])
+    return [NSString stringWithFormat:@"%@.%@", self.elementNamespace, self.name];
+  else
+    return [NSString stringWithString:self.name];
 }
 
 
@@ -183,7 +126,7 @@ NSDictionary* labelFontAttributes = nil;
 
     angle = angle * M_PI / 180.0f; // convert to radian
     // Update the relative position of all connection points
-    NSEnumerator* pointEnum = [connectionPoints objectEnumerator];
+    NSEnumerator* pointEnum = [self.connectionPoints objectEnumerator];
     MI_ConnectionPoint* currentPoint;
     while (currentPoint = [pointEnum nextObject])
         [currentPoint setRelativePosition:NSMakePoint(
@@ -205,7 +148,7 @@ NSDictionary* labelFontAttributes = nil;
     if (horizontally)
     {
         // Update connection point positions
-        NSEnumerator* pointEnum = [connectionPoints objectEnumerator];
+        NSEnumerator* pointEnum = [self.connectionPoints objectEnumerator];
         MI_ConnectionPoint* currentPoint;
         while (currentPoint = [pointEnum nextObject])
             [currentPoint setRelativePosition:
@@ -231,38 +174,38 @@ NSDictionary* labelFontAttributes = nil;
 - (NSRect) totalRect
 {
     NSSize s = [self size]; // compatible with MI_TextElement
-    if (labelPosition == MI_DIRECTION_NONE || [label length] == 0)
-        return NSMakeRect(position.x - s.width/2, position.y - s.height/2,
+    if (labelPosition == MI_DIRECTION_NONE || [self.label length] == 0)
+        return NSMakeRect(self.position.x - s.width/2, self.position.y - s.height/2,
                           s.width, s.height);
     else
     {
         NSDictionary* attribs = [MI_SchematicElement labelFontAttributes];
-        NSSize labelSize = [label sizeWithAttributes:attribs];
+        NSSize labelSize = [self.label sizeWithAttributes:attribs];
         if (labelPosition == MI_DIRECTION_UP)
         {
             float maxWidth = fmax(labelSize.width, s.width);
-            return NSMakeRect(position.x - maxWidth/2, position.y - s.height/2,
+            return NSMakeRect(self.position.x - maxWidth/2, self.position.y - s.height/2,
                               maxWidth, s.height + labelSize.height + 2.0f);
         }
         else if (labelPosition == MI_DIRECTION_DOWN)
         {
             float maxWidth = fmax(labelSize.width, s.width);
-            return NSMakeRect(position.x - maxWidth/2,
-                              position.y - s.height/2 - labelSize.height - 2.0f,
+            return NSMakeRect(self.position.x - maxWidth/2,
+                              self.position.y - s.height/2 - labelSize.height - 2.0f,
                               maxWidth, s.height + labelSize.height + 2.0f);
         }
         else if (labelPosition == MI_DIRECTION_LEFT)
         {
             float maxHeight = fmax(labelSize.height, s.height);
-            return NSMakeRect(position.x - s.width/2 - labelSize.width - 2.0f,
-                              position.y - maxHeight/2,
+            return NSMakeRect(self.position.x - s.width/2 - labelSize.width - 2.0f,
+                              self.position.y - maxHeight/2,
                               s.width + labelSize.width + 2.0f, maxHeight);
         }
         else /*if (labelPosition == MI_DIRECTION_RIGHT)*/
         {
             float maxHeight = fmax(labelSize.height, s.height);
-            return NSMakeRect(position.x - s.width/2,
-                              position.y - maxHeight/2,
+            return NSMakeRect(self.position.x - s.width/2,
+                              self.position.y - maxHeight/2,
                               s.width + labelSize.width + 2.0f, maxHeight);
         }
     }
@@ -281,32 +224,10 @@ NSDictionary* labelFontAttributes = nil;
 }
 
 
-- (NSString*) comment
-{
-    return [NSString stringWithString:comment];
-}
-
-
-- (void) setComment:(NSString*)newComment
-{
-    if (newComment != nil)
-        [comment setString:newComment];
-}
-
-
 /**************************************************************************************/
 
 
-- (NSDictionary*) connectionPoints {return connectionPoints; }
-
-- (NSDictionary*) alignableConnectionPoints { return connectionPoints; } // default behavior
-
-- (void) setConnectionPoints:(NSDictionary*)newConnectionPoints
-{
-    [newConnectionPoints retain];
-    [connectionPoints release];
-    connectionPoints = newConnectionPoints;
-}
+- (NSDictionary*) alignableConnectionPoints { return self.connectionPoints; } // default behavior
 
 
 - (void) draw
@@ -320,13 +241,13 @@ NSDictionary* labelFontAttributes = nil;
         NSAffineTransform* transform4 = [NSAffineTransform transform];
 
         [[NSGraphicsContext currentContext] saveGraphicsState];
-        [transform1 translateXBy:-position.x
-                             yBy:-position.y];
+        [transform1 translateXBy:-self.position.x
+                             yBy:-self.position.y];
         [transform2 rotateByDegrees:rotation];
         [transform3 scaleXBy:-1.0f
                          yBy:1.0f];
-        [transform4 translateXBy:position.x
-                             yBy:position.y];
+        [transform4 translateXBy:self.position.x
+                             yBy:self.position.y];
 
         [transform1 appendTransform:transform2]; // move center of element to origin and rotate
         if (flippedHorizontally)
@@ -358,29 +279,29 @@ NSDictionary* labelFontAttributes = nil;
     // Must come after the graphics context has been restored
     if (showsLabel &&
         (labelPosition != MI_DIRECTION_NONE) &&
-        ([label length] > 0))
+        ([self.label length] > 0))
     {
         NSPoint labelLocation;
         NSDictionary* attribs = [MI_SchematicElement labelFontAttributes];
         if (labelPosition == MI_DIRECTION_UP)
         {
-            labelLocation.x = position.x - ([label sizeWithAttributes:attribs].width/2.0f);
-            labelLocation.y = position.y + 2.0f + (size.height/2.0f);
+            labelLocation.x = self.position.x - ([self.label sizeWithAttributes:attribs].width/2.0f);
+            labelLocation.y = self.position.y + 2.0f + (size.height/2.0f);
         }
         else if (labelPosition == MI_DIRECTION_DOWN)
         {
-            labelLocation.x = position.x - ([label sizeWithAttributes:attribs].width/2.0f);
-            labelLocation.y = position.y - 2.0f - [label sizeWithAttributes:attribs].height - (size.height/2.0f);
+            labelLocation.x = self.position.x - ([self.label sizeWithAttributes:attribs].width/2.0f);
+            labelLocation.y = self.position.y - 2.0f - [self.label sizeWithAttributes:attribs].height - (size.height/2.0f);
         }
         else if (labelPosition == MI_DIRECTION_LEFT)
         {
-            labelLocation.x = position.x - 2.0f - [label sizeWithAttributes:attribs].width - (size.width/ 2.0f);
-            labelLocation.y = position.y - ([label sizeWithAttributes:attribs].height/2.0f);
+            labelLocation.x = self.position.x - 2.0f - [self.label sizeWithAttributes:attribs].width - (size.width/ 2.0f);
+            labelLocation.y = self.position.y - ([self.label sizeWithAttributes:attribs].height/2.0f);
         }
         else /*if (labelPosition == MI_DIRECTION_RIGHT)*/
         {
-            labelLocation.x = position.x + 2.0f + (size.width/ 2.0f);
-            labelLocation.y = position.y - ([label sizeWithAttributes:attribs].height/2.0f);
+            labelLocation.x = self.position.x + 2.0f + (size.width/ 2.0f);
+            labelLocation.y = self.position.y - ([self.label sizeWithAttributes:attribs].height/2.0f);
         }
           
         // Cocoa does not handle clipping of NSString's correctly when using affine transforms
@@ -389,7 +310,7 @@ NSDictionary* labelFontAttributes = nil;
             withAttributes:attribs];
          */
         // workaround:
-        [MI_TroubleShooter drawString:label
+        [MI_TroubleShooter drawString:self.label
                            attributes:attribs
                               atPoint:NSMakePoint(labelLocation.x, labelLocation.y)
                              rotation:0.0f];
@@ -402,12 +323,12 @@ NSDictionary* labelFontAttributes = nil;
     if (fabs(rotation) > 1.0f || flippedHorizontally)
     {
         NSMutableString* s = [NSMutableString stringWithCapacity:50];
-        [s appendFormat:@"<g transform=\"translate(%g,%g) ", position.x, position.y];
+        [s appendFormat:@"<g transform=\"translate(%g,%g) ", self.position.x, self.position.y];
         if (flippedHorizontally)
             [s appendString:@"scale(-1,1) "];
         if (fabs(rotation) > 1.0f)
             [s appendFormat:@"rotate(%g) ", rotation];
-        [s appendFormat:@"translate(%g,%g)\">\n", -position.x, -position.y];
+        [s appendFormat:@"translate(%g,%g)\">\n", -self.position.x, -self.position.y];
         return s;
     }
     else
@@ -422,35 +343,35 @@ NSDictionary* labelFontAttributes = nil;
     // Draw label text
     if (showsLabel &&
         (labelPosition != MI_DIRECTION_NONE) &&
-        ([label length] > 0))
+        ([self.label length] > 0))
     {
         NSPoint labelLocation;
         NSDictionary* attribs = [MI_SchematicElement labelFontAttributes];
         if (labelPosition == MI_DIRECTION_UP)
         {
-            labelLocation.x = position.x - ([label sizeWithAttributes:attribs].width/2.0f);
-            labelLocation.y = position.y + 2.0f + (size.height/2.0f);
+            labelLocation.x = self.position.x - ([self.label sizeWithAttributes:attribs].width/2.0f);
+            labelLocation.y = self.position.y + 2.0f + (size.height/2.0f);
         }
         else if (labelPosition == MI_DIRECTION_DOWN)
         {
-            labelLocation.x = position.x - ([label sizeWithAttributes:attribs].width/2.0f);
-            labelLocation.y = position.y - 2.0f - [label sizeWithAttributes:attribs].height - (size.height/2.0f);
+            labelLocation.x = self.position.x - ([self.label sizeWithAttributes:attribs].width/2.0f);
+            labelLocation.y = self.position.y - 2.0f - [self.label sizeWithAttributes:attribs].height - (size.height/2.0f);
         }
         else if (labelPosition == MI_DIRECTION_LEFT)
         {
-            labelLocation.x = position.x - 2.0f - [label sizeWithAttributes:attribs].width - (size.width/ 2.0f);
-            labelLocation.y = position.y - ([label sizeWithAttributes:attribs].height/2.0f);
+            labelLocation.x = self.position.x - 2.0f - [self.label sizeWithAttributes:attribs].width - (size.width/ 2.0f);
+            labelLocation.y = self.position.y - ([self.label sizeWithAttributes:attribs].height/2.0f);
         }
         else /*if (labelPosition == MI_DIRECTION_RIGHT)*/
         {
-            labelLocation.x = position.x + 2.0f + (size.width/ 2.0f);
-            labelLocation.y = position.y - ([label sizeWithAttributes:attribs].height/2.0f);
+            labelLocation.x = self.position.x + 2.0f + (size.width/ 2.0f);
+            labelLocation.y = self.position.y - ([self.label sizeWithAttributes:attribs].height/2.0f);
         }
         //float yOffset = labelLocation.y + [label sizeWithAttributes:attribs].height/2.0f;
         [s appendFormat:@"\n<text stroke=\"none\" fill=\"black\" transform=\"translate(0,%g) scale(1,-1) translate(0,%g)\" x=\"%g\" y=\"%g\" font-family=\"%@\" font-size=\"%g\">%@</text>",
             labelLocation.y, -labelLocation.y, labelLocation.x, labelLocation.y - 1.0f + [[attribs objectForKey:NSFontAttributeName] descender],
             [[attribs objectForKey:NSFontAttributeName] familyName],
-            [[attribs objectForKey:NSFontAttributeName] pointSize], [MI_SVGConverter filterSpecialCharacters:label]];
+            [[attribs objectForKey:NSFontAttributeName] pointSize], [MI_SVGConverter filterSpecialCharacters:self.label]];
     }
     return s;
 }
@@ -466,26 +387,25 @@ must be the same because we are not using keyed coding here.
 {
     if (self = [super init])
     {
-        identifier = [[decoder decodeObjectForKey:@"Identifier"] retain];
-        name = [[decoder decodeObjectForKey:@"Name"] retain];
+        identifier = [decoder decodeObjectForKey:@"Identifier"];
+        self.name = [decoder decodeObjectForKey:@"Name"];
         
-        theNamespace = [decoder decodeObjectForKey:@"Namespace"];
-        if (theNamespace == nil)
-            theNamespace = @"";
-        [theNamespace retain];
+        self.elementNamespace = [decoder decodeObjectForKey:@"Namespace"];
+        if (self.elementNamespace == nil)
+            self.elementNamespace = @"";
+
+        self.label = [decoder decodeObjectForKey:@"Label"];
+        self.connectionPoints = [decoder decodeObjectForKey:@"ConnectionPoints"];
         
-        label = [[decoder decodeObjectForKey:@"Label"] retain];
-        connectionPoints = [[decoder decodeObjectForKey:@"ConnectionPoints"] retain];
-        
-        comment = [decoder decodeObjectForKey:@"Comment"];
-        if (comment == nil)
-            comment = [[NSMutableString alloc] initWithCapacity:25];
-        else
-            [comment retain];
-        
+        self.comment = [decoder decodeObjectForKey:@"Comment"];
+        if (self.comment == nil)
+        {
+          self.comment = [[NSMutableString alloc] initWithCapacity:25];
+        }
+
         size = [decoder decodeSizeForKey:@"Size"];
         originalSize = [decoder decodeSizeForKey:@"OriginalSize"];
-        position = [decoder decodePointForKey:@"Position"];
+        self.position = [decoder decodePointForKey:@"Position"];
         rotation = [decoder decodeFloatForKey:@"Rotation"];
         showsLabel = [decoder decodeBoolForKey:@"ShowsLabel"];
         labelPosition = [decoder decodeIntForKey:@"LabelPosition"];
@@ -499,21 +419,21 @@ must be the same because we are not using keyed coding here.
 {
     [encoder encodeObject:identifier
                    forKey:@"Identifier"];
-    [encoder encodeObject:name
+    [encoder encodeObject:self.name
                    forKey:@"Name"];
-    [encoder encodeObject:theNamespace
+    [encoder encodeObject:self.elementNamespace
                    forKey:@"Namespace"];
-    [encoder encodeObject:label
+    [encoder encodeObject:self.label
                    forKey:@"Label"];
-    [encoder encodeObject:connectionPoints
+    [encoder encodeObject:self.connectionPoints
                    forKey:@"ConnectionPoints"];
-    [encoder encodeObject:comment
+    [encoder encodeObject:self.comment
                    forKey:@"Comment"];
     [encoder encodeSize:size
                  forKey:@"Size"];
     [encoder encodeSize:originalSize
                  forKey:@"OriginalSize"];
-    [encoder encodePoint:position
+    [encoder encodePoint:self.position
                   forKey:@"Position"];
     [encoder encodeFloat:rotation
                   forKey:@"Rotation"];
@@ -538,7 +458,7 @@ must be the same because we are not using keyed coding here.
        own connection points. */
     [myCopy setName:[self name]];
     [myCopy setElementNamespace:[self elementNamespace]];
-    [myCopy setPosition:position];
+    [myCopy setPosition:self.position];
     [myCopy setRotation:rotation];
     if (flippedHorizontally)
         [myCopy flip:YES];
@@ -567,23 +487,13 @@ must be the same because we are not using keyed coding here.
 
 + (NSDictionary*) labelFontAttributes
 {
-    if (labelFontAttributes == nil)
-        labelFontAttributes = [[NSDictionary dictionaryWithObjectsAndKeys:
-        [NSFont systemFontOfSize:10.0f], NSFontAttributeName,
-        [NSColor blackColor], NSForegroundColorAttributeName,
-        NULL] retain];
-    return labelFontAttributes;
+  if (labelFontAttributes == nil)
+    labelFontAttributes = @{
+      NSFontAttributeName : [NSFont systemFontOfSize:10.0f],
+      NSForegroundColorAttributeName : [NSColor blackColor]
+    };
+  return labelFontAttributes;
 }
 
-
-- (void) dealloc
-{
-    [identifier release];
-    [name release];
-    [label release];
-    [connectionPoints release];
-    [comment release];
-    [super dealloc];
-}
 
 @end

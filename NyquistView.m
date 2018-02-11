@@ -26,7 +26,7 @@
 
 @implementation NyquistView
 
-- (id) init
+- (instancetype) init
 {
     if (self = [super init])
     {
@@ -40,14 +40,14 @@
 
 - (void) awakeFromNib
 {
-    leftMargin = rightMargin = bottomMargin = topMargin = DEFAULT_MARGIN;
-    realMin = realMax = imaginaryMin = imaginaryMax = 0.0;
-    labelFontAttributes = [[NSDictionary dictionaryWithObjectsAndKeys:
-        [NSFont systemFontOfSize:12], NSFontAttributeName,
-        [NSColor blackColor], NSForegroundColorAttributeName,
-        NULL] retain];
-    label_Re = [@"Re" retain];
-    label_Im = [@"Im" retain];
+  leftMargin = rightMargin = bottomMargin = topMargin = DEFAULT_MARGIN;
+  realMin = realMax = imaginaryMin = imaginaryMax = 0.0;
+  labelFontAttributes = @{
+    NSFontAttributeName: [NSFont systemFontOfSize:12],
+    NSForegroundColorAttributeName: [NSColor blackColor]
+  };
+  label_Re = @"Re";
+  label_Im = @"Im";
 }
 
 
@@ -131,14 +131,10 @@
     imaginaryMax = [var imaginaryMaximum];
 
     // Calculate the label metrics
-    [labelRealMax release];
-    [labelRealMin release];
-    [labelImaginaryMax release];
-    [labelImaginaryMin release];
-    labelRealMax = [[NSString stringWithFormat:@"%4.2g", realMax] retain];
-    labelRealMin = [[NSString stringWithFormat:@"%4.2g", realMin] retain];
-    labelImaginaryMax = [[NSString stringWithFormat:@"%4.2g", imaginaryMax] retain];
-    labelImaginaryMin = [[NSString stringWithFormat:@"%4.2g", imaginaryMin] retain];
+    labelRealMax = [NSString stringWithFormat:@"%4.2g", realMax];
+    labelRealMin = [NSString stringWithFormat:@"%4.2g", realMin];
+    labelImaginaryMax = [NSString stringWithFormat:@"%4.2g", imaginaryMax];
+    labelImaginaryMin = [NSString stringWithFormat:@"%4.2g", imaginaryMin];
         
     bottomMargin = (int) fmaxf(
         [labelRealMin sizeWithAttributes:labelFontAttributes].height,
@@ -153,20 +149,17 @@
 
 - (void) setVariable:(AnalysisVariable*)aVar;
 {
-    if ([aVar isComplex])
-    {
-        [aVar retain];
-        [var release];
-        var = aVar;
-        [var findMinMax];
-    }
-    else
-    {
-        [var release];
-        var = nil;
-    }
-    marginsAreCalculated = NO;
-    [self setNeedsDisplay:YES];
+  if ([aVar isComplex])
+  {
+    var = aVar;
+    [var findMinMax];
+  }
+  else
+  {
+    var = nil;
+  }
+  marginsAreCalculated = NO;
+  [self setNeedsDisplay:YES];
 }
 
 /*
@@ -177,17 +170,5 @@
 }
 */
 
-- (void) dealloc
-{
-    [var release];
-    [labelRealMax release];
-    [labelRealMin release];
-    [labelImaginaryMax release];
-    [labelImaginaryMin release];
-    [label_Re release];
-    [label_Im release];
-    [labelFontAttributes release];
-    [super dealloc];
-}
 
 @end

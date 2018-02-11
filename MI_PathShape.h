@@ -23,20 +23,11 @@
 
 // Defines a shape based on NSBezierPath objects
 @interface MI_PathShape : MI_Shape <NSCoding, NSCopying>
-{
-    // Contains NSBezierPath objects which must be drawn with the 'fill' command.
-    NSMutableArray* filledPaths;
-    
-    // Contains NSBezierPath objects which must be drawn with the stroke command.
-    NSMutableArray* outlinePaths;
-    
-    // the SVG equivalent of the shape
-    NSString* svgEquivalent;
-}
-- (id) initWithSize:(NSSize)theSize;
-- (NSArray*) filledPaths;
-- (NSArray*) outlinePaths;
-- (void) setFilledPaths:(NSArray*)newFilledPaths;
-- (void) setOutlinePaths:(NSArray*)newOutlinePaths;
-- (void) setSVGEquivalent:(NSString*)theSVGShape;
+
+@property NSArray<NSBezierPath*>* filledPaths; // paths which must be drawn with the 'fill' command
+@property NSArray<NSBezierPath*>* outlinePaths; // Paths which must be drawn with the 'stroke' command
+@property NSString* svgEquivalent; // the SVG equivalent of the shape
+
+- (instancetype) initWithSize:(NSSize)theSize;
+
 @end

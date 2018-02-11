@@ -61,7 +61,7 @@ static MI_Inspector* sharedInspectorInstance = nil;
 
 @implementation MI_Inspector
 
-- (id) init
+- (instancetype) init
 {
     if (sharedInspectorInstance == nil)
     {
@@ -76,8 +76,7 @@ static MI_Inspector* sharedInspectorInstance = nil;
         
         // Prepare info panel
         float alpha = [[[NSUserDefaults standardUserDefaults] objectForKey:MISUGAR_INFO_PANEL_ALPHA] floatValue];
-        [NSBundle loadNibNamed:@"SchematicElementInfoPanel"
-                         owner:self];
+        [NSBundle loadNibNamed:@"SchematicElementInfoPanel" owner:self];
         
         [infoPanel setDelegate:self];
         //[infoPanel setBecomesKeyOnlyIfNeeded:YES]; - not good
@@ -189,7 +188,7 @@ static MI_Inspector* sharedInspectorInstance = nil;
                                                               action:@selector(assignNewModel:)
                                                        keyEquivalent:@""];
                             [item setTarget:self];
-                            [chooserMenu addItem:[item autorelease]];
+                            [chooserMenu addItem:item];
                         }
                         [deviceModelChooser setMenu:chooserMenu];
                         [deviceModelChooser selectItemWithTitle:usedModel];
@@ -263,7 +262,7 @@ static MI_Inspector* sharedInspectorInstance = nil;
 /************************************* Data source and delegate methods *********/
 
 /* Schematic element parameter table data source and delegate methods */
-- (int) numberOfRowsInTableView:(NSTableView *)aTableView
+- (NSInteger) numberOfRowsInTableView:(NSTableView *)aTableView
 {
     // Since subcircuits are subclasses of circuits the order is relevant.
     if (aTableView == subcircuitElementInspectionView &&
@@ -333,12 +332,12 @@ objectValueForTableColumn:(NSTableColumn *)aTableColumn
             if (documentWindow &&
                 [[documentWindow delegate] isKindOfClass:[CircuitDocument class]])
             {
-                [[documentWindow delegate] createSchematicUndoPointForModificationType:MI_SCHEMATIC_EDIT_PROPERTY_CHANGE];
+                [(CircuitDocument*)[documentWindow delegate] createSchematicUndoPointForModificationType:MI_SCHEMATIC_EDIT_PROPERTY_CHANGE];
                 
                 [parameters setObject:anObject
                                forKey:key];
             
-                [[[[documentWindow delegate] model] schematic] markAsModified:YES];
+                [[[(CircuitDocument*)[documentWindow delegate] model] schematic] markAsModified:YES];
                 [documentWindow setDocumentEdited:YES];
             }
         }
@@ -442,7 +441,7 @@ shouldEditTableColumn:(NSTableColumn *)aTableColumn
         // update schematic view
         NSWindow* documentWindow = [NSApp mainWindow];
         if (documentWindow && [[documentWindow delegate] isKindOfClass:[CircuitDocument class]])
-            [[[documentWindow delegate] canvas] setNeedsDisplay:YES];
+            [[(CircuitDocument*)[documentWindow delegate] canvas] setNeedsDisplay:YES];
     }
 }
 
@@ -502,7 +501,7 @@ shouldEditTableColumn:(NSTableColumn *)aTableColumn
         [(MI_TextElement*)inspectedElement setColor:[textColorChooser color]];
         NSWindow* documentWindow = [NSApp mainWindow];
         if (documentWindow && [[documentWindow delegate] isKindOfClass:[CircuitDocument class]])
-            [[[documentWindow delegate] canvas] setNeedsDisplay:YES];
+            [[(CircuitDocument*)[documentWindow delegate] canvas] setNeedsDisplay:YES];
     }
 }
 
@@ -530,7 +529,7 @@ shouldEditTableColumn:(NSTableColumn *)aTableColumn
         [(MI_TextElement*)inspectedElement setDrawsFrame:([textFrameSetter state] == NSOnState)];
         NSWindow* documentWindow = [[NSApplication sharedApplication] mainWindow];
         if (documentWindow && [[documentWindow delegate] isKindOfClass:[CircuitDocument class]])
-            [[[documentWindow delegate] canvas] setNeedsDisplay:YES];
+            [[(CircuitDocument*)[documentWindow delegate] canvas] setNeedsDisplay:YES];
     }
 }
 
@@ -541,8 +540,8 @@ shouldEditTableColumn:(NSTableColumn *)aTableColumn
     if (documentWindow &&
         [[documentWindow delegate] isKindOfClass:[CircuitDocument class]])
     {
-        [[[[documentWindow delegate] model] schematic] rotateSelectedElements:90];
-        [[[documentWindow delegate] canvas] setNeedsDisplay:YES];
+        [[[(CircuitDocument*)[documentWindow delegate] model] schematic] rotateSelectedElements:90];
+        [[(CircuitDocument*)[documentWindow delegate] canvas] setNeedsDisplay:YES];
     }
 }
 
@@ -553,8 +552,8 @@ shouldEditTableColumn:(NSTableColumn *)aTableColumn
     if (documentWindow &&
         [[documentWindow delegate] isKindOfClass:[CircuitDocument class]])
     {
-        [[[[documentWindow delegate] model] schematic] flipSelectedElements:YES];
-        [[[documentWindow delegate] canvas] setNeedsDisplay:YES];
+        [[[(CircuitDocument*)[documentWindow delegate] model] schematic] flipSelectedElements:YES];
+        [[(CircuitDocument*)[documentWindow delegate] canvas] setNeedsDisplay:YES];
     }
 }
 
@@ -565,11 +564,11 @@ shouldEditTableColumn:(NSTableColumn *)aTableColumn
     if (documentWindow &&
         [[documentWindow delegate] isKindOfClass:[CircuitDocument class]])
     {
-        NSEnumerator* elementEnum = [[[[documentWindow delegate] model] schematic] selectedElementEnumerator];
+        NSEnumerator* elementEnum = [[[(CircuitDocument*)[documentWindow delegate] model] schematic] selectedElementEnumerator];
         MI_SchematicElement* tmpElement;
         while (tmpElement = [elementEnum nextObject])
             [tmpElement setLabelPosition:[chooser selectedDirection]];
-        [[[documentWindow delegate] canvas] setNeedsDisplay:YES];
+        [[(CircuitDocument*)[documentWindow delegate] canvas] setNeedsDisplay:YES];
     }
 }
 
@@ -578,20 +577,16 @@ shouldEditTableColumn:(NSTableColumn *)aTableColumn
 
 - (void) dealloc
 {
-    if (infoPanel != nil)
-    {
-        [infoPanel saveFrameUsingName:MISUGAR_INFO_PANEL_FRAME];
-        [[NSUserDefaults standardUserDefaults]
-            setObject:[NSNumber numberWithFloat:[infoPanel alphaValue]]
-               forKey:MISUGAR_INFO_PANEL_ALPHA];
-        // The next line is needed since the inspector is destroyed before the
-        // Info panel. Otherwise delegate events would be sent to invalid objects.
-        [infoPanel setDelegate:nil];
-    }
-    sharedInspectorInstance = nil;
-    [deviceModelChooser release];
-    deviceModelChooser = nil;
-    [super dealloc];
+  if (infoPanel != nil)
+  {
+    [infoPanel saveFrameUsingName:MISUGAR_INFO_PANEL_FRAME];
+    [[NSUserDefaults standardUserDefaults]
+        setObject:[NSNumber numberWithFloat:[infoPanel alphaValue]]
+           forKey:MISUGAR_INFO_PANEL_ALPHA];
+    // The next line is needed since the inspector is destroyed before the
+    // Info panel. Otherwise delegate events would be sent to invalid objects.
+    [infoPanel setDelegate:nil];
+  }
 }
 
 @end

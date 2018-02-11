@@ -25,15 +25,7 @@
 * This widget show two cog wheels, which can be animated (= rotate in opposite directions).
 */
 @interface MI_AnalysisButton : NSView
-{
-    IBOutlet NSObject* target;
-    SEL action; // called if the animation is not running
-    BOOL userStartsClick; // set to true on mouseDown and checked on mouseUp
-    unsigned animationCounter;
-    float rotation;
-    BOOL animationStopped;
-    BOOL enabled;
-}
+
 - (void) setAction:(SEL)newAction;
 - (void) setTarget:(NSObject*)newTarget;
 - (NSObject*) target;

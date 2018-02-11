@@ -23,18 +23,25 @@
 #import "MI_ElementConnector.h"
 
 @implementation MI_ElementConnector
+{
+  NSPoint* route; // array of NSPoint structs
+  int numberOfRoutePoints;
+  BOOL isHighlighted;
+  BOOL hasBeenTraversed; // used when converting the schematic
+  int MI_version; // needed for archiving
+}
 
-- (id) init
+- (instancetype) init
 {
   if (self = [super init])
   {
-    startPointName = @"";
-    endPointName = @"";
-    startElementID = @"";
-    endElementID = @"";
+    self.startPointName = @"";
+    self.endPointName = @"";
+    self.startElementID = @"";
+    self.endElementID = @"";
     route = NULL;
     numberOfRoutePoints = 0;
-    needsRouting = NO;
+    self.needsRouting = NO;
     isHighlighted = NO;
   }
   return self;
@@ -47,60 +54,19 @@
   {
     free(route);
   }
-  [startPointName release];
-  [endPointName release];
-  [startElementID release];
-  [endElementID release];
-  [super dealloc];
 }
 
 
-- (NSString*) startElementID { return [NSString stringWithString:startElementID]; }
-
-- (NSString*) endElementID { return [NSString stringWithString:endElementID]; }
-
-- (NSString*) startPointName { return [NSString stringWithString:startPointName]; }
-
-- (NSString*) endPointName { return [NSString stringWithString:endPointName]; }
-
-- (void) setStartElementID:(NSString*)newStartElementID
+- (void) setRoute:(NSPoint*)newRoute numberOfPoints:(unsigned)numOfPoints
 {
-    [newStartElementID retain];
-    [startElementID release];
-    startElementID = newStartElementID;
-}
-
-- (void) setEndElementID:(NSString*)newEndElementID
-{
-    [newEndElementID retain];
-    [endElementID release];
-    endElementID = newEndElementID;
-}
-
-- (void) setStartPointName:(NSString*)newStartPointName
-{
-    [newStartPointName retain];
-    [startPointName release];
-    startPointName = newStartPointName;
-}
-
-- (void) setEndPointName:(NSString*)newEndPointName
-{
-    [newEndPointName retain];
-    [endPointName release];
-    endPointName = newEndPointName;
-}
-
-
-- (void) setRoute:(NSPoint*)newRoute
-   numberOfPoints:(unsigned)numOfPoints
-{
-    /*fprintf(stderr, "point 1: (%f,%f), point 2: (%f,%f)\n",
-        newRoute[0].x, newRoute[0].y, newRoute[1].x, newRoute[1].y);*/
-    if (route) free(route);
-    route = newRoute;
-    numberOfRoutePoints = numOfPoints;
-    needsRouting = NO;
+  //fprintf(stderr, "point 1: (%f,%f), point 2: (%f,%f)\n", newRoute[0].x, newRoute[0].y, newRoute[1].x, newRoute[1].y);
+  if (route)
+  {
+    free(route);
+  }
+  route = newRoute;
+  numberOfRoutePoints = numOfPoints;
+  self.needsRouting = NO;
 }
 
 
@@ -113,17 +79,6 @@
 - (int) numberOfRoutePoints
 {
     return numberOfRoutePoints;
-}
-
-
-- (void) setNeedsRouting:(BOOL)doesNeedRouting
-{
-    needsRouting = doesNeedRouting;
-}
-
-- (BOOL) needsRouting
-{
-    return needsRouting;
 }
 
 
@@ -202,36 +157,36 @@
 {
   if (self = [super init])
   {
-    startElementID = [decoder decodeObjectForKey:@"StartElementID"];
-    startPointName = [decoder decodeObjectForKey:@"StartPointName"];
-    endElementID = [decoder decodeObjectForKey:@"EndElementID"];
-    endPointName = [decoder decodeObjectForKey:@"EndPointName"];
-    if ([startElementID length] == 0) startElementID = nil; else [startElementID retain];
-    if ([startPointName length] == 0) startPointName = nil; else [startPointName retain];
-    if ([endElementID length] == 0) endElementID = nil; else [endElementID retain];
-    if ([endPointName length] == 0) endPointName = nil; else [endPointName retain];
+    self.startElementID = [decoder decodeObjectForKey:@"StartElementID"];
+    self.startPointName = [decoder decodeObjectForKey:@"StartPointName"];
+    self.endElementID = [decoder decodeObjectForKey:@"EndElementID"];
+    self.endPointName = [decoder decodeObjectForKey:@"EndPointName"];
+    if ([self.startElementID length] == 0) self.startElementID = nil;
+    if ([self.startPointName length] == 0) self.startPointName = nil;
+    if ([self.endElementID length] == 0) self.endElementID = nil;
+    if ([self.endPointName length] == 0) self.endPointName = nil;
 
     numberOfRoutePoints = [decoder decodeIntForKey:@"NumberOfRoutePoints"];
     NSUInteger const length = numberOfRoutePoints * sizeof(NSPoint);
     route = (NSPoint*) malloc(length);
     [[decoder decodeObjectForKey:@"RouteData"] getBytes:route length:length];
 
-    needsRouting = YES;
+    self.needsRouting = YES;
   }
   return self;
 }
 
 - (void)encodeWithCoder:(NSCoder *)encoder
 {
-  if (startElementID == nil) startElementID = @"";
-  if (startPointName == nil) startPointName = @"";
-  if (endElementID == nil) endElementID = @"";
-  if (endPointName == nil) endPointName = @"";
+  if (self.startElementID == nil) self.startElementID = @"";
+  if (self.startPointName == nil) self.startPointName = @"";
+  if (self.endElementID == nil) self.endElementID = @"";
+  if (self.endPointName == nil) self.endPointName = @"";
 
-  [encoder encodeObject:startElementID forKey:@"StartElementID"];
-  [encoder encodeObject:startPointName forKey:@"StartPointName"];
-  [encoder encodeObject:endElementID forKey:@"EndElementID"];
-  [encoder encodeObject:endPointName forKey:@"EndPointName"];
+  [encoder encodeObject:self.startElementID forKey:@"StartElementID"];
+  [encoder encodeObject:self.startPointName forKey:@"StartPointName"];
+  [encoder encodeObject:self.endElementID forKey:@"EndElementID"];
+  [encoder encodeObject:self.endPointName forKey:@"EndPointName"];
   [encoder encodeInt:numberOfRoutePoints forKey:@"NumberOfRoutePoints"];
   NSData* data = [NSData dataWithBytes:route length:numberOfRoutePoints * sizeof(NSPoint)];
   [encoder encodeObject:data forKey:@"RouteData"];

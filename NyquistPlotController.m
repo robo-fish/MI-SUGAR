@@ -24,14 +24,13 @@
 
 @implementation NyquistPlotController
 
-- (id) initWithAnalysisVariable:(AnalysisVariable*)variable
+- (instancetype) initWithAnalysisVariable:(AnalysisVariable*)variable
 {
     if (self = [super init])
     {
-        [NSBundle loadNibNamed:@"Nyquist.nib"
-                        owner:self];
-        [panel setTitle:[@"Nyquist Plot: " stringByAppendingString:[variable name]]];
-        [plotView setVariable:variable];
+      [NSBundle loadNibNamed:@"Nyquist.nib" owner:self];
+      [panel setTitle:[@"Nyquist Plot: " stringByAppendingString:[variable name]]];
+      [plotView setVariable:variable];
     }
     return self;
 }
@@ -39,13 +38,7 @@
 
 - (void) windowWillClose:(NSNotification*)aNotification
 {
-    [self release];
-}
-
-
-- (void) dealloc
-{
-    [super dealloc];
+//    [self release];
 }
 
 @end

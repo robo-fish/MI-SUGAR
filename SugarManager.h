@@ -30,80 +30,7 @@
 
 
 @interface SugarManager : NSWindowController <NSWindowDelegate>
-{
-    IBOutlet NSTextField* customSimulatorField;             // "SugarPreferences.nib"
-    IBOutlet NSButton* customSimulatorBrowseButton;         // "SugarPreferences.nib"
-    IBOutlet NSButtonCell* useSPICEButton;                  // "SugarPreferences.nib"
-    IBOutlet NSButtonCell* useCustomSimulatorButton;        // "SugarPreferences.nib"
-    IBOutlet NSPanel* preferencesPanel;                     // "SugarPreferences.nib"
-    IBOutlet NSWindow* aboutPanel;                          // "About.nib"
-    IBOutlet NSTextField* sourceFontNameField;              // "SugarPreferences.nib"
-    IBOutlet NSTextField* rawOutputFontNameField;           // "SugarPreferences.nib"
-    IBOutlet NSButton* lookForUpdateAtStartupButton;        // "SugarPreferences.nib"
-    IBOutlet NSButton* lookForUpdateButton;                 // "SugarPreferences.nib"
-    IBOutlet NSButton* showUntitledDocumentAtStartupButton; // "SugarPreferences.nib"
-    IBOutlet NSTextField* updateInfoField;                  // "SugarPreferences.nib"
-    IBOutlet NSPopUpButton* plotterGraphsLineWidthChooser;  // "SugarPreferences.nib"
-    IBOutlet NSPopUpButton* plotterGridLineWidthChooser;    // "SugarPreferences.nib"
-    IBOutlet NSPopUpButton* plotterLabelsFontSizeChooser;   // "SugarPreferences.nib"
-    IBOutlet NSColorWell* plotterBackgroundColorChooser;    // "SugarPreferences.nib"
-    IBOutlet NSColorWell* plotterGridColorChooser;          // "SugarPreferences.nib"
-    IBOutlet NSButton* plotterRemembersSettingsButton;      // "SugarPreferences.nib"
-    IBOutlet NSButton* plotterClosesOldWindows;             // "SugarPreferences.nib"
-    IBOutlet NSButton* plotterAutoShowsGuidesTab;           // "SugarPreferences.nib"
-    IBOutlet NSPopUpButton* conversionPolicyChooser;        // "SugarPreferences.nib"
-    IBOutlet NSPopUpButton* fileSavingPolicyChooser;        // "SugarPreferences.nib"
-    IBOutlet NSPopUpButton* layoutChooser;                  // "SugarPreferences.nib"
-    IBOutlet NSButton* openElementsPanelOnStartup;          // "SugarPreferences.nib"
-    IBOutlet NSButton* openInfoPanelOnStartup;              // "SugarPreferences.nib"
-    IBOutlet NSButton* autoInsertNodeElement;               // "SugarPreferences.nib"
-    IBOutlet NSButton* showPlacementGuides;                 // "SugarPreferences.nib"
-    BOOL lookForUpdateAtStartup;
-    BOOL settingSourceFont;
-    BOOL convertToMathML;
-    BOOL settingPlotterBackgroundColor;
-    BOOL settingPlotterGridColor;
-    NSToolbarItem* startupPreferences;                      // for the preferences panel
-    NSToolbarItem* simulatorPreferences;                    // for the preferences panel
-    NSToolbarItem* fontPreferences;                         // for the preferences panel
-    NSToolbarItem* plotterPreferences;                      // for the preferences panel
-    NSToolbarItem* generalPreferences;                      // for the preferences panel
-    NSToolbarItem* schematicPreferences;                    // for the preferences panel
-    IBOutlet NSView* plotterPrefsView;                      // "SugarPreferences.nib"
-    IBOutlet NSView* simulatorPrefsView;                    // "SugarPreferences.nib"
-    IBOutlet NSView* fontPrefsView;                         // "SugarPreferences.nib"
-    IBOutlet NSView* startupPrefsView;                      // "SugarPreferences.nib"
-    IBOutlet NSView* generalPrefsView;                      // "SugarPreferences.nib"
-    IBOutlet NSView* schematicPrefsView;                    // "SugarPreferences.nib"
-    IBOutlet NSTextField* versionField;                     // 'About' panel
-    IBOutlet NSTextField* releaseDateField;                 // 'About' panel
 
-    // SCHEMATIC-RELATED VARIABLES
-    IBOutlet NSPanel* elementsPanel;
-    IBOutlet MI_SchematicElementChooser* resistorChooser;
-    IBOutlet MI_SchematicElementChooser* capacitorChooser;
-    IBOutlet MI_SchematicElementChooser* inductorChooser;
-    IBOutlet MI_SchematicElementChooser* sourceChooser;
-    IBOutlet MI_SchematicElementChooser* transistorChooser;
-    IBOutlet MI_SchematicElementChooser* diodeChooser;
-    IBOutlet MI_SchematicElementChooser* nodeChooser;
-    IBOutlet MI_SchematicElementChooser* groundChooser;
-    IBOutlet MI_SchematicElementChooser* switchChooser;
-    IBOutlet MI_SchematicElementChooser* subcircuitChooser;
-    IBOutlet MI_SchematicElementChooser* specialElementChooser;
-    IBOutlet NSSlider* panelTransparencyAdjustment;
-    IBOutlet NSOutlineView* subcircuitsTable;               // elements panel
-    IBOutlet NSColorWell* schematicCanvasBackground;        // "SugarPreferences.nib"
-    IBOutlet NSTextField* subcircuitLibraryPathField;       // "SugarPreferences.nib"
-    IBOutlet NSTabView* elementCategoryChooser;             // the main tab view in the elements panel
-    IBOutlet NSTextField* subcircuitNamespaceField;         // displays the namespace of the selected subcircuit
-    MI_Tool* currentTool;                                   // current tool selected by user
-    MI_ScaleTool* scaleTool;
-    MI_SelectConnectTool* selectTool;                       // the default tool
-    MI_SubcircuitLibraryManager* libManager;
-    
-    MI_Inspector* inspector;
-}
 + (SugarManager*) sharedManager;    // returns the instance that controls this session
 + (NSString*) supportFolder;        // returns the user-specific folder which stores cross-session files
 
@@ -150,4 +77,5 @@
 - (IBAction) schematicToSVG:(id)sender;                     // converts the schematic drawing of the active document to SVG
 
 - (MI_SubcircuitLibraryManager*) subcircuitLibraryManager;
+
 @end

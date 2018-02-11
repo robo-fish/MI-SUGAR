@@ -55,7 +55,7 @@
       forOrdinate:(int)ordinateIndex;
 
 /* Returns the number of current ordinate variables */
-- (int) numberOfOrdinateVariables;
+- (NSUInteger) numberOfOrdinateVariables;
 
 /* Converts the input abscissa value to the x-axis distance */
 - (int) xValueToView:(double)xValue;
@@ -140,11 +140,7 @@
 /* returns the margin by which the graph area is inset from the bottom */
 - (int) bottomMargin;
 
-/* Sets the background color of the widget. */
-- (void) setBackgroundColor:(NSColor*)color;
-
-/* returns the background color */
-- (NSColor*) backgroundColor;
+@property (nonatomic) NSColor* backgroundColor;
 
 /* resets the view by removing all ordinate variables and the abscissa variable */
 - (void) removeAll;
@@ -171,8 +167,7 @@
 - (void)pasteboard:(NSPasteboard *)sender
 provideDataForType:(NSString *)type;
 
-/* if argument is nil then no description is printed. */
-- (void) setPlotDescription:(NSString*)description;
+@property NSString* plotDescription; // no description is printed if this property is not set
 
 - (double) leftHandlePosition; // returns the value of the abscissa at the position of the left handle
 - (double) rightHandlePosition; // returns the value of the abscissa at the position of the right handle

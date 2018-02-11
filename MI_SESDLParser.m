@@ -90,9 +90,9 @@
 #ifdef SESDL_DEBUG
                     NSLog(@"%@, x=%g, y=%g", pointName, posX, posY);
 #endif
-                    [pointMap setObject:[[[MI_ConnectionPoint alloc] initWithPosition:NSMakePoint(posX, posY)
+                    [pointMap setObject:[[MI_ConnectionPoint alloc] initWithPosition:NSMakePoint(posX, posY)
                                                                                  size:NSMakeSize(6.0f, 6.0f)
-                                                                                 name:pointName] autorelease]
+                                                                                 name:pointName]
                                  forKey:pointName];
                 }
             }
@@ -480,16 +480,15 @@
         NSLog(@"Warning: Shape definition %@ does not contain connection points.", sesdlFile);
     
     shape = [[MI_PathShape alloc] initWithSize:NSMakeSize(shapeWidth, shapeHeight)];
-    [shape setConnectionPoints:pointMap];
-    [shape setOutlinePaths:[NSArray arrayWithArray:outlinePaths]];
-    [shape setFilledPaths:[NSArray arrayWithArray:filledPaths]];
-    [shape setSVGEquivalent:svgEquivalent];
-    return [shape autorelease];
+    shape.connectionPoints = pointMap;
+    shape.outlinePaths = [NSArray arrayWithArray:outlinePaths];
+    shape.filledPaths = [NSArray arrayWithArray:filledPaths];
+    shape.svgEquivalent = svgEquivalent;
+    return shape;
 
     // The file was not parsed successfully. Clean up the objects.
 cleanup:
     NSLog(@"Cleaning up.");
-    [shape release];
     return nil;
 }
 

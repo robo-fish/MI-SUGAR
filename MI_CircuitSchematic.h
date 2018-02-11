@@ -24,24 +24,7 @@
 #define MI_SCHEMATIC_VERSION 1
 
 @interface MI_CircuitSchematic : MI_Schematic <NSCoding, NSCopying>
-{
-    NSMutableArray* nodeAssignmentTable; // array of NodeAssignmentTableItem objects
-    BOOL showsNodeNumbers;
-    BOOL isSubcircuit;
-    int MI_version;
-    
-    // Tracks the count of all types of circuit elements added to the schematic.
-    // Keys are the class names of the dropped elements.
-    // Values are integer NSNumber instances which hold the count of elements dropped on the canvas.
-    // This is used to append numbers to the labels of dropped elements so the user
-    // does not need to change the label of each element after dropping it.
-    NSMutableDictionary* elementTypeRegistry;
-    
-    /**
-    * This dictionary stores the font properties used for drawing node numbers
-    */
-    NSMutableDictionary *nodeNumberFontAttributes;
-}
+
 - (BOOL) isSubcircuit;
 - (void) setIsSubcircuit:(BOOL)subcircuit;
 

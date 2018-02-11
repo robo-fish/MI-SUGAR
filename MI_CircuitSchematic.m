@@ -27,8 +27,27 @@
 #define ROUNDED_NODE_NUMBER_BACKGROUND
 
 @implementation MI_CircuitSchematic
+{
+@private
+  NSMutableArray* nodeAssignmentTable; // array of NodeAssignmentTableItem objects
+  BOOL showsNodeNumbers;
+  BOOL isSubcircuit;
+  int MI_version;
 
-- (id) init
+  // Tracks the count of all types of circuit elements added to the schematic.
+  // Keys are the class names of the dropped elements.
+  // Values are integer NSNumber instances which hold the count of elements dropped on the canvas.
+  // This is used to append numbers to the labels of dropped elements so the user
+  // does not need to change the label of each element after dropping it.
+  NSMutableDictionary* elementTypeRegistry;
+
+  /**
+   * This dictionary stores the font properties used for drawing node numbers
+   */
+  NSMutableDictionary *nodeNumberFontAttributes;
+}
+
+- (instancetype) init
 {
     if (self = [super init])
     {
@@ -183,7 +202,7 @@
             if (nodeNumberFontAttributes != nil)
             {
                 [nodeNumberFontAttributes removeObjectForKey:NSFontAttributeName];
-                [nodeNumberFontAttributes release];
+                nodeNumberFontAttributes = nil;
             }
             nodeNumberFontAttributes = [[NSMutableDictionary alloc] initWithCapacity:
                 [[[MI_SchematicElement labelFontAttributes] allKeys] count] ];
@@ -266,66 +285,59 @@
 
 /********************** Archiving **********************/
 
-- (id) initWithCoder:(NSCoder*)decoder
+- (instancetype) initWithCoder:(NSCoder*)decoder
 {
-    if (self = [super initWithCoder:decoder])
+  if (self = [super initWithCoder:decoder])
+  {
+    MI_version = [decoder decodeIntForKey:@"Version"];
+    // Depending on the version decoding of the rest can be handled differently
+    isSubcircuit = [decoder decodeBoolForKey:@"IsSubcircuit"];
+    nodeAssignmentTable = [decoder decodeObjectForKey:@"NodeAssignmentTable"];
+    showsNodeNumbers = NO;
+    elementTypeRegistry = [decoder decodeObjectForKey:@"ElementTypeRegistry"];
+    if (elementTypeRegistry == nil)
     {
-        MI_version = [decoder decodeIntForKey:@"Version"];
-        // Depending on the version decoding of the rest can be handled differently
-        isSubcircuit = [decoder decodeBoolForKey:@"IsSubcircuit"];
-        nodeAssignmentTable = [[decoder decodeObjectForKey:@"NodeAssignmentTable"] retain];
-        showsNodeNumbers = NO;
-        elementTypeRegistry = [decoder decodeObjectForKey:@"ElementTypeRegistry"];
-        if (elementTypeRegistry != nil)
-            [elementTypeRegistry retain];
-        else
-            elementTypeRegistry = [[NSMutableDictionary alloc] initWithCapacity:10];
+      elementTypeRegistry = [[NSMutableDictionary alloc] initWithCapacity:10];
     }
-    return self;
+  }
+  return self;
 }
 
 
 - (void) encodeWithCoder:(NSCoder*)encoder
 {
-    [super encodeWithCoder:encoder];
-    [encoder encodeInt:MI_version
-                forKey:@"Version"];
-    [encoder encodeBool:isSubcircuit
-                 forKey:@"IsSubcircuit"];
-    [encoder encodeObject:nodeAssignmentTable
-                   forKey:@"NodeAssignmentTable"];
-    [encoder encodeObject:elementTypeRegistry
-                   forKey:@"ElementTypeRegistry"];
+  [super encodeWithCoder:encoder];
+  [encoder encodeInt:MI_version forKey:@"Version"];
+  [encoder encodeBool:isSubcircuit forKey:@"IsSubcircuit"];
+  [encoder encodeObject:nodeAssignmentTable forKey:@"NodeAssignmentTable"];
+  [encoder encodeObject:elementTypeRegistry forKey:@"ElementTypeRegistry"];
 }
 
 /************************* NSCopying methods ****************/
 
 - (id) copyWithZone:(NSZone*) zone
 {
-    MI_CircuitSchematic* myCopy = [super copyWithZone:zone];
-    [myCopy setIsSubcircuit:[self isSubcircuit]];
-    [myCopy setNodeAssignmentTable:[[nodeAssignmentTable copy] autorelease]];
-    if (myCopy->elementTypeRegistry == nil)
-        myCopy->elementTypeRegistry = [elementTypeRegistry copy];
-    [myCopy setShowsNodeNumbers:NO];
-    return myCopy;
+  MI_CircuitSchematic* myCopy = [super copyWithZone:zone];
+  [myCopy setIsSubcircuit:[self isSubcircuit]];
+  [myCopy setNodeAssignmentTable:[nodeAssignmentTable copy]];
+  if (myCopy->elementTypeRegistry == nil)
+  {
+    myCopy->elementTypeRegistry = [elementTypeRegistry copy];
+  }
+  [myCopy setShowsNodeNumbers:NO];
+  return myCopy;
 }
 
 /*******************************************************/
 
 - (void) dealloc
 {
-    if (nodeNumberFontAttributes != nil)
-    {
-        // System fonts must not be deallocated. remove from font attributes dictionary
-        [nodeNumberFontAttributes removeObjectForKey:NSFontAttributeName];
-        // Now we can release the font attributes dictionary
-        [nodeNumberFontAttributes release];
-    }
-    
-    [nodeAssignmentTable release];
-    [elementTypeRegistry release];
-    [super dealloc];
+  if (nodeNumberFontAttributes != nil)
+  {
+    // System fonts must not be deallocated. remove from font attributes dictionary
+    [nodeNumberFontAttributes removeObjectForKey:NSFontAttributeName];
+    nodeNumberFontAttributes = nil;
+  }
 }
 
 @end

@@ -23,9 +23,7 @@
 
 
 @interface MI_ImageElement : MI_SchematicElement
-{
-    NSImage* image;
-}
-- (id) initWithImage:(NSImage*)theImage;
+
+- (instancetype) initWithImage:(NSImage*)theImage;
 
 @end

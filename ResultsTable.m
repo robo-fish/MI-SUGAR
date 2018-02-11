@@ -23,13 +23,13 @@
 
 @implementation ResultsTable
 
-- (id) init
+- (instancetype) init
 {
     if (self = [super init])
     {
-        variables = [[NSMutableArray arrayWithCapacity:1] retain];
-        name = nil;
-        title = nil;
+        variables = [NSMutableArray arrayWithCapacity:1];
+        self.name = nil;
+        self.title = nil;
     }
     return self;
 }
@@ -49,33 +49,6 @@
     [variables addObject:var];
 }
 
-
-- (void) setName:(NSString*)plotName
-{
-    [plotName retain];
-    [name release];
-    name = plotName;
-}
-
-
-- (NSString*) name
-{
-    return name;
-}
-
-
-- (void) setTitle:(NSString*)circuitTitle
-{
-    [circuitTitle retain];
-    [title release];
-    title = circuitTitle;
-}
-
-
-- (NSString*) title
-{
-    return title;
-}
 
 /*
 - (int) numberOfPoints
@@ -120,7 +93,7 @@
 
     arrayLength = [[[variables objectAtIndex:0] values] count];
     // Construct an array of with the values to be sorted
-    vals = [[NSMutableArray arrayWithCapacity:0] retain];
+    vals = [NSMutableArray arrayWithCapacity:0];
     [vals setArray:[[variables objectAtIndex:0] values]];
     // Construct an array that will keep track of the indices    
     indices = (int*) malloc(arrayLength * sizeof(int));
@@ -145,29 +118,20 @@
                         withObject:[NSNumber numberWithDouble:currentValue]];
     }
     [[variables objectAtIndex:0] setValues:vals];
-    [vals release];
 
     // Now apply the sorting to the other variables by using the indices array
     for (i = 1; i < [variables count]; i++)
     {
         NSArray* valuesArray = [[variables objectAtIndex:i] values];
         int length = [valuesArray count];
-        NSMutableArray* tmpArray = [[NSMutableArray arrayWithCapacity:length] retain];
+        NSMutableArray* tmpArray = [NSMutableArray arrayWithCapacity:length];
         for (j = 0; j < length; j++)
             [tmpArray addObject:[valuesArray objectAtIndex:indices[j]]];
         [[variables objectAtIndex:i] setValues:tmpArray];        
-        [tmpArray release];
     }
     
     free(indices);
 }
 */
 
-- (void) dealloc
-{
-    [variables release];
-    [name release];
-    [title release];
-    [super dealloc];
-}
 @end

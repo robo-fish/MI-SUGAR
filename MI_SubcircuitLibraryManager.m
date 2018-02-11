@@ -22,7 +22,47 @@
 #import "MI_SubcircuitLibraryManager.h"
 #import "MI_DeviceModelManager.h"
 #import "SugarManager.h"
-#import "MI_NamedArray.h"
+
+// Objects of this class represent the subcircuits.
+// The file paths are used to open the subcircuit definition when the user double-clicks the item.
+@interface MI_SubcircuitWithFile : NSObject
+@property (readonly) MI_SubcircuitElement* subcircuit;
+@property (readonly) NSString* file;
+- (instancetype) initWithSubcircuit:(MI_SubcircuitElement*)subckt filepath:(NSString*)path;
+@end
+@implementation MI_SubcircuitWithFile
+- (instancetype) initWithSubcircuit:(MI_SubcircuitElement*)subckt filepath:(NSString*)path
+{
+  if (self = [super init])
+  {
+    _subcircuit = subckt;
+    _file = path;
+  }
+  return self;
+}
+@end
+
+@interface MI_NamedArray : NSObject <NSCoding>
+@property NSArray<MI_SubcircuitWithFile*>* theArray;
+@property NSString* name;
+@end
+
+@implementation MI_NamedArray
+- (id)initWithCoder:(NSCoder *)decoder
+{
+  if (self = [super init])
+  {
+    self.theArray = [decoder decodeObjectForKey:@"Array"];
+    self.name = [decoder decodeObjectForKey:@"Name"];
+  }
+  return self;
+}
+- (void)encodeWithCoder:(NSCoder *)encoder
+{
+  [encoder encodeObject:self.theArray forKey:@"Array"];
+  [encoder encodeObject:self.name forKey:@"Name"];
+}
+@end
 
 // Stores loaded subcircuit document models and maps
 // fully-qualified subcircuit element names to the subcircuit document models.
@@ -31,44 +71,20 @@
 // separate namespace and name
 static NSMutableDictionary* elementDefinitions = nil;
 
-// Dynamic list of MI_SubcircuitWithFile objects or MI_NamedArray objects. (see below).
 // The named arrays can hold even other named arrays or subcircuit elements
 // The items mirror the directory structure of the subcircuit library (aka repository).
-static NSMutableArray* subcircuits = nil;
+static NSMutableArray<MI_SubcircuitWithFile*>* subcircuits = nil;
 
-// Objects of this class represent the subcircuits.
-// The file paths are used to open the subcircuit definition when the user double-clicks the item.
-@interface MI_SubcircuitWithFile : NSObject
-{
-    MI_SubcircuitElement* sub;
-    NSString* file;
-}
-- (id) initWithSubcircuit:(MI_SubcircuitElement*)subckt filepath:(NSString*)path;
-- (MI_SubcircuitElement*) subcircuit;
-- (NSString*) file;
-@end
-@implementation MI_SubcircuitWithFile
-- (id) initWithSubcircuit:(MI_SubcircuitElement*)subckt filepath:(NSString*)path
-{ if (self = [super init]) {sub = [subckt retain]; file = [path retain]; } return self; }
-- (MI_SubcircuitElement*) subcircuit { return sub; }
-- (NSString*) file { return file; }
-- (void) dealloc { [sub release]; [file release]; [super dealloc]; }
-@end
-
-
-// Iterative method which creates a list of MI_SubcircuitElement objects
-// found at the given path, where sublist elements are inserted for subpaths.
-MI_NamedArray* extractSubcircuitFromSubpath(NSString* path);
-
+NSArray<MI_SubcircuitWithFile*>* extractSubcircuitFromSubpath(NSString* path);
 
 
 // Implements the NSOutlineViewDataSource informal protocol.
 // It represents the directory structure beneath the repository root folder.
 @implementation MI_SubcircuitLibraryManager
 
-- (id) initWithChooserView:(MI_SchematicElementChooser*)theChooser
-                 tableView:(NSOutlineView*)theTable
-             namespaceView:(NSTextField*)nsField
+- (instancetype) initWithChooserView:(MI_SchematicElementChooser*)theChooser
+                           tableView:(NSOutlineView*)theTable
+                       namespaceView:(NSTextField*)nsField
 {
     if (self = [super init])
     {
@@ -155,7 +171,6 @@ MI_NamedArray* extractSubcircuitFromSubpath(NSString* path);
     [archiver encodeObject:[definition circuitDeviceModels]
                     forKey:@"MI-SUGAR Circuit Device Models"];
     [archiver finishEncoding];
-    [archiver release];
     NSString* targetFile = [NSString stringWithFormat:@"%@/%@.subckt.sugar", repositoryPath, [definition circuitName]];
     if (![data writeToFile:targetFile atomically:YES])
     {
@@ -200,7 +215,7 @@ MI_NamedArray* extractSubcircuitFromSubpath(NSString* path);
 /******************   NSOutlineViewDataSource protocol implementations  ***/
 
 - (id) outlineView:(NSOutlineView *)outlineView
-             child:(int)index
+             child:(NSInteger)index
             ofItem:(id)item
 {
     if (item == nil)
@@ -218,7 +233,7 @@ MI_NamedArray* extractSubcircuitFromSubpath(NSString* path);
     return [subcircuits count] ? [item isKindOfClass:[MI_NamedArray class]] : NO;
 }
 
-- (NSUInteger) outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(id)item
+- (NSInteger) outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(id)item
 {
     if (item == nil)
         return [subcircuits count] ? [subcircuits count] : 1;
@@ -289,7 +304,7 @@ shouldEditTableColumn:(NSTableColumn *)tableColumn
     // Create table data based on file names in the library directory.
     NSString* rootFolder = [[NSUserDefaults standardUserDefaults]
         objectForKey:MISUGAR_SUBCIRCUIT_LIBRARY_FOLDER];
-    [subcircuits setArray:[extractSubcircuitFromSubpath(rootFolder) array]];
+    [subcircuits setArray:extractSubcircuitFromSubpath(rootFolder)];
     // refresh table
     if ([subcircuits count] == 0)
     {
@@ -383,22 +398,16 @@ shouldEditTableColumn:(NSTableColumn *)tableColumn
         [namespaceField setStringValue:@""];
 }
 
-
-- (void) dealloc
-{
-    [elementDefinitions release];
-    [subcircuits release];
-    [super dealloc];
-}
-
 @end
 
 
-MI_NamedArray* extractSubcircuitFromSubpath(NSString* path)
+// Iterative method which creates a list of MI_SubcircuitElement objects
+// found at the given path, where sublist elements are inserted for subpaths.
+NSArray<MI_SubcircuitWithFile*>* extractSubcircuitFromSubpath(NSString* path)
 {
     // First, Get all files in the repository folder, including subfolders
     NSArray* files = [[NSFileManager defaultManager] directoryContentsAtPath:path];
-    NSMutableArray* result = [NSMutableArray arrayWithCapacity:10];
+    NSMutableArray<MI_SubcircuitWithFile*>* result = [NSMutableArray arrayWithCapacity:10];
     // Now build a list where directories are sublists
     // and subcircuit elements are items
     NSEnumerator* dirEnum = [files objectEnumerator];
@@ -413,8 +422,8 @@ MI_NamedArray* extractSubcircuitFromSubpath(NSString* path)
                                                       traverseLink:YES]
                 objectForKey:NSFileType] isEqualToString:NSFileTypeDirectory])
         {
-            // Get contents of sub-directory
-            [result addObject:extractSubcircuitFromSubpath(filePath)];
+            // recursing into sub-directory
+            [result addObjectsFromArray:extractSubcircuitFromSubpath(filePath)];
         }
         else
         {
@@ -427,7 +436,7 @@ MI_NamedArray* extractSubcircuitFromSubpath(NSString* path)
             NSMutableData* data = [NSData dataWithContentsOfFile:filePath];
             if (data == nil)
                 continue;
-            unarchiver = [[[NSKeyedUnarchiver alloc] initForReadingWithData:data] autorelease];
+            unarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
             fileVersion = [[unarchiver decodeObjectForKey:@"Version"] intValue];
             newModel = [unarchiver decodeObjectForKey:@"MI-SUGAR Document Model"];
             deviceModels = [unarchiver decodeObjectForKey:@"MI-SUGAR Circuit Device Models"];
@@ -449,14 +458,11 @@ MI_NamedArray* extractSubcircuitFromSubpath(NSString* path)
                 // create MI_SubcircuitElement object
                 element = [[MI_SubcircuitElement alloc] initWithDefinition:newModel];
                 // add them to the list
-                tableItem = [[MI_SubcircuitWithFile alloc] initWithSubcircuit:[element autorelease]
+                tableItem = [[MI_SubcircuitWithFile alloc] initWithSubcircuit:element
                                                                      filepath:filePath];
-                [result addObject:[tableItem autorelease]];
+                [result addObject:tableItem];
             }
         } // else
     }
-    MI_NamedArray* r = [[MI_NamedArray alloc] init];
-    [r setArray:result];
-    [r setName:[path lastPathComponent]];
-    return [r autorelease];
+    return result;
 }

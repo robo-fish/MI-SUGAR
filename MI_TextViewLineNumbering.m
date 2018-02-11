@@ -24,17 +24,14 @@
 
 @implementation MI_TextViewLineNumbering
 
-- (id) init
+- (instancetype) init
 {
     if (self = [super init])
     {
-        lineNumberStringAttributes = [[NSMutableDictionary dictionaryWithCapacity:2] retain];
+        lineNumberStringAttributes = [NSMutableDictionary dictionaryWithCapacity:2];
      /*   [lineNumberStringAttributes setObject:[NSFont systemFontOfSize:11.0f]
                                        forKey:NSFontAttributeName];*/
-        [lineNumberStringAttributes setObject:[NSColor colorWithDeviceRed:0.5f
-                                                                    green:0.5f
-                                                                     blue:0.5f
-                                                                    alpha:1.0f]
+        [lineNumberStringAttributes setObject:[NSColor colorWithDeviceRed:0.5f green:0.5f blue:0.5f alpha:1.0f]
                                        forKey:NSForegroundColorAttributeName];
     }
     return self;
@@ -112,11 +109,5 @@
     [bp stroke];
 }
 
-
-- (void) dealloc
-{
-    [lineNumberStringAttributes release];
-    [super dealloc];
-}
 
 @end

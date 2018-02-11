@@ -23,17 +23,22 @@
 #include <math.h>
 
 @implementation MI_ComplexNumber
+{
+  double real;
+  double imaginary;
+  double magnitude;
+}
 
-- (id) initWithReal:(double)realPart
+- (instancetype) initWithReal:(double)realPart
           imaginary:(double)imaginaryPart
 {
-    if (self = [super init])
-    {
-        real = realPart;
-        imaginary = imaginaryPart;
-        magnitude = sqrt((real * real) + (imaginary * imaginary));
-    }
-    return self;
+  if (self = [super init])
+  {
+    real = realPart;
+    imaginary = imaginaryPart;
+    magnitude = sqrt((real * real) + (imaginary * imaginary));
+  }
+  return self;
 }
 
 - (double) real { return real; }
@@ -43,10 +48,5 @@
 - (double) magnitude { return magnitude; }
 
 - (double) doubleValue { return magnitude; }
-
-- (void) dealloc
-{
-    [super dealloc];
-}
 
 @end

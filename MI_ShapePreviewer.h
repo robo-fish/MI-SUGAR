@@ -23,10 +23,7 @@
 
 // Objects of this class may be used to draw schematic element shapes.
 @interface MI_ShapePreviewer : NSView
-{
-    MI_Shape* shape; // the shape to be drawn
-}
-- (void) setShape:(MI_Shape*)theShape;
-- (MI_Shape*) shape;
+
+@property MI_Shape* shape;
 
 @end

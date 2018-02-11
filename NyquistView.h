@@ -31,7 +31,7 @@
     NSString *labelRealMax, *labelRealMin, *labelImaginaryMax, *labelImaginaryMin, *label_Re, *label_Im;
     NSDictionary* labelFontAttributes;
 }
-- (id) init;
+- (instancetype) init;
 - (void) setVariable:(AnalysisVariable*)aVar;
 - (void) drawLabels;
 - (void) calculateMargins:(NSRect)rect;

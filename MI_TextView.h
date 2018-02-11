@@ -34,11 +34,9 @@
 
 @interface MI_TextView : NSTextView
 {
-    NSObject <MI_DropHandler>* dropHandler;
-    IBOutlet MI_TextViewLineNumbering* lineNumberingView;
+  IBOutlet MI_TextViewLineNumbering* lineNumberingView;
 }
-- (void) setDropHandler:(NSObject <MI_DropHandler>*)handler;
-- (NSObject <MI_DropHandler>*) dropHandler;
+@property NSObject<MI_DropHandler>* dropHandler;
 - (MI_TextViewLineNumbering*) lineNumberingView;
 
 @end

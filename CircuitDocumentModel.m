@@ -24,41 +24,56 @@
 #import "MI_CircuitElement.h"
 #import "MI_DeviceModelManager.h"
 
-@implementation CircuitDocumentModel
+static NSUInteger const kNumVariants = 4;
 
-- (id) init
+@interface CircuitDocumentModel ()
+@end
+
+@implementation CircuitDocumentModel
 {
-    if (self = [super init])
-    {
-        MI_version = MI_CIRCUIT_DOCUMENT_MODEL_VERSION;
-        source = [[NSMutableString alloc] initWithCapacity:200];
-        rawOutput = nil;
-        output = nil;
-        title = nil;
-        circuitName = @"";
-        circuitNamespace = @"";
-        schematicScale = 1.0f;
-        schematicViewportOffset = NSMakePoint(0, 0);
-        analyses = [[NSMutableArray alloc] initWithCapacity:2];
-        comment = [[NSMutableString alloc] initWithCapacity:25];
-        revision = [[NSMutableString alloc] initWithCapacity:4];
-        
-        activeSchematicVariant = 0;
-        schematicVariants = [[NSMutableArray alloc] initWithCapacity:4];
-        // add 4 empty schematics
-        [schematicVariants addObject:[[[MI_CircuitSchematic alloc] init] autorelease]];
-        [schematicVariants addObject:[[[MI_CircuitSchematic alloc] init] autorelease]];
-        [schematicVariants addObject:[[[MI_CircuitSchematic alloc] init] autorelease]];
-        [schematicVariants addObject:[[[MI_CircuitSchematic alloc] init] autorelease]];
-    }
-    return self;
+  int MI_version;
+  NSString* _source;
+  MI_CircuitSchematic* _schematic;
+  NSMutableArray<MI_CircuitSchematic*>* _schematicVariants; // array which holds all schematic variants since 0.5.6
+  NSMutableArray<NSString*>* _analyses;
 }
 
+- (instancetype) init
+{
+  if (self = [super init])
+  {
+    MI_version = MI_CIRCUIT_DOCUMENT_MODEL_VERSION;
+    self.source = [[NSMutableString alloc] initWithCapacity:200];
+    self.rawOutput = nil;
+    self.output = nil;
+    self.circuitTitle = nil;
+    self.circuitName = @"";
+    self.circuitNamespace = @"";
+    self.schematicScale = 1.0f;
+    self.schematicViewportOffset = NSMakePoint(0, 0);
+    _analyses = [[NSMutableArray alloc] initWithCapacity:2];
+    self.comment = [[NSMutableString alloc] initWithCapacity:25];
+    self.revision = [[NSMutableString alloc] initWithCapacity:4];
+
+    self.activeSchematicVariant = 0;
+    _schematicVariants = [[NSMutableArray alloc] initWithCapacity:kNumVariants];
+    for (NSUInteger counter = 0; counter < kNumVariants; counter++)
+    {
+      [_schematicVariants addObject:[MI_CircuitSchematic new]];
+    }
+  }
+  return self;
+}
+
+- (NSString*) source
+{
+  return _source;
+}
 
 - (void) setSource:(NSString*)newSource
 {
-    unsigned lineStart = 0, nextLineStart, lineEnd;
-    int limit = [newSource length];
+    NSUInteger lineStart = 0, nextLineStart, lineEnd;
+    NSUInteger const limit = [newSource length];
     NSString *line, *uppercaseLine;
     BOOL gotTitle = NO;
     int tranCount = 0,
@@ -69,16 +84,16 @@
         distoCount = 0,
         noiseCount = 0;
 
-    [source setString:newSource];
-    [analyses removeAllObjects];
+    _source = newSource;
+    [_analyses removeAllObjects];
     // Scan line by line, extract commands
     while (lineStart < limit)
     {
-           [source getLineStart:&lineStart
+           [_source getLineStart:&lineStart
                             end:&nextLineStart
                     contentsEnd:&lineEnd
                        forRange:NSMakeRange(lineStart, 1)];
-        line = [source substringWithRange:NSMakeRange(lineStart, lineEnd - lineStart)];
+        line = [_source substringWithRange:NSMakeRange(lineStart, lineEnd - lineStart)];
         lineStart = nextLineStart;
         
         if (!gotTitle)
@@ -96,72 +111,65 @@
         uppercaseLine = [[line stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]] uppercaseString];
         if ( [uppercaseLine hasPrefix:@".TRAN "] || [uppercaseLine isEqualToString:@".TRAN"])
         {
-            [analyses addObject:
+            [_analyses addObject:
                 (tranCount ? [@"Transient" stringByAppendingFormat:@" %d", tranCount + 1] : @"Transient")];
             tranCount++;
         }
         else if ([uppercaseLine hasPrefix:@".AC "] || [uppercaseLine isEqualToString:@".AC"])
         {
-            [analyses addObject:
+            [_analyses addObject:
                 (acCount ? [@"AC" stringByAppendingFormat:@" %d", acCount + 1] : @"AC")];
             acCount++;
         }
         else if ( [uppercaseLine isEqualToString:@".OP"] || [uppercaseLine hasPrefix:@".OP "])
         {
-            [analyses addObject:
+            [_analyses addObject:
                 (opCount ? [@"Operating Point" stringByAppendingFormat:@" %d", opCount + 1] : @"Operating Point")];
             opCount++;
         }
         else if ( [uppercaseLine hasPrefix:@".TF "] )
         {
-            [analyses addObject:
+            [_analyses addObject:
                 (tfCount ? [@"Small-Signal" stringByAppendingFormat:@" %d", tfCount + 1] : @"Small-Signal")];
             tfCount++;
         }
         else if ( [uppercaseLine hasPrefix:@".DC "] )
         {
-            [analyses addObject:
+            [_analyses addObject:
                 (dcCount ? [@"DC" stringByAppendingFormat:@" %d", dcCount + 1] : @"DC")];
             dcCount++;
         }
         else if ( [uppercaseLine hasPrefix:@".DISTO "] )
         {
-            [analyses addObject:
+            [_analyses addObject:
                 (distoCount ? [@"Distortion" stringByAppendingFormat:@" %d", distoCount + 1] : @"Distortion")];
             distoCount++;
         }
         else if ( [uppercaseLine hasPrefix:@".NOISE "] )
         {
-            [analyses addObject:
+            [_analyses addObject:
                 (noiseCount ? [@"Noise" stringByAppendingFormat:@" %d", noiseCount + 1] : @"Noise")];
             noiseCount++;
         }
     }
 }
 
-
-- (NSString*) source
-{
-    return [NSString stringWithString:source];
-}
-
-
 - (NSString*) gnucapFilteredSource
 {
     // Look for commands or syntax which cause clutter or produce pitfalls for the postprocessor's parser
-    unsigned lineStart = 0, nextLineStart, lineEnd;
+    NSUInteger lineStart = 0, nextLineStart, lineEnd;
     NSString* filteredSource = @"";
     NSString* line;
     BOOL firstLine = YES;
-    unsigned limit = [source length];
+    NSUInteger const limit = self.source.length;
     // Scan line by line
     while (lineStart < limit)
     {
-        [source getLineStart:&lineStart
+        [self.source getLineStart:&lineStart
                          end:&nextLineStart
                  contentsEnd:&lineEnd
                     forRange:NSMakeRange(lineStart, 1)];
-        line = [source substringWithRange:NSMakeRange(lineStart, nextLineStart - lineStart)];
+        line = [self.source substringWithRange:NSMakeRange(lineStart, nextLineStart - lineStart)];
         if (firstLine)
         {
             while ([line hasPrefix:@"#"])
@@ -171,8 +179,8 @@
         }
         else if (![[line uppercaseString] hasPrefix:@".LIST"] &&
                  ![[line uppercaseString] hasPrefix:@".PLOT"] &&
-                 ![[line uppercaseString] hasPrefix:@"*"] ||
-                 [[line uppercaseString] hasPrefix:@"*>"])
+                 !([[line uppercaseString] hasPrefix:@"*"] || [[line uppercaseString] hasPrefix:@"*>"])
+                 )
             filteredSource = [filteredSource stringByAppendingString:line];
         lineStart = nextLineStart;
     }
@@ -182,19 +190,19 @@
 
 - (NSString*) spiceFilteredSource
 {
-    unsigned lineStart = 0, nextLineStart = 0, lineEnd = 0;
+    NSUInteger lineStart = 0, nextLineStart = 0, lineEnd = 0;
     NSString* filteredSource = @"";
     NSString* line;
-    unsigned limit = [source length];
+    NSUInteger const limit = self.source.length;
     BOOL firstLine = YES;
     // Filtering the .PLOT commands from the SPICE input
     while (nextLineStart < limit)
     {
-        [source getLineStart:&lineStart
+        [self.source getLineStart:&lineStart
                          end:&nextLineStart
                  contentsEnd:&lineEnd
                     forRange:NSMakeRange(nextLineStart, 1)];
-        line = [source substringWithRange:NSMakeRange(lineStart, nextLineStart - lineStart)];
+        line = [self.source substringWithRange:NSMakeRange(lineStart, nextLineStart - lineStart)];
         if (firstLine)
         {
             filteredSource = [filteredSource stringByAppendingString:line];
@@ -209,206 +217,71 @@
 }
 
 
-- (void) setOutput:(NSString*)newOutput
-{
-    [newOutput retain];
-    [output release];
-    output = newOutput;
-}
-
-
-- (NSString*) output
-{
-    return output;
-}
-
-
-- (void) setRawOutput:(NSString*)newRawOutput
-{
-    [newRawOutput retain];
-    [rawOutput release];
-    rawOutput = newRawOutput;
-}
-
-
-- (NSString*) rawOutput
-{
-    return rawOutput;
-}
-
-
-- (NSString*) circuitTitle
-{
-    return title;
-}
-
-
-- (void) setCircuitTitle:(NSString*)newTitle
-{
-    [newTitle retain];
-    [title release];
-    title = newTitle;
-}
-
-
-- (NSString*) circuitName
-{
-    return [NSString stringWithString:circuitName];
-}
-
-
-- (void) setCircuitName:(NSString*)newName
-{
-    [newName retain];
-    [circuitName release];
-    circuitName = newName;
-}
-
-
-- (NSString*) circuitNamespace
-{
-    return [NSString stringWithString:circuitNamespace];
-}
-
-
-- (void) setCircuitNamespace:(NSString*)newNamespace
-{
-    [newNamespace retain];
-    [circuitNamespace release];
-    circuitNamespace = newNamespace;
-}
-
-
 - (NSString*) fullyQualifiedCircuitName;
 {
-    if (circuitNamespace && [circuitNamespace length])
-        return [NSString stringWithFormat:@"%@.%@", circuitNamespace, circuitName];
+    if (self.circuitNamespace && (self.circuitNamespace.length > 0))
+        return [NSString stringWithFormat:@"%@.%@", self.circuitNamespace, self.circuitName];
     else
-        return [NSString stringWithString:circuitName];
+        return [self.circuitName copy];
 }
 
 
 - (void) setSchematic:(MI_CircuitSchematic*)newSchematic
 {
-    if (newSchematic != nil)
-        [schematicVariants replaceObjectAtIndex:activeSchematicVariant
-                                     withObject:newSchematic];
+  if (newSchematic != nil)
+  {
+    [_schematicVariants replaceObjectAtIndex:self.activeSchematicVariant withObject:newSchematic];
+  }
 }
 
 
 - (MI_CircuitSchematic*) schematic
 {
-    return [schematicVariants objectAtIndex:activeSchematicVariant];
+  return [_schematicVariants objectAtIndex:self.activeSchematicVariant];
 }
 
 
-- (NSArray*) analyses
+- (NSArray<NSString*>*) analyses
 {
-    return analyses;
+  return _analyses;
 }
 
 
-- (NSArray*) circuitDeviceModels
+- (NSArray<MI_CircuitElementDeviceModel*>*) circuitDeviceModels
 {
-    NSEnumerator* schematicEnum = [schematicVariants objectEnumerator];
-    MI_Schematic* currentSchematic;
-    NSEnumerator* modelEnum;
-    NSEnumerator* elementEnum;
+  NSMutableArray<MI_CircuitElementDeviceModel*>* circuitModels = [NSMutableArray arrayWithCapacity:2];
+  for (MI_Schematic* currentSchematic in _schematicVariants)
+  {
     MI_SchematicElement* currentElement;
-    MI_CircuitElementDeviceModel *currentModel, *currentModel2;
-    NSString* currentModelName;
-    NSMutableArray* circuitModels = [NSMutableArray arrayWithCapacity:2];
-    BOOL alreadyAdded;
-    while (currentSchematic = [schematicEnum nextObject])
+    NSEnumerator* elementEnum = [currentSchematic elementEnumerator];
+    while (currentElement = [elementEnum nextObject])
     {
-        elementEnum = [currentSchematic elementEnumerator];
-        // For all elements of the circuit do...
-        while (currentElement = [elementEnum nextObject])
+      if (![currentElement isKindOfClass:[MI_CircuitElement class]]) continue;
+
+      NSString* currentModelName = [[(MI_CircuitElement*)currentElement parameters] objectForKey:@"Model"];
+      if (currentModelName != nil && ![currentModelName hasPrefix:@"Default"])
+      {
+        MI_CircuitElementDeviceModel* currentModel = [[MI_DeviceModelManager sharedManager] modelForName:currentModelName];
+        if (currentModel != nil)
         {
-            if (![currentElement isKindOfClass:[MI_CircuitElement class]])
-                continue;
-            // Does the current element have a "Model" parameter with non-default value?
-            currentModelName = [[(MI_CircuitElement*)currentElement parameters] objectForKey:@"Model"];
-            if (currentModelName != nil && ![currentModelName hasPrefix:@"Default"])
+          BOOL alreadyAdded = NO;
+          for (MI_CircuitElementDeviceModel* addedModel in circuitModels)
+          {
+            if ([addedModel.modelName isEqualToString:currentModel.modelName])
             {
-                // Find the corresponding model object from the model repository
-                currentModel = [[MI_DeviceModelManager sharedManager] modelForName:currentModelName];
-                if (currentModel != nil)
-                {
-                    // Now check if the model object is already in our list
-                    // We can re-use the variable modelEnum here
-                    alreadyAdded = NO;
-                    modelEnum = [circuitModels objectEnumerator];
-                    while (currentModel2 = [modelEnum nextObject])
-                    {
-                        if ([[currentModel2 modelName] isEqualToString:[currentModel modelName]])
-                        {
-                            alreadyAdded = YES;
-                            break;
-                        }
-                    }
-                    if (!alreadyAdded)
-                        [circuitModels addObject:currentModel];
-                }
+              alreadyAdded = YES;
+              break;
             }
-        } // end iterate over elements
-    } // end iterate over schematics
-    return [NSArray arrayWithArray:circuitModels];
-}
-
-
-- (NSString*) comment
-{
-    return [NSString stringWithString:comment];
-}
-
-
-- (void) setComment:(NSString*)newComment
-{
-    if (newComment != nil)
-        [comment setString:newComment];
-}
-
-
-- (NSString*) revision
-{
-    return [NSString stringWithString:revision];
-}
-
-- (void) setRevision:(NSString*)rev
-{
-    if (rev != nil)
-        [revision setString:rev];
-}
-
-- (float) schematicScale
-{
-    return schematicScale;
-}
-
-- (void) setSchematicScale:(float)newScale
-{
-    schematicScale = newScale;
-}
-
-- (NSPoint) schematicViewportOffset
-{
-    return schematicViewportOffset;
-}
-
-- (void) setSchematicViewportOffset:(NSPoint)newOffset
-{
-    schematicViewportOffset = newOffset;
-}
-
-- (int) activeSchematicVariant
-{
-    return activeSchematicVariant;
-}
-
-- (void) setActiveSchematicVariant:(int)variantIndex
-{
-    activeSchematicVariant = variantIndex;
+          }
+          if (!alreadyAdded)
+          {
+            [circuitModels addObject:currentModel];
+          }
+        }
+      }
+    } // end iterate over elements
+  } // end iterate over schematics
+  return [NSArray arrayWithArray:circuitModels];
 }
 
 
@@ -416,95 +289,62 @@
 
 - (id)initWithCoder:(NSCoder *)decoder
 {
-    if (self = [super init])
+  if (self = [super init])
+  {
+    MI_version = [decoder decodeIntForKey:@"Version"];
+    // Depending on version the rest may be decoded differently
+    if (MI_version < 3)
     {
-        MI_version = [decoder decodeIntForKey:@"Version"];
-        // Depending on version the rest may be decoded differently
-        if (MI_version < 3)
-        {
-            // for old files from before schematic variants were introduced
-            activeSchematicVariant = 0;
-            schematicVariants = [[NSMutableArray alloc] initWithCapacity:4];
-            [schematicVariants addObject:[decoder decodeObjectForKey:@"Schematic"]];
-            // add three empty schematics
-            [schematicVariants addObject:[[[MI_CircuitSchematic alloc] init] autorelease]];
-            [schematicVariants addObject:[[[MI_CircuitSchematic alloc] init] autorelease]];
-            [schematicVariants addObject:[[[MI_CircuitSchematic alloc] init] autorelease]];
-        }
-        else
-        {
-            activeSchematicVariant = [decoder decodeIntForKey:@"ActiveSchematicVariant"];
-            schematicVariants = [[decoder decodeObjectForKey:@"SchematicVariants"] retain];
-        }
-        schematic = nil; // legacy variable
-        source = [[decoder decodeObjectForKey:@"Source"] retain];
-        analyses = [[decoder decodeObjectForKey:@"Analyses"] retain];
-        title = [[decoder decodeObjectForKey:@"Title"] retain];
-        if (title == nil)
-            title = [@"" retain];
-        circuitName = [[decoder decodeObjectForKey:@"CircuitName"] retain]; // since 0.5.3
-        if (circuitName == nil)
-            circuitName = [@"" retain];
-        circuitNamespace = [[decoder decodeObjectForKey:@"CircuitNamespace"] retain]; // since 0.5.3
-        if (circuitNamespace == nil)
-            circuitNamespace = [@"" retain];
-        comment = [[decoder decodeObjectForKey:@"Comment"] retain];
-        if (comment == nil)
-            comment = [[NSMutableString alloc] initWithCapacity:25];
-        revision = [[decoder decodeObjectForKey:@"Revision"] retain];
-        if (revision == nil)
-            revision = [[NSMutableString alloc] initWithCapacity:4];
-        schematicScale = [decoder decodeFloatForKey:@"SchematicScale"];
-        schematicViewportOffset = [decoder decodePointForKey:@"SchematicViewportOffset"];
-        // Finally, set the version of this new document model
-        MI_version = MI_CIRCUIT_DOCUMENT_MODEL_VERSION;
+      // for old files from before schematic variants were introduced
+      self.activeSchematicVariant = 0;
+      _schematicVariants = [[NSMutableArray alloc] initWithCapacity:kNumVariants];
+      [_schematicVariants addObject:[decoder decodeObjectForKey:@"Schematic"]];
+      for (NSUInteger i = 0; i < kNumVariants - 1; i++)
+      {
+        [_schematicVariants addObject:[MI_CircuitSchematic new]];
+      }
     }
-    return self;
+    else
+    {
+      self.activeSchematicVariant = [decoder decodeIntForKey:@"ActiveSchematicVariant"];
+      _schematicVariants = [decoder decodeObjectForKey:@"SchematicVariants"];
+    }
+    self.schematic = nil; // legacy variable
+    self.source = [decoder decodeObjectForKey:@"Source"];
+    _analyses = [decoder decodeObjectForKey:@"Analyses"];
+    self.circuitTitle = [decoder decodeObjectForKey:@"Title"];
+    if (self.circuitTitle == nil) { self.circuitTitle = @""; }
+    self.circuitName = [decoder decodeObjectForKey:@"CircuitName"]; // since version 0.5.3
+    if (self.circuitName == nil) { self.circuitName = @""; }
+    self.circuitNamespace = [decoder decodeObjectForKey:@"CircuitNamespace"]; // since version 0.5.3
+    if (self.circuitNamespace == nil) { self.circuitNamespace = @""; }
+    self.comment = [decoder decodeObjectForKey:@"Comment"];
+    if (self.comment == nil) { self.comment = [[NSMutableString alloc] initWithCapacity:25]; }
+    self.revision = [decoder decodeObjectForKey:@"Revision"];
+    if (self.revision == nil) { self.revision = [[NSMutableString alloc] initWithCapacity:4]; }
+    self.schematicScale = [decoder decodeFloatForKey:@"SchematicScale"];
+    self.schematicViewportOffset = [decoder decodePointForKey:@"SchematicViewportOffset"];
+    // Finally, set the version of this new document model
+    MI_version = MI_CIRCUIT_DOCUMENT_MODEL_VERSION;
+  }
+  return self;
 }
 
 - (void)encodeWithCoder:(NSCoder *)encoder
 {
-    [encoder encodeInt:MI_version
-                   forKey:@"Version"];
-    [encoder encodeInt:activeSchematicVariant
-                forKey:@"ActiveSchematicVariant"];
-    [encoder encodeObject:schematicVariants
-                   forKey:@"SchematicVariants"];
-    [encoder encodeObject:source
-                   forKey:@"Source"];
-    [encoder encodeObject:analyses
-                   forKey:@"Analyses"];
-    [encoder encodeObject:title
-                   forKey:@"Title"];
-    [encoder encodeObject:circuitName
-                   forKey:@"CircuitName"];
-    [encoder encodeObject:circuitNamespace
-                   forKey:@"CircuitNamespace"];
-    [encoder encodeObject:comment
-                   forKey:@"Comment"];
-    [encoder encodeObject:revision
-                forKey:@"Revision"];
-    [encoder encodeFloat:schematicScale
-                  forKey:@"SchematicScale"];
-    [encoder encodePoint:schematicViewportOffset
-                  forKey:@"SchematicViewportOffset"];
+  [encoder encodeInt:MI_version forKey:@"Version"];
+  [encoder encodeInt:self.activeSchematicVariant forKey:@"ActiveSchematicVariant"];
+  [encoder encodeObject:_schematicVariants forKey:@"SchematicVariants"];
+  [encoder encodeObject:self.source forKey:@"Source"];
+  [encoder encodeObject:_analyses forKey:@"Analyses"];
+  [encoder encodeObject:self.circuitTitle forKey:@"Title"];
+  [encoder encodeObject:self.circuitName forKey:@"CircuitName"];
+  [encoder encodeObject:self.circuitNamespace forKey:@"CircuitNamespace"];
+  [encoder encodeObject:self.comment forKey:@"Comment"];
+  [encoder encodeObject:self.revision forKey:@"Revision"];
+  [encoder encodeFloat:self.schematicScale forKey:@"SchematicScale"];
+  [encoder encodePoint:self.schematicViewportOffset forKey:@"SchematicViewportOffset"];
 }
 
-/******************************************************************/
-
-- (void) dealloc
-{
-    [schematicVariants release];
-    [source release];
-    [rawOutput release];
-    [output release];
-    [title release];
-    [analyses release];
-    [circuitName release];
-    [circuitNamespace release];
-    [comment release];
-    [revision release];
-    [super dealloc];
-}
 
 @end

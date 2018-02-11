@@ -23,36 +23,31 @@
 
 
 @implementation MI_ImageElement
-
-- (id) initWithImage:(NSImage*)theImage
 {
-    if (self = [super init])
-    {
-        image = theImage;
-        [image retain];
-    }
-    return self;
+@private
+  NSImage* _image;
 }
 
+- (instancetype) initWithImage:(NSImage*)theImage
+{
+  if (self = [super init])
+  {
+    _image = theImage;
+  }
+  return self;
+}
 
 - (void) draw
 {
-    [super draw];
+  [super draw];
 
-    [image drawAtPoint:NSMakePoint(position.x - [image size].width / 2,
-                                   position.y - [image size].height / 2)
-              fromRect:NSMakeRect(0, 0, [image size].width, [image size].height)
-             operation:NSCompositeSourceOver
-              fraction:1.0f];
-        
-    [super endDraw];
-}
+  [_image drawAtPoint:NSMakePoint(self.position.x - [_image size].width / 2,
+                                 self.position.y - [_image size].height / 2)
+             fromRect:NSMakeRect(0, 0, [_image size].width, [_image size].height)
+            operation:NSCompositingOperationSourceOver
+             fraction:1.0f];
 
-
-- (void) dealloc
-{
-    [image release];
-    [super dealloc];
+  [super endDraw];
 }
 
 @end

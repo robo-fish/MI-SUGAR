@@ -27,7 +27,7 @@
 @interface SugarPlotter : NSObject <SugarGraphObserver, NSWindowDelegate>
 
 /* Called when the popup button is used to select another analysis type */
-- (id) initWithPlottingData:(NSArray*)plotData;
+- (instancetype) initWithPlottingData:(NSArray*)plotData;
 
 - (void) setWindowController:(NSWindowController*)controller;
 

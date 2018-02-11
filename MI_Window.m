@@ -23,56 +23,46 @@
 
 @implementation MI_Window
 
-- (id) init
+- (instancetype) init
 {
     if (self = [super init])
-        dropHandler = nil;
+        self.dropHandler = nil;
     return self;
+}
+
+
+- (void) dealloc
+{
+  [self unregisterDraggedTypes];
 }
 
 
 - (void) awakeFromNib
 {
-    [self registerForDraggedTypes:
-        [NSArray arrayWithObject:NSURLPboardType]];
+  [self registerForDraggedTypes:@[NSURLPboardType]];
 }
-
-
-- (void) setDropHandler:(NSObject <MI_DropHandler>*)handler
-{
-    [handler retain];
-    [dropHandler release];
-    dropHandler = handler;
-}
-
-
-- (NSObject <MI_DropHandler>*) dropHandler
-{
-    return dropHandler;
-}
-
 
 
 - (NSDragOperation) draggingEntered:(id <NSDraggingInfo>)sender
 {
-    NSPasteboard *pboard = [sender draggingPasteboard];
-    if ([[pboard types] indexOfObject:NSURLPboardType] == NSNotFound)
-        return NSDragOperationNone;
-    else
-        return NSDragOperationLink;
+  NSPasteboard *pboard = [sender draggingPasteboard];
+  if ([[pboard types] indexOfObject:NSURLPboardType] == NSNotFound)
+      return NSDragOperationNone;
+  else
+      return NSDragOperationLink;
 }
 
 
 - (BOOL) prepareForDragOperation:(id <NSDraggingInfo>)sender
 {
-    return YES;
+  return YES;
 }
 
 
 - (BOOL) performDragOperation:(id <NSDraggingInfo>)sender
 {
-    [dropHandler processDrop:sender];
-    return YES;
+  [self.dropHandler processDrop:sender];
+  return YES;
 }
 
 
@@ -80,13 +70,5 @@
 {
 }
 
-
-- (void) dealloc
-{
-    
-    [dropHandler release];
-    [self unregisterDraggedTypes];
-    [super dealloc];
-}
 
 @end

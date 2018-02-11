@@ -23,89 +23,55 @@
 #import "MI_NodeAssignmentTableItem.h"
 
 @implementation MI_NodeAssignmentTableItem
-
-- (id) initWithElement:(NSString*)identifier
-       connectionPoint:(NSString*)pointName
 {
-    if (self = [super init])
-    {
-        elementID = [identifier retain];
-        connectionPointName = [pointName retain];
-        nodeNumber = -1; // means it's initally unassigned
-        nodeName = nil;
-    }
-    return self;
+@private
+  NSString* _elementID;
+  NSString* _connectionPointName;
+}
+
+- (instancetype) initWithElement:(NSString*)identifier connectionPoint:(NSString*)pointName
+{
+  if (self = [super init])
+  {
+    _elementID = identifier;
+    _connectionPointName = pointName;
+    _node = -1; // means it's initally unassigned
+    _nodeName = nil;
+  }
+  return self;
 }
 
 - (NSString*) elementID
 {
-    return elementID;
+  return _elementID;
 }
 
 - (NSString*) pointName
 {
-    return connectionPointName;
+  return _connectionPointName;
 }
 
-- (int) node
-{
-    return nodeNumber;
-}
-
-- (void) setNode:(int)node
-{
-    nodeNumber = node;
-}
-
-- (NSString*) nodeName
-{
-    if (nodeName == nil)
-        return nil;
-    else
-        return [NSString stringWithString:nodeName];
-}
-
-- (void) setNodeName:(NSString*)name
-{
-    [name retain];
-    [nodeName release];
-    nodeName = name;
-}
-
-/****************************************************/
+/**** NSCoding implementation ***************************/
 
 - (id)initWithCoder:(NSCoder *)decoder
 {
-    if (self = [super init])
-    {
-        elementID = [[decoder decodeObjectForKey:@"ElementID"] retain];
-        connectionPointName = [[decoder decodeObjectForKey:@"ConnectionPointName"] retain];
-        nodeNumber = [decoder decodeIntForKey:@"NodeNumber"];
-        nodeName = [[decoder decodeObjectForKey:@"NodeName"] retain];
-    }
-    return self;
+  if (self = [super init])
+  {
+    _elementID = [decoder decodeObjectForKey:@"ElementID"];
+    _connectionPointName = [decoder decodeObjectForKey:@"ConnectionPointName"];
+    _node = [decoder decodeIntForKey:@"NodeNumber"];
+    _nodeName = [decoder decodeObjectForKey:@"NodeName"];
+  }
+  return self;
 }        
 
 - (void)encodeWithCoder:(NSCoder *)encoder
 {
-    [encoder encodeObject:elementID
-                   forKey:@"ElementID"];
-    [encoder encodeObject:connectionPointName
-                   forKey:@"ConnectionPointName"];
-    [encoder encodeInt:nodeNumber
-                forKey:@"NodeNumber"];
-    [encoder encodeObject:nodeName
-                   forKey:@"NodeName"];
+  [encoder encodeObject:_elementID forKey:@"ElementID"];
+  [encoder encodeObject:_connectionPointName forKey:@"ConnectionPointName"];
+  [encoder encodeInt:_node forKey:@"NodeNumber"];
+  [encoder encodeObject:_nodeName forKey:@"NodeName"];
 }
 
-/****************************************************/
-
-- (void) dealloc
-{
-    [elementID release];
-    [connectionPointName release];
-    [nodeName release];
-    [super dealloc];
-}
 
 @end

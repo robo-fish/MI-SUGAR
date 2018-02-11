@@ -31,7 +31,7 @@ static MI_SubcircuitCreator* theCreator = nil;
 
 @implementation MI_SubcircuitCreator
 
-- (id) init
+- (instancetype) init
 {
     if (theCreator == nil)
     {
@@ -70,7 +70,7 @@ static MI_SubcircuitCreator* theCreator = nil;
     [pinChooser selectItemWithTitle:@"6"]; // default number of pins
     [self setNumberOfConnectionPoints:6];
     [self selectShapeType:dipShapeSelectionButton];
-    [shapePreviewer setShape:[[[MI_DIPShape alloc] initWithNumberOfPins:6] autorelease]];
+    [shapePreviewer setShape:[[MI_DIPShape alloc] initWithNumberOfPins:6]];
     [self resetPinMapping];
     // add names from the schematic to the node name chooser button
     NSEnumerator* elementEnum = [[[doc model] schematic] elementEnumerator];
@@ -80,7 +80,7 @@ static MI_SubcircuitCreator* theCreator = nil;
                                                   action:@selector(setNodeNameForPin:)
                                            keyEquivalent:@""];
     [item setTarget:self];
-    [chooserMenu addItem:[item autorelease]];
+    [chooserMenu addItem:item];
     while (element = [elementEnum nextObject])
     {
         if ([element conformsToProtocol:@protocol(MI_ElectricallyTransparentElement)] &&
@@ -90,7 +90,7 @@ static MI_SubcircuitCreator* theCreator = nil;
                                               action:@selector(setNodeNameForPin:)
                                        keyEquivalent:@""];
             [item setTarget:self];
-            [chooserMenu addItem:[item autorelease]];
+            [chooserMenu addItem:item];
         }
     }
     [nodeNameChooser setMenu:chooserMenu];
@@ -128,14 +128,14 @@ static MI_SubcircuitCreator* theCreator = nil;
         // Create the default shape
         if (usesCustomShape)
         {
-            [subckt setShape:[[[shapePreviewer shape] copy] autorelease]];
+            [subckt setShape:[[shapePreviewer shape] copy]];
         }
         else
         {
             MI_DIPShape* defaultShape =
                 [[MI_DIPShape alloc] initWithNumberOfPins:numberOfConnectionPoints];
             [defaultShape setName:[subckt circuitName]];
-            [subckt setShape:[defaultShape autorelease]];
+            [subckt setShape:defaultShape];
         }
         // save to library directory
         [[[SugarManager sharedManager] subcircuitLibraryManager]
@@ -154,7 +154,7 @@ static MI_SubcircuitCreator* theCreator = nil;
         return;
     int numberOfPins = [[[pinChooser selectedItem] title] intValue];
     [self setNumberOfConnectionPoints:numberOfPins];
-    [shapePreviewer setShape:[[[MI_DIPShape alloc] initWithNumberOfPins:numberOfPins] autorelease]];
+    [shapePreviewer setShape:[[MI_DIPShape alloc] initWithNumberOfPins:numberOfPins]];
     [shapePreviewer setNeedsDisplay:YES];
 }
 
@@ -198,8 +198,7 @@ static MI_SubcircuitCreator* theCreator = nil;
         [shapePreviewer setShape:s];
         [shapePreviewer setNeedsDisplay:YES];
         [self setNumberOfConnectionPoints:[[s connectionPoints] count]];
-        [customShapeConnectionPointNames setArray:
-            [[[[s connectionPoints] allKeys] copy] autorelease]];
+        [customShapeConnectionPointNames setArray:[[[s connectionPoints] allKeys] copy]];
         [self resetPinMapping];
     }
 }
@@ -288,8 +287,7 @@ objectValueForTableColumn:(NSTableColumn *)aTableColumn
     if (sender == dipShapeSelectionButton)
     {
         [customShapeSelectionButton setState:NSOffState];
-        [shapePreviewer setShape:
-            [[[MI_DIPShape alloc] initWithNumberOfPins:numberOfConnectionPoints] autorelease]];
+        [shapePreviewer setShape: [[MI_DIPShape alloc] initWithNumberOfPins:numberOfConnectionPoints]];
         usesCustomShape = NO;
         [self setNumberOfConnectionPoints:[[[pinChooser selectedItem] title] intValue]];
         [customShapeFileBrowseButton setEnabled:NO];
@@ -305,15 +303,6 @@ objectValueForTableColumn:(NSTableColumn *)aTableColumn
         [pinChooser setEnabled:NO];
     }
     [shapePreviewer setNeedsDisplay:YES];
-}
-
-
-- (void) dealloc
-{
-    [nodeNameChooser release];
-    [pinMapping release];
-    [customShapeConnectionPointNames release];
-    [super dealloc];
 }
 
 

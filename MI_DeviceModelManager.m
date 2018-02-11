@@ -21,7 +21,6 @@
 ****************************************************************************/
 #import "MI_DeviceModelManager.h"
 #import "SugarManager.h"
-#import "MI_NamedArray.h"
 
 static MI_DeviceModelManager* sharedDeviceModelManager = nil;
 
@@ -35,7 +34,7 @@ static NSString* deviceModelsFilePath = nil;
 
 @implementation MI_DeviceModelManager
 
-- (id) init
+- (instancetype) init
 {
     if (sharedDeviceModelManager == nil)
     {
@@ -73,7 +72,7 @@ static NSString* deviceModelsFilePath = nil;
             [fm createDirectoryAtPath:supportFolder attributes:nil];
         }
         // Check if the device model library file exists
-        deviceModelsFilePath = [[supportFolder stringByAppendingString:@"/Device Models"] retain];
+        deviceModelsFilePath = [supportFolder stringByAppendingString:@"/Device Models"];
         if ( [fm fileExistsAtPath:deviceModelsFilePath isDirectory:&isDir] )
         {
             if (isDir)
@@ -99,7 +98,6 @@ static NSString* deviceModelsFilePath = nil;
                         [self addModel:currentModel];
                 }
                 [unarchiver finishDecoding];
-                [unarchiver release];
             NS_HANDLER
                 if (NSRunAlertPanel(@"Corrupt device models file!",
                     @"The content of your device models library can not be read!",
@@ -229,7 +227,7 @@ static NSString* deviceModelsFilePath = nil;
         [toolbar setAutosavesConfiguration:NO];
         [toolbar setDisplayMode:NSToolbarDisplayModeIconAndLabel];
         [toolbar setDelegate:self];
-        [deviceModelPanel setToolbar:[toolbar autorelease]];
+        [deviceModelPanel setToolbar:toolbar];
     }
     [deviceModelPanel orderFront:self];
 }
@@ -305,21 +303,18 @@ static NSString* deviceModelsFilePath = nil;
 {
     BOOL success = YES;
 NS_DURING
-    NSKeyedUnarchiver* unarchiver =
-    [[NSKeyedUnarchiver alloc] initForReadingWithData:
-        [NSData dataWithContentsOfFile:filePath]];
+    NSKeyedUnarchiver* unarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:[NSData dataWithContentsOfFile:filePath]];
     id imported = [unarchiver decodeObjectForKey:MISUGAR_CIRCUIT_DEVICE_MODELS];
     if ( (imported != nil) && [imported isKindOfClass:[NSArray class]] )
     {
-        NSEnumerator* importedModelsEnum = [imported objectEnumerator];
-        MI_CircuitElementDeviceModel* currentModel;
-        while (currentModel = [importedModelsEnum nextObject])
-            [self addModel:currentModel];
+      for (MI_CircuitElementDeviceModel* currentModel in (NSArray*)imported)
+      {
+        [self addModel:currentModel];
+      }
     }
     else
         success = NO;
     [unarchiver finishDecoding];
-    [unarchiver release];
 NS_HANDLER
     success = NO;
 NS_ENDHANDLER
@@ -335,14 +330,10 @@ NS_ENDHANDLER
     NSMutableData* data = [NSMutableData data];
 
 NS_DURING
-    NSKeyedArchiver* archiver =
-        [[NSKeyedArchiver alloc] initForWritingWithMutableData:data];
-    [archiver encodeObject:models
-                    forKey:MISUGAR_CIRCUIT_DEVICE_MODELS];
+    NSKeyedArchiver* archiver = [[NSKeyedArchiver alloc] initForWritingWithMutableData:data];
+    [archiver encodeObject:models forKey:MISUGAR_CIRCUIT_DEVICE_MODELS];
     [archiver finishEncoding];
-    success = [data writeToFile:filePath
-                     atomically:YES];
-    [archiver release];
+    success = [data writeToFile:filePath atomically:YES];
 NS_HANDLER
     success = NO;
 NS_ENDHANDLER
@@ -477,9 +468,9 @@ NS_ENDHANDLER
 {
     if (returnCode != NSModalResponseOK)
         return;
-    if ([(id)contextInfo isKindOfClass:[NSString class]])
+    if ([(__bridge id)contextInfo isKindOfClass:[NSString class]])
     {
-        if ([(NSString*)contextInfo isEqualToString:@"export"])
+        if ([(__bridge NSString*)contextInfo isEqualToString:@"export"])
         {
             // get the selected models
             int k;
@@ -762,17 +753,14 @@ constrainMaxCoordinate:(float)proposedMin
 
 - (void) dealloc
 {
-    // save panel geometry
-    if (deviceModelPanel != nil)
-        [deviceModelPanel saveFrameUsingName:MISUGAR_DEVICE_MODELS_PANEL_FRAME];
-    // save device models
-    [self saveModels];
-    [deviceModelsFilePath release];
-    deviceModelsFilePath = nil;
-    [deviceModels release];
-    sharedDeviceModelManager = nil;
-    [modelTree setDelegate:nil];
-    [super dealloc];
+  if (deviceModelPanel != nil)
+  {
+    [deviceModelPanel saveFrameUsingName:MISUGAR_DEVICE_MODELS_PANEL_FRAME];
+  }
+  [self saveModels];
+  deviceModelsFilePath = nil;
+  sharedDeviceModelManager = nil;
+  [modelTree setDelegate:nil];
 }
 
 @end

@@ -24,144 +24,86 @@
 
 @implementation MI_PathShape
 
-- (id) initWithSize:(NSSize)theSize;
+
+- (instancetype) initWithSize:(NSSize)theSize;
 {
-    if (self = [super init])
-    {
-        size = theSize;
-        filledPaths = [[NSMutableArray alloc] initWithCapacity:10];
-        outlinePaths = [[NSMutableArray alloc] initWithCapacity:10];
-        svgEquivalent = @"";
-    }
-    return self;
+  if (self = [super initWithSize:theSize])
+  {
+    self.svgEquivalent = @"";
+  }
+  return self;
 }
-
-
-- (NSArray*) filledPaths
-{
-    return [NSArray arrayWithArray:filledPaths];
-}
-
-
-- (NSArray*) outlinePaths
-{
-    return [NSArray arrayWithArray:outlinePaths];
-}
-
-
-- (void) setFilledPaths:(NSArray*)newFilledPaths
-{
-    if (filledPaths == nil)
-        filledPaths = [[NSMutableArray alloc] initWithCapacity:10];
-    [filledPaths setArray:newFilledPaths];
-}
-
-
-- (void) setOutlinePaths:(NSArray*)newPaths
-{
-    if (outlinePaths == nil)
-        outlinePaths = [[NSMutableArray alloc] initWithCapacity:10];
-    [outlinePaths setArray:newPaths];
-}
-
-
-- (void) setSVGEquivalent:(NSString*)theSVGShape
-{
-    [theSVGShape retain];
-    [svgEquivalent release];
-    svgEquivalent = theSVGShape;
-}
-
 
 - (NSString*) shapeToSVG
 {
-    if (!svgEquivalent)
-        svgEquivalent = @"";
-    return [NSString stringWithString:svgEquivalent];
+    if (!self.svgEquivalent)
+        self.svgEquivalent = @"";
+    return [NSString stringWithString:self.svgEquivalent];
 }
 
 
 // overrides parent method to draw the shape
 - (void) drawAtPoint:(NSPoint)position
 {
-    // It is assumed that all paths start with an absolute move command.
-    // This requires a shift in the coordinate origin in order to position
-    // the shape correctly on the canvas.
-    NSBezierPath *path, *tmp;
-    NSEnumerator* pathEnum = [outlinePaths objectEnumerator];
-    
-    NSGraphicsContext* currentContext = [NSGraphicsContext currentContext];
-    [currentContext saveGraphicsState];
-    NSAffineTransform* offsetTransform = [NSAffineTransform transform];
-    [offsetTransform translateXBy:position.x
-                              yBy:position.y];
-    [offsetTransform concat];
-    
-    while (path = [pathEnum nextObject])
-    {
-        tmp = [NSBezierPath bezierPath];
-        [tmp moveToPoint:position];
-        [tmp appendBezierPath:path];
-        [tmp stroke];
-    }
-    pathEnum = [filledPaths objectEnumerator];
-    while (path = [pathEnum nextObject])
-    {
-        tmp = [NSBezierPath bezierPath];
-        [tmp moveToPoint:position];
-        [tmp appendBezierPath:path];
-        [tmp fill];
-    }
+  // It is assumed that all paths start with an absolute move command.
+  // This requires a shift in the coordinate origin in order to position
+  // the shape correctly on the canvas.
 
-    [currentContext restoreGraphicsState];
+  NSGraphicsContext* currentContext = [NSGraphicsContext currentContext];
+  [currentContext saveGraphicsState];
+  NSAffineTransform* offsetTransform = [NSAffineTransform transform];
+  [offsetTransform translateXBy:position.x yBy:position.y];
+  [offsetTransform concat];
+
+  for (NSBezierPath* path in self.outlinePaths)
+  {
+    NSBezierPath* tmp = [NSBezierPath bezierPath];
+    [tmp moveToPoint:position];
+    [tmp appendBezierPath:path];
+    [tmp stroke];
+  }
+
+  for (NSBezierPath* path in self.filledPaths)
+  {
+    NSBezierPath* tmp = [NSBezierPath bezierPath];
+    [tmp moveToPoint:position];
+    [tmp appendBezierPath:path];
+    [tmp fill];
+  }
+
+  [currentContext restoreGraphicsState];
 }
 
 /************* NSCoding methods *******************/
 
 - (id)initWithCoder:(NSCoder *)decoder
 {
-    if (self = [super initWithCoder:decoder])
-    {
-        filledPaths = [[decoder decodeObjectForKey:@"PathShapeFilledPaths"] retain];
-        outlinePaths = [[decoder decodeObjectForKey:@"PathShapeOutlinePaths"] retain];
-        svgEquivalent = [[decoder decodeObjectForKey:@"SVGEquivalent"] retain];
-    }
-    return self;
+  if (self = [super initWithCoder:decoder])
+  {
+    self.filledPaths = [decoder decodeObjectForKey:@"PathShapeFilledPaths"];
+    self.outlinePaths = [decoder decodeObjectForKey:@"PathShapeOutlinePaths"];
+    self.svgEquivalent = [decoder decodeObjectForKey:@"SVGEquivalent"];
+  }
+  return self;
 }
 
 - (void)encodeWithCoder:(NSCoder *)encoder
 {
-    [super encodeWithCoder:encoder];
-    [encoder encodeObject:filledPaths
-                   forKey:@"PathShapeFilledPaths"];
-    [encoder encodeObject:outlinePaths
-                   forKey:@"PathShapeOutlinePaths"];
-    [encoder encodeObject:svgEquivalent
-                   forKey:@"SVGEquivalent"];
+  [super encodeWithCoder:encoder];
+  [encoder encodeObject:self.filledPaths forKey:@"PathShapeFilledPaths"];
+  [encoder encodeObject:self.outlinePaths forKey:@"PathShapeOutlinePaths"];
+  [encoder encodeObject:self.svgEquivalent forKey:@"SVGEquivalent"];
 }
 
 /******** NSCopying protocol implementation *********/
 
 - (id) copyWithZone:(NSZone*) zone
 {
-    MI_PathShape* myCopy = [super copyWithZone:zone];
-    [myCopy setFilledPaths:[[[NSArray alloc] initWithArray:filledPaths
-                                         copyItems:YES] autorelease]];
-    [myCopy setOutlinePaths:[[[NSArray alloc] initWithArray:outlinePaths
-                                                  copyItems:YES] autorelease]];
-    [myCopy setSVGEquivalent:[self shapeToSVG]];
-    return myCopy;
-}
-
-/***************/
-
-
-- (void) dealloc
-{
-    [filledPaths release];
-    [outlinePaths release];
-    [svgEquivalent release];
-    [super dealloc];
+  MI_PathShape* myCopy = [super copyWithZone:zone];
+  myCopy.filledPaths = [self.filledPaths copy];
+  myCopy.outlinePaths = [self.outlinePaths copy];
+  myCopy.svgEquivalent = [self shapeToSVG];
+  return myCopy;
 }
 
 @end

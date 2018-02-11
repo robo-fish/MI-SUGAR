@@ -35,49 +35,38 @@ is inserted. */
 - (MI_ConnectionPoint*) rightPoint;
 @end
 
-@interface MI_SchematicElement : NSObject
-    <NSCoding, NSCopying, MI_Inspectable>
+@interface MI_SchematicElement : NSObject <NSCoding, NSCopying, MI_Inspectable>
 {
-    NSString* identifier;
-    NSSize originalSize;            // size when rotation is 0 (see 'size' below)
-    NSSize size;                    // size of the rectangle into which the element's graphical representation fits - depends on rotation
-    NSPoint position;               // center of the rectangle into which the element's graphical representation fits
-    NSMutableString* name;          // element name
-    NSString* theNamespace;         // element namespace, used to differentiate elements with identical names - since 0.5.3
-    float rotation;                 // the rotation of the graphical representation, in degrees
-    BOOL flippedHorizontally;
-    NSDictionary* connectionPoints; // keys = connection point name, values = MI_ConnectionPoint
-    NSMutableString* label;
-    BOOL showsLabel;
-    int revision;                   // the version number of the element - since 0.5.3
-    MI_Direction labelPosition;
-    NSMutableString* comment;       // stores user comments about instances - since 0.5.3
+  NSString* identifier;
+  NSSize originalSize;            // size when rotation is 0 (see 'size' below)
+  NSSize size;                    // size of the rectangle into which the element's graphical representation fits - depends on rotation
+  float rotation;                 // the rotation of the graphical representation, in degrees
+  BOOL flippedHorizontally;
+  BOOL showsLabel;
+  int revision;                   // the version number of the element - since 0.5.3
+  MI_Direction labelPosition;
 }
+
 - (NSString*) identifier;
 - (NSSize) size;
-- (NSPoint) position;
-- (void) setPosition:(NSPoint)newPosition;
-- (NSDictionary*) connectionPoints;
+@property (nonatomic) NSPoint position; // center of the rectangle into which the element's graphical representation fits
+@property NSDictionary<NSString*, MI_ConnectionPoint*>* connectionPoints;
 - (void) setConnectionPoints:(NSDictionary*)newConnectionPoints;
 - (NSDictionary*) alignableConnectionPoints; // returns the connection points which can be used for checking alignment with other connection points
-- (NSString*) label;
-- (void) setLabel:(NSString*)newLabel;
+@property NSString* label;
 - (NSImage*) image;
-- (NSString*) name;
-- (void) setName:(NSString*)newName;
-- (NSString*) elementNamespace;
-- (void) setElementNamespace:(NSString*)newNamespace;
+@property (nonatomic) NSString* name;
+
+@property NSString* elementNamespace;
 - (NSString*) fullyQualifiedName;                           // convenience method which concatenates the namespace and the name, with a dot inbetween
-- (MI_Direction) labelPosition;
-- (void) setLabelPosition:(MI_Direction)newLabelPosition;
+@property MI_Direction labelPosition;
 - (void) setShowsLabel:(BOOL)showLabel;
 - (float) rotation;                                         // rotation in degrees, value between 0 and 360
 - (void) setRotation:(float)newRotation;                    // newRotation must be in degrees
 - (void) flip:(BOOL)horizontally;
 - (BOOL) flippedHorizontally;                               // returns YES if the element's graphical representation is flipped horizontally
 - (int) revision;                                           // returns the revision number - there must be no setter method
-- (NSString*) comment;
-- (void) setComment:(NSString*)newComment;
+@property NSString* comment; // stores user comments about instances - since 0.5.3
 
 - (NSRect) totalRect;                                       // calculates the area occupied by this elements together with its label - needed for printing
 

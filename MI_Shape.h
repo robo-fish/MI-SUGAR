@@ -29,17 +29,13 @@ extern const float MI_SHAPE_MAX_EXTENT;
 // does little else than to provide the connection points and the size.
 // Concrete subclasses provide various ways of drawing the shape.
 @interface MI_Shape : NSObject <NSCoding, NSCopying>
-{
-    // This dictionary maps connection point names to MI_ConnectionPoint objects
-    NSMutableDictionary* connectionPoints;
-    
-    NSSize size;
-}
-- (NSDictionary*) connectionPoints;
 
-- (void) setConnectionPoints:(NSDictionary*)newConnectionPoints;
+- (instancetype) initWithSize:(NSSize)size;
 
-- (NSSize) size;
+// Maps connection point names to connection point objects
+@property NSDictionary<NSString*,MI_ConnectionPoint*>* connectionPoints;
+
+@property (readonly) NSSize size;
 
 // Does nothing - subclasses must override this to draw the shape
 - (void) drawAtPoint:(NSPoint)position;

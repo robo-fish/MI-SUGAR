@@ -43,33 +43,8 @@
  which the connection point belongs to is added to the selection.
 */
 @interface MI_SelectConnectTool : MI_Tool
-{
-     // The connector that was last dragged.
-    MI_ElementConnector* draggedConnector;
-    
-    // Information needed to construct the current dragged connector
-    MI_ConnectionPoint* draggedConnectorDragStartConnectionPoint;
-    MI_SchematicElement* draggedConnectorDragStartElement;
-    
-    // Set to YES when the user presses the button while the mouse is over
-    // a connection point. Set to NO when the mouse button is released or the
-    // timer expires.
-    BOOL connectorIsDragged;
-    
-    // This is used to indicate that the user wants to pan the view
-    BOOL panning;
-    BOOL panningRequested;
 
-    // The element that was last dragged. Reference pointer. Do not release object!
-    MI_SchematicElement* draggedElement;
-    
-    BOOL selectionIsDragged; // used to indicate whether selected elements are dragged or a connector
-    BOOL copyDragSelectedElements;
-    NSPoint dragStartPosition;
-    NSPoint elementPositionRelativeToMouseAtDragStart; // in schematic space
-}
-- (void) setDraggedConnector:(MI_ElementConnector*)theConnector;
-- (MI_ElementConnector*) draggedConnector;
+@property (weak) MI_ElementConnector* draggedConnector; // the last connector that was dragged
 
 /*
  For use by mouse drag and arrow key response methods.

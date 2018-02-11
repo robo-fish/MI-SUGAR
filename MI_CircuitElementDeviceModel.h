@@ -48,15 +48,11 @@ typedef enum MI_DeviceModelType_
 @interface MI_CircuitElementDeviceModel : NSObject
     <NSCopying, NSMutableCopying, NSCoding, MI_SugarML>
 {
-    NSMutableString* modelName;
-    NSMutableString* parameters;
-    int MI_version; // version of the class
+  int MI_version; // version of the class
 }
-- (id) initWithName:(NSString*)theName;
-- (NSString*) modelName;
-- (void) setModelName:(NSString*)newName;
-- (NSString*) deviceParameters;
-- (void) setDeviceParameters:(NSString*)newParameters;
+- (instancetype) initWithName:(NSString*)theName;
+@property NSString* modelName;
+@property NSString* deviceParameters;
 
 // name of the type of device which this model applies to
 // must be overriden by subclasses

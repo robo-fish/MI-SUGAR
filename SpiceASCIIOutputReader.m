@@ -234,7 +234,7 @@
                 else
                     [table setName:analysisName];
                 [table setTitle:(circuitName ? circuitName : @"")];
-                [resultsTables addObject:[table autorelease]];
+                [resultsTables addObject:table];
             }
             i++; // continue to next line
         }
@@ -242,17 +242,13 @@
             i++; // continue to next line
     }
     
-    [variableNames release];
-    [values release];
-    [lines release];
     if (success)
     {
-        return [resultsTables autorelease];
+      return resultsTables;
     }
     else
     {
-        [resultsTables release];
-        return nil;
+      return nil;
     }
 }
 

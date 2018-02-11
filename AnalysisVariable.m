@@ -43,12 +43,12 @@
   enum floatRepresentation float_representation;
 }
 
-- (id) initWithName:(NSString*)varName
+- (instancetype) initWithName:(NSString*)varName
 {
     if (self = [super init])
     {
-        values = [[NSMutableArray arrayWithCapacity:1] retain];
-        name = [varName retain];
+        values = [NSMutableArray arrayWithCapacity:1];
+        name = varName;
         scaleFactor = 1.0;
         averageValue = 0.0;
         scalingAroundAverage = NO;
@@ -379,11 +379,4 @@
 }
 
 
-- (void) dealloc
-{
-    [name release];
-    [values release];
-    [super dealloc];
-}
-    
 @end

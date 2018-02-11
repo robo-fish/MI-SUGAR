@@ -30,45 +30,23 @@
 /* Represent a directed connection between the connection points of
 two schematics elements*/
 @interface MI_ElementConnector : NSObject <NSCoding, NSCopying>
-{
-    NSString* startElementID; // unique identifier of the schematic element at the start
-    NSString* endElementID; // unique identifier of the schematic element at the end
-    NSString* startPointName; // name of the connection point at the start
-    NSString* endPointName; // name of the connection point at the end
-    NSPoint* route; // array of NSPoint structs
-    int numberOfRoutePoints;
-    BOOL needsRouting; // indicates to the schematic that a new route has to be calculated
-    BOOL isHighlighted;
-    BOOL hasBeenTraversed; // used when converting the schematic
-    int MI_version; // needed for archiving
-}
-- (NSString*) startElementID;
 
-- (NSString*) endElementID;
+@property NSString* startElementID; // unique identifier of the schematic element at the start
 
-- (void) setStartElementID:(NSString*)newStartElementID;
+@property NSString* endElementID; // unique identifier of the schematic element at the end
 
-- (void) setEndElementID:(NSString*)newEndElementID;
+@property NSString* startPointName; // name of the connection point at the start
 
-- (NSString*) startPointName;
-
-- (NSString*) endPointName;
-
-- (void) setStartPointName:(NSString*)newStartPointName;
-
-- (void) setEndPointName:(NSString*)newEndPointName;
+@property NSString* endPointName; // name of the connection point at the end
 
 /* Usually called by the schematic managing object after it has calculated a new route. */
-- (void) setRoute:(NSPoint*)newRoute
-   numberOfPoints:(unsigned)numOfPoints;
+- (void) setRoute:(NSPoint*)newRoute numberOfPoints:(unsigned)numOfPoints;
 
 - (NSPoint*) route;
 
 - (int) numberOfRoutePoints;
 
-- (void) setNeedsRouting:(BOOL)needsRouting;
-
-- (BOOL) needsRouting;
+@property BOOL needsRouting;
 
 - (void) setHighlighted:(BOOL)highlighted;
 

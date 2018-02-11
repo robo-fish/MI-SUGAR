@@ -111,8 +111,82 @@ static SugarManager* managerInstance = nil;
 @end
 
 @implementation SugarManager
+{
+  IBOutlet NSTextField* customSimulatorField;             // "SugarPreferences.nib"
+  IBOutlet NSButton* customSimulatorBrowseButton;         // "SugarPreferences.nib"
+  IBOutlet NSButtonCell* useSPICEButton;                  // "SugarPreferences.nib"
+  IBOutlet NSButtonCell* useCustomSimulatorButton;        // "SugarPreferences.nib"
+  IBOutlet NSPanel* preferencesPanel;                     // "SugarPreferences.nib"
+  IBOutlet NSWindow* aboutPanel;                          // "About.nib"
+  IBOutlet NSTextField* sourceFontNameField;              // "SugarPreferences.nib"
+  IBOutlet NSTextField* rawOutputFontNameField;           // "SugarPreferences.nib"
+  IBOutlet NSButton* lookForUpdateAtStartupButton;        // "SugarPreferences.nib"
+  IBOutlet NSButton* lookForUpdateButton;                 // "SugarPreferences.nib"
+  IBOutlet NSButton* showUntitledDocumentAtStartupButton; // "SugarPreferences.nib"
+  IBOutlet NSTextField* updateInfoField;                  // "SugarPreferences.nib"
+  IBOutlet NSPopUpButton* plotterGraphsLineWidthChooser;  // "SugarPreferences.nib"
+  IBOutlet NSPopUpButton* plotterGridLineWidthChooser;    // "SugarPreferences.nib"
+  IBOutlet NSPopUpButton* plotterLabelsFontSizeChooser;   // "SugarPreferences.nib"
+  IBOutlet NSColorWell* plotterBackgroundColorChooser;    // "SugarPreferences.nib"
+  IBOutlet NSColorWell* plotterGridColorChooser;          // "SugarPreferences.nib"
+  IBOutlet NSButton* plotterRemembersSettingsButton;      // "SugarPreferences.nib"
+  IBOutlet NSButton* plotterClosesOldWindows;             // "SugarPreferences.nib"
+  IBOutlet NSButton* plotterAutoShowsGuidesTab;           // "SugarPreferences.nib"
+  IBOutlet NSPopUpButton* conversionPolicyChooser;        // "SugarPreferences.nib"
+  IBOutlet NSPopUpButton* fileSavingPolicyChooser;        // "SugarPreferences.nib"
+  IBOutlet NSPopUpButton* layoutChooser;                  // "SugarPreferences.nib"
+  IBOutlet NSButton* openElementsPanelOnStartup;          // "SugarPreferences.nib"
+  IBOutlet NSButton* openInfoPanelOnStartup;              // "SugarPreferences.nib"
+  IBOutlet NSButton* autoInsertNodeElement;               // "SugarPreferences.nib"
+  IBOutlet NSButton* showPlacementGuides;                 // "SugarPreferences.nib"
+  BOOL lookForUpdateAtStartup;
+  BOOL settingSourceFont;
+  BOOL convertToMathML;
+  BOOL settingPlotterBackgroundColor;
+  BOOL settingPlotterGridColor;
+  NSToolbarItem* startupPreferences;                      // for the preferences panel
+  NSToolbarItem* simulatorPreferences;                    // for the preferences panel
+  NSToolbarItem* fontPreferences;                         // for the preferences panel
+  NSToolbarItem* plotterPreferences;                      // for the preferences panel
+  NSToolbarItem* generalPreferences;                      // for the preferences panel
+  NSToolbarItem* schematicPreferences;                    // for the preferences panel
+  IBOutlet NSView* plotterPrefsView;                      // "SugarPreferences.nib"
+  IBOutlet NSView* simulatorPrefsView;                    // "SugarPreferences.nib"
+  IBOutlet NSView* fontPrefsView;                         // "SugarPreferences.nib"
+  IBOutlet NSView* startupPrefsView;                      // "SugarPreferences.nib"
+  IBOutlet NSView* generalPrefsView;                      // "SugarPreferences.nib"
+  IBOutlet NSView* schematicPrefsView;                    // "SugarPreferences.nib"
+  IBOutlet NSTextField* versionField;                     // 'About' panel
+  IBOutlet NSTextField* releaseDateField;                 // 'About' panel
 
-- (id) init
+  // SCHEMATIC-RELATED VARIABLES
+  IBOutlet NSPanel* elementsPanel;
+  IBOutlet MI_SchematicElementChooser* resistorChooser;
+  IBOutlet MI_SchematicElementChooser* capacitorChooser;
+  IBOutlet MI_SchematicElementChooser* inductorChooser;
+  IBOutlet MI_SchematicElementChooser* sourceChooser;
+  IBOutlet MI_SchematicElementChooser* transistorChooser;
+  IBOutlet MI_SchematicElementChooser* diodeChooser;
+  IBOutlet MI_SchematicElementChooser* nodeChooser;
+  IBOutlet MI_SchematicElementChooser* groundChooser;
+  IBOutlet MI_SchematicElementChooser* switchChooser;
+  IBOutlet MI_SchematicElementChooser* subcircuitChooser;
+  IBOutlet MI_SchematicElementChooser* specialElementChooser;
+  IBOutlet NSSlider* panelTransparencyAdjustment;
+  IBOutlet NSOutlineView* subcircuitsTable;               // elements panel
+  IBOutlet NSColorWell* schematicCanvasBackground;        // "SugarPreferences.nib"
+  IBOutlet NSTextField* subcircuitLibraryPathField;       // "SugarPreferences.nib"
+  IBOutlet NSTabView* elementCategoryChooser;             // the main tab view in the elements panel
+  IBOutlet NSTextField* subcircuitNamespaceField;         // displays the namespace of the selected subcircuit
+  MI_Tool* currentTool;                                   // current tool selected by user
+  MI_ScaleTool* scaleTool;
+  MI_SelectConnectTool* selectTool;                       // the default tool
+  MI_SubcircuitLibraryManager* libManager;
+
+  MI_Inspector* inspector;
+}
+
+- (instancetype) init
 {
     if (self = [super init])
     {
@@ -199,7 +273,6 @@ static SugarManager* managerInstance = nil;
         settingSourceFont = YES;
         settingPlotterBackgroundColor = NO;
         settingPlotterGridColor = NO;
-        managerInstance = self;
         elementsPanel = nil;
         selectTool = [[MI_SelectConnectTool alloc] init];
         scaleTool = [[MI_ScaleTool alloc] init];
@@ -212,166 +285,165 @@ static SugarManager* managerInstance = nil;
 
 + (SugarManager*) sharedManager
 {
-    return managerInstance;
+  if (managerInstance == nil)
+  {
+    managerInstance = [SugarManager new];
+  }
+  return managerInstance;
 }
 
 
 - (void) awakeFromNib
 {
-    NSToolbar *toolbar;
+  NSToolbar *toolbar;
 
-    // Set the circuit simulator tool
-    MISUGAR_BuiltinSPICEPath = [[[[NSBundle mainBundle] resourcePath] stringByAppendingString:@"/spice"] retain];
+  // Set the circuit simulator tool
+  MISUGAR_BuiltinSPICEPath = [[[NSBundle mainBundle] resourcePath] stringByAppendingString:@"/spice"];
 
-    /* Build the toolbar of the preferences window */
-    toolbar = [[NSToolbar alloc] initWithIdentifier:@"PreferencesToolbar"];
-    [toolbar setAllowsUserCustomization:NO];
-    [toolbar setAutosavesConfiguration:NO];
-    [toolbar setDisplayMode:NSToolbarDisplayModeIconAndLabel];
-    [toolbar setDelegate:self];
-    [preferencesPanel setToolbar:toolbar];
-    [toolbar release];
+  /* Build the toolbar of the preferences window */
+  toolbar = [[NSToolbar alloc] initWithIdentifier:@"PreferencesToolbar"];
+  [toolbar setAllowsUserCustomization:NO];
+  [toolbar setAutosavesConfiguration:NO];
+  [toolbar setDisplayMode:NSToolbarDisplayModeIconAndLabel];
+  [toolbar setDelegate:self];
+  [preferencesPanel setToolbar:toolbar];
 
-    // The device model manager must already exist when the subcircuit
-    // library manager is created in order to add the device models,
-    // found in the subcircuits, to the device model library
-    
-    [MI_DeviceModelManager sharedManager];
-    
-    libManager = [[MI_SubcircuitLibraryManager alloc]
-        initWithChooserView:subcircuitChooser
-                  tableView:subcircuitsTable
-              namespaceView:subcircuitNamespaceField];
-    
+  // The device model manager must already exist when the subcircuit
+  // library manager is created in order to add the device models,
+  // found in the subcircuits, to the device model library
+
+  [MI_DeviceModelManager sharedManager];
+
+  libManager = [[MI_SubcircuitLibraryManager alloc]
+      initWithChooserView:subcircuitChooser
+                tableView:subcircuitsTable
+            namespaceView:subcircuitNamespaceField];
 }
 
 
 - (BOOL) applicationShouldOpenUntitledFile:(NSApplication*)sender
 {
-    return [[[NSUserDefaults standardUserDefaults] objectForKey:MISUGAR_SHOW_UNTITLED_DOCUMENT_AT_STARTUP] boolValue];
+  return [[[NSUserDefaults standardUserDefaults] objectForKey:MISUGAR_SHOW_UNTITLED_DOCUMENT_AT_STARTUP] boolValue];
 }
 
 
 - (IBAction) showPreferencesPanel:(id)sender
 {
-    if (!preferencesPanel)
-    {
-        NSUserDefaults* userdefs = [NSUserDefaults standardUserDefaults];
-        NSFont* sourceFont =
-            [NSFont fontWithName:[userdefs objectForKey:MISUGAR_SOURCE_VIEW_FONT_NAME]
-                            size:[[userdefs objectForKey:MISUGAR_SOURCE_VIEW_FONT_SIZE] floatValue]];
-        NSFont* rawOutputFont =
-            [NSFont fontWithName:[userdefs objectForKey:MISUGAR_RAW_OUTPUT_VIEW_FONT_NAME]
-                            size:[[userdefs objectForKey:MISUGAR_RAW_OUTPUT_VIEW_FONT_SIZE] floatValue]];
-        [NSBundle loadNibNamed:@"SugarPreferences.nib"
-                        owner:self];
+  if (!preferencesPanel)
+  {
+    NSUserDefaults* userdefs = [NSUserDefaults standardUserDefaults];
+    NSFont* sourceFont =
+        [NSFont fontWithName:[userdefs objectForKey:MISUGAR_SOURCE_VIEW_FONT_NAME]
+                        size:[[userdefs objectForKey:MISUGAR_SOURCE_VIEW_FONT_SIZE] floatValue]];
+    NSFont* rawOutputFont =
+        [NSFont fontWithName:[userdefs objectForKey:MISUGAR_RAW_OUTPUT_VIEW_FONT_NAME]
+                        size:[[userdefs objectForKey:MISUGAR_RAW_OUTPUT_VIEW_FONT_SIZE] floatValue]];
+    [NSBundle loadNibNamed:@"SugarPreferences.nib" owner:self];
 
-        if ([[userdefs objectForKey:MISUGAR_USE_CUSTOM_SIMULATOR] boolValue])
-        {
-            [useCustomSimulatorButton setState:NSOnState];
-            [useSPICEButton setState:NSOffState];
-            [customSimulatorField setEnabled:YES];
-            [customSimulatorBrowseButton setEnabled:YES];
-        }
-        else
-        {
-          [useCustomSimulatorButton setState:NSOffState];
-            {
-                [useSPICEButton setState:NSOnState];
-            }
-            [customSimulatorField setEnabled:NO];
-            [customSimulatorBrowseButton setEnabled:NO];
-        }
-        [layoutChooser selectItemWithTitle:[userdefs objectForKey:MISUGAR_DOCUMENT_LAYOUT]];
-        [customSimulatorField setStringValue:(NSString*)[userdefs objectForKey:MISUGAR_CUSTOM_SIMULATOR_PATH]];
-        [sourceFontNameField setStringValue:[[sourceFont displayName] stringByAppendingFormat:@" %2.1f", [sourceFont pointSize]]];
-        [rawOutputFontNameField setStringValue:[[rawOutputFont displayName] stringByAppendingFormat:@" %2.1f", [rawOutputFont pointSize]]];
-        [lookForUpdateAtStartupButton setState:lookForUpdateAtStartup];
-        [showUntitledDocumentAtStartupButton setState:([[userdefs objectForKey:MISUGAR_SHOW_UNTITLED_DOCUMENT_AT_STARTUP] boolValue] ? NSOnState : NSOffState)];
-        [plotterGraphsLineWidthChooser selectItemAtIndex:(int)[[userdefs objectForKey:MISUGAR_PLOT_GRAPHS_LINE_WIDTH] charValue]];
-        [plotterGridLineWidthChooser selectItemAtIndex:(int)[[userdefs objectForKey:MISUGAR_PLOT_GRID_LINE_WIDTH] charValue]];
-        [plotterLabelsFontSizeChooser selectItemAtIndex:(int)[[userdefs objectForKey:MISUGAR_PLOT_LABELS_FONT_SIZE] charValue]];
-        [NSColorPanel setPickerMode:NSColorPanelModeHSB];
-        NSColor* plotterBackgroundColor = [NSKeyedUnarchiver unarchiveObjectWithData:[userdefs objectForKey:MISUGAR_PLOTTER_BACKGROUND_COLOR]];
-        if (plotterBackgroundColor == nil) { plotterBackgroundColor = [NSColor whiteColor]; }
-        [plotterBackgroundColorChooser setColor:plotterBackgroundColor];
-        NSColor* plotterGridColor = [NSKeyedUnarchiver unarchiveObjectWithData:[userdefs objectForKey:MISUGAR_PLOTTER_GRID_COLOR]];
-        if (plotterGridColor == nil) { plotterGridColor = [NSColor grayColor]; }
-        [plotterGridColorChooser setColor:plotterGridColor];
-        [plotterRemembersSettingsButton setState:([[userdefs objectForKey:MISUGAR_PLOTTER_REMEMBERS_SETTINGS] boolValue] ? NSOnState : NSOffState)];
-        [plotterClosesOldWindows setState:([[userdefs objectForKey:MISUGAR_PLOTTER_CLOSES_OLD_WINDOW] boolValue] ? NSOnState : NSOffState)];
-        [plotterAutoShowsGuidesTab setState:([[userdefs objectForKey:MISUGAR_PLOTTER_AUTO_SHOW_GUIDES_TAB] boolValue] ? NSOnState : NSOffState)];
-        [conversionPolicyChooser selectItemWithTitle:[userdefs objectForKey:MISUGAR_LINE_ENDING_CONVERSION_POLICY]];
-        [fileSavingPolicyChooser selectItemAtIndex:[[userdefs objectForKey:MISUGAR_FILE_SAVING_POLICY] intValue]];
-        [autoInsertNodeElement setState:([[userdefs objectForKey:MISUGAR_AUTOINSERT_NODE_ELEMENT] boolValue] ? NSOnState : NSOffState)];
-        [showPlacementGuides setState:([[userdefs objectForKey:MISUGAR_SHOW_PLACEMENT_GUIDES] boolValue] ? NSOnState : NSOffState)];
-        NSColor* schematicBackgroundColor = [NSUnarchiver unarchiveObjectWithData:[userdefs objectForKey:MISUGAR_SCHEMATIC_CANVAS_BACKGROUND_COLOR]];
-        if (schematicBackgroundColor == nil) { schematicBackgroundColor = [NSColor whiteColor]; }
-        [schematicCanvasBackground setColor:schematicBackgroundColor];
-        [subcircuitLibraryPathField setStringValue:[userdefs objectForKey:MISUGAR_SUBCIRCUIT_LIBRARY_FOLDER]];
-        [preferencesPanel setContentSize:[generalPrefsView frame].size];
-        [preferencesPanel setContentView:generalPrefsView];
-        [preferencesPanel setTitle:@"MI-SUGAR General Preferences"];
+    if ([[userdefs objectForKey:MISUGAR_USE_CUSTOM_SIMULATOR] boolValue])
+    {
+      [useCustomSimulatorButton setState:NSOnState];
+      [useSPICEButton setState:NSOffState];
+      [customSimulatorField setEnabled:YES];
+      [customSimulatorBrowseButton setEnabled:YES];
     }
-    [preferencesPanel orderFront:self];
-    [preferencesPanel makeKeyWindow];
+    else
+    {
+      [useCustomSimulatorButton setState:NSOffState];
+      [useSPICEButton setState:NSOnState];
+      [customSimulatorField setEnabled:NO];
+      [customSimulatorBrowseButton setEnabled:NO];
+    }
+    [layoutChooser selectItemWithTitle:[userdefs objectForKey:MISUGAR_DOCUMENT_LAYOUT]];
+    [customSimulatorField setStringValue:(NSString*)[userdefs objectForKey:MISUGAR_CUSTOM_SIMULATOR_PATH]];
+    [sourceFontNameField setStringValue:[[sourceFont displayName] stringByAppendingFormat:@" %2.1f", [sourceFont pointSize]]];
+    [rawOutputFontNameField setStringValue:[[rawOutputFont displayName] stringByAppendingFormat:@" %2.1f", [rawOutputFont pointSize]]];
+    [lookForUpdateAtStartupButton setState:lookForUpdateAtStartup];
+    [showUntitledDocumentAtStartupButton setState:([[userdefs objectForKey:MISUGAR_SHOW_UNTITLED_DOCUMENT_AT_STARTUP] boolValue] ? NSOnState : NSOffState)];
+    [plotterGraphsLineWidthChooser selectItemAtIndex:(int)[[userdefs objectForKey:MISUGAR_PLOT_GRAPHS_LINE_WIDTH] charValue]];
+    [plotterGridLineWidthChooser selectItemAtIndex:(int)[[userdefs objectForKey:MISUGAR_PLOT_GRID_LINE_WIDTH] charValue]];
+    [plotterLabelsFontSizeChooser selectItemAtIndex:(int)[[userdefs objectForKey:MISUGAR_PLOT_LABELS_FONT_SIZE] charValue]];
+    [NSColorPanel setPickerMode:NSColorPanelModeHSB];
+    NSColor* plotterBackgroundColor = [NSKeyedUnarchiver unarchiveObjectWithData:[userdefs objectForKey:MISUGAR_PLOTTER_BACKGROUND_COLOR]];
+    if (plotterBackgroundColor == nil) { plotterBackgroundColor = [NSColor whiteColor]; }
+    [plotterBackgroundColorChooser setColor:plotterBackgroundColor];
+    NSColor* plotterGridColor = [NSKeyedUnarchiver unarchiveObjectWithData:[userdefs objectForKey:MISUGAR_PLOTTER_GRID_COLOR]];
+    if (plotterGridColor == nil) { plotterGridColor = [NSColor grayColor]; }
+    [plotterGridColorChooser setColor:plotterGridColor];
+    [plotterRemembersSettingsButton setState:([[userdefs objectForKey:MISUGAR_PLOTTER_REMEMBERS_SETTINGS] boolValue] ? NSOnState : NSOffState)];
+    [plotterClosesOldWindows setState:([[userdefs objectForKey:MISUGAR_PLOTTER_CLOSES_OLD_WINDOW] boolValue] ? NSOnState : NSOffState)];
+    [plotterAutoShowsGuidesTab setState:([[userdefs objectForKey:MISUGAR_PLOTTER_AUTO_SHOW_GUIDES_TAB] boolValue] ? NSOnState : NSOffState)];
+    [conversionPolicyChooser selectItemWithTitle:[userdefs objectForKey:MISUGAR_LINE_ENDING_CONVERSION_POLICY]];
+    [fileSavingPolicyChooser selectItemAtIndex:[[userdefs objectForKey:MISUGAR_FILE_SAVING_POLICY] intValue]];
+    [autoInsertNodeElement setState:([[userdefs objectForKey:MISUGAR_AUTOINSERT_NODE_ELEMENT] boolValue] ? NSOnState : NSOffState)];
+    [showPlacementGuides setState:([[userdefs objectForKey:MISUGAR_SHOW_PLACEMENT_GUIDES] boolValue] ? NSOnState : NSOffState)];
+    NSColor* schematicBackgroundColor = [NSUnarchiver unarchiveObjectWithData:[userdefs objectForKey:MISUGAR_SCHEMATIC_CANVAS_BACKGROUND_COLOR]];
+    if (schematicBackgroundColor == nil) { schematicBackgroundColor = [NSColor whiteColor]; }
+    [schematicCanvasBackground setColor:schematicBackgroundColor];
+    [subcircuitLibraryPathField setStringValue:[userdefs objectForKey:MISUGAR_SUBCIRCUIT_LIBRARY_FOLDER]];
+    [preferencesPanel setContentSize:[generalPrefsView frame].size];
+    [preferencesPanel setContentView:generalPrefsView];
+    [preferencesPanel setTitle:@"MI-SUGAR General Preferences"];
+  }
+  [preferencesPanel orderFront:self];
+  [preferencesPanel makeKeyWindow];
 }
 
 
 - (IBAction) showAboutPanel:(id)sender
 {
-    [NSBundle loadNibNamed:@"About.nib" owner:self];
-    [versionField setStringValue:MISUGAR_VERSION];
-    [releaseDateField setStringValue:MISUGAR_RELEASE_DATE];        
-    [aboutPanel makeKeyAndOrderFront:self];
+  [NSBundle loadNibNamed:@"About.nib" owner:self];
+  [versionField setStringValue:MISUGAR_VERSION];
+  [releaseDateField setStringValue:MISUGAR_RELEASE_DATE];
+  [aboutPanel makeKeyAndOrderFront:self];
 }
 
 
 - (IBAction) setCustomSimulator:(id)sender
 {
-    NSOpenPanel* op = [NSOpenPanel openPanel];
-    [op setCanChooseFiles:YES];
-    [op setCanChooseDirectories:NO];
-    [op setRepresentedFilename:@"spice"];
-    [op beginSheetModalForWindow:preferencesPanel completionHandler:^(NSInteger result) {
-      if ( result == NSModalResponseOK )
-      {
-        [customSimulatorField setStringValue:[[op URL] path]];
-        [[NSUserDefaults standardUserDefaults] setObject:[[op URL] path] forKey:MISUGAR_CUSTOM_SIMULATOR_PATH];
-      }
-    }];
+  NSOpenPanel* op = [NSOpenPanel openPanel];
+  [op setCanChooseFiles:YES];
+  [op setCanChooseDirectories:NO];
+  [op setRepresentedFilename:@"spice"];
+  [op beginSheetModalForWindow:preferencesPanel completionHandler:^(NSInteger result) {
+    if ( result == NSModalResponseOK )
+    {
+      [customSimulatorField setStringValue:[[op URL] path]];
+      [[NSUserDefaults standardUserDefaults] setObject:[[op URL] path] forKey:MISUGAR_CUSTOM_SIMULATOR_PATH];
+    }
+  }];
 }
 
 
 - (IBAction) setSubcircuitLibraryFolder:(id)sender
 {
-    NSOpenPanel* op = [NSOpenPanel openPanel];
-    [op setCanChooseFiles:NO];
-    [op setCanChooseDirectories:YES];
-    [op setPrompt:@"Select"];
-    [op setDirectoryURL:[NSURL fileURLWithPath:[subcircuitLibraryPathField stringValue]]];
-    [op beginSheetModalForWindow:preferencesPanel completionHandler:^(NSInteger result) {
-      if ( result == NSModalResponseOK )
-      {
-        [subcircuitLibraryPathField setStringValue:[[op URL] path]];
-        [[NSUserDefaults standardUserDefaults]
-         setObject:[[op URL] path]
-         forKey:MISUGAR_SUBCIRCUIT_LIBRARY_FOLDER];
-        [libManager refreshAll];        
-      }
-    }];
+  NSOpenPanel* op = [NSOpenPanel openPanel];
+  [op setCanChooseFiles:NO];
+  [op setCanChooseDirectories:YES];
+  [op setPrompt:@"Select"];
+  [op setDirectoryURL:[NSURL fileURLWithPath:[subcircuitLibraryPathField stringValue]]];
+  [op beginSheetModalForWindow:preferencesPanel completionHandler:^(NSInteger result) {
+    if ( result == NSModalResponseOK )
+    {
+      [subcircuitLibraryPathField setStringValue:[[op URL] path]];
+      [[NSUserDefaults standardUserDefaults]
+       setObject:[[op URL] path]
+       forKey:MISUGAR_SUBCIRCUIT_LIBRARY_FOLDER];
+      [libManager refreshAll];
+    }
+  }];
 }
 
 
 /* Delegate method. Called when the user presses enter in a text field. */
 - (void) controlTextDidEndEditing:(NSNotification*)aNotification
 {
-    if ([aNotification object] == customSimulatorField)
-    {
-        // user has set the new path to the simulator tool
-        [[NSUserDefaults standardUserDefaults] setObject:[customSimulatorField stringValue]
-                                                forKey:MISUGAR_CUSTOM_SIMULATOR_PATH];
-    }
+  if ([aNotification object] == customSimulatorField)
+  {
+      // user has set the new path to the simulator tool
+      [[NSUserDefaults standardUserDefaults] setObject:[customSimulatorField stringValue]
+                                              forKey:MISUGAR_CUSTOM_SIMULATOR_PATH];
+  }
 }
 
 
@@ -725,19 +797,21 @@ static SugarManager* managerInstance = nil;
 /* toolbar delegate method */
 - (NSArray*) toolbarDefaultItemIdentifiers:(NSToolbar*)toolbar
 {
-    return [NSArray arrayWithObjects:
-        MISUGAR_GENERAL_PREFERENCES_ITEM, MISUGAR_SCHEMATIC_PREFERENCES_ITEM,
-        MISUGAR_STARTUP_PREFERENCES_ITEM, MISUGAR_SIMULATOR_PREFERENCES_ITEM,
-        MISUGAR_PLOTTER_PREFERENCES_ITEM, MISUGAR_FONT_PREFERENCES_ITEM, nil];
+  return @[
+    MISUGAR_GENERAL_PREFERENCES_ITEM, MISUGAR_SCHEMATIC_PREFERENCES_ITEM,
+    MISUGAR_STARTUP_PREFERENCES_ITEM, MISUGAR_SIMULATOR_PREFERENCES_ITEM,
+    MISUGAR_PLOTTER_PREFERENCES_ITEM, MISUGAR_FONT_PREFERENCES_ITEM
+  ];
 }
 
 /* toolbar delegate method */
 - (NSArray*) toolbarAllowedItemIdentifiers:(NSToolbar*)toolbar
 {
-    return [NSArray arrayWithObjects:
-        MISUGAR_GENERAL_PREFERENCES_ITEM, MISUGAR_SCHEMATIC_PREFERENCES_ITEM,
-        MISUGAR_STARTUP_PREFERENCES_ITEM, MISUGAR_SIMULATOR_PREFERENCES_ITEM,
-        MISUGAR_PLOTTER_PREFERENCES_ITEM, MISUGAR_FONT_PREFERENCES_ITEM, nil];
+  return @[
+    MISUGAR_GENERAL_PREFERENCES_ITEM, MISUGAR_SCHEMATIC_PREFERENCES_ITEM,
+    MISUGAR_STARTUP_PREFERENCES_ITEM, MISUGAR_SIMULATOR_PREFERENCES_ITEM,
+    MISUGAR_PLOTTER_PREFERENCES_ITEM, MISUGAR_FONT_PREFERENCES_ITEM
+  ];
 }
 
 /* toolbar delegate method */
@@ -957,9 +1031,9 @@ static SugarManager* managerInstance = nil;
                forKey:MISUGAR_ELEMENTS_PANEL_ALPHA];
     }
 
-    [[MI_DeviceModelManager sharedManager] release]; // automatically saves device models
+    [[MI_DeviceModelManager sharedManager] saveModels];
     
-    [inspector release]; // this will save the size and position of the info panel
+    inspector = nil; // releasing 'inspector' will save the size and position of the info panel
 
     return NSTerminateNow;
 }
@@ -1000,7 +1074,6 @@ static SugarManager* managerInstance = nil;
     NSAppleScript* subcktFolderOpenScript = [[NSAppleScript alloc] initWithSource:command];
     [subcktFolderOpenScript compileAndReturnError:errorDict];
     [subcktFolderOpenScript executeAndReturnError:errorDict];
-    [subcktFolderOpenScript release];
   }
   free(hfsString);
   */
@@ -1044,74 +1117,62 @@ static SugarManager* managerInstance = nil;
 - (void) prepareElementsPanel
 {
     float alpha = [[[NSUserDefaults standardUserDefaults] objectForKey:MISUGAR_ELEMENTS_PANEL_ALPHA] floatValue];
-    NSArray* transistorArray = [NSArray arrayWithObjects:
-        [[[MI_NPNTransistorElement alloc] init] autorelease],
-        [[[MI_PNPTransistorElement alloc] init] autorelease],
-        [[[MI_NJFETTransistorElement alloc] init] autorelease],
-        [[[MI_PJFETTransistorElement alloc] init] autorelease],
-        [[[MI_EnhancementNMOSTransistorElement alloc] init] autorelease],
-        [[[MI_EnhancementPMOSTransistorElement alloc] init] autorelease],
-        [[[MI_DepletionNMOSTransistorElement alloc] init] autorelease],
-        [[[MI_DepletionPMOSTransistorElement alloc] init] autorelease],
-        [[[MI_EnhancementNMOSwBulkTransistorElement alloc] init] autorelease],
-        [[[MI_EnhancementPMOSwBulkTransistorElement alloc] init] autorelease],
-        [[[MI_DepletionNMOSwBulkTransistorElement alloc] init] autorelease],
-        [[[MI_DepletionPMOSwBulkTransistorElement alloc] init] autorelease],
-        nil];
-    NSArray* diodeArray = [NSArray arrayWithObjects:
-        [[[MI_DiodeElement alloc] init] autorelease],
-        [[[MI_ZenerDiodeElement alloc] init] autorelease],
-        [[[MI_LightEmittingDiodeElement alloc] init] autorelease],
-        [[[MI_PhotoDiodeElement alloc] init] autorelease],
-        nil];
-    NSArray* resistorArray = [NSArray arrayWithObjects:
-        [[[MI_Resistor_US_Element alloc] init] autorelease],
-        [[[MI_Resistor_IEC_Element alloc] init] autorelease],
-        [[[MI_Rheostat_US_Element alloc] init] autorelease],
-        [[[MI_Rheostat_IEC_Element alloc] init] autorelease],
-        nil];
-    NSArray* inductorArray = [NSArray arrayWithObjects:
-        [[[MI_Inductor_US_Element alloc] init] autorelease],
-        [[[MI_Inductor_IEC_Element alloc] init] autorelease],
-        nil];
-    NSArray* capacitorArray = [NSArray arrayWithObjects:
-        [[[MI_CapacitorElement alloc] init] autorelease],
-        [[[MI_PolarizedCapacitorElement alloc] init] autorelease],
-        nil];
-    NSArray* nodeArray = [NSArray arrayWithObjects:
-        [[[MI_NodeElement alloc] init] autorelease],
-        [[[MI_SpikyNodeElement alloc] init] autorelease],
-        nil];
-    NSArray* switchArray = [NSArray arrayWithObjects:
-        [[[MI_VoltageControlledSwitchElement alloc] init] autorelease],
-        [[[MI_Transformer_US_Element alloc] init] autorelease],
-        [[[MI_Transformer_IEC_Element alloc] init] autorelease],
-        [[[MI_TransmissionLineElement alloc] init] autorelease],
-        nil];
-    NSArray* groundArray = [NSArray arrayWithObjects:
-        [[[MI_GroundElement alloc] init] autorelease],
-        [[[MI_PlainGroundElement alloc] init] autorelease],
-        nil];
-    NSArray* powerSourceArray = [NSArray arrayWithObjects:
-        [[[MI_DCVoltageSourceElement alloc] init] autorelease],
-        [[[MI_ACVoltageSourceElement alloc] init] autorelease],
-        [[[MI_PulseVoltageSourceElement alloc] init] autorelease],
-        [[[MI_SinusoidalVoltageSourceElement alloc] init] autorelease],
-        [[[MI_CurrentSourceElement alloc] init] autorelease],
-        [[[MI_PulseCurrentSourceElement alloc] init] autorelease],
-        [[[MI_VoltageControlledCurrentSource alloc] init] autorelease],
-        [[[MI_VoltageControlledVoltageSource alloc] init] autorelease],
-        [[[MI_CurrentControlledCurrentSource alloc] init] autorelease],
-        [[[MI_CurrentControlledVoltageSource alloc] init] autorelease],
-        [[[MI_NonlinearDependentSource alloc] init] autorelease],
-        nil];
+    NSArray* transistorArray = @[
+        [[MI_NPNTransistorElement alloc] init],
+        [[MI_PNPTransistorElement alloc] init],
+        [[MI_NJFETTransistorElement alloc] init],
+        [[MI_PJFETTransistorElement alloc] init],
+        [[MI_EnhancementNMOSTransistorElement alloc] init],
+        [[MI_EnhancementPMOSTransistorElement alloc] init],
+        [[MI_DepletionNMOSTransistorElement alloc] init],
+        [[MI_DepletionPMOSTransistorElement alloc] init],
+        [[MI_EnhancementNMOSwBulkTransistorElement alloc] init],
+        [[MI_EnhancementPMOSwBulkTransistorElement alloc] init],
+        [[MI_DepletionNMOSwBulkTransistorElement alloc] init],
+        [[MI_DepletionPMOSwBulkTransistorElement alloc] init]];
+    NSArray* diodeArray = @[
+        [[MI_DiodeElement alloc] init],
+        [[MI_ZenerDiodeElement alloc] init],
+        [[MI_LightEmittingDiodeElement alloc] init],
+        [[MI_PhotoDiodeElement alloc] init]];
+    NSArray* resistorArray = @[
+        [[MI_Resistor_US_Element alloc] init],
+        [[MI_Resistor_IEC_Element alloc] init],
+        [[MI_Rheostat_US_Element alloc] init],
+        [[MI_Rheostat_IEC_Element alloc] init]];
+    NSArray* inductorArray = @[
+        [[MI_Inductor_US_Element alloc] init],
+        [[MI_Inductor_IEC_Element alloc] init]];
+    NSArray* capacitorArray = @[
+        [[MI_CapacitorElement alloc] init],
+        [[MI_PolarizedCapacitorElement alloc] init]];
+    NSArray* nodeArray = @[
+        [[MI_NodeElement alloc] init],
+        [[MI_SpikyNodeElement alloc] init]];
+    NSArray* switchArray = @[
+        [[MI_VoltageControlledSwitchElement alloc] init],
+        [[MI_Transformer_US_Element alloc] init],
+        [[MI_Transformer_IEC_Element alloc] init],
+        [[MI_TransmissionLineElement alloc] init]];
+    NSArray* groundArray = @[
+        [[MI_GroundElement alloc] init],
+        [[MI_PlainGroundElement alloc] init]];
+    NSArray* powerSourceArray = @[
+      [[MI_DCVoltageSourceElement alloc] init],
+      [[MI_ACVoltageSourceElement alloc] init],
+      [[MI_PulseVoltageSourceElement alloc] init],
+      [[MI_SinusoidalVoltageSourceElement alloc] init],
+      [[MI_CurrentSourceElement alloc] init],
+      [[MI_PulseCurrentSourceElement alloc] init],
+      [[MI_VoltageControlledCurrentSource alloc] init],
+      [[MI_VoltageControlledVoltageSource alloc] init],
+      [[MI_CurrentControlledCurrentSource alloc] init],
+      [[MI_CurrentControlledVoltageSource alloc] init],
+      [[MI_NonlinearDependentSource alloc] init]];
     MI_TextElement* te = [[MI_TextElement alloc] init];
-    [te setFont:[NSFont fontWithName:@"Lucida Grande"
-                                size:14.0f]];
+    [te setFont:[NSFont fontWithName:@"Lucida Grande" size:14.0f]];
     [te lock];
-    NSArray* specialsArray = [NSArray arrayWithObjects:
-        [te autorelease],
-        nil];
+    NSArray* specialsArray = @[te];
     [NSBundle loadNibNamed:@"SchematicElementsPanel" owner:self];
     [transistorChooser setSchematicElementList:transistorArray];
     [diodeChooser setSchematicElementList:diodeArray];
@@ -1242,17 +1303,6 @@ willSelectTabViewItem:(NSTabViewItem *)tabViewItem
         theSupportFolder = NSHomeDirectory();
     }
     return theSupportFolder;
-}
-
-
-- (void) dealloc
-{
-    [MISUGAR_BuiltinSPICEPath release];
-    [selectTool release];
-    [scaleTool release];
-    [libManager release];
-    managerInstance = nil;
-    [super dealloc];
 }
 
 @end

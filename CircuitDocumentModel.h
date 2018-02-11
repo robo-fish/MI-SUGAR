@@ -21,6 +21,7 @@
 ****************************************************************************/
 #import <Cocoa/Cocoa.h>
 #import "MI_CircuitSchematic.h"
+#import "MI_CircuitElementDeviceModel.h"
 
 #define MI_CIRCUIT_DOCUMENT_MODEL_VERSION 3
 
@@ -30,64 +31,29 @@
 
 
 @interface CircuitDocumentModel : NSObject <NSCoding>
-{
-    int MI_version;
-    NSMutableString* source;    // = netlist
-    NSString* output;
-    NSString* rawOutput;
-    NSMutableArray* analyses;   // stores all lines with analysis commands in an array
-    NSString* title;            // legacy variable - used in pure netlist editing mode
-    NSString* circuitName;      // since 0.5.3
-    NSMutableString* comment;   // user comments - since 0.5.3
-    MI_CircuitSchematic* schematic;
-    float schematicScale;       // stores the drawing scale of the schematic - since 0.5.4
-    NSPoint schematicViewportOffset; // stores the location of the origin of the viewport coordinate system relative to the schematic coordinate system - since 0.5.5
-    
-    NSMutableArray* schematicVariants; // array which holds all schematic variants since 0.5.6
-    int activeSchematicVariant; // index of the currently used schematic variant
 
-    // The namespace used to differentiate circuits with identical names.
-    // The default namespace is an empty string.
-    NSString* circuitNamespace; // since 0.5.3
-    
-    // A short string for use in versioning - normally a number - since 0.5.3
-    NSMutableString* revision;
-}
-- (void) setSource:(NSString*)newSource;
-- (NSString*) source;
+@property (nonatomic) NSString* source; // the netlist
 - (NSString*) gnucapFilteredSource;                         // returns the source after filtering certain Gnucap-specific parsing pitfalls
 - (NSString*) spiceFilteredSource;                          // removes PLOT commands from the source
-- (void) setRawOutput:(NSString*)newRawOutput;
-- (NSString*) rawOutput;
-- (void) setOutput:(NSString*)newOutput;
-- (NSString*) output;
-- (NSString*) circuitTitle;                                 // returns the title of the circuit
-- (void) setCircuitTitle:(NSString*)newTitle;               // forget this, you should use setCircuitName:
-- (NSString*) circuitName;
-- (void) setCircuitName:(NSString*)newName;
-- (void) setCircuitNamespace:(NSString*)newNamespace;
-- (NSString*) circuitNamespace;
+@property NSString* rawOutput;
+@property NSString* output;
+
+@property NSString* circuitTitle;
+@property NSString* circuitName;
+@property NSString* circuitNamespace; // Used to differentiate circuits with identical names. The default namespace is an empty string. Since version 0.5.3
 - (NSString*) fullyQualifiedCircuitName;                    // convenience method
-- (void) setSchematic:(MI_CircuitSchematic*)newSchematic;
-- (MI_CircuitSchematic*) schematic;
-- (NSString*) comment;
-- (void) setComment:(NSString*)newComment;
-- (NSString*) revision;
-- (void) setRevision:(NSString*)rev;
-- (float) schematicScale;
-- (void) setSchematicScale:(float)newScale;
-- (NSPoint) schematicViewportOffset;
-- (void) setSchematicViewportOffset:(NSPoint)newOffset;
-- (int) activeSchematicVariant;
-- (void) setActiveSchematicVariant:(int)variantIndex;
 
+@property (nonatomic) MI_CircuitSchematic* schematic;
+@property NSString* comment; // User comments. Since version 0.5.3
+@property NSString* revision; // A short string for use in versioning. Usually a number. Since version 0.5.3
+@property float schematicScale; // stores the drawing scale of the schematic. Since version 0.5.4
+@property NSPoint schematicViewportOffset; // stores the location of the origin of the viewport coordinate system relative to the schematic coordinate system. Since version 0.5.5
+@property int activeSchematicVariant; // index of the currently used schematic variant
 
-// Returns an array of strings, which contain the analysis
-// commands in the order they were issued.
-- (NSArray*) analyses;
+@property (nonatomic, readonly) NSArray<NSString*>* analyses; // The circuit analysis commands. In the order they were issued.
 
 // Convenience method which returns the list of used, non-default device models.
 // For internal use when saving to file.
-- (NSArray*) circuitDeviceModels;
+@property (nonatomic, readonly) NSArray<MI_CircuitElementDeviceModel*>* circuitDeviceModels;
 
 @end

@@ -50,7 +50,7 @@ static float scaleFactor = 1.0f;
 
 @implementation MI_CircuitDocumentPrinter
 
-- (id) init
+- (instancetype) init
 {
     if (circuitPrinter == nil)
     {
@@ -184,7 +184,6 @@ static float scaleFactor = 1.0f;
                         didRunSelector:nil
                            contextInfo:NULL];
     }
-    [currentInfo release];
     currentInfo = nil;
 }
 

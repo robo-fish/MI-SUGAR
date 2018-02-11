@@ -23,90 +23,70 @@
 
 const float MI_SHAPE_MAX_EXTENT = 200.0f;
 
+@interface MI_Shape ()
+@property (readwrite) NSSize size;
+@end
 
 @implementation MI_Shape
-
-- (id) init
 {
-    if (self = [super init])
-    {
-        connectionPoints = [[NSMutableDictionary alloc] initWithCapacity:6];
-        size = NSMakeSize(0, 0);
-    }
-    return self;
+@protected
+  NSSize _size;
 }
 
+@synthesize size = _size;
 
-- (NSDictionary*) connectionPoints
+- (instancetype) initWithSize:(NSSize)size_
 {
-    return [NSDictionary dictionaryWithDictionary:connectionPoints];
+  if (self = [super init])
+  {
+    _size = size_;
+  }
+  return self;
 }
 
-
-- (void) setConnectionPoints:(NSDictionary*)newConnectionPoints
+- (instancetype) init
 {
-    [connectionPoints setDictionary:newConnectionPoints];
+  return [self initWithSize:NSMakeSize(0, 0)];
 }
-
-
-- (NSSize) size
-{
-    return size;
-}
-
 
 - (void) drawAtPoint:(NSPoint)position
 {
 }
-
 
 - (NSString*) shapeToSVG
 {
     return @"";
 }
 
-
-/************* NSCoding methods *******************/
+/************* NSCoding implementation *******************/
 
 - (id)initWithCoder:(NSCoder *)decoder
 {
-    if (self = [super init])
-    {
-        connectionPoints = [[decoder decodeObjectForKey:@"ShapeConnectionPoints"] retain];
-        size = [decoder decodeSizeForKey:@"ShapeSize"];
-    }
-    return self;
+  if (self = [super init])
+  {
+    _connectionPoints = [decoder decodeObjectForKey:@"ShapeConnectionPoints"];
+    _size = [decoder decodeSizeForKey:@"ShapeSize"];
+  }
+  return self;
 }
-
 
 - (void)encodeWithCoder:(NSCoder *)encoder
 {
-    [encoder encodeObject:connectionPoints
-                   forKey:@"ShapeConnectionPoints"];
-    [encoder encodeSize:size
-                 forKey:@"ShapeSize"];
+  if (_connectionPoints != nil)
+  {
+    [encoder encodeObject:_connectionPoints forKey:@"ShapeConnectionPoints"];
+  }
+  [encoder encodeSize:_size forKey:@"ShapeSize"];
 }
 
-
-/******** NSCopying protocol implementation *********/
-
+/******** NSCopying implementation *********/
 
 - (id) copyWithZone:(NSZone*) zone
 {
-    MI_Shape* myCopy = [[[self class] allocWithZone:zone] init];
-    [myCopy setConnectionPoints:[self connectionPoints]];
-    myCopy->size = [self size];
-    return myCopy;
-}
-
-
-/***************/
-
-
-- (void) dealloc
-{
-    [connectionPoints release];
-    [super dealloc];
+  MI_Shape* myCopy = [[[self class] allocWithZone:zone] init];
+  myCopy.connectionPoints = self.connectionPoints;
+  myCopy.size = self.size;
+  return myCopy;
 }
 
 @end

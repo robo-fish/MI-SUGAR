@@ -25,8 +25,6 @@
 @interface ResultsTable : NSObject
 {
     enum AnalysisType {DC = 0, AC, TRAN, DISTO} type;
-    NSString* title;
-    NSString* name;
     NSMutableArray* variables;
 }
 /* Gets the analysis variable at the specified index */
@@ -35,19 +33,11 @@
 /* Sets the array that contains the descriptions of the variables */
 - (void) addVariable:(AnalysisVariable*)var;
 
-/* Sets the name of the results table which will be used to identify
-    the plot based on this results table. */
-- (void) setName:(NSString*)plotName;
+// the name of the results table which will be used to identify the plot based on this results table
+@property NSString* name;
 
-/* Returns the name of the table. Normally this returns the analysis type. */
-- (NSString*) name;
-
-/* Sets the title of the results table which is usually a description of the
-    source circuit that produced the results. */
-- (void) setTitle:(NSString*)circuitTitle;
-
-/* Returns the title of the table. */
-- (NSString*) title;
+/* The title of the results table which is usually a description of the source circuit that produced the results. */
+@property NSString* title;
 
 /* Returns the number of variables. */
 - (NSUInteger) numberOfVariables;

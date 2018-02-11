@@ -35,7 +35,7 @@ enum floatRepresentation { MAGNITUDE = 0, REAL, IMAGINARY };
  */
 @interface AnalysisVariable : NSObject
 
-- (id) initWithName:(NSString*)varName;
+- (instancetype) initWithName:(NSString*)varName;
 
 - (long) numberOfSets; // typically this is one (1)
 

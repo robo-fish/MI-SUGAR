@@ -28,5 +28,5 @@
     IBOutlet NyquistView* plotView;
     IBOutlet NSPanel* panel;
 }
-- (id) initWithAnalysisVariable:(AnalysisVariable*)variable;
+- (instancetype) initWithAnalysisVariable:(AnalysisVariable*)variable;
 @end

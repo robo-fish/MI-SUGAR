@@ -36,38 +36,31 @@
     int numVars = 0, numPoints = 0;
     NSArray* variables = nil;
     ResultsTable* table = nil;
-    NSMutableArray* resultsTables = [[NSMutableArray arrayWithCapacity:1] retain];
+    NSMutableArray* resultsTables = [NSMutableArray arrayWithCapacity:1];
     lineStart = 0;
-    [input retain];
+    NSString* inputHolder = input;
     // Scan the string line by line
     while (lineStart < ([input length] - 1))
     {
         [input getLineStart:&lineStart end:&nextLineStart contentsEnd:&lineEnd forRange:NSMakeRange(lineStart, 1)];
-        [nextLine release];
-        nextLine = [[input substringWithRange:NSMakeRange(lineStart, lineEnd - lineStart)] retain];
+        nextLine = [input substringWithRange:NSMakeRange(lineStart, lineEnd - lineStart)];
         lineStart = nextLineStart;
 
         if ([nextLine hasPrefix:@"Title: "])
         {
-            circuitName = [[nextLine substringFromIndex:7] retain];
+            circuitName = [nextLine substringFromIndex:7];
             table = [[ResultsTable alloc] init];
             [table setTitle:circuitName];
-            [circuitName release];
         }
         if ([nextLine hasPrefix:@"Plotname: "])
         {
-            plotName = [[nextLine substringFromIndex:10] retain];
+            plotName = [nextLine substringFromIndex:10];
             [table setName:plotName];
-            [plotName release];
         }
         else if ([nextLine hasPrefix:@"No. Variables: "])
         {
             numVars = [[nextLine substringFromIndex:15] intValue];
-            if (variables)
-            {
-                [variables release];
-                variables = nil;
-            }
+            variables = nil;
         }
         else if ([nextLine hasPrefix:@"No. Points: "])
         {
@@ -83,13 +76,10 @@
                                 end:&nextLineStart
                         contentsEnd:&lineEnd
                            forRange:NSMakeRange(lineStart, 1)];
-                [nextLine release];
-                nextLine = [[input substringWithRange:NSMakeRange(lineStart,
-                    lineEnd - lineStart)] retain];
+                nextLine = [input substringWithRange:NSMakeRange(lineStart, lineEnd - lineStart)];
                 lineStart = nextLineStart;
                 variableTypeData = [nextLine componentsSeparatedByString:@"\t"];
-                [table addVariable: [[[AnalysisVariable alloc]
-                    initWithName:[variableTypeData objectAtIndex:2]] autorelease]];
+                [table addVariable: [[AnalysisVariable alloc] initWithName:[variableTypeData objectAtIndex:2]]];
             }
         }
         else if ([nextLine isEqualToString:@"Values:"])
@@ -110,9 +100,7 @@
                                     end:&nextLineStart
                             contentsEnd:&lineEnd
                                forRange:NSMakeRange(lineStart, 1)];
-                    [nextLine release];
-                    nextLine = [[input substringWithRange:NSMakeRange(lineStart,
-                        lineEnd - lineStart)] retain];
+                    nextLine = [input substringWithRange:NSMakeRange(lineStart, lineEnd - lineStart)];
                     lineStart = nextLineStart;
                     // for m == 0 the line starts with the index number of the point
                     if (m == 0)
@@ -157,7 +145,7 @@
                             real = [[valueCandidate substringToIndex:separatorLocation] doubleValue];
                             imaginary = [[valueCandidate substringFromIndex:(separatorLocation + 1)] doubleValue];
                             [[table variableAtIndex:m] addComplexValue:
-                                [[[MI_ComplexNumber alloc] initWithReal:real imaginary:imaginary] autorelease] toSet:set];
+                                [[MI_ComplexNumber alloc] initWithReal:real imaginary:imaginary] toSet:set];
                         }
                     }
                 }
@@ -167,12 +155,9 @@
                 [table sort]; */
             // Add the constructed table to the array of tables
             [resultsTables addObject:table];
-            [table release];
         }
     }
-    [nextLine release];
-    [input release];
-    return [resultsTables autorelease];
+    return resultsTables;
 }
 
 @end

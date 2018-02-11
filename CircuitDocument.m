@@ -56,7 +56,7 @@ NSString* SPICE_Raw                              = @"SPICE raw output";
 
 @implementation CircuitDocument
 
-- (id) init
+- (instancetype) init
 {
     if (self = [super init]) {
         // If an error occurs here, send a [self dealloc] message and return nil.
@@ -90,18 +90,17 @@ NSString* SPICE_Raw                              = @"SPICE raw output";
 }
 
 
-- (id) initWithContentsOfFile:(NSString *)fileName
-                       ofType:(NSString *)docType
+- (instancetype) initWithContentsOfFile:(NSString *)fileName ofType:(NSString *)docType
 {
-    [self init];
-    if ( ([[fileName pathExtension] caseInsensitiveCompare:@"cir"] == NSOrderedSame) ||
-         ([[fileName pathExtension] caseInsensitiveCompare:@"ckt"] == NSOrderedSame) )
-        [self readFromFile:fileName
-                    ofType:NETLIST];
-    else if ([[fileName pathExtension] caseInsensitiveCompare:@"sugar"] == NSOrderedSame)
-        [self readFromFile:fileName
-                    ofType:SUGAR_FILE_TYPE];
-    return self;
+  self = [self init];
+  if ( ([[fileName pathExtension] caseInsensitiveCompare:@"cir"] == NSOrderedSame) ||
+       ([[fileName pathExtension] caseInsensitiveCompare:@"ckt"] == NSOrderedSame) )
+      [self readFromFile:fileName
+                  ofType:NETLIST];
+  else if ([[fileName pathExtension] caseInsensitiveCompare:@"sugar"] == NSOrderedSame)
+      [self readFromFile:fileName
+                  ofType:SUGAR_FILE_TYPE];
+  return self;
 }
 
 
@@ -138,7 +137,6 @@ NSString* SPICE_Raw                              = @"SPICE raw output";
     [toolbar setDisplayMode:NSToolbarDisplayModeIconAndLabel];
     [toolbar setDelegate:self];
     [myWindow setToolbar:toolbar];
-    [toolbar release];
     /* Get the window size of the last session */
     [myWindow setFrameUsingName:MISUGAR_DOCUMENT_WINDOW_FRAME];
     // text view settings
@@ -245,8 +243,6 @@ NSString* SPICE_Raw                              = @"SPICE raw output";
 
 - (void) setModel:(CircuitDocumentModel*)newModel
 {
-    [newModel retain];
-    [myModel release];
     myModel = newModel;
     [self updateViews];
 }
@@ -311,7 +307,6 @@ NSString* SPICE_Raw                              = @"SPICE raw output";
     [archiver encodeObject:[myModel circuitDeviceModels] forKey:@"MI-SUGAR Circuit Device Models"];
     [archiver finishEncoding];
     success = [data writeToFile:filename atomically:YES];
-    [archiver release];
     [[myModel schematic] markAsModified:!success];
     [self markWindowContentAsModified:!success];
     if (success)
@@ -421,7 +416,6 @@ NSString* SPICE_Raw                              = @"SPICE raw output";
         newModel = [unarchiver decodeObjectForKey:@"MI-SUGAR Document Model"];
         deviceModels = [unarchiver decodeObjectForKey:@"MI-SUGAR Circuit Device Models"];
         [unarchiver finishDecoding];
-        [unarchiver release];
     NS_HANDLER
         NSBeginInformationalAlertSheet(@"Invalid or corrupt file.",
             nil, nil, nil, window, nil, nil, nil, nil,
@@ -674,16 +668,15 @@ NSString* SPICE_Raw                              = @"SPICE raw output";
     if (simulationAborted)
         return;
     
-    NSString* readData = [[[NSString alloc] initWithData:[[aNotification userInfo] objectForKey:NSFileHandleNotificationDataItem]
-                                                encoding:NSASCIIStringEncoding] autorelease];
+    NSString* readData = [[NSString alloc] initWithData:[[aNotification userInfo] objectForKey:NSFileHandleNotificationDataItem]
+                                                encoding:NSASCIIStringEncoding];
     if (readData && [readData length])
         [shellOutputView replaceCharactersInRange:NSMakeRange([[shellOutputView textStorage] length], 0)
                                        withString:readData];
     else if (![simulationTask isRunning])
     {
-        [simulationDataPipe release];
-        simulationDataPipe = nil;
-        return;
+      simulationDataPipe = nil;
+      return;
     }
     [[simulationDataPipe fileHandleForReading] readInBackgroundAndNotify];
 }
@@ -777,7 +770,7 @@ NSString* SPICE_Raw                              = @"SPICE raw output";
          // The plotter is aware of this document window so we get notified
          // when the plot window is closed and can remove it from the window
          // controller list
-         [plotter setWindowController:[wcont autorelease]];
+         [plotter setWindowController:wcont];
          */
     }
     else
@@ -819,37 +812,19 @@ NSString* SPICE_Raw                              = @"SPICE raw output";
     NSDictionary* previousAttributes = nil;
     if (!highlightingAttributesCreated)
     {
-        //NSColor* darkGreen = [NSColor colorWithDeviceRed:0.0 green:0.4 blue:0.0 alpha:1.0];
-        NSColor* darkRed = [NSColor colorWithDeviceRed:0.4 green:0.0 blue:0.0 alpha:1.0];
-        NSColor* darkBlue = [NSColor colorWithDeviceRed:0.0 green:0.0 blue:0.4 alpha:1.0];
-        NSColor* lightGrey = [NSColor colorWithDeviceRed:0.7 green:0.7 blue:0.7 alpha:1.0];
-        NSColor* darkYellow = [NSColor colorWithDeviceRed:0.5 green:0.4 blue:0.0 alpha:1.0];
-        NSColor* orange = [NSColor colorWithDeviceRed:0.81 green:0.45 blue:0.14 alpha:1.0];
-        analysisCommandAttributes =
-                [[NSDictionary dictionaryWithObjectsAndKeys:
-                    darkRed, NSForegroundColorAttributeName,
-                    NULL] retain];
-        commentAttributes =
-                [[NSDictionary dictionaryWithObjectsAndKeys:
-                    lightGrey, NSForegroundColorAttributeName,
-                    NULL] retain];
-        modelAttributes =
-            [[NSDictionary dictionaryWithObjectsAndKeys:
-                darkYellow, NSForegroundColorAttributeName,
-                NULL] retain];
-        printAttributes =
-            [[NSDictionary dictionaryWithObjectsAndKeys:
-                orange, NSForegroundColorAttributeName,
-                NULL] retain];
-        subcircuitAttributes =
-            [[NSDictionary dictionaryWithObjectsAndKeys:
-                [NSColor blueColor], NSForegroundColorAttributeName,
-                NULL] retain];
-        defaultAttributes =
-                [[NSDictionary dictionaryWithObjectsAndKeys:
-                    darkBlue, NSForegroundColorAttributeName,
-                    NULL] retain];
-        highlightingAttributesCreated = YES;
+      //NSColor* darkGreen = [NSColor colorWithDeviceRed:0.0 green:0.4 blue:0.0 alpha:1.0];
+      NSColor* darkRed = [NSColor colorWithDeviceRed:0.4 green:0.0 blue:0.0 alpha:1.0];
+      NSColor* darkBlue = [NSColor colorWithDeviceRed:0.0 green:0.0 blue:0.4 alpha:1.0];
+      NSColor* lightGrey = [NSColor colorWithDeviceRed:0.7 green:0.7 blue:0.7 alpha:1.0];
+      NSColor* darkYellow = [NSColor colorWithDeviceRed:0.5 green:0.4 blue:0.0 alpha:1.0];
+      NSColor* orange = [NSColor colorWithDeviceRed:0.81 green:0.45 blue:0.14 alpha:1.0];
+      analysisCommandAttributes = @{ NSForegroundColorAttributeName: darkRed };
+      commentAttributes = @{ NSForegroundColorAttributeName: lightGrey };
+      modelAttributes = @{ NSForegroundColorAttributeName: darkYellow };
+      printAttributes = @{ NSForegroundColorAttributeName: orange };
+      subcircuitAttributes = @{ NSForegroundColorAttributeName: [NSColor blueColor] };
+      defaultAttributes = @{ NSForegroundColorAttributeName: darkBlue };
+      highlightingAttributesCreated = YES;
     }
 
     // Scan all lines
@@ -1287,11 +1262,11 @@ canCollapseSubview:(NSView*)view
         ResultsTable* currentTable = (ResultsTable*) [results objectAtIndex:i];
         
         if ([format isEqualToString:@"MathML"])
-            output = [[Converter resultsToMathML:currentTable] retain];
+            output = [Converter resultsToMathML:currentTable];
         else if ([format isEqualToString:@"Matlab"])
-            output = [[Converter resultsToMatlab:currentTable] retain];
+            output = [Converter resultsToMatlab:currentTable];
         else if ([format isEqualToString:@"Tabular"])
-            output = [[Converter resultsToTabularText:currentTable] retain];
+            output = [Converter resultsToTabularText:currentTable];
         else
             return;
         
@@ -1302,7 +1277,6 @@ canCollapseSubview:(NSView*)view
         {
           NSLog(@"Error while writing to file \"%@\".", fileName);
         }
-        [output autorelease];
     }
 }
 
@@ -1434,7 +1408,7 @@ canCollapseSubview:(NSView*)view
 
     [[self undoManager] setActionName:@"Set Schematic Variant"];
 
-    [myModel setSchematic:[[newSchematic copy] autorelease]];
+    [myModel setSchematic:[newSchematic copy]];
 
     // return to current variant
     [myModel setActiveSchematicVariant:currentVariant];
@@ -1679,17 +1653,7 @@ canCollapseSubview:(NSView*)view
 
 - (void) dealloc
 {
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-    [run release];
-    [fitToView release];
-    [plot release];
-    [myModel release];
-    [commentAttributes release];
-    [analysisCommandAttributes release];
-    [printAttributes release];
-    [modelAttributes release];
-    [subcircuitAttributes release];
-    [super dealloc];
+  [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 @end

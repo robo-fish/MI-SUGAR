@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		2AE5A3F9202F35B10080DEA0 /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = C02C813E070F3C810042B50C /* libxml2.dylib */; };
 		2AE5A3FC202F468A0080DEA0 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2AE5A3FB202F468A0080DEA0 /* Images.xcassets */; };
+		2AE5A3FF203095760080DEA0 /* MI_SchematicInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 2AE5A3FD203095760080DEA0 /* MI_SchematicInfo.h */; };
+		2AE5A400203095760080DEA0 /* MI_SchematicInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AE5A3FE203095760080DEA0 /* MI_SchematicInfo.m */; };
 		C002B2910618AF5000C260E9 /* MI_DeviceModelManager.h in Headers */ = {isa = PBXBuildFile; fileRef = C002B28F0618AF5000C260E9 /* MI_DeviceModelManager.h */; };
 		C002B2920618AF5000C260E9 /* MI_DeviceModelManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C002B2900618AF5000C260E9 /* MI_DeviceModelManager.m */; };
 		C00C159B060B9D4C00A175F8 /* MI_SubcircuitLibraryManager.h in Headers */ = {isa = PBXBuildFile; fileRef = C00C1599060B9D4C00A175F8 /* MI_SubcircuitLibraryManager.h */; };
@@ -51,8 +53,6 @@
 		C0885EB9062972C2000C7B0F /* MI_SVGConverter.m in Sources */ = {isa = PBXBuildFile; fileRef = C0885EB7062972C2000C7B0F /* MI_SVGConverter.m */; };
 		C092D01A094231AB005BAE8A /* MI_FitToViewButton.h in Headers */ = {isa = PBXBuildFile; fileRef = C092D018094231AB005BAE8A /* MI_FitToViewButton.h */; };
 		C092D01B094231AB005BAE8A /* MI_FitToViewButton.m in Sources */ = {isa = PBXBuildFile; fileRef = C092D019094231AB005BAE8A /* MI_FitToViewButton.m */; };
-		C0BE96A8061DB86300AFC9A1 /* MI_NamedArray.h in Headers */ = {isa = PBXBuildFile; fileRef = C0BE96A6061DB86300AFC9A1 /* MI_NamedArray.h */; };
-		C0BE96A9061DB86300AFC9A1 /* MI_NamedArray.m in Sources */ = {isa = PBXBuildFile; fileRef = C0BE96A7061DB86300AFC9A1 /* MI_NamedArray.m */; };
 		C0BEFA5A0611F05400E88C44 /* MI_Inspector.h in Headers */ = {isa = PBXBuildFile; fileRef = C0BEFA580611F05400E88C44 /* MI_Inspector.h */; };
 		C0BEFA5B0611F05400E88C44 /* MI_Inspector.m in Sources */ = {isa = PBXBuildFile; fileRef = C0BEFA590611F05400E88C44 /* MI_Inspector.m */; };
 		C0D3054D06536ACC0073EC78 /* MI_AnalysisButton.h in Headers */ = {isa = PBXBuildFile; fileRef = C0D3054B06536ACC0073EC78 /* MI_AnalysisButton.h */; };
@@ -159,6 +159,8 @@
 		2A37F4C4FDCFA73011CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		2A37F4C5FDCFA73011CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		2AE5A3FB202F468A0080DEA0 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		2AE5A3FD203095760080DEA0 /* MI_SchematicInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MI_SchematicInfo.h; sourceTree = "<group>"; };
+		2AE5A3FE203095760080DEA0 /* MI_SchematicInfo.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MI_SchematicInfo.m; sourceTree = "<group>"; };
 		C002B28F0618AF5000C260E9 /* MI_DeviceModelManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MI_DeviceModelManager.h; sourceTree = "<group>"; };
 		C002B2900618AF5000C260E9 /* MI_DeviceModelManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MI_DeviceModelManager.m; sourceTree = "<group>"; };
 		C00C1599060B9D4C00A175F8 /* MI_SubcircuitLibraryManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MI_SubcircuitLibraryManager.h; sourceTree = "<group>"; };
@@ -202,8 +204,6 @@
 		C0885EB7062972C2000C7B0F /* MI_SVGConverter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MI_SVGConverter.m; sourceTree = "<group>"; };
 		C092D018094231AB005BAE8A /* MI_FitToViewButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MI_FitToViewButton.h; sourceTree = "<group>"; };
 		C092D019094231AB005BAE8A /* MI_FitToViewButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MI_FitToViewButton.m; sourceTree = "<group>"; };
-		C0BE96A6061DB86300AFC9A1 /* MI_NamedArray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MI_NamedArray.h; sourceTree = "<group>"; };
-		C0BE96A7061DB86300AFC9A1 /* MI_NamedArray.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MI_NamedArray.m; sourceTree = "<group>"; };
 		C0BEFA580611F05400E88C44 /* MI_Inspector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MI_Inspector.h; sourceTree = "<group>"; };
 		C0BEFA590611F05400E88C44 /* MI_Inspector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MI_Inspector.m; sourceTree = "<group>"; };
 		C0C092DA05761918006C0AD5 /* AnalysisVariable.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = AnalysisVariable.h; sourceTree = "<group>"; };
@@ -479,8 +479,6 @@
 		C0BE9699061DB82900AFC9A1 /* Needful Things */ = {
 			isa = PBXGroup;
 			children = (
-				C0BE96A6061DB86300AFC9A1 /* MI_NamedArray.h */,
-				C0BE96A7061DB86300AFC9A1 /* MI_NamedArray.m */,
 				C0385450063C21D40045290A /* MI_TroubleShooter.h */,
 				C0385451063C21D40045290A /* MI_TroubleShooter.m */,
 				C05AAB300657599E00648EE3 /* MI_CustomViewToolbarItem.h */,
@@ -594,6 +592,8 @@
 				C0C0930005761918006C0AD5 /* MI_Schematic.m */,
 				C0C0930105761918006C0AD5 /* MI_SchematicElement.h */,
 				C0C0930205761918006C0AD5 /* MI_SchematicElement.m */,
+				2AE5A3FD203095760080DEA0 /* MI_SchematicInfo.h */,
+				2AE5A3FE203095760080DEA0 /* MI_SchematicInfo.m */,
 				C083EED90608BA9D001BB563 /* MI_TextElement.h */,
 				C083EEDA0608BA9D001BB563 /* MI_TextElement.m */,
 				C083F618060A0EE7001BB563 /* MI_ImageElement.h */,
@@ -704,6 +704,7 @@
 				C0E80BF7058E2A8E0012452D /* MI_PowerSourceElements.h in Headers */,
 				C0E80BF8058E2A8E0012452D /* MI_Schematic.h in Headers */,
 				C0E80BF9058E2A8E0012452D /* MI_SchematicElement.h in Headers */,
+				2AE5A3FF203095760080DEA0 /* MI_SchematicInfo.h in Headers */,
 				C0E80BFA058E2A8E0012452D /* MI_SchematicElementChooser.h in Headers */,
 				C0E80BFB058E2A8E0012452D /* MI_SchematicsCanvas.h in Headers */,
 				C0E80BFC058E2A8E0012452D /* MI_TextView.h in Headers */,
@@ -737,7 +738,6 @@
 				C058523706139C0600288B03 /* MI_PathShape.h in Headers */,
 				C058526706139D9500288B03 /* MI_DIPShape.h in Headers */,
 				C002B2910618AF5000C260E9 /* MI_DeviceModelManager.h in Headers */,
-				C0BE96A8061DB86300AFC9A1 /* MI_NamedArray.h in Headers */,
 				C087DC2E0624803B00386A53 /* MI_CircuitDocumentPrinter.h in Headers */,
 				C0885EB8062972C2000C7B0F /* MI_SVGConverter.h in Headers */,
 				C0385452063C21D40045290A /* MI_TroubleShooter.h in Headers */,
@@ -866,6 +866,7 @@
 				C0E80C5B058E2A8E0012452D /* CircuitDocument.m in Sources */,
 				C0E80C5C058E2A8E0012452D /* CircuitDocumentModel.m in Sources */,
 				C0E80C5D058E2A8E0012452D /* Converter.m in Sources */,
+				2AE5A400203095760080DEA0 /* MI_SchematicInfo.m in Sources */,
 				C0ED059B05AF0B1100273C48 /* MI_NodeAssignmentTableItem.m in Sources */,
 				C083EEDC0608BA9D001BB563 /* MI_TextElement.m in Sources */,
 				C083F0870609173B001BB563 /* MI_Tool.m in Sources */,
@@ -881,7 +882,6 @@
 				C058523806139C0600288B03 /* MI_PathShape.m in Sources */,
 				C058526806139D9500288B03 /* MI_DIPShape.m in Sources */,
 				C002B2920618AF5000C260E9 /* MI_DeviceModelManager.m in Sources */,
-				C0BE96A9061DB86300AFC9A1 /* MI_NamedArray.m in Sources */,
 				C087DC2F0624803B00386A53 /* MI_CircuitDocumentPrinter.m in Sources */,
 				C0885EB9062972C2000C7B0F /* MI_SVGConverter.m in Sources */,
 				C0385453063C21D40045290A /* MI_TroubleShooter.m in Sources */,
@@ -1071,6 +1071,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
@@ -1117,6 +1118,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;

@@ -74,12 +74,12 @@
   BOOL drawerWasClosed; // used in "auto show guides tab"
 }
 
-- (id) initWithPlottingData:(NSArray*)plotData
+- (instancetype) initWithPlottingData:(NSArray*)plotData
 {
     if (self = [super init])
     {
         int i;
-        dataTable = [plotData retain];
+        dataTable = plotData;
         NSUserDefaults* defs = [NSUserDefaults standardUserDefaults];
         previousTab = nil;
         drawerWasClosed = YES;
@@ -103,12 +103,12 @@
         [visibilityButton setButtonType:NSSwitchButton];
         [visibilityButton setTarget:self];
         [visibilityButton setAction:@selector(toggleVisibility:)];
-        [variableVisibilityColumn setDataCell:[visibilityButton autorelease]];
+        [variableVisibilityColumn setDataCell:visibilityButton];
         [variablesTable setRowHeight:22.0f];
         colorCell = [[MI_ColorCell alloc] init];
         [colorCell setTarget:self];
         [colorCell setAction:@selector(changeGraphColor:)];
-        [variableColorColumn setDataCell:[colorCell autorelease]];
+        [variableColorColumn setDataCell:colorCell];
 
         zoomHistory = [[NSMutableArray alloc] initWithCapacity:5];
 
@@ -158,19 +158,20 @@
 - (void) _setAnalysis:(NSInteger)analysisIndex
 {
     int j;
-    int num = [plotView numberOfOrdinateVariables];
+    NSUInteger const num = [plotView numberOfOrdinateVariables];
     NSArray* visibilitiesArray = nil;
     AnalysisVariable* firstVariable;
     ResultsTable* selected;
     
     if (num > 0)
     {
-        NSNumber* visibilities[num];
-        // Store the visibility info of the active plot
-        for (j = 0; j < num; j++)
-            visibilities[j] = [NSNumber numberWithBool:![plotView isHidden:j]];
-        visibilitiesArray = [[NSArray arrayWithObjects:visibilities
-                                                 count:num] retain];
+      NSNumber* visibilities[num];
+      // Store the visibility info of the active plot
+      for (j = 0; j < num; j++)
+      {
+        visibilities[j] = [NSNumber numberWithBool:![plotView isHidden:j]];
+      }
+      visibilitiesArray = [NSArray arrayWithObjects:visibilities count:num];
     }
 
     [plotView removeAll];
@@ -467,11 +468,11 @@
         newViewArea = [plotView viewArea];
         //d = [newViewArea maxY]; encDouble(&d); [newViewArea setMaxY:d];
         //d = [newViewArea minY]; encDouble(&d); [newViewArea setMinY:d];
-        [zoomHistory addObject:[[[MI_ViewArea alloc]
+        [zoomHistory addObject:[[MI_ViewArea alloc]
             initWithMinX:[newViewArea minX]
                     maxX:[newViewArea maxX]
                     minY:[newViewArea minY]
-                    maxY:[newViewArea maxY]] autorelease]];
+                    maxY:[newViewArea maxY]]];
     }
 
     if ( (lHP == rHP) || (bHP == tHP) )
@@ -494,13 +495,9 @@
     {
         //encDouble(&bHP);
         //encDouble(&tHP);
-        newViewArea = [[MI_ViewArea alloc] initWithMinX:lHP
-                                                   maxX:rHP
-                                                   minY:bHP
-                                                   maxY:tHP];
+        newViewArea = [[MI_ViewArea alloc] initWithMinX:lHP maxX:rHP minY:bHP maxY:tHP];
         [plotView setViewArea:newViewArea];
         [zoomHistory addObject:newViewArea];
-        [newViewArea release];
     }
 }
 
@@ -527,7 +524,6 @@
         [zoomHistory removeAllObjects];
         [zoomHistory addObject:newViewArea];
         [plotView setViewArea:newViewArea];
-        [newViewArea release];
     }
 }
 
@@ -644,11 +640,11 @@ objectValueForTableColumn:(NSTableColumn *)aTableColumn
         return [aTableColumn dataCell];
     else /*if ([[aTableColumn identifier] isEqualToString:@"variable"])*/
         //return [[[dataTable objectAtIndex:[plotChooser indexOfSelectedItem]] variableAtIndex:(rowIndex + 1)] name];
-        return [[[NSAttributedString alloc] initWithString:
+        return [[NSAttributedString alloc] initWithString:
             [[[dataTable objectAtIndex:[plotChooser indexOfSelectedItem]] variableAtIndex:(rowIndex + 1)] name]
                                                 attributes:
             [NSDictionary dictionaryWithObject:[NSFont systemFontOfSize:14.0]
-                                        forKey:NSFontAttributeName]] autorelease];
+                                        forKey:NSFontAttributeName]];
         
 }
 
@@ -710,11 +706,12 @@ shouldEditTableColumn:(NSTableColumn*)aTableColumn
 - (void) windowWillClose:(NSNotification *)aNotification
 {
   id p = [aNotification object];
-  if ([p isKindOfClass:[NSColorPanel class]] ||
-      [p isKindOfClass:[NSFontPanel class]])
+  if ([p isKindOfClass:[NSColorPanel class]] || [p isKindOfClass:[NSFontPanel class]])
+  {
     [p setTarget:nil];
-  else if ([p isKindOfClass:[NSWindow class]])
-    [self release];
+  }
+//  else if ([p isKindOfClass:[NSWindow class]])
+//    [self release];
 }
 
 
@@ -796,26 +793,20 @@ shouldEditTableColumn:(NSTableColumn*)aTableColumn
 
 - (void) setWindowController:(NSWindowController*)controller
 {
-    [controller retain];
-    [windowController release];
-    windowController = controller;
+  windowController = controller;
 }
 
 
 - (BOOL) validateMenuItem:(NSMenuItem*) item
 {
-    return [[SugarManager sharedManager] validateMenuItem:item];
+  return [[SugarManager sharedManager] validateMenuItem:item];
 }
 
 
 - (void) dealloc
 {
-    [zoomHistory release];
-    [dataTable release];
-    [variablesTable setDataSource:nil];
-    dataTable = nil;
-    [windowController release];
-    [super dealloc];
+  variablesTable.dataSource = nil;
+  dataTable = nil;
 }
 
 @end

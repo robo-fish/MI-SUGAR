@@ -85,7 +85,7 @@ NSString* MATHML_ENDING = @"</math>";
         [output appendString:@"</mrow>\n"];
     }
     [output appendString:MATHML_ENDING];
-    return [output autorelease];
+    return output;
 }
 
 
@@ -142,7 +142,7 @@ NSString* MATHML_ENDING = @"</math>";
         }
         [output appendString:@"];\n"];
     }
-    return [output autorelease];
+    return output;
 }
 
 
@@ -214,7 +214,7 @@ NSString* MATHML_ENDING = @"</math>";
         }
     }
         
-    return [output autorelease];
+    return output;
 }
 
 
@@ -337,7 +337,6 @@ NSString* schematicToNetlistCore(CircuitDocumentModel* circuit)
         if (!foundGround && !foundNamedNodeElement)
             nodeNumber++;
     }
-    [equivalentPoints release];
         
     // Set the node assignment table of the circuit so the node numbers can be displayed in the schematic
     [theCircuit setNodeAssignmentTable:globalNodeTable];
@@ -820,10 +819,7 @@ void collectEquivalentPoints(NSMutableArray* collectionTable,
 {
     if (![connector hasBeenTraversed])
     {
-        int i;
         MI_SchematicElement* nextElement = nil;
-        [collectionTable retain];
-        [connector retain];
         // Add end point and start point to the given table
         [collectionTable addObject:[[MI_NodeAssignmentTableItem alloc]
             initWithElement:[connector startElementID]
@@ -834,7 +830,7 @@ void collectEquivalentPoints(NSMutableArray* collectionTable,
         // Mark connector as traversed
         [connector setTraversed:YES];
     
-        for (i = 0; i < 2; i++)
+        for (int i = 0; i < 2; i++)
         {
             nextElement = [theCircuit elementForIdentifier:(i ? [connector startElementID] : [connector endElementID])];
 
@@ -853,8 +849,6 @@ void collectEquivalentPoints(NSMutableArray* collectionTable,
                 }
             }
         } // for
-        [collectionTable autorelease];
-        [connector autorelease];
     } // if
 }
 
@@ -863,15 +857,15 @@ void collectSubcircuitsAndDeviceModels(NSMutableDictionary* modelDB,
                                        NSMutableSet* subcircuitNames,
                                        MI_SubcircuitDocumentModel* subckt)
 {
-    NSEnumerator* setEnum = [[subckt subcircuitsUsed] objectEnumerator];
+    NSEnumerator* setEnum = [[subckt usedSubcircuits] objectEnumerator];
     NSString* subcktName;
     while (subcktName = [setEnum nextObject])
     {
         collectSubcircuitsAndDeviceModels(modelDB, subcircuitNames,
             [[[SugarManager sharedManager] subcircuitLibraryManager] modelForSubcircuitName:subcktName]);
     }
-    [subcircuitNames unionSet:[subckt subcircuitsUsed]];
-    [modelDB addEntriesFromDictionary:[subckt deviceModelsUsed]];
+    [subcircuitNames unionSet:[subckt usedSubcircuits]];
+    [modelDB addEntriesFromDictionary:[subckt usedDeviceModels]];
 }
 
 

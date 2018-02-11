@@ -27,7 +27,7 @@
     BOOL verticalAlignment; // indicates vertical alignment with another point
     BOOL horizontalAlignment; // indicates horizontal alignment with another point    
 }
-- (id) initWithPosition:(NSPoint)pos
+- (instancetype) initWithPosition:(NSPoint)pos
        alignsVertically:(BOOL)valign
      alignsHorizontally:(BOOL)halign;
 

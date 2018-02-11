@@ -25,12 +25,10 @@
 // Wraps a subcircuit for use in schematics by providing
 // a graphical representation.
 @interface MI_SubcircuitElement : MI_CircuitElement <NSCoding, NSCopying>
-{
-    int numberOfPins; // for performance reasons
-}
-- (id) initWithDefinition:(MI_SubcircuitDocumentModel*)model;
 
-- (int) numberOfPins;
+- (instancetype) initWithDefinition:(MI_SubcircuitDocumentModel*)model;
+
+@property (readonly) NSUInteger numberOfPins;
 
 // returns the subcircuit model behind the schematic element
 - (MI_SubcircuitDocumentModel*) definition;

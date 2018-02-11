@@ -81,26 +81,26 @@
 
 - (void) mouseDown:(NSEvent*)theEvent
 {
-    NSPoint clickPosition =
-        [self convertPoint:[theEvent locationInWindow]
-                fromView:nil];
-    NSRect rect = [self frame];
-    float x = clickPosition.x - rect.size.width/2.0f;
-    float y = clickPosition.y - rect.size.height/2.0f;
-    
-    if ( (fabs(x) < rect.size.width * 0.15) && (fabs(y) < rect.size.height * 0.15) )
-        direction = MI_DIRECTION_NONE;
-    else if (fabs(x) >= fabs(y))
-        direction = (x >= 0.0f) ? MI_DIRECTION_RIGHT : MI_DIRECTION_LEFT;
-    else
-        direction = (y >= 0.0f) ? MI_DIRECTION_UP : MI_DIRECTION_DOWN;
-    
-    [self setNeedsDisplay:YES];
-    
-    // perform action
-    [target performSelector:action
-                 withObject:self
-                 afterDelay:0.0];
+  CGPoint const clickPosition = [self convertPoint:[theEvent locationInWindow] fromView:nil];
+  CGRect const rect = [self frame];
+  CGFloat const x = clickPosition.x - rect.size.width/2.0f;
+  CGFloat const y = clickPosition.y - rect.size.height/2.0f;
+
+  if ( (fabs(x) < rect.size.width * 0.15) && (fabs(y) < rect.size.height * 0.15) )
+  {
+    direction = MI_DIRECTION_NONE;
+  }
+  else if (fabs(x) >= fabs(y))
+  {
+    direction = (x >= 0.0f) ? MI_DIRECTION_RIGHT : MI_DIRECTION_LEFT;
+  }
+  else
+  {
+    direction = (y >= 0.0f) ? MI_DIRECTION_UP : MI_DIRECTION_DOWN;
+  }
+  [self setNeedsDisplay:YES];
+
+  [target performSelector:action withObject:self afterDelay:0.0];
 }
 
 
@@ -131,11 +131,5 @@
     return YES; // for click-through behavior
 }
 
-
-- (void) dealloc
-{
-    [backgroundImage release];
-    [super dealloc];
-}
 
 @end

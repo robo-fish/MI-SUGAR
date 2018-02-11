@@ -22,18 +22,11 @@
 
 /* Support class for schematic to netlist conversion */
 @interface MI_NodeAssignmentTableItem : NSObject <NSCoding>
-{
-    NSString* elementID;
-    NSString* connectionPointName;
-    int nodeNumber; // a negative value means the connection point is unassigned
-    NSString* nodeName; // stores the name of the assigned node if it has a name.
-}
-- (id) initWithElement:(NSString*)identifier
-       connectionPoint:(NSString*)pointName;
-- (NSString*) elementID;
-- (NSString*) pointName;
-- (int) node;
-- (void) setNode:(int)node;
-- (NSString*) nodeName;
-- (void) setNodeName:(NSString*)name;
+
+- (instancetype) initWithElement:(NSString*)identifier connectionPoint:(NSString*)pointName;
+@property int node; // The index of the node. A negative number means the connection point is unassigned.
+@property NSString* nodeName; // The name of the assigned node, if it has one.
+@property (readonly, nonatomic) NSString* elementID;
+@property (readonly, nonatomic) NSString* pointName;
+
 @end

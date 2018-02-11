@@ -23,7 +23,7 @@
 
 @implementation MI_ViewArea
 
-- (id) initWithMinX:(double)minx
+- (instancetype) initWithMinX:(double)minx
                maxX:(double)maxx
                minY:(double)miny
                maxY:(double)maxy
@@ -66,12 +66,6 @@
 - (void) setMaxY:(double)maxy
 {
     maxY = maxy;
-}
-
-
-- (void) dealloc
-{
-    [super dealloc];
 }
 
 @end

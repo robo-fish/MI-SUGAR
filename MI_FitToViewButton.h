@@ -28,17 +28,12 @@
 */
 @interface MI_FitToViewButton : NSView
 
-/** the action to be executed when the button is pressed */
-- (void) setAction:(SEL)newAction;
+@property SEL action; // the action to be executed when the button is pressed
 
-/** the target object which must have implemented the action */
-- (void) setTarget:(NSObject*)newTarget;
-- (NSObject*) target;
+@property NSObject* target; // the target object must implement the action above
 
-- (BOOL) isEnabled;
-- (void) setEnabled:(BOOL)state;
+@property (nonatomic, getter=isEnabled) BOOL enabled;
 
-- (void) setHighlighted:(BOOL)highlight;
-- (BOOL) isHighlighted;
+@property (nonatomic, getter=isHighlighted) BOOL highlighted;
 
 @end
