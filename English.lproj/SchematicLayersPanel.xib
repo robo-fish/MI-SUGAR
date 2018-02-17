@@ -1,1003 +1,114 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<archive type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="8.00">
-	<data>
-		<int key="IBDocument.SystemTarget">1070</int>
-		<string key="IBDocument.SystemVersion">11C74</string>
-		<string key="IBDocument.InterfaceBuilderVersion">1938</string>
-		<string key="IBDocument.AppKitVersion">1138.23</string>
-		<string key="IBDocument.HIToolboxVersion">567.00</string>
-		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
-			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin</string>
-			<string key="NS.object.0">1938</string>
-		</object>
-		<array key="IBDocument.IntegratedClassDependencies">
-			<string>NSView</string>
-			<string>NSCustomObject</string>
-			<string>NSScrollView</string>
-			<string>NSWindowTemplate</string>
-			<string>NSTextFieldCell</string>
-			<string>NSTableHeaderView</string>
-			<string>NSButtonCell</string>
-			<string>NSTableColumn</string>
-			<string>NSButton</string>
-			<string>NSScroller</string>
-			<string>NSTableView</string>
-		</array>
-		<array key="IBDocument.PluginDependencies">
-			<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-		</array>
-		<object class="NSMutableDictionary" key="IBDocument.Metadata">
-			<string key="NS.key.0">PluginDependencyRecalculationVersion</string>
-			<integer value="1" key="NS.object.0"/>
-		</object>
-		<array class="NSMutableArray" key="IBDocument.RootObjects" id="1011185563">
-			<object class="NSCustomObject" id="31802617">
-				<string key="NSClassName">SugarManager</string>
-			</object>
-			<object class="NSCustomObject" id="36635947">
-				<string key="NSClassName">FirstResponder</string>
-			</object>
-			<object class="NSCustomObject" id="906854207">
-				<string key="NSClassName">NSApplication</string>
-			</object>
-			<object class="NSWindowTemplate" id="910930021">
-				<int key="NSWindowStyleMask">27</int>
-				<int key="NSWindowBacking">2</int>
-				<string key="NSWindowRect">{{401, 321}, {242, 210}}</string>
-				<int key="NSWTFlags">-260571136</int>
-				<string key="NSWindowTitle">Layers</string>
-				<string key="NSWindowClass">NSPanel</string>
-				<object class="NSMutableString" key="NSViewClass">
-					<characters key="NS.bytes">View</characters>
-				</object>
-				<nil key="NSUserInterfaceItemIdentifier"/>
-				<string key="NSWindowContentMinSize">{213, 113}</string>
-				<object class="NSView" key="NSWindowView" id="650839146">
-					<reference key="NSNextResponder"/>
-					<array class="NSMutableArray" key="NSSubviews">
-						<object class="NSScrollView" id="887896676">
-							<reference key="NSNextResponder" ref="650839146"/>
-							<int key="NSvFlags">274</int>
-							<array class="NSMutableArray" key="NSSubviews">
-								<object class="NSClipView" id="242373834">
-									<reference key="NSNextResponder" ref="887896676"/>
-									<int key="NSvFlags">2304</int>
-									<array class="NSMutableArray" key="NSSubviews">
-										<object class="NSTableView" id="609864894">
-											<reference key="NSNextResponder" ref="242373834"/>
-											<string key="NSFrameSize">{240, 160}</string>
-											<reference key="NSSuperview" ref="242373834"/>
-											<reference key="NSWindow"/>
-											<bool key="NSEnabled">YES</bool>
-											<object class="NSTableHeaderView" key="NSHeaderView" id="169716703">
-												<reference key="NSNextResponder" ref="185123068"/>
-												<int key="NSvFlags">256</int>
-												<string key="NSFrameSize">{240, 17}</string>
-												<reference key="NSSuperview" ref="185123068"/>
-												<reference key="NSWindow"/>
-												<reference key="NSTableView" ref="609864894"/>
-											</object>
-											<object class="_NSCornerView" key="NSCornerView">
-												<nil key="NSNextResponder"/>
-												<int key="NSvFlags">256</int>
-												<string key="NSFrame">{{226, 0}, {16, 17}}</string>
-											</object>
-											<array class="NSMutableArray" key="NSTableColumns">
-												<object class="NSTableColumn" id="235014363">
-													<double key="NSWidth">56</double>
-													<double key="NSMinWidth">40</double>
-													<double key="NSMaxWidth">1000</double>
-													<object class="NSTableHeaderCell" key="NSHeaderCell">
-														<int key="NSCellFlags">75628096</int>
-														<int key="NSCellFlags2">2048</int>
-														<string key="NSContents">Visibility</string>
-														<object class="NSFont" key="NSSupport" id="26">
-															<string key="NSName">LucidaGrande</string>
-															<double key="NSSize">11</double>
-															<int key="NSfFlags">3100</int>
-														</object>
-														<object class="NSColor" key="NSBackgroundColor" id="1016035469">
-															<int key="NSColorSpace">3</int>
-															<bytes key="NSWhite">MC4zMzMzMzI5OQA</bytes>
-														</object>
-														<object class="NSColor" key="NSTextColor" id="37111097">
-															<int key="NSColorSpace">6</int>
-															<string key="NSCatalogName">System</string>
-															<string key="NSColorName">headerTextColor</string>
-															<object class="NSColor" key="NSColor" id="1043097385">
-																<int key="NSColorSpace">3</int>
-																<bytes key="NSWhite">MAA</bytes>
-															</object>
-														</object>
-													</object>
-													<object class="NSTextFieldCell" key="NSDataCell" id="383568323">
-														<int key="NSCellFlags">338820672</int>
-														<int key="NSCellFlags2">1024</int>
-														<object class="NSFont" key="NSSupport" id="456080702">
-															<string key="NSName">LucidaGrande</string>
-															<double key="NSSize">13</double>
-															<int key="NSfFlags">1044</int>
-														</object>
-														<reference key="NSControlView" ref="609864894"/>
-														<object class="NSColor" key="NSBackgroundColor" id="430348228">
-															<int key="NSColorSpace">3</int>
-															<bytes key="NSWhite">MQA</bytes>
-														</object>
-														<object class="NSColor" key="NSTextColor" id="605125286">
-															<int key="NSColorSpace">6</int>
-															<string key="NSCatalogName">System</string>
-															<string key="NSColorName">controlTextColor</string>
-															<reference key="NSColor" ref="1043097385"/>
-														</object>
-													</object>
-													<int key="NSResizingMask">3</int>
-													<bool key="NSIsResizeable">YES</bool>
-													<bool key="NSIsEditable">YES</bool>
-													<reference key="NSTableView" ref="609864894"/>
-												</object>
-												<object class="NSTableColumn" id="221495744">
-													<double key="NSWidth">92</double>
-													<double key="NSMinWidth">40</double>
-													<double key="NSMaxWidth">1000</double>
-													<object class="NSTableHeaderCell" key="NSHeaderCell">
-														<int key="NSCellFlags">75628096</int>
-														<int key="NSCellFlags2">134219776</int>
-														<string key="NSContents">Name</string>
-														<reference key="NSSupport" ref="26"/>
-														<reference key="NSBackgroundColor" ref="1016035469"/>
-														<reference key="NSTextColor" ref="37111097"/>
-													</object>
-													<object class="NSTextFieldCell" key="NSDataCell" id="884612287">
-														<int key="NSCellFlags">338820672</int>
-														<int key="NSCellFlags2">1024</int>
-														<reference key="NSSupport" ref="456080702"/>
-														<reference key="NSControlView" ref="609864894"/>
-														<reference key="NSBackgroundColor" ref="430348228"/>
-														<reference key="NSTextColor" ref="605125286"/>
-													</object>
-													<int key="NSResizingMask">3</int>
-													<bool key="NSIsResizeable">YES</bool>
-													<bool key="NSIsEditable">YES</bool>
-													<reference key="NSTableView" ref="609864894"/>
-												</object>
-												<object class="NSTableColumn" id="824551904">
-													<double key="NSWidth">83</double>
-													<double key="NSMinWidth">10</double>
-													<double key="NSMaxWidth">1000</double>
-													<object class="NSTableHeaderCell" key="NSHeaderCell">
-														<int key="NSCellFlags">75628096</int>
-														<int key="NSCellFlags2">2048</int>
-														<string key="NSContents">Color</string>
-														<reference key="NSSupport" ref="26"/>
-														<object class="NSColor" key="NSBackgroundColor">
-															<int key="NSColorSpace">6</int>
-															<string key="NSCatalogName">System</string>
-															<string key="NSColorName">headerColor</string>
-															<reference key="NSColor" ref="430348228"/>
-														</object>
-														<reference key="NSTextColor" ref="37111097"/>
-													</object>
-													<object class="NSTextFieldCell" key="NSDataCell" id="256016061">
-														<int key="NSCellFlags">338820672</int>
-														<int key="NSCellFlags2">1024</int>
-														<reference key="NSSupport" ref="456080702"/>
-														<reference key="NSControlView" ref="609864894"/>
-														<object class="NSColor" key="NSBackgroundColor" id="150283112">
-															<int key="NSColorSpace">6</int>
-															<string key="NSCatalogName">System</string>
-															<string key="NSColorName">controlBackgroundColor</string>
-															<object class="NSColor" key="NSColor">
-																<int key="NSColorSpace">3</int>
-																<bytes key="NSWhite">MC42NjY2NjY2NjY3AA</bytes>
-															</object>
-														</object>
-														<reference key="NSTextColor" ref="605125286"/>
-													</object>
-													<bool key="NSIsEditable">YES</bool>
-													<reference key="NSTableView" ref="609864894"/>
-												</object>
-											</array>
-											<double key="NSIntercellSpacingWidth">3</double>
-											<double key="NSIntercellSpacingHeight">2</double>
-											<reference key="NSBackgroundColor" ref="430348228"/>
-											<object class="NSColor" key="NSGridColor">
-												<int key="NSColorSpace">6</int>
-												<string key="NSCatalogName">System</string>
-												<string key="NSColorName">gridColor</string>
-												<object class="NSColor" key="NSColor">
-													<int key="NSColorSpace">3</int>
-													<bytes key="NSWhite">MC41AA</bytes>
-												</object>
-											</object>
-											<double key="NSRowHeight">17</double>
-											<int key="NSTvFlags">-700448768</int>
-											<reference key="NSDelegate"/>
-											<reference key="NSDataSource"/>
-											<int key="NSColumnAutoresizingStyle">4</int>
-											<int key="NSDraggingSourceMaskForLocal">-1</int>
-											<int key="NSDraggingSourceMaskForNonLocal">0</int>
-											<bool key="NSAllowsTypeSelect">YES</bool>
-											<int key="NSTableViewDraggingDestinationStyle">0</int>
-											<int key="NSTableViewGroupRowStyle">1</int>
-										</object>
-									</array>
-									<string key="NSFrame">{{1, 17}, {240, 160}}</string>
-									<reference key="NSSuperview" ref="887896676"/>
-									<reference key="NSWindow"/>
-									<reference key="NSNextKeyView" ref="609864894"/>
-									<reference key="NSDocView" ref="609864894"/>
-									<reference key="NSBGColor" ref="150283112"/>
-									<int key="NScvFlags">4</int>
-								</object>
-								<object class="NSScroller" id="449461981">
-									<reference key="NSNextResponder" ref="887896676"/>
-									<int key="NSvFlags">256</int>
-									<string key="NSFrame">{{226, 17}, {15, 154}}</string>
-									<reference key="NSSuperview" ref="887896676"/>
-									<reference key="NSWindow"/>
-									<reference key="NSTarget" ref="887896676"/>
-									<string key="NSAction">_doScroller:</string>
-									<double key="NSPercent">0.76315790414810181</double>
-								</object>
-								<object class="NSScroller" id="363840682">
-									<reference key="NSNextResponder" ref="887896676"/>
-									<int key="NSvFlags">256</int>
-									<string key="NSFrame">{{1, 162}, {234, 15}}</string>
-									<reference key="NSSuperview" ref="887896676"/>
-									<reference key="NSWindow"/>
-									<int key="NSsFlags">1</int>
-									<reference key="NSTarget" ref="887896676"/>
-									<string key="NSAction">_doScroller:</string>
-									<double key="NSPercent">0.95744681358337402</double>
-								</object>
-								<object class="NSClipView" id="185123068">
-									<reference key="NSNextResponder" ref="887896676"/>
-									<int key="NSvFlags">2304</int>
-									<array class="NSMutableArray" key="NSSubviews">
-										<reference ref="169716703"/>
-									</array>
-									<string key="NSFrame">{{1, 0}, {240, 17}}</string>
-									<reference key="NSSuperview" ref="887896676"/>
-									<reference key="NSWindow"/>
-									<reference key="NSNextKeyView" ref="169716703"/>
-									<reference key="NSDocView" ref="169716703"/>
-									<reference key="NSBGColor" ref="150283112"/>
-									<int key="NScvFlags">4</int>
-								</object>
-							</array>
-							<string key="NSFrame">{{0, 32}, {242, 178}}</string>
-							<reference key="NSSuperview" ref="650839146"/>
-							<reference key="NSWindow"/>
-							<reference key="NSNextKeyView" ref="242373834"/>
-							<int key="NSsFlags">133170</int>
-							<reference key="NSVScroller" ref="449461981"/>
-							<reference key="NSHScroller" ref="363840682"/>
-							<reference key="NSContentView" ref="242373834"/>
-							<reference key="NSHeaderClipView" ref="185123068"/>
-							<bytes key="NSScrollAmts">QSAAAEEgAABBmAAAQZgAAA</bytes>
-						</object>
-						<object class="NSButton" id="297159112">
-							<reference key="NSNextResponder" ref="650839146"/>
-							<int key="NSvFlags">36</int>
-							<string key="NSFrame">{{9, 6}, {36, 20}}</string>
-							<reference key="NSSuperview" ref="650839146"/>
-							<reference key="NSWindow"/>
-							<bool key="NSEnabled">YES</bool>
-							<object class="NSButtonCell" key="NSCell" id="225826897">
-								<int key="NSCellFlags">67239424</int>
-								<int key="NSCellFlags2">134348800</int>
-								<string key="NSContents">New</string>
-								<reference key="NSSupport" ref="26"/>
-								<reference key="NSControlView" ref="297159112"/>
-								<int key="NSButtonFlags">-2042347265</int>
-								<int key="NSButtonFlags2">6</int>
-								<object class="NSCustomResource" key="NSNormalImage">
-									<string key="NSClassName">NSImage</string>
-									<string key="NSResourceName">zoom_minus</string>
-								</object>
-								<string key="NSAlternateContents"/>
-								<object class="NSMutableString" key="NSKeyEquivalent">
-									<characters key="NS.bytes"/>
-								</object>
-								<int key="NSPeriodicDelay">200</int>
-								<int key="NSPeriodicInterval">25</int>
-							</object>
-						</object>
-						<object class="NSButton" id="949256670">
-							<reference key="NSNextResponder" ref="650839146"/>
-							<int key="NSvFlags">33</int>
-							<string key="NSFrame">{{200, 6}, {29, 20}}</string>
-							<reference key="NSSuperview" ref="650839146"/>
-							<reference key="NSWindow"/>
-							<bool key="NSEnabled">YES</bool>
-							<object class="NSButtonCell" key="NSCell" id="686666549">
-								<int key="NSCellFlags">67239424</int>
-								<int key="NSCellFlags2">134348800</int>
-								<string key="NSContents">Delete</string>
-								<reference key="NSSupport" ref="26"/>
-								<reference key="NSControlView" ref="949256670"/>
-								<int key="NSButtonFlags">-2042347265</int>
-								<int key="NSButtonFlags2">6</int>
-								<object class="NSCustomResource" key="NSNormalImage">
-									<string key="NSClassName">NSImage</string>
-									<string key="NSResourceName">zoom_plus</string>
-								</object>
-								<string key="NSAlternateContents"/>
-								<object class="NSMutableString" key="NSKeyEquivalent">
-									<characters key="NS.bytes"/>
-								</object>
-								<int key="NSPeriodicDelay">200</int>
-								<int key="NSPeriodicInterval">25</int>
-							</object>
-						</object>
-					</array>
-					<string key="NSFrameSize">{242, 210}</string>
-					<reference key="NSSuperview"/>
-					<reference key="NSWindow"/>
-				</object>
-				<string key="NSScreenRect">{{0, 0}, {1024, 746}}</string>
-				<string key="NSMinSize">{213, 129}</string>
-				<string key="NSMaxSize">{10000000000000, 10000000000000}</string>
-				<bool key="NSWindowIsRestorable">YES</bool>
-			</object>
-		</array>
-		<object class="IBObjectContainer" key="IBDocument.Objects">
-			<array class="NSMutableArray" key="connectionRecords"/>
-			<object class="IBMutableOrderedSet" key="objectRecords">
-				<array key="orderedObjects">
-					<object class="IBObjectRecord">
-						<int key="objectID">0</int>
-						<array key="object" id="0"/>
-						<reference key="children" ref="1011185563"/>
-						<nil key="parent"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">-2</int>
-						<reference key="object" ref="31802617"/>
-						<reference key="parent" ref="0"/>
-						<string key="objectName">File's Owner</string>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">-1</int>
-						<reference key="object" ref="36635947"/>
-						<reference key="parent" ref="0"/>
-						<string key="objectName">First Responder</string>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">6</int>
-						<reference key="object" ref="910930021"/>
-						<array class="NSMutableArray" key="children">
-							<reference ref="650839146"/>
-						</array>
-						<reference key="parent" ref="0"/>
-						<string key="objectName">Panel</string>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">5</int>
-						<reference key="object" ref="650839146"/>
-						<array class="NSMutableArray" key="children">
-							<reference ref="887896676"/>
-							<reference ref="297159112"/>
-							<reference ref="949256670"/>
-						</array>
-						<reference key="parent" ref="910930021"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">9</int>
-						<reference key="object" ref="887896676"/>
-						<array class="NSMutableArray" key="children">
-							<reference ref="609864894"/>
-							<reference ref="363840682"/>
-							<reference ref="169716703"/>
-							<reference ref="449461981"/>
-						</array>
-						<reference key="parent" ref="650839146"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">7</int>
-						<reference key="object" ref="609864894"/>
-						<array class="NSMutableArray" key="children">
-							<reference ref="235014363"/>
-							<reference ref="221495744"/>
-							<reference ref="824551904"/>
-						</array>
-						<reference key="parent" ref="887896676"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">8</int>
-						<reference key="object" ref="235014363"/>
-						<array class="NSMutableArray" key="children">
-							<reference ref="383568323"/>
-						</array>
-						<reference key="parent" ref="609864894"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">10</int>
-						<reference key="object" ref="221495744"/>
-						<array class="NSMutableArray" key="children">
-							<reference ref="884612287"/>
-						</array>
-						<reference key="parent" ref="609864894"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">11</int>
-						<reference key="object" ref="824551904"/>
-						<array class="NSMutableArray" key="children">
-							<reference ref="256016061"/>
-						</array>
-						<reference key="parent" ref="609864894"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">12</int>
-						<reference key="object" ref="297159112"/>
-						<array class="NSMutableArray" key="children">
-							<reference ref="225826897"/>
-						</array>
-						<reference key="parent" ref="650839146"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">13</int>
-						<reference key="object" ref="949256670"/>
-						<array class="NSMutableArray" key="children">
-							<reference ref="686666549"/>
-						</array>
-						<reference key="parent" ref="650839146"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">15</int>
-						<reference key="object" ref="225826897"/>
-						<reference key="parent" ref="297159112"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">16</int>
-						<reference key="object" ref="686666549"/>
-						<reference key="parent" ref="949256670"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">17</int>
-						<reference key="object" ref="383568323"/>
-						<reference key="parent" ref="235014363"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">18</int>
-						<reference key="object" ref="884612287"/>
-						<reference key="parent" ref="221495744"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">19</int>
-						<reference key="object" ref="256016061"/>
-						<reference key="parent" ref="824551904"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">20</int>
-						<reference key="object" ref="363840682"/>
-						<reference key="parent" ref="887896676"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">21</int>
-						<reference key="object" ref="169716703"/>
-						<reference key="parent" ref="887896676"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">22</int>
-						<reference key="object" ref="449461981"/>
-						<reference key="parent" ref="887896676"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">-3</int>
-						<reference key="object" ref="906854207"/>
-						<reference key="parent" ref="0"/>
-						<string key="objectName">Application</string>
-					</object>
-				</array>
-			</object>
-			<dictionary class="NSMutableDictionary" key="flattenedProperties">
-				<string key="-1.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="-2.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="-3.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="10.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="11.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="12.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="13.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="15.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="16.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="17.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="18.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="19.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="20.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="21.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="22.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="5.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="6.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="7.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="8.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="9.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-			</dictionary>
-			<dictionary class="NSMutableDictionary" key="unlocalizedProperties"/>
-			<nil key="activeLocalization"/>
-			<dictionary class="NSMutableDictionary" key="localizations"/>
-			<nil key="sourceID"/>
-			<int key="maxID">22</int>
-		</object>
-		<object class="IBClassDescriber" key="IBDocument.Classes">
-			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
-				<object class="IBPartialClassDescription">
-					<string key="className">MI_SchematicElementChooser</string>
-					<string key="superclassName">NSView</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/MI_SchematicElementChooser.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">SugarManager</string>
-					<string key="superclassName">NSWindowController</string>
-					<dictionary class="NSMutableDictionary" key="actions">
-						<string key="analyzeCircuit:">id</string>
-						<string key="captureCurrentSchematic:">id</string>
-						<string key="exportToMathML:">id</string>
-						<string key="exportToMatlab:">id</string>
-						<string key="exportToTabularText:">id</string>
-						<string key="goToSubcircuitsFolder:">id</string>
-						<string key="makeSubcircuit:">id</string>
-						<string key="plotCircuitAnalysis:">id</string>
-						<string key="refreshSubcircuitsTable:">id</string>
-						<string key="schematicToSVG:">id</string>
-						<string key="selectSimulator:">id</string>
-						<string key="setCanvasBackgroundColor:">id</string>
-						<string key="setConversionPolicy:">id</string>
-						<string key="setCustomSimulator:">id</string>
-						<string key="setElementsPanelTransparency:">id</string>
-						<string key="setFileSavingPolicy:">id</string>
-						<string key="setGraphsLineWidth:">id</string>
-						<string key="setGridLineWidth:">id</string>
-						<string key="setLabelsFontSize:">id</string>
-						<string key="setLayout:">id</string>
-						<string key="setNodeAutoInsertion:">id</string>
-						<string key="setPlotterBackgroundColor:">id</string>
-						<string key="setPlotterFunctionSetting:">id</string>
-						<string key="setPlotterGridColor:">id</string>
-						<string key="setRawOutputFont:">id</string>
-						<string key="setShowUntitledDocumentAtStartup:">id</string>
-						<string key="setSourceFont:">id</string>
-						<string key="setSubcircuitLibraryFolder:">id</string>
-						<string key="showAboutPanel:">id</string>
-						<string key="showDeviceModelPanel:">id</string>
-						<string key="showElementsPanel:">id</string>
-						<string key="showInfoPanel:">id</string>
-						<string key="showPlacementGuides:">id</string>
-						<string key="showPreferencesPanel:">id</string>
-						<string key="switchPreferenceView:">id</string>
-					</dictionary>
-					<dictionary class="NSMutableDictionary" key="actionInfosByName">
-						<object class="IBActionInfo" key="analyzeCircuit:">
-							<string key="name">analyzeCircuit:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="captureCurrentSchematic:">
-							<string key="name">captureCurrentSchematic:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="exportToMathML:">
-							<string key="name">exportToMathML:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="exportToMatlab:">
-							<string key="name">exportToMatlab:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="exportToTabularText:">
-							<string key="name">exportToTabularText:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="goToSubcircuitsFolder:">
-							<string key="name">goToSubcircuitsFolder:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="makeSubcircuit:">
-							<string key="name">makeSubcircuit:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="plotCircuitAnalysis:">
-							<string key="name">plotCircuitAnalysis:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="refreshSubcircuitsTable:">
-							<string key="name">refreshSubcircuitsTable:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="schematicToSVG:">
-							<string key="name">schematicToSVG:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="selectSimulator:">
-							<string key="name">selectSimulator:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="setCanvasBackgroundColor:">
-							<string key="name">setCanvasBackgroundColor:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="setConversionPolicy:">
-							<string key="name">setConversionPolicy:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="setCustomSimulator:">
-							<string key="name">setCustomSimulator:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="setElementsPanelTransparency:">
-							<string key="name">setElementsPanelTransparency:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="setFileSavingPolicy:">
-							<string key="name">setFileSavingPolicy:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="setGraphsLineWidth:">
-							<string key="name">setGraphsLineWidth:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="setGridLineWidth:">
-							<string key="name">setGridLineWidth:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="setLabelsFontSize:">
-							<string key="name">setLabelsFontSize:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="setLayout:">
-							<string key="name">setLayout:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="setNodeAutoInsertion:">
-							<string key="name">setNodeAutoInsertion:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="setPlotterBackgroundColor:">
-							<string key="name">setPlotterBackgroundColor:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="setPlotterFunctionSetting:">
-							<string key="name">setPlotterFunctionSetting:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="setPlotterGridColor:">
-							<string key="name">setPlotterGridColor:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="setRawOutputFont:">
-							<string key="name">setRawOutputFont:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="setShowUntitledDocumentAtStartup:">
-							<string key="name">setShowUntitledDocumentAtStartup:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="setSourceFont:">
-							<string key="name">setSourceFont:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="setSubcircuitLibraryFolder:">
-							<string key="name">setSubcircuitLibraryFolder:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="showAboutPanel:">
-							<string key="name">showAboutPanel:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="showDeviceModelPanel:">
-							<string key="name">showDeviceModelPanel:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="showElementsPanel:">
-							<string key="name">showElementsPanel:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="showInfoPanel:">
-							<string key="name">showInfoPanel:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="showPlacementGuides:">
-							<string key="name">showPlacementGuides:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="showPreferencesPanel:">
-							<string key="name">showPreferencesPanel:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="switchPreferenceView:">
-							<string key="name">switchPreferenceView:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-					</dictionary>
-					<dictionary class="NSMutableDictionary" key="outlets">
-						<string key="aboutPanel">NSWindow</string>
-						<string key="autoInsertNodeElement">NSButton</string>
-						<string key="capacitorChooser">MI_SchematicElementChooser</string>
-						<string key="conversionPolicyChooser">NSPopUpButton</string>
-						<string key="customSimulatorBrowseButton">NSButton</string>
-						<string key="customSimulatorField">NSTextField</string>
-						<string key="diodeChooser">MI_SchematicElementChooser</string>
-						<string key="elementCategoryChooser">NSTabView</string>
-						<string key="elementsPanel">NSPanel</string>
-						<string key="fileSavingPolicyChooser">NSPopUpButton</string>
-						<string key="fontPrefsView">NSView</string>
-						<string key="generalPrefsView">NSView</string>
-						<string key="groundChooser">MI_SchematicElementChooser</string>
-						<string key="inductorChooser">MI_SchematicElementChooser</string>
-						<string key="layoutChooser">NSPopUpButton</string>
-						<string key="lookForUpdateAtStartupButton">NSButton</string>
-						<string key="lookForUpdateButton">NSButton</string>
-						<string key="nodeChooser">MI_SchematicElementChooser</string>
-						<string key="openElementsPanelOnStartup">NSButton</string>
-						<string key="openInfoPanelOnStartup">NSButton</string>
-						<string key="panelTransparencyAdjustment">NSSlider</string>
-						<string key="plotterAutoShowsGuidesTab">NSButton</string>
-						<string key="plotterBackgroundColorChooser">NSColorWell</string>
-						<string key="plotterClosesOldWindows">NSButton</string>
-						<string key="plotterGraphsLineWidthChooser">NSPopUpButton</string>
-						<string key="plotterGridColorChooser">NSColorWell</string>
-						<string key="plotterGridLineWidthChooser">NSPopUpButton</string>
-						<string key="plotterLabelsFontSizeChooser">NSPopUpButton</string>
-						<string key="plotterPrefsView">NSView</string>
-						<string key="plotterRemembersSettingsButton">NSButton</string>
-						<string key="preferencesPanel">NSPanel</string>
-						<string key="rawOutputFontNameField">NSTextField</string>
-						<string key="releaseDateField">NSTextField</string>
-						<string key="resistorChooser">MI_SchematicElementChooser</string>
-						<string key="schematicCanvasBackground">NSColorWell</string>
-						<string key="schematicPrefsView">NSView</string>
-						<string key="showPlacementGuides">NSButton</string>
-						<string key="showUntitledDocumentAtStartupButton">NSButton</string>
-						<string key="simulatorPrefsView">NSView</string>
-						<string key="sourceChooser">MI_SchematicElementChooser</string>
-						<string key="sourceFontNameField">NSTextField</string>
-						<string key="specialElementChooser">MI_SchematicElementChooser</string>
-						<string key="startupPrefsView">NSView</string>
-						<string key="subcircuitChooser">MI_SchematicElementChooser</string>
-						<string key="subcircuitLibraryPathField">NSTextField</string>
-						<string key="subcircuitNamespaceField">NSTextField</string>
-						<string key="subcircuitsTable">NSOutlineView</string>
-						<string key="switchChooser">MI_SchematicElementChooser</string>
-						<string key="transistorChooser">MI_SchematicElementChooser</string>
-						<string key="updateInfoField">NSTextField</string>
-						<string key="useCustomSimulatorButton">NSButtonCell</string>
-						<string key="useSPICEButton">NSButtonCell</string>
-						<string key="versionField">NSTextField</string>
-					</dictionary>
-					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
-						<object class="IBToOneOutletInfo" key="aboutPanel">
-							<string key="name">aboutPanel</string>
-							<string key="candidateClassName">NSWindow</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="autoInsertNodeElement">
-							<string key="name">autoInsertNodeElement</string>
-							<string key="candidateClassName">NSButton</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="capacitorChooser">
-							<string key="name">capacitorChooser</string>
-							<string key="candidateClassName">MI_SchematicElementChooser</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="conversionPolicyChooser">
-							<string key="name">conversionPolicyChooser</string>
-							<string key="candidateClassName">NSPopUpButton</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="customSimulatorBrowseButton">
-							<string key="name">customSimulatorBrowseButton</string>
-							<string key="candidateClassName">NSButton</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="customSimulatorField">
-							<string key="name">customSimulatorField</string>
-							<string key="candidateClassName">NSTextField</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="diodeChooser">
-							<string key="name">diodeChooser</string>
-							<string key="candidateClassName">MI_SchematicElementChooser</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="elementCategoryChooser">
-							<string key="name">elementCategoryChooser</string>
-							<string key="candidateClassName">NSTabView</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="elementsPanel">
-							<string key="name">elementsPanel</string>
-							<string key="candidateClassName">NSPanel</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="fileSavingPolicyChooser">
-							<string key="name">fileSavingPolicyChooser</string>
-							<string key="candidateClassName">NSPopUpButton</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="fontPrefsView">
-							<string key="name">fontPrefsView</string>
-							<string key="candidateClassName">NSView</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="generalPrefsView">
-							<string key="name">generalPrefsView</string>
-							<string key="candidateClassName">NSView</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="groundChooser">
-							<string key="name">groundChooser</string>
-							<string key="candidateClassName">MI_SchematicElementChooser</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="inductorChooser">
-							<string key="name">inductorChooser</string>
-							<string key="candidateClassName">MI_SchematicElementChooser</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="layoutChooser">
-							<string key="name">layoutChooser</string>
-							<string key="candidateClassName">NSPopUpButton</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="lookForUpdateAtStartupButton">
-							<string key="name">lookForUpdateAtStartupButton</string>
-							<string key="candidateClassName">NSButton</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="lookForUpdateButton">
-							<string key="name">lookForUpdateButton</string>
-							<string key="candidateClassName">NSButton</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="nodeChooser">
-							<string key="name">nodeChooser</string>
-							<string key="candidateClassName">MI_SchematicElementChooser</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="openElementsPanelOnStartup">
-							<string key="name">openElementsPanelOnStartup</string>
-							<string key="candidateClassName">NSButton</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="openInfoPanelOnStartup">
-							<string key="name">openInfoPanelOnStartup</string>
-							<string key="candidateClassName">NSButton</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="panelTransparencyAdjustment">
-							<string key="name">panelTransparencyAdjustment</string>
-							<string key="candidateClassName">NSSlider</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="plotterAutoShowsGuidesTab">
-							<string key="name">plotterAutoShowsGuidesTab</string>
-							<string key="candidateClassName">NSButton</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="plotterBackgroundColorChooser">
-							<string key="name">plotterBackgroundColorChooser</string>
-							<string key="candidateClassName">NSColorWell</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="plotterClosesOldWindows">
-							<string key="name">plotterClosesOldWindows</string>
-							<string key="candidateClassName">NSButton</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="plotterGraphsLineWidthChooser">
-							<string key="name">plotterGraphsLineWidthChooser</string>
-							<string key="candidateClassName">NSPopUpButton</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="plotterGridColorChooser">
-							<string key="name">plotterGridColorChooser</string>
-							<string key="candidateClassName">NSColorWell</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="plotterGridLineWidthChooser">
-							<string key="name">plotterGridLineWidthChooser</string>
-							<string key="candidateClassName">NSPopUpButton</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="plotterLabelsFontSizeChooser">
-							<string key="name">plotterLabelsFontSizeChooser</string>
-							<string key="candidateClassName">NSPopUpButton</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="plotterPrefsView">
-							<string key="name">plotterPrefsView</string>
-							<string key="candidateClassName">NSView</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="plotterRemembersSettingsButton">
-							<string key="name">plotterRemembersSettingsButton</string>
-							<string key="candidateClassName">NSButton</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="preferencesPanel">
-							<string key="name">preferencesPanel</string>
-							<string key="candidateClassName">NSPanel</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="rawOutputFontNameField">
-							<string key="name">rawOutputFontNameField</string>
-							<string key="candidateClassName">NSTextField</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="releaseDateField">
-							<string key="name">releaseDateField</string>
-							<string key="candidateClassName">NSTextField</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="resistorChooser">
-							<string key="name">resistorChooser</string>
-							<string key="candidateClassName">MI_SchematicElementChooser</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="schematicCanvasBackground">
-							<string key="name">schematicCanvasBackground</string>
-							<string key="candidateClassName">NSColorWell</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="schematicPrefsView">
-							<string key="name">schematicPrefsView</string>
-							<string key="candidateClassName">NSView</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="showPlacementGuides">
-							<string key="name">showPlacementGuides</string>
-							<string key="candidateClassName">NSButton</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="showUntitledDocumentAtStartupButton">
-							<string key="name">showUntitledDocumentAtStartupButton</string>
-							<string key="candidateClassName">NSButton</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="simulatorPrefsView">
-							<string key="name">simulatorPrefsView</string>
-							<string key="candidateClassName">NSView</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="sourceChooser">
-							<string key="name">sourceChooser</string>
-							<string key="candidateClassName">MI_SchematicElementChooser</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="sourceFontNameField">
-							<string key="name">sourceFontNameField</string>
-							<string key="candidateClassName">NSTextField</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="specialElementChooser">
-							<string key="name">specialElementChooser</string>
-							<string key="candidateClassName">MI_SchematicElementChooser</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="startupPrefsView">
-							<string key="name">startupPrefsView</string>
-							<string key="candidateClassName">NSView</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="subcircuitChooser">
-							<string key="name">subcircuitChooser</string>
-							<string key="candidateClassName">MI_SchematicElementChooser</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="subcircuitLibraryPathField">
-							<string key="name">subcircuitLibraryPathField</string>
-							<string key="candidateClassName">NSTextField</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="subcircuitNamespaceField">
-							<string key="name">subcircuitNamespaceField</string>
-							<string key="candidateClassName">NSTextField</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="subcircuitsTable">
-							<string key="name">subcircuitsTable</string>
-							<string key="candidateClassName">NSOutlineView</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="switchChooser">
-							<string key="name">switchChooser</string>
-							<string key="candidateClassName">MI_SchematicElementChooser</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="transistorChooser">
-							<string key="name">transistorChooser</string>
-							<string key="candidateClassName">MI_SchematicElementChooser</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="updateInfoField">
-							<string key="name">updateInfoField</string>
-							<string key="candidateClassName">NSTextField</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="useCustomSimulatorButton">
-							<string key="name">useCustomSimulatorButton</string>
-							<string key="candidateClassName">NSButtonCell</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="useSPICEButton">
-							<string key="name">useSPICEButton</string>
-							<string key="candidateClassName">NSButtonCell</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="versionField">
-							<string key="name">versionField</string>
-							<string key="candidateClassName">NSTextField</string>
-						</object>
-					</dictionary>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/SugarManager.h</string>
-					</object>
-				</object>
-			</array>
-		</object>
-		<int key="IBDocument.localizationMode">0</int>
-		<string key="IBDocument.TargetRuntimeIdentifier">IBCocoaFramework</string>
-		<object class="NSMutableDictionary" key="IBDocument.PluginDeclaredDependencies">
-			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin.macosx</string>
-			<integer value="1070" key="NS.object.0"/>
-		</object>
-		<bool key="IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion">YES</bool>
-		<int key="IBDocument.defaultPropertyAccessControl">3</int>
-		<dictionary class="NSMutableDictionary" key="IBDocument.LastKnownImageSizes">
-			<string key="zoom_minus">{20, 20}</string>
-			<string key="zoom_plus">{20, 20}</string>
-		</dictionary>
-	</data>
-</archive>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="13771" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="13771"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="SugarManager"/>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application"/>
+        <window title="Layers" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" hidesOnDeactivate="YES" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" id="6" userLabel="Panel" customClass="NSPanel">
+            <windowStyleMask key="styleMask" titled="YES" closable="YES" resizable="YES" utility="YES"/>
+            <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
+            <rect key="contentRect" x="401" y="321" width="242" height="210"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1024" height="746"/>
+            <value key="minSize" type="size" width="213" height="113"/>
+            <view key="contentView" autoresizesSubviews="NO" id="5">
+                <rect key="frame" x="0.0" y="0.0" width="242" height="210"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <scrollView horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" id="9">
+                        <rect key="frame" x="0.0" y="32" width="242" height="178"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <clipView key="contentView" id="iOi-YG-gJr">
+                            <rect key="frame" x="1" y="23" width="240" height="154"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            <subviews>
+                                <tableView autoresizesSubviews="NO" verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" headerView="21" id="7">
+                                    <rect key="frame" x="0.0" y="0.0" width="240" height="154"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <size key="intercellSpacing" width="3" height="2"/>
+                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
+                                    <tableColumns>
+                                        <tableColumn identifier="" width="56" minWidth="40" maxWidth="1000" id="8">
+                                            <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Visibility">
+                                                <font key="font" metaFont="smallSystem"/>
+                                                <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" white="0.33333299" alpha="1" colorSpace="calibratedWhite"/>
+                                            </tableHeaderCell>
+                                            <textFieldCell key="dataCell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" alignment="left" id="17">
+                                                <font key="font" metaFont="system"/>
+                                                <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            </textFieldCell>
+                                            <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
+                                        </tableColumn>
+                                        <tableColumn identifier="" width="92" minWidth="40" maxWidth="1000" id="10">
+                                            <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="center" title="Name">
+                                                <font key="font" metaFont="smallSystem"/>
+                                                <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" white="0.33333299" alpha="1" colorSpace="calibratedWhite"/>
+                                            </tableHeaderCell>
+                                            <textFieldCell key="dataCell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" alignment="left" id="18">
+                                                <font key="font" metaFont="system"/>
+                                                <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            </textFieldCell>
+                                            <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
+                                        </tableColumn>
+                                        <tableColumn identifier="" width="83" minWidth="10" maxWidth="1000" id="11">
+                                            <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Color">
+                                                <font key="font" metaFont="smallSystem"/>
+                                                <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
+                                            </tableHeaderCell>
+                                            <textFieldCell key="dataCell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" alignment="left" id="19">
+                                                <font key="font" metaFont="system"/>
+                                                <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                        </tableColumn>
+                                    </tableColumns>
+                                </tableView>
+                            </subviews>
+                        </clipView>
+                        <scroller key="horizontalScroller" verticalHuggingPriority="750" horizontal="YES" id="20">
+                            <rect key="frame" x="1" y="161" width="240" height="16"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                        </scroller>
+                        <scroller key="verticalScroller" verticalHuggingPriority="750" horizontal="NO" id="22">
+                            <rect key="frame" x="225" y="23" width="16" height="154"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                        </scroller>
+                        <tableHeaderView key="headerView" id="21">
+                            <rect key="frame" x="0.0" y="0.0" width="240" height="23"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                        </tableHeaderView>
+                    </scrollView>
+                    <button autoresizesSubviews="NO" imageHugsTitle="YES" id="12">
+                        <rect key="frame" x="9" y="6" width="36" height="20"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <buttonCell key="cell" type="square" title="New" bezelStyle="shadowlessSquare" image="zoom_minus" imagePosition="only" alignment="center" controlSize="small" inset="2" id="15">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="smallSystem"/>
+                        </buttonCell>
+                    </button>
+                    <button autoresizesSubviews="NO" imageHugsTitle="YES" id="13">
+                        <rect key="frame" x="200" y="6" width="29" height="20"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                        <buttonCell key="cell" type="square" title="Delete" bezelStyle="shadowlessSquare" image="zoom_plus" imagePosition="only" alignment="center" controlSize="small" inset="2" id="16">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="smallSystem"/>
+                        </buttonCell>
+                    </button>
+                </subviews>
+            </view>
+        </window>
+    </objects>
+    <resources>
+        <image name="zoom_minus" width="20" height="20"/>
+        <image name="zoom_plus" width="20" height="20"/>
+    </resources>
+</document>

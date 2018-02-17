@@ -42,6 +42,10 @@ int PlotterGraphsLineWidth[] = { 1, 2, 3 };
 int PlotterLabelsFontSize[] = { 10, 12, 14, 18 };
 
 
+@interface SugarGraphView (DragNDrop) <NSPasteboardItemDataProvider, NSDraggingSource>
+@end
+
+
 @implementation SugarGraphView
 {
 @private
@@ -1117,91 +1121,15 @@ int PlotterLabelsFontSize[] = { 10, 12, 14, 18 };
 
 - (void) mouseDragged:(NSEvent*)theEvent
 {
-    if ([theEvent modifierFlags] & NSEventModifierFlagCommand)
-    {        
-        // Creates an image of the schematic and puts it into the pasteboard
-        NSSize imageSize = [self frame].size;
-        NSImage *plotterImage = [[NSImage alloc] initWithSize:imageSize];
-        NSRect imageBox = NSMakeRect(0, 0, imageSize.width, imageSize.height);
-        
-        [plotterImage lockFocus];
-        // Making sure there are no artefacts at the edges
-        [self.backgroundColor set];
-        [NSBezierPath fillRect:NSInsetRect(imageBox, -2, -2)];
-        // Drawing into the image
-        [self drawRect:imageBox];
-        [plotterImage unlockFocus];
-        
-        // Put the image on the pasteboard
-        NSPasteboard *dragPboard = [NSPasteboard pasteboardWithName:NSPasteboardNameDrag];
-        [dragPboard declareTypes:@[NSTIFFPboardType] owner:self];
-        [dragPboard setData:[plotterImage TIFFRepresentation] forType:NSTIFFPboardType];
-        // Create a semi-transparent drag image
-        NSImage* dragImage = [[NSImage alloc] initWithSize:imageBox.size];
-        [dragImage lockFocus];
-        [plotterImage dissolveToPoint:NSMakePoint(0,0) fraction:0.8f];
-        [dragImage unlockFocus];
-        // Drag the image
-        [self dragImage:dragImage
-                     at:NSMakePoint(imageBox.origin.x, imageBox.origin.y)
-                 offset:NSMakeSize(0,0)
-                  event:theEvent
-             pasteboard:dragPboard
-                 source:self
-              slideBack:YES];
-    }
-    else if (handlesAreActive)
-    {
-        NSPoint mousePos = [self convertPoint:[theEvent locationInWindow]
-                                     fromView:nil];
-        NSPoint handlePos = [self viewToValue:mousePos];
-        NSSize viewSize = [self bounds].size;
-
-        // One of the zoom handles is being dragged
-        switch (selectedHandle)
-        {
-            case LEFT:
-                if (mousePos.x < leftMargin)
-                    handleLeftPos = [viewArea minX];
-                else if (mousePos.x > (viewSize.width - rightMargin))
-                    handleLeftPos = [viewArea maxX];
-                else
-                    handleLeftPos = handlePos.x;
-                [observer processHandleDrag:selectedHandle
-                                   position:handleLeftPos];
-                break;
-            case RIGHT:
-                if (mousePos.x < leftMargin)
-                    handleRightPos = [viewArea minX];
-                else if (mousePos.x > (viewSize.width - rightMargin))
-                    handleRightPos = [viewArea maxX];
-                else
-                    handleRightPos = handlePos.x;
-                [observer processHandleDrag:selectedHandle
-                                   position:handleRightPos];
-                break;
-            case TOP:
-                if (mousePos.y < bottomMargin)
-                    handleTopPos = [viewArea minY];
-                else if (mousePos.y > (viewSize.height - topMargin))
-                    handleTopPos = [viewArea maxY];
-                else
-                    handleTopPos = handlePos.y;
-                [observer processHandleDrag:selectedHandle
-                                   position:handleTopPos];
-                break;
-            default:
-                if (mousePos.y < bottomMargin)
-                    handleBottomPos = [viewArea minY];
-                else if (mousePos.y > (viewSize.height - topMargin))
-                    handleBottomPos = [viewArea maxY];
-                else
-                    handleBottomPos = handlePos.y;
-                [observer processHandleDrag:selectedHandle
-                                   position:handleBottomPos];
-        }
-        [self setNeedsDisplay:YES];
-    }
+  if ([theEvent modifierFlags] & NSEventModifierFlagCommand)
+  {
+    [self _copyPlotterImageToPasteboardForEvent:theEvent];
+  }
+  else if (handlesAreActive)
+  {
+    NSPoint mousePos = [self convertPoint:[theEvent locationInWindow] fromView:nil];
+    [self _updateHandlesForMousePosition:mousePos];
+  }
 }
 
 
@@ -1230,29 +1158,28 @@ int PlotterLabelsFontSize[] = { 10, 12, 14, 18 };
 }
 
 
+- (double) leftHandlePosition { return handleLeftPos; }
+- (double) rightHandlePosition { return handleRightPos; }
+- (double) topHandlePosition { return handleTopPos; }
+- (double) bottomHandlePosition { return handleBottomPos; }
+
+
 - (IBAction) copy:(id)sender
 {
   NSPasteboard* pb = [NSPasteboard generalPasteboard];
   [pb declareTypes:@[NSTIFFPboardType] owner:self];
-//  [pb setData: forType:NSTIFFPboardType];
 }
 
 
-- (void) pasteboard:(NSPasteboard *)sender provideDataForType:(NSString *)type
+- (void) pasteboard:(NSPasteboard *)pBoard provideDataForType:(NSString *)type
 {
   // the image type is provided lazily
-  if ([type compare:NSTIFFPboardType] == NSOrderedSame)
+  if ([type compare:NSPasteboardTypeTIFF] == NSOrderedSame)
   {
-    NSData *tiffData;
-    NSRect bds = [self bounds];
-    NSImage *plot = [[NSImage alloc] initWithSize:bds.size];
-    [plot lockFocus];
-    [self drawRect:bds];
-    [plot unlockFocus];
-    tiffData = [plot TIFFRepresentationUsingCompression:NSTIFFCompressionLZW factor:0.0];
+    NSData *tiffData = [[self _plotterImage] TIFFRepresentationUsingCompression:NSTIFFCompressionLZW factor:0.0];
     @try
     {
-      [sender setData:tiffData forType:type];
+      [pBoard setData:tiffData forType:type];
     }
     @catch (id)
     {
@@ -1262,14 +1189,137 @@ int PlotterLabelsFontSize[] = { 10, 12, 14, 18 };
   else
   {
     // put something on to avoid a crash
-    [sender setString:@"MI-SUGAR plot image" forType:type];
+    [pBoard setString:@"MI-SUGAR plot image" forType:type];
   }
 }
 
+- (void) _updateHandlesForMousePosition:(CGPoint)mousePos
+{
+  NSSize const viewSize = [self bounds].size;
+  NSPoint const handlePos = [self viewToValue:mousePos];
 
-- (double) leftHandlePosition { return handleLeftPos; }
-- (double) rightHandlePosition { return handleRightPos; }
-- (double) topHandlePosition { return handleTopPos; }
-- (double) bottomHandlePosition { return handleBottomPos; }
+  // One of the zoom handles is being dragged
+  switch (selectedHandle)
+  {
+    case LEFT:
+      if (mousePos.x < leftMargin)
+      {
+        handleLeftPos = [viewArea minX];
+      }
+      else if (mousePos.x > (viewSize.width - rightMargin))
+      {
+        handleLeftPos = [viewArea maxX];
+      }
+      else
+      {
+        handleLeftPos = handlePos.x;
+      }
+      [observer processHandleDrag:selectedHandle position:handleLeftPos];
+      break;
+
+    case RIGHT:
+      if (mousePos.x < leftMargin)
+      {
+        handleRightPos = [viewArea minX];
+      }
+      else if (mousePos.x > (viewSize.width - rightMargin))
+      {
+        handleRightPos = [viewArea maxX];
+      }
+      else
+      {
+        handleRightPos = handlePos.x;
+      }
+      [observer processHandleDrag:selectedHandle position:handleRightPos];
+      break;
+
+    case TOP:
+      if (mousePos.y < bottomMargin)
+      {
+        handleTopPos = [viewArea minY];
+      }
+      else if (mousePos.y > (viewSize.height - topMargin))
+      {
+        handleTopPos = [viewArea maxY];
+      }
+      else
+      {
+        handleTopPos = handlePos.y;
+      }
+      [observer processHandleDrag:selectedHandle position:handleTopPos];
+      break;
+
+    default:
+      if (mousePos.y < bottomMargin)
+      {
+        handleBottomPos = [viewArea minY];
+      }
+      else if (mousePos.y > (viewSize.height - topMargin))
+      {
+        handleBottomPos = [viewArea maxY];
+      }
+      else
+      {
+        handleBottomPos = handlePos.y;
+      }
+      [observer processHandleDrag:selectedHandle position:handleBottomPos];
+  }
+
+  [self setNeedsDisplay:YES];
+}
+
+
+- (void) _copyPlotterImageToPasteboardForEvent:(NSEvent*)event
+{
+  // Creating a semi-transparent drag image
+  NSImage* dragImage = [[NSImage alloc] initWithSize:[self frame].size];
+  [dragImage lockFocus];
+  [[self _plotterImage] drawAtPoint:NSZeroPoint fromRect:NSZeroRect operation:NSCompositingOperationCopy fraction:0.8];
+  [dragImage unlockFocus];
+
+  // Drag the image
+  NSPasteboardItem* pbItem = [[NSPasteboardItem alloc] init];
+  [pbItem setDataProvider:self forTypes:@[NSPasteboardTypeTIFF]];
+  NSDraggingItem* draggingItem = [[NSDraggingItem alloc] initWithPasteboardWriter:pbItem];
+  [draggingItem setDraggingFrame:[self frame] contents:[[self _plotterImage] TIFFRepresentation]];
+  [self beginDraggingSessionWithItems:@[draggingItem] event:event source:self];
+//  [self dragImage:dragImage
+//               at:NSMakePoint(imageBox.origin.x, imageBox.origin.y)
+//           offset:NSMakeSize(0,0)
+//            event:theEvent
+//       pasteboard:dragPboard
+//           source:self
+//        slideBack:YES];
+
+}
+
+
+- (NSImage*) _plotterImage
+{
+  NSSize const imageSize = [self frame].size;
+  NSRect const imageBox = NSMakeRect(0, 0, imageSize.width, imageSize.height);
+  NSImage *plotterImage = [[NSImage alloc] initWithSize:imageSize];
+  [plotterImage lockFocus];
+  [self.backgroundColor set];
+  [NSBezierPath fillRect:NSInsetRect(imageBox, -2, -2)]; // makes sure there are no artefacts at the edges
+  [self drawRect:imageBox];
+  [plotterImage unlockFocus];
+  return plotterImage;
+}
+
+@end
+
+
+@implementation SugarGraphView (DragNDrop)
+
+- (void) pasteboard:(nullable NSPasteboard *)pasteboard item:(NSPasteboardItem *)item provideDataForType:(NSPasteboardType)type
+{
+  [self pasteboard:pasteboard provideDataForType:NSPasteboardTypeTIFF];
+}
+
+- (NSDragOperation) draggingSession:(NSDraggingSession *)session sourceOperationMaskForDraggingContext:(NSDraggingContext)context
+{
+  return NSDragOperationGeneric;
+}
 
 @end

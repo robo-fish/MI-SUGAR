@@ -22,6 +22,10 @@
 #import "MI_SchematicElementChooser.h"
 #include "common.h"
 
+@interface MI_SchematicElementChooser (DragNDrop) <NSPasteboardItemDataProvider, NSDraggingSource>
+@end
+
+
 @implementation MI_SchematicElementChooser
 {
   NSArray* schematicElementList; // fixed array of MI_SchematicElement objects
@@ -47,36 +51,34 @@
 }
 
 
-/* NSView method, overwritten */
 - (void) drawRect:(NSRect)rect
 {
-  //[[NSColor grayColor] set];
-  //[NSBezierPath strokeRect:NSInsetRect(rect, 3, 3)];
   if (activeElement)
   {
-      [activeElement setPosition:NSMakePoint([self frame].size.width/2.0f, [self frame].size.height/2.0f)];
-      [activeElement draw];
+    [activeElement setPosition:NSMakePoint([self frame].size.width/2.0f, [self frame].size.height/2.0f)];
+    [activeElement draw];
   }
-  /* List Indicator - LOOKS UGLY
-  if ([schematicElementList count] > 1)
-  {
-      [[NSColor brownColor] set];
-      // draw a small arrow to indicate a list
-      NSBezierPath* bp = [NSBezierPath bezierPath];
-      [bp moveToPoint:NSMakePoint(rect.origin.x + rect.size.width - 4.0f,
-                                  rect.origin.y + 1)];
-      [bp relativeLineToPoint:NSMakePoint(3.0f, 5.0f)];
-      [bp relativeLineToPoint:NSMakePoint(-6.0f, 0.0f)];
-      [bp closePath];
-      [bp fill];
-  }
-  */
 }
 
 
 - (BOOL) acceptsFirstMouse:(NSEvent*)theEvent
 {
   return YES; // for click-through behavior
+}
+
+
+- (void) mouseDragged:(NSEvent*)theEvent
+{
+  CGPoint const p = [self convertPoint:[self frame].origin fromView:[self superview]];
+  CGSize const size = activeElement.size;
+  CGFloat originX = p.x + ([self frame].size.width - size.width) / 2.0;
+  CGFloat originY = p.y + ([self frame].size.height - size.height) / 2.0;
+  [NSApp preventWindowOrdering];
+  NSPasteboardItem* pbItem = [[NSPasteboardItem alloc] init];
+  [pbItem setDataProvider:self forTypes:@[MI_SchematicElementPboardType]];
+  NSDraggingItem* draggingItem = [[NSDraggingItem alloc] initWithPasteboardWriter:pbItem];
+  [draggingItem setDraggingFrame:NSMakeRect(originX, originY, size.width, size.height) contents: [activeElement image]];
+  [self beginDraggingSessionWithItems:@[draggingItem] event:theEvent source:self];
 }
 
 
@@ -151,36 +153,22 @@
   return activeElement;
 }
 
+@end
 
-/******************** drag & drop **********************/
 
-- (NSDragOperation) draggingSourceOperationMaskForLocal:(BOOL)flag
+@implementation MI_SchematicElementChooser (DragNDrop)
+
+- (void) pasteboard:(nullable NSPasteboard *)pasteboard item:(NSPasteboardItem *)item provideDataForType:(NSPasteboardType)type
 {
-  return NSDragOperationGeneric;
+  MI_SchematicElement* copiedElement = [activeElement mutableCopy];
+  [copiedElement setShowsLabel:YES];
+  NSData* data = [NSKeyedArchiver archivedDataWithRootObject:copiedElement];
+  [pasteboard setData:data forType:type];
 }
 
-- (void) mouseDragged:(NSEvent*)theEvent
+- (NSDragOperation) draggingSession:(NSDraggingSession *)session sourceOperationMaskForDraggingContext:(NSDraggingContext)context
 {
-    NSPoint p;
-    MI_SchematicElement* copiedElement = [activeElement mutableCopy];
-    [copiedElement setShowsLabel:YES];
-    // Put the active element into the drag pasteboard
-    NSPasteboard *dragPboard = [NSPasteboard pasteboardWithName:NSPasteboardNameDrag];
-    [dragPboard declareTypes:@[MI_SchematicElementPboardType] owner:self];
-    [dragPboard setData:[NSKeyedArchiver archivedDataWithRootObject:copiedElement] forType:MI_SchematicElementPboardType];
-    // Set the drag image and its location
-    p = [self convertPoint:[self frame].origin
-                  fromView:[self superview]];
-    p.x = p.x + ([self frame].size.width - [activeElement size].width) / 2.0f;
-    p.y = p.y + ([self frame].size.height - [activeElement size].height) / 2.0f;
-    [NSApp preventWindowOrdering];
-    [self dragImage:[activeElement image]
-                 at:p
-             offset:NSMakeSize(0,0)
-              event:theEvent
-         pasteboard:dragPboard
-             source:self
-          slideBack:YES];
+  return NSDragOperationGeneric;
 }
 
 @end

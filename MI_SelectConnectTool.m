@@ -38,88 +38,94 @@ BOOL elementsVirtuallyDraggedOutsideWorkArea; // indicates whether the bounding 
 
 NSRect boundingBoxForElementDragging;
 
+@interface MI_SelectConnectTool (DragNDrop) <NSPasteboardItemDataProvider, NSDraggingSource>
+@end
+
 
 @implementation MI_SelectConnectTool
 {
+@private
   // Information needed to construct the current dragged connector
-  MI_ConnectionPoint* draggedConnectorDragStartConnectionPoint;
-  MI_SchematicElement* draggedConnectorDragStartElement;
+  MI_ConnectionPoint* _draggedConnectorDragStartConnectionPoint;
+  MI_SchematicElement* _draggedConnectorDragStartElement;
 
   // Set to YES when the user presses the button while the mouse is over
   // a connection point. Set to NO when the mouse button is released or the
   // timer expires.
-  BOOL connectorIsDragged;
+  BOOL _connectorIsDragged;
 
   // This is used to indicate that the user wants to pan the view
-  BOOL panning;
-  BOOL panningRequested;
+  BOOL _panning;
+  BOOL _panningRequested;
 
   // The element that was last dragged. Reference pointer. Do not release object!
-  MI_SchematicElement* draggedElement;
+  MI_SchematicElement* _draggedElement;
+  MI_SchematicsCanvas* _draggedCanvas;
 
-  BOOL selectionIsDragged; // used to indicate whether selected elements are dragged or a connector
-  BOOL copyDragSelectedElements;
-  NSPoint dragStartPosition;
-  NSPoint elementPositionRelativeToMouseAtDragStart; // in schematic space
+  BOOL _selectionIsDragged; // used to indicate whether selected elements are dragged or a connector
+  BOOL _copyDragSelectedElements;
+  NSPoint _dragStartPosition;
+  NSPoint _elementPositionRelativeToMouseAtDragStart; // in schematic space
 }
 
 - (instancetype) init
 {
-    if (self = [super init])
-    {
-        [self reset];
-    }
-    return self;
+  if (self = [super init])
+  {
+    [self reset];
+  }
+  return self;
 }
 
 - (void) reset
 {
-    self.draggedConnector = nil;
-    draggedConnectorDragStartElement = nil;
-    draggedConnectorDragStartConnectionPoint = nil;
-    connectorIsDragged = NO;
-    draggedElement = nil;
-    selectionIsDragged = YES;
-    copyDragSelectedElements = NO;
-    wasHoveringOverConnectionPoint = NO;
-    panning = NO;
+  self.draggedConnector = nil;
+  _draggedConnectorDragStartElement = nil;
+  _draggedConnectorDragStartConnectionPoint = nil;
+  _connectorIsDragged = NO;
+  _draggedElement = nil;
+  _draggedCanvas = nil;
+  _selectionIsDragged = YES;
+  _copyDragSelectedElements = NO;
+  wasHoveringOverConnectionPoint = NO;
+  _panning = NO;
 }
 
 
 - (void) timeUp:(NSTimer*)timer
 {
-    if (connectorIsDragged && (self.draggedConnector == nil))
+    if (_connectorIsDragged && (self.draggedConnector == nil))
     {
         // The user wants to drag a node element
         NSDictionary* info = (NSDictionary*)[timer userInfo];
         
-        connectorIsDragged = NO;
-        draggedElement = draggedConnectorDragStartElement;
+        _connectorIsDragged = NO;
+        _draggedElement = _draggedConnectorDragStartElement;
         
         [[info objectForKey:@"Canvas"] clearPointHighlight];
         
-        selectionIsDragged = YES;
+        _selectionIsDragged = YES;
         if (![[info objectForKey:@"AddToSelection"] boolValue] &&
             ![[info objectForKey:@"CopyDrag"] boolValue])
             [[info objectForKey:@"Schematic"] deselectAll];
-        [[info objectForKey:@"Schematic"] selectElement:draggedConnectorDragStartElement];
-        dragStartPosition = [[info objectForKey:@"DragStartPoint"] pointValue];
-        copyDragSelectedElements = [[info objectForKey:@"CopyDrag"] boolValue];
+        [[info objectForKey:@"Schematic"] selectElement:_draggedConnectorDragStartElement];
+        _dragStartPosition = [[info objectForKey:@"DragStartPoint"] pointValue];
+        _copyDragSelectedElements = [[info objectForKey:@"CopyDrag"] boolValue];
 
-        elementPositionRelativeToMouseAtDragStart =
-            NSMakePoint([draggedElement position].x - dragStartPosition.x,
-                        [draggedElement position].y - dragStartPosition.y);
+        _elementPositionRelativeToMouseAtDragStart =
+            NSMakePoint([_draggedElement position].x - _dragStartPosition.x,
+                        [_draggedElement position].y - _dragStartPosition.y);
         boundingBoxForElementDragging = [[info objectForKey:@"Schematic"] boundingBoxOfSelectedElements];
         
-        [[MI_Inspector sharedInspector] inspectElement:draggedConnectorDragStartElement];
+        [[MI_Inspector sharedInspector] inspectElement:_draggedConnectorDragStartElement];
         
         [[info objectForKey:@"Canvas"] setNeedsDisplay:YES];
     }
-    else if (panningRequested)
+    else if (_panningRequested)
     {
         // The user wants to pan the view and has waited long enough after
         // pressing the mouse button.
-        panning = YES;
+        _panning = YES;
         [[NSCursor openHandCursor] set];
     }
 }
@@ -156,7 +162,7 @@ NSRect boundingBoxForElementDragging;
                                            selector:@selector(timeUp:)
                                            userInfo:nil
                                             repeats:NO];
-            panningRequested = YES;
+            _panningRequested = YES;
         }
     }
     // IS THE USER STARTING TO DRAG A CONNECTION (BY CLICKING ON A CONNECTION POINT)?
@@ -177,10 +183,10 @@ NSRect boundingBoxForElementDragging;
                                        userInfo:dragInfo
                                         repeats:NO];
         
-        draggedConnectorDragStartElement = dragCandidateElement;
-        draggedConnectorDragStartConnectionPoint = info.connectionPoint;
-        connectorIsDragged = YES;
-        selectionIsDragged = NO;
+        _draggedConnectorDragStartElement = dragCandidateElement;
+        _draggedConnectorDragStartConnectionPoint = info.connectionPoint;
+        _connectorIsDragged = YES;
+        _selectionIsDragged = NO;
     }
     // NO CONNECTOR IS DRAGGED. DOES THE USER WANT TO DRAG AN ELEMENT?
     else if (dragCandidateElement)
@@ -196,7 +202,7 @@ NSRect boundingBoxForElementDragging;
             else
             {
                 [schematic selectElement:dragCandidateElement];
-                draggedElement = dragCandidateElement;
+                _draggedElement = dragCandidateElement;
             }
         }
         else // not pressing COMMAND will clear previous selections if it's not a selected element
@@ -208,15 +214,15 @@ NSRect boundingBoxForElementDragging;
                 [schematic deselectAll];
                 [schematic selectElement:dragCandidateElement];
             }
-            copyDragSelectedElements = ([theEvent modifierFlags] & NSEventModifierFlagOption) ? YES : NO;
-            selectionIsDragged = YES;
+            _copyDragSelectedElements = ([theEvent modifierFlags] & NSEventModifierFlagOption) ? YES : NO;
+            _selectionIsDragged = YES;
             dragGestureJustStarted = YES;
-            draggedElement = dragCandidateElement;
-            dragStartPosition = clickPosition;
-            if ( !copyDragSelectedElements && ([schematic numberOfSelectedElements] == 1) )
+            _draggedElement = dragCandidateElement;
+            _dragStartPosition = clickPosition;
+            if ( !_copyDragSelectedElements && ([schematic numberOfSelectedElements] == 1) )
                 [[MI_Inspector sharedInspector] inspectElement:dragCandidateElement];
         }
-        elementPositionRelativeToMouseAtDragStart = // needed for snapping feature
+        _elementPositionRelativeToMouseAtDragStart = // needed for snapping feature
             NSMakePoint([dragCandidateElement position].x - clickPosition.x,
                         [dragCandidateElement position].y - clickPosition.y);
         boundingBoxForElementDragging = [schematic boundingBoxOfSelectedElements];
@@ -263,13 +269,13 @@ NSRect boundingBoxForElementDragging;
     {
         [canvas clearAlignmentPoints];
         [canvas setSelectionBoxIsActive:NO];
-        selectionIsDragged = NO;
-        copyDragSelectedElements = NO;
+        _selectionIsDragged = NO;
+        _copyDragSelectedElements = NO;
         moveIsConstrained = NO;
-        draggedElement = nil;
-        panningRequested = panning = NO;
+        _draggedElement = nil;
+        _panningRequested = _panning = NO;
     }
-    connectorIsDragged = NO;
+    _connectorIsDragged = NO;
     [self setDraggedConnector:nil];
     [canvas setNeedsDisplay:YES];
 }
@@ -279,39 +285,9 @@ NSRect boundingBoxForElementDragging;
                 event:(NSEvent*)theEvent
                canvas:(MI_SchematicsCanvas*) canvas
 {
-    // IS THE USER ATTEMPTING TO DRAG AN IMAGE OF THE SCHEMATIC?
     if ([theEvent modifierFlags] & NSEventModifierFlagCommand)
     {
-        // Creates an image of the schematic and puts it into the pasteboard
-        NSRect imageBox = [canvas frame];
-        imageBox.origin = NSMakePoint(0, 0);
-        NSImage *schematicImage = [[NSImage alloc] initWithSize:imageBox.size];        
-        [schematicImage lockFocus];
-        // drawing the schematic
-        [canvas setDrawsFrame:NO];
-        [canvas drawRect:imageBox];
-        [canvas setDrawsFrame:YES];
-        [schematicImage unlockFocus];
-        
-        // Put the image of the schematic on the pasteboard
-        NSPasteboard *dragPboard = [NSPasteboard pasteboardWithName:NSPasteboardNameDrag];
-        [dragPboard declareTypes:[NSArray arrayWithObject:NSTIFFPboardType]
-                           owner:self];
-        [dragPboard setData:[schematicImage TIFFRepresentation]
-                    forType:NSTIFFPboardType];
-        // Create a semi-transparent drag image based on the schematic image
-        NSImage* dragImage = [[NSImage alloc] initWithSize:imageBox.size];
-        [dragImage lockFocus];
-        [schematicImage drawAtPoint:NSMakePoint(0,0) fromRect:imageBox operation:NSCompositingOperationCopy fraction:0.8f];
-        [dragImage unlockFocus];
-        // Drag the image
-        [canvas dragImage:dragImage
-                       at:NSMakePoint(0,0)
-                   offset:NSMakeSize(0,0)
-                    event:theEvent
-               pasteboard:dragPboard
-                   source:canvas
-                slideBack:YES];
+      [self _startDraggingImageOfSchematicForDragEvent:theEvent inCanvas:canvas];
     }
     else
     {
@@ -319,21 +295,21 @@ NSRect boundingBoxForElementDragging;
         NSPoint const canvasDragPosition = [canvas convertPoint:[theEvent locationInWindow] fromView:nil];
         NSPoint const dragPosition = [canvas canvasPointToSchematicPoint:canvasDragPosition];
             
-        if (connectorIsDragged)
+        if (_connectorIsDragged)
         {
             // THE USER IS DRAGGING THE END OF A CONNECTOR
             if (self.draggedConnector == nil)
             {
                 // The dragged connector does not exist yet. It has to be assigned.
                 MI_ElementConnector* connectedConnector =
-                [schematic connectorForConnectionPoint:draggedConnectorDragStartConnectionPoint
-                                             ofElement:draggedConnectorDragStartElement];
+                [schematic connectorForConnectionPoint:_draggedConnectorDragStartConnectionPoint
+                                             ofElement:_draggedConnectorDragStartElement];
                 if (connectedConnector)
                 {
                     // Disconnect one end of the connector from the drag start connection point
                     [[canvas controller] createSchematicUndoPointForModificationType:MI_SCHEMATIC_DISCONNECT_CHANGE];
-                    if ( [[connectedConnector startPointName] isEqualToString:[draggedConnectorDragStartConnectionPoint name]] &&
-                         [[connectedConnector startElementID] isEqualToString:[draggedConnectorDragStartElement identifier]] )
+                    if ( [[connectedConnector startPointName] isEqualToString:[_draggedConnectorDragStartConnectionPoint name]] &&
+                         [[connectedConnector startElementID] isEqualToString:[_draggedConnectorDragStartElement identifier]] )
                     {
                         [connectedConnector setStartPointName:@""];
                         [connectedConnector setStartElementID:@""];
@@ -351,8 +327,8 @@ NSRect boundingBoxForElementDragging;
                     // Create a new connector and connect one end to this connection point
                     [[canvas controller] createSchematicUndoPointForModificationType:MI_SCHEMATIC_CONNECT_CHANGE];
                     connectedConnector = [[MI_ElementConnector alloc] init];
-                    [connectedConnector setStartElementID:[draggedConnectorDragStartElement identifier]];
-                    [connectedConnector setStartPointName:[draggedConnectorDragStartConnectionPoint name]];
+                    [connectedConnector setStartElementID:[_draggedConnectorDragStartElement identifier]];
+                    [connectedConnector setStartPointName:[_draggedConnectorDragStartConnectionPoint name]];
                     [schematic addConnector:connectedConnector];
                     [self setDraggedConnector:connectedConnector];
                 }
@@ -427,10 +403,10 @@ NSRect boundingBoxForElementDragging;
         else
         {
             // NOW WE KNOW THAT THE USER WANTS TO DRAG AN ELEMENT
-            if (selectionIsDragged)
+            if (_selectionIsDragged)
             {
                 // We are dragging the selected schematic elements
-                if (copyDragSelectedElements)
+                if (_copyDragSelectedElements)
                 {
                     // Copy the selected elements
                     NSArray* tmpArray = [schematic copyOfSelectedElements];
@@ -448,9 +424,9 @@ NSRect boundingBoxForElementDragging;
                         [schematic addElement:tmpElement];
                         [schematic selectElement:tmpElement];
                         // The new dragged element is the copy of the previous dragged element
-                        if ([tmpElement position].x == [draggedElement position].x &&
-                            [tmpElement position].y == [draggedElement position].y)
-                            draggedElement = tmpElement;
+                        if ([tmpElement position].x == [_draggedElement position].x &&
+                            [tmpElement position].y == [_draggedElement position].y)
+                            _draggedElement = tmpElement;
                     }
                     // update the element inspector
                     if ([tmpArray count] == 1)
@@ -458,10 +434,10 @@ NSRect boundingBoxForElementDragging;
                     else
                         [[MI_Inspector sharedInspector] inspectElement:nil];
                     
-                    copyDragSelectedElements = NO;
+                    _copyDragSelectedElements = NO;
                 }
-                float xMotion = dragPosition.x - dragStartPosition.x;
-                float yMotion = dragPosition.y - dragStartPosition.y;
+                float xMotion = dragPosition.x - _dragStartPosition.x;
+                float yMotion = dragPosition.y - _dragStartPosition.y;
                 boundingBoxForElementDragging.origin.x += xMotion;
                 boundingBoxForElementDragging.origin.y += yMotion;
                 
@@ -510,24 +486,24 @@ NSRect boundingBoxForElementDragging;
                 
                 [self moveSelectedElementsVertically:yMotion
                                         Horizontally:xMotion
-                                      draggedElement:draggedElement
+                                      draggedElement:_draggedElement
                                               canvas:canvas
                                            schematic:schematic
                                        mousePosition:dragPosition]; // conversion to schematic space was already done
-                dragStartPosition = dragPosition;
+                _dragStartPosition = dragPosition;
             }
             else
             {
                 // THE USER IS NOT DRAGGING ANYTHING
                 // EITHER HE/SHE WANTS TO DRAG A SELECTION BOX OR PAN THE VIEW OR SCALE THE VIEW
-                if (panning)
+                if (_panning)
                 {
                     // Pan view
                     [canvas otherMouseDown:theEvent];
                 }
                 else
                 {
-                    panning = panningRequested = NO;
+                    _panning = _panningRequested = NO;
                     // Select region
                     NSPoint boxStart = [canvas selectionBoxStartPoint];
                     NSRect selectionBox =
@@ -702,16 +678,16 @@ NSRect boundingBoxForElementDragging;
         connPointEnum = [[theElement alignableConnectionPoints] objectEnumerator];
         while (currentPoint = [connPointEnum nextObject])
         {
-            if (selectionIsDragged) // is this sufficient to discern move w/ mouse and move w/ arrow keys
-                candidate = NSMakePoint(mouse.x + elementPositionRelativeToMouseAtDragStart.x + [currentPoint relativePosition].x,
-                                        mouse.y + elementPositionRelativeToMouseAtDragStart.y + [currentPoint relativePosition].y);
+            if (_selectionIsDragged) // is this sufficient to discern move w/ mouse and move w/ arrow keys
+                candidate = NSMakePoint(mouse.x + _elementPositionRelativeToMouseAtDragStart.x + [currentPoint relativePosition].x,
+                                        mouse.y + _elementPositionRelativeToMouseAtDragStart.y + [currentPoint relativePosition].y);
             else
                 candidate = NSMakePoint([theElement position].x + [currentPoint relativePosition].x,
                                         [theElement position].y + [currentPoint relativePosition].y);
             
             alignment = [schematic checkAlignmentWithOtherConnectionPoints:candidate
                                                       ofUnselectedElements:YES
-                                                                 tolerance:(selectionIsDragged ? 3.0f : 0.5f)];
+                                                                 tolerance:(_selectionIsDragged ? 3.0f : 0.5f)];
             
             // Check for alignment with other connection points on the vertical and snap left/right.
             // But only if the movement is not constrained to up/down.
@@ -725,7 +701,7 @@ NSRect boundingBoxForElementDragging;
                     [[MI_AlignmentPoint alloc] initWithPosition:[canvas schematicPointToCanvasPoint:alignment.verticalAlignmentPoint]
                                                 alignsVertically:YES
                                               alignsHorizontally:NO]];
-                if (selectionIsDragged)
+                if (_selectionIsDragged)
                 {
                     if ( !hasSnappedVertically )
                     {
@@ -745,7 +721,7 @@ NSRect boundingBoxForElementDragging;
                     [[MI_AlignmentPoint alloc] initWithPosition:[canvas schematicPointToCanvasPoint:alignment.horizontalAlignmentPoint]
                                                 alignsVertically:NO
                                               alignsHorizontally:YES]];
-                if (selectionIsDragged)
+                if (_selectionIsDragged)
                 {
                     if (!hasSnappedHorizontally)
                     {
@@ -757,10 +733,10 @@ NSRect boundingBoxForElementDragging;
                 }
             }
             // Snap back if there is no alignment or the mouse drags the element out of the alignment region
-            if (!hasSnappedVertically && !hasSnappedHorizontally && selectionIsDragged) // Again, is selectionIsDragged enough of a criterium?
+            if (!hasSnappedVertically && !hasSnappedHorizontally && _selectionIsDragged) // Again, is selectionIsDragged enough of a criterium?
             {
-                effectiveMoveX = mouse.x + elementPositionRelativeToMouseAtDragStart.x - currentPosition.x;
-                effectiveMoveY = mouse.y + elementPositionRelativeToMouseAtDragStart.y - currentPosition.y;
+                effectiveMoveX = mouse.x + _elementPositionRelativeToMouseAtDragStart.x - currentPosition.x;
+                effectiveMoveY = mouse.y + _elementPositionRelativeToMouseAtDragStart.y - currentPosition.y;
                 if (constrainedMove)
                 {
                     if (allowedDirection != MI_DirectionRight)
@@ -907,6 +883,58 @@ NSRect boundingBoxForElementDragging;
         }
     }
     return NO;
+}
+
+- (NSImage*) _imageForCanvas:(MI_SchematicsCanvas*)canvas
+{
+  NSRect imageBox = [canvas frame];
+  imageBox.origin = NSZeroPoint;
+  NSImage *schematicImage = [[NSImage alloc] initWithSize:imageBox.size];
+  [schematicImage lockFocus];
+  // drawing the schematic
+  [canvas setDrawsFrame:NO];
+  [canvas drawRect:imageBox];
+  [canvas setDrawsFrame:YES];
+  [schematicImage unlockFocus];
+  return schematicImage;
+}
+
+- (void) _startDraggingImageOfSchematicForDragEvent:(NSEvent*)event inCanvas:(MI_SchematicsCanvas*) canvas
+{
+  CGSize const canvasSize = [canvas frame].size;
+
+  // Creating a semi-transparent drag image of the canvas
+  NSImage* dragImage = [[NSImage alloc] initWithSize:canvasSize];
+  [dragImage lockFocus];
+  [[self _imageForCanvas:canvas] drawAtPoint:NSMakePoint(0,0) fromRect:NSZeroRect operation:NSCompositingOperationCopy fraction:0.8f];
+  [dragImage unlockFocus];
+
+  NSPasteboardItem* pbItem = [[NSPasteboardItem alloc] init];
+  [pbItem setDataProvider:self forTypes:@[NSPasteboardTypeTIFF]];
+  NSDraggingItem* draggingItem = [[NSDraggingItem alloc] initWithPasteboardWriter:pbItem];
+  [draggingItem setDraggingFrame:NSMakeRect(0, 0, canvasSize.width, canvasSize.height) contents:dragImage];
+
+  _draggedCanvas = canvas;
+  [canvas beginDraggingSessionWithItems:@[draggingItem] event:event source:self];
+}
+
+@end
+
+
+@implementation MI_SelectConnectTool (DragNDrop)
+
+- (void) pasteboard:(nullable NSPasteboard *)pasteboard item:(NSPasteboardItem *)item provideDataForType:(NSPasteboardType)type
+{
+  if (_draggedCanvas != nil)
+  {
+    NSData* data = [[self _imageForCanvas:_draggedCanvas] TIFFRepresentation];
+    [pasteboard setData:data forType:type];
+  }
+}
+
+- (NSDragOperation) draggingSession:(NSDraggingSession *)session sourceOperationMaskForDraggingContext:(NSDraggingContext)context
+{
+  return NSDragOperationGeneric;
 }
 
 @end
