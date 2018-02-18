@@ -338,22 +338,14 @@ static SugarManager* managerInstance = nil;
     NSFont* rawOutputFont =
         [NSFont fontWithName:[userdefs objectForKey:MISUGAR_RAW_OUTPUT_VIEW_FONT_NAME]
                         size:[[userdefs objectForKey:MISUGAR_RAW_OUTPUT_VIEW_FONT_SIZE] floatValue]];
-    [[NSBundle mainBundle] loadNibNamed:@"SugarPreferences.nib" owner:self topLevelObjects:nil];
+    [[NSBundle mainBundle] loadNibNamed:@"SugarPreferences" owner:self topLevelObjects:nil];
 
-    if ([[userdefs objectForKey:MISUGAR_USE_CUSTOM_SIMULATOR] boolValue])
-    {
-      [useCustomSimulatorButton setState:NSOnState];
-      [useSPICEButton setState:NSOffState];
-      [customSimulatorField setEnabled:YES];
-      [customSimulatorBrowseButton setEnabled:YES];
-    }
-    else
-    {
-      [useCustomSimulatorButton setState:NSOffState];
-      [useSPICEButton setState:NSOnState];
-      [customSimulatorField setEnabled:NO];
-      [customSimulatorBrowseButton setEnabled:NO];
-    }
+    BOOL const useCustomSim = [[userdefs objectForKey:MISUGAR_USE_CUSTOM_SIMULATOR] boolValue];
+    useCustomSimulatorButton.state = useCustomSim ? NSOnState : NSOffState;
+    useSPICEButton.state = useCustomSim ? NSOffState : NSOnState;
+    customSimulatorField.enabled = useCustomSim;
+    customSimulatorBrowseButton.enabled = useCustomSim;
+
     [layoutChooser selectItemWithTitle:[userdefs objectForKey:MISUGAR_DOCUMENT_LAYOUT]];
     [customSimulatorField setStringValue:(NSString*)[userdefs objectForKey:MISUGAR_CUSTOM_SIMULATOR_PATH]];
     [sourceFontNameField setStringValue:[[sourceFont displayName] stringByAppendingFormat:@" %2.1f", [sourceFont pointSize]]];
@@ -392,7 +384,7 @@ static SugarManager* managerInstance = nil;
 
 - (IBAction) showAboutPanel:(id)sender
 {
-  [[NSBundle mainBundle] loadNibNamed:@"About.nib" owner:self topLevelObjects:nil];
+  [[NSBundle mainBundle] loadNibNamed:@"About" owner:self topLevelObjects:nil];
   [versionField setStringValue:MISUGAR_VERSION];
   [releaseDateField setStringValue:MISUGAR_RELEASE_DATE];
   [aboutPanel makeKeyAndOrderFront:self];

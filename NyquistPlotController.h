@@ -24,9 +24,9 @@
 #import "AnalysisVariable.h"
 
 @interface NyquistPlotController : NSObject
-{
-    IBOutlet NyquistView* plotView;
-    IBOutlet NSPanel* panel;
-}
+
 - (instancetype) initWithAnalysisVariable:(AnalysisVariable*)variable;
+
+- (void) show;
+
 @end

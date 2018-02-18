@@ -34,44 +34,7 @@
 
 
 @interface CircuitDocument : NSDocument <MI_DropHandler>
-{
-    IBOutlet MI_TextView* inputView;
-    IBOutlet MI_Window* window;
-    IBOutlet NSSplitView* splitter; // for vertical layout
-    IBOutlet NSSplitView* verticalSplitter; // for horizontal layout
-    IBOutlet NSSplitView* horizontalSplitter; // for horizontal layout
-    IBOutlet NSTextView* shellOutputView;
-    NSDictionary *printAttributes, *commentAttributes, *defaultAttributes,
-        *analysisCommandAttributes, *modelAttributes, *subcircuitAttributes;
-    BOOL highlightingAttributesCreated;
-    
-    NSTask* simulationTask;
-    NSPipe* simulationDataPipe;
-    BOOL simulationAborted;
-    
-    MI_CustomViewToolbarItem* run;
-    MI_AnalysisButton* analysisProgressIndicator;
-    NSToolbarItem* plot;
-    NSToolbarItem* schematic2Netlist;
-    NSToolbarItem* elementsPanelShortcut;
-    NSToolbarItem* infoPanelShortcut;
-    NSToolbarItem* variantDisplayer;
-    MI_VariantSelectionView* variantSelectionViewer;
-    MI_CustomViewToolbarItem* canvasScaler;
-    MI_FitToViewButton* fitButton;
-    MI_CustomViewToolbarItem* fitToView;
-    NSToolbarItem *zoomIn, *zoomOut;
-    NSToolbarItem* home;
-    NSToolbarItem* subcircuitIndicator;
-    CircuitDocumentModel* myModel;
-    BOOL textEdited; // indicates whether the netlist has been edited since the last save
-    BOOL hasVerticalLayout;
-    BOOL scaleHasChanged;
 
-    // SCHEMATIC - RELATED *******************************
-    IBOutlet MI_SchematicsCanvas* canvas;
-    NSSlider* canvasScaleSlider;
-}
 - (void) processDrop:(id <NSDraggingInfo>)sender;
 
 - (IBAction) runSimulator:(id)sender; // creates the simulation thread and waits for output

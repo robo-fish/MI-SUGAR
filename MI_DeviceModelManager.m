@@ -29,6 +29,8 @@ NSString* MISUGAR_DEVICE_MODELS_PANEL_FRAME = @"DeviceModelsPanelFrame";
 // application exits.
 static NSString* deviceModelsFilePath = nil;
 
+@interface MI_DeviceModelManager (ToolbarDelegate) <NSToolbarDelegate>
+@end
 
 @implementation MI_DeviceModelManager
 {
@@ -54,166 +56,166 @@ static NSString* deviceModelsFilePath = nil;
 
 - (instancetype) init
 {
-    if ((self = [super init]) != nil)
-    {
-        deviceModelPanel = nil;
-        copyButton = nil;
-        deleteButton = nil;
-        importButton = nil;
-        
-        // Construct the device model library structure
-        int g;
-        _deviceModels = [[NSMutableDictionary alloc] initWithCapacity:6];
-        for (g = MI_DeviceModelTypeFirst; g <= MI_DeviceModelTypeLast; g++)
-            [_deviceModels setObject:[NSMutableArray arrayWithCapacity:3]
-                              forKey:[NSNumber numberWithInt:g]];
+  if ((self = [super init]) != nil)
+  {
+    deviceModelPanel = nil;
+    copyButton = nil;
+    deleteButton = nil;
+    importButton = nil;
 
-        // Load the device models from the dedicated library file
-        BOOL isDir;
-        NSFileManager* fm = [NSFileManager defaultManager];
-        
-        // Check if the generic application support folder exists - create if necessary
-        NSString* supportFolder = [[SugarManager supportFolder] stringByDeletingLastPathComponent];
-        if (![fm fileExistsAtPath:supportFolder isDirectory:&isDir] || !isDir)
+    // Construct the device model library structure
+    int g;
+    _deviceModels = [[NSMutableDictionary alloc] initWithCapacity:6];
+    for (g = MI_DeviceModelTypeFirst; g <= MI_DeviceModelTypeLast; g++)
+        [_deviceModels setObject:[NSMutableArray arrayWithCapacity:3]
+                          forKey:[NSNumber numberWithInt:g]];
+
+    // Load the device models from the dedicated library file
+    BOOL isDir;
+    NSFileManager* fm = [NSFileManager defaultManager];
+
+    // Check if the generic application support folder exists - create if necessary
+    NSString* supportFolder = [[SugarManager supportFolder] stringByDeletingLastPathComponent];
+    if (![fm fileExistsAtPath:supportFolder isDirectory:&isDir] || !isDir)
+    {
+      [fm createDirectoryAtPath:supportFolder withIntermediateDirectories:YES attributes:nil error:NULL];
+    }
+    // Check if MI-SUGAR's folder in the application support folder exists
+    supportFolder = [SugarManager supportFolder];
+    if (![fm fileExistsAtPath:supportFolder isDirectory:&isDir])
+    {
+      [fm createDirectoryAtPath:supportFolder withIntermediateDirectories:YES attributes:nil error:NULL];
+    }
+    else if (!isDir)
+    {
+      // rename the existing file
+      [fm moveItemAtPath:supportFolder toPath:[NSHomeDirectory() stringByAppendingPathComponent:@".Trash"] error:NULL];
+      [fm createDirectoryAtPath:supportFolder withIntermediateDirectories:YES attributes:nil error:NULL];
+    }
+    // Check if the device model library file exists
+    deviceModelsFilePath = [supportFolder stringByAppendingPathComponent:@"Device Models"];
+    if ( [fm fileExistsAtPath:deviceModelsFilePath isDirectory:&isDir] )
+    {
+      if (isDir)
+      {
+        // This file is not supposed to be a directory.
+        [fm moveItemAtPath:supportFolder toPath:[NSHomeDirectory() stringByAppendingPathComponent:@".Trash"] error:NULL];
+      }
+      else
+      {
+          // Unarchive the device models
+        @try
         {
-          [fm createDirectoryAtPath:supportFolder withIntermediateDirectories:YES attributes:nil error:NULL];
-        }
-        // Check if MI-SUGAR's folder in the application support folder exists
-        supportFolder = [SugarManager supportFolder];
-        if (![fm fileExistsAtPath:supportFolder isDirectory:&isDir])
-        {
-          [fm createDirectoryAtPath:supportFolder withIntermediateDirectories:YES attributes:nil error:NULL];
-        }
-        else if (!isDir)
-        {
-          // rename the existing file
-          [fm movePath:supportFolder toPath:[NSHomeDirectory() stringByAppendingPathComponent:@".Trash"] handler:nil];
-          [fm createDirectoryAtPath:supportFolder withIntermediateDirectories:YES attributes:nil error:NULL];
-        }
-        // Check if the device model library file exists
-        deviceModelsFilePath = [supportFolder stringByAppendingString:@"/Device Models"];
-        if ( [fm fileExistsAtPath:deviceModelsFilePath isDirectory:&isDir] )
-        {
-            if (isDir)
+          NSKeyedUnarchiver* unarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:
+                  [NSData dataWithContentsOfFile:deviceModelsFilePath]];
+          id myModels = [unarchiver decodeObjectForKey:MISUGAR_CIRCUIT_DEVICE_MODELS];
+          if (myModels != nil && [myModels isKindOfClass:[NSArray class]])
+          {
+            for (MI_CircuitElementDeviceModel* currentModel in myModels)
             {
-                // What? This file is not supposed to be a directory.
-                [fm movePath:supportFolder
-                      toPath:[NSHomeDirectory() stringByAppendingString:@"/.Trash"]
-                     handler:nil];
+              [self addModel:currentModel];
+            }
+          }
+          [unarchiver finishDecoding];
+        }
+        @catch (id)
+        {
+          NSAlert* alert = [[NSAlert alloc] init];
+          alert.messageText = @"Corrupt device models file!";
+          alert.informativeText = @"The content of your device models library can not be read!";
+          [alert addButtonWithTitle:@"Back up"];
+          [alert addButtonWithTitle:@"Delete"];
+          [alert beginSheetModalForWindow:deviceModelPanel completionHandler:^(NSModalResponse returnCode){
+            if (returnCode == NSAlertFirstButtonReturn)
+            {
+              // backing up
+              NSString* targetPath = [supportFolder stringByAppendingPathComponent:@"Corrupt Device Models File"];
+              [fm moveItemAtURL:[NSURL fileURLWithPath:deviceModelsFilePath] toURL:[NSURL fileURLWithPath:targetPath] error:NULL];
             }
             else
             {
-                // Unarchive the device models
-              @try
-              {
-                NSKeyedUnarchiver* unarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:
-                        [NSData dataWithContentsOfFile:deviceModelsFilePath]];
-                id myModels = [unarchiver decodeObjectForKey:MISUGAR_CIRCUIT_DEVICE_MODELS];
-                if (myModels != nil && [myModels isKindOfClass:[NSArray class]])
-                {
-                    NSEnumerator* modelEnum = [myModels objectEnumerator];
-                    MI_CircuitElementDeviceModel* currentModel;
-                    while (currentModel = [modelEnum nextObject])
-                        [self addModel:currentModel];
-                }
-                [unarchiver finishDecoding];
-              }
-              @catch (id)
-              {
-                if (NSRunAlertPanel(@"Corrupt device models file!",
-                    @"The content of your device models library can not be read!",
-                    @"Back up", @"Delete", nil) == NSModalResponseOK)
-                    // backup old file
-                    [fm movePath:deviceModelsFilePath
-                          toPath:[supportFolder stringByAppendingString:@"/Corrupt Device Models File"]
-                         handler:nil];
-                else
-                    // delete old file
-                    [fm removeFileAtPath:deviceModelsFilePath
-                                 handler:nil];
-              }
+              [fm removeItemAtPath:deviceModelsFilePath error:NULL];
             }
+          }];
         }
-        
-        // There was no dedicated file for device models before version 0.5.4.
-        // Models were stored in the preference file.
-        // Check if the user has upgraded from such an old version.
-        NSData* legacyData = [[NSUserDefaults standardUserDefaults] objectForKey:MISUGAR_CIRCUIT_DEVICE_MODELS];
-        NSArray* legacyModels = nil;
-        if (legacyData != nil)
-            legacyModels = [NSKeyedUnarchiver unarchiveObjectWithData:legacyData];
-        if ( (legacyModels != nil) && ([legacyModels count] > 0) )
-        {
-            // One by one add those old models to the library
-            // Convert (or purge) deprecated models
-            NSEnumerator* modelEnum = [legacyModels objectEnumerator];
-            MI_CircuitElementDeviceModel* currentModel;
-            while (currentModel = [modelEnum nextObject])
-            {
-                // Check if this is one of the old specialized MOS models
-                if ([currentModel type] == MI_DeviceModelTypeMOSFET)
-                {
-                    // Deprecate and create a generic MOS model instead
-                    MI_MOSDeviceModel* mosModel =
-                        [[MI_MOSDeviceModel alloc] initWithName:[currentModel modelName]];
-                    [mosModel setDeviceParameters:[currentModel deviceParameters]];
-                    [self addModel:mosModel];
-                }
-                else
-                {
-                    [self addModel:currentModel];
-                }
-            }
-            // Set the legacy device models array in the user preference to empty.
-            [[NSUserDefaults standardUserDefaults]
-                setObject:[NSKeyedArchiver archivedDataWithRootObject:[NSArray array]]
-                   forKey:MISUGAR_CIRCUIT_DEVICE_MODELS];
-        }
-        
-        // Make sure the default device models are included.
-        for (int p = MI_DeviceModelTypeFirst; p <= MI_DeviceModelTypeLast; p++)
-        {
-            NSMutableArray* currentArray = [_deviceModels objectForKey:[NSNumber numberWithInt:p]];
-            if (currentArray == nil)
-            {
-              currentArray = [NSMutableArray arrayWithCapacity:3];
-              [_deviceModels setObject:currentArray forKey:[NSNumber numberWithInt:p]];
-            }
-            BOOL foundDefault = NO;
-            MI_CircuitElementDeviceModel* currentModel;
-            for (currentModel in currentArray)
-            {
-              if ([[currentModel modelName] hasPrefix:@"Default"])
-              {
-                foundDefault = YES;
-                break;
-              }
-            }
-            if (!foundDefault)
-            {
-                switch (p)
-                {
-                    case MI_DeviceModelTypeDiode:
-                        currentModel = [[MI_DiodeDeviceModel alloc] initWithName:@"DefaultDiode"]; break;
-                    case MI_DeviceModelTypeBJT:
-                        currentModel = [[MI_BJTDeviceModel alloc] initWithName:@"DefaultBJT"]; break;
-                    case MI_DeviceModelTypeJFET:
-                        currentModel = [[MI_JFETDeviceModel alloc] initWithName:@"DefaultJFET"]; break;
-                    case MI_DeviceModelTypeMOSFET:
-                        currentModel = [[MI_MOSDeviceModel alloc] initWithName:@"DefaultMOSFET"]; break;
-                    case MI_DeviceModelTypeSwitch:
-                        currentModel = [[MI_SwitchDeviceModel alloc] initWithName:@"DefaultSwitch"]; break;
-                    case MI_DeviceModelTypeTransmissionLine:
-                        currentModel = [[MI_TransmissionLineDeviceModel alloc] initWithName:@"DefaultTransmissionLine"]; break;
-                    default:
-                        currentModel = nil;
-                }
-                if (currentModel != nil)
-                    [currentArray addObject:currentModel];
-            }
-        }
+      }
     }
-    return self;
+
+    // There was no dedicated file for device models before version 0.5.4.
+    // Models were stored in the preference file.
+    // Check if the user has upgraded from such an old version.
+    NSData* legacyData = [[NSUserDefaults standardUserDefaults] objectForKey:MISUGAR_CIRCUIT_DEVICE_MODELS];
+    NSArray* legacyModels = nil;
+    if (legacyData != nil)
+        legacyModels = [NSKeyedUnarchiver unarchiveObjectWithData:legacyData];
+    if ( (legacyModels != nil) && ([legacyModels count] > 0) )
+    {
+      // One by one add those old models to the library
+      // Convert (or purge) deprecated models
+      for (MI_CircuitElementDeviceModel* currentModel in legacyModels)
+      {
+        // Check if this is one of the old specialized MOS models
+        if ([currentModel type] == MI_DeviceModelTypeMOSFET)
+        {
+          // Deprecate and create a generic MOS model instead
+          MI_MOSDeviceModel* mosModel = [[MI_MOSDeviceModel alloc] initWithName:[currentModel modelName]];
+          [mosModel setDeviceParameters:[currentModel deviceParameters]];
+          [self addModel:mosModel];
+        }
+        else
+        {
+          [self addModel:currentModel];
+        }
+      }
+      // Set the legacy device models array in the user preference to empty.
+      NSData* archivedArray = [NSKeyedArchiver archivedDataWithRootObject:[NSArray array]];
+      [[NSUserDefaults standardUserDefaults] setObject:archivedArray forKey:MISUGAR_CIRCUIT_DEVICE_MODELS];
+    }
+
+    // Make sure the default device models are included.
+    for (int p = MI_DeviceModelTypeFirst; p <= MI_DeviceModelTypeLast; p++)
+    {
+      NSMutableArray* currentArray = [_deviceModels objectForKey:[NSNumber numberWithInt:p]];
+      if (currentArray == nil)
+      {
+        currentArray = [NSMutableArray arrayWithCapacity:3];
+        [_deviceModels setObject:currentArray forKey:[NSNumber numberWithInt:p]];
+      }
+      BOOL foundDefault = NO;
+      MI_CircuitElementDeviceModel* currentModel;
+      for (currentModel in currentArray)
+      {
+        if ([[currentModel modelName] hasPrefix:@"Default"])
+        {
+          foundDefault = YES;
+          break;
+        }
+      }
+      if (!foundDefault)
+      {
+        switch (p)
+        {
+          case MI_DeviceModelTypeDiode:
+            currentModel = [[MI_DiodeDeviceModel alloc] initWithName:@"DefaultDiode"]; break;
+          case MI_DeviceModelTypeBJT:
+            currentModel = [[MI_BJTDeviceModel alloc] initWithName:@"DefaultBJT"]; break;
+          case MI_DeviceModelTypeJFET:
+            currentModel = [[MI_JFETDeviceModel alloc] initWithName:@"DefaultJFET"]; break;
+          case MI_DeviceModelTypeMOSFET:
+            currentModel = [[MI_MOSDeviceModel alloc] initWithName:@"DefaultMOSFET"]; break;
+          case MI_DeviceModelTypeSwitch:
+            currentModel = [[MI_SwitchDeviceModel alloc] initWithName:@"DefaultSwitch"]; break;
+          case MI_DeviceModelTypeTransmissionLine:
+            currentModel = [[MI_TransmissionLineDeviceModel alloc] initWithName:@"DefaultTransmissionLine"]; break;
+          default:
+            currentModel = nil;
+        }
+        if (currentModel != nil)
+            [currentArray addObject:currentModel];
+      }
+    }
+  }
+  return self;
 }
 
 - (void) dealloc
@@ -293,30 +295,29 @@ static NSString* deviceModelsFilePath = nil;
 
 - (NSString*) deviceParametersForModelName:(NSString*)name
 {
-    int x;
-    NSEnumerator* modelEnum;
-    MI_CircuitElementDeviceModel* model;
-    for (x = MI_DeviceModelTypeFirst; x <= MI_DeviceModelTypeLast; x++)
+  for (int x = MI_DeviceModelTypeFirst; x <= MI_DeviceModelTypeLast; x++)
+  {
+    NSArray<MI_CircuitElementDeviceModel*>* models = [_deviceModels objectForKey:[NSNumber numberWithInt:x]];
+    for (MI_CircuitElementDeviceModel* model in models)
     {
-        modelEnum = [[_deviceModels objectForKey:[NSNumber numberWithInt:x]] objectEnumerator];
-        while (model = [modelEnum nextObject])
-        {
-            if ([[model modelName] isEqualToString:name])
-                return [model deviceParameters];
-        }
+      if ([[model modelName] isEqualToString:name])
+      {
+        return [model deviceParameters];
+      }
     }
-    return nil;
+  }
+  return nil;
 }
 
 
 - (void) importDeviceModels:(NSArray*)models
 {
-    NSEnumerator* modelEnum = [models objectEnumerator];
-    MI_CircuitElementDeviceModel *currentModel;
-    while (currentModel = [modelEnum nextObject])
-        [self addModel:currentModel];
-    if (deviceModelPanel != nil)
-        [modelTree reloadData];
+  NSEnumerator* modelEnum = [models objectEnumerator];
+  MI_CircuitElementDeviceModel *currentModel;
+  while (currentModel = [modelEnum nextObject])
+    [self addModel:currentModel];
+  if (deviceModelPanel != nil)
+    [modelTree reloadData];
 }
 
 
@@ -434,14 +435,13 @@ static NSString* deviceModelsFilePath = nil;
   {
     if ([selection containsIndex:k])
     {
-        id target = [modelTree itemAtRow:k];
-        if ([target isKindOfClass:[MI_CircuitElementDeviceModel class]])
-        {
-            tmpModel = [target mutableCopy];
-            [tmpModel setModelName:[@"Copy_of_" stringByAppendingString:
-                [tmpModel modelName]]];
-            [self addModel:tmpModel];
-        }
+      id target = [modelTree itemAtRow:k];
+      if ([target isKindOfClass:[MI_CircuitElementDeviceModel class]])
+      {
+        tmpModel = [target mutableCopy];
+        [tmpModel setModelName:[@"Copy_of_" stringByAppendingString:[tmpModel modelName]]];
+        [self addModel:tmpModel];
+      }
     }
   }
 
@@ -474,7 +474,11 @@ static NSString* deviceModelsFilePath = nil;
         if ([self addModelsFromFile:filePath])
           [modelTree reloadData];
         else
-          NSBeginAlertSheet(nil, nil, nil, nil, deviceModelPanel, nil, nil, nil, nil, @"Could not import (all) models from file %@!", filePath);
+        {
+          NSAlert* alert = [[NSAlert alloc] init];
+          alert.messageText = [NSString stringWithFormat:@"Could not import (all) models from file %@!", filePath];
+          [alert beginSheetModalForWindow:deviceModelPanel completionHandler:nil];
+        }
       }
     }
   }];
@@ -501,7 +505,9 @@ static NSString* deviceModelsFilePath = nil;
         NSString* filePath = [[sp URL] path];
         if (![self dumpModels:selection toFile:filePath])
         {
-          NSBeginAlertSheet(nil, nil, nil, nil, deviceModelPanel, nil, nil, nil, nil, @"Could not save to file %@!", filePath);
+          NSAlert* alert = [[NSAlert alloc] init];
+          alert.messageText = [NSString stringWithFormat:@"Could not save to file %@!", filePath];
+          [alert beginSheetModalForWindow:deviceModelPanel completionHandler:nil];
         }
       }
     }];
@@ -677,10 +683,9 @@ objectValueForTableColumn:(NSTableColumn *)tableColumn
 
 @end
 
+
 //MARK: NSToolbarDelegate implementation
 
-@interface MI_DeviceModelManager (ToolbarDelegate) <NSToolbarDelegate>
-@end
 
 @implementation MI_DeviceModelManager (ToolbarDelegate)
 

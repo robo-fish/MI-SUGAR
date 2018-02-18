@@ -34,76 +34,24 @@
 // and for providing 'visual effects' like alignment lines, selection boxes,
 // scaling and background coloring. Canvases also process dropped elements.
 @interface MI_SchematicsCanvas : NSView
-{
-    // The extend of the working area. This is a constant.
-    NSRect WorkArea;
-    
-    NSColor* backgroundColor;
-    NSColor* gridColor;
-    NSColor* highlightColor;
-    NSColor* passiveColor;
-    NSColor* placementGuideColor;
-    NSColor* selectionBoxColor;
-    NSColor* frameColor;            // set to highlightColor or passiveColor
-    BOOL showGuides;                // to turn showing of placement guides on/off
-    BOOL drawFrame;                 // to turn on/off drawing a frame at the view border
-    float printScale;               // the zoom factor used for printing - no constraints
-    
-    // The zoom factor by which the schematic, seen through the viewport, is
-    // magnified. Interactive zooming operations take the center of the canvas
-    // as the center of the scaling transformation.
-    float scale;
 
-    CircuitDocument* controller;
-    
-    NSPoint selectionBoxStartPoint;
-    NSRect selectionBox;
-    BOOL selectionBoxIsActive;
-
-    NSMutableArray* alignmentPoints; // the array of points where the alignments occur
-    NSRect highlightedPoint;         // the area that is highlighted
-    BOOL highlightPoint;             // indicates if point highlighting is enabled
-    
-    // Used to get the panning strip which the mouse is currently visiting.
-    // Based on this info a panning strip is highlighted.
-    MI_Direction visitedPanningStrip;
-
-    /**
-    * The translation from canvas mid point to schematic origin, in the schematic coordinate space.
-    */
-    NSPoint viewportOffset;
-    
-    // YES if the user is panning by ALT-clicking on an empty area and dragging
-    BOOL panning;
-    NSPoint panningStartPoint;
-}
 // Moves the lower left corner of the bounding box of the schematic to the
 // origin before drawing. Uses the given scale instead of the canvas scale.
-- (void) drawToBufferedImageWithRect:(NSRect)theRect
-                               scale:(float)theScale;
+- (void) drawToBufferedImageWithRect:(NSRect)theRect scale:(float)theScale;
 
-- (void) drawGuides;
+@property (weak) CircuitDocument* controller;
 
-- (void) setController:(CircuitDocument*)newController;
+@property (nonatomic) NSColor* backgroundColor;
 
-- (CircuitDocument*) controller;
+@property (nonatomic) float scale;
 
-- (void) setBackgroundColor:(NSColor*)newBackground;
+@property (nonatomic) float printScale; // the zoom factor used for printing
 
-- (NSColor*) backgroundColor;
+@property BOOL showsGuides; // whether to show placement guides
 
-- (void) setScale:(float)newScale;
-- (float) scale;
-
-- (void) setPrintScale:(float)newScale;
-
-- (void) showGuides:(BOOL)doShowGuides;
-- (BOOL) showsGuides;
-
-- (void) setSelectionBoxIsActive:(BOOL)active;
-- (void) setSelectionBox:(NSRect)box;
-- (void) setSelectionBoxStartPoint:(NSPoint)start;
-- (NSPoint) selectionBoxStartPoint;
+@property BOOL selectionBoxIsActive;
+@property CGRect selectionBox;
+@property NSPoint selectionBoxStartPoint;
 
 // The next two methods set/unset the coordiantes required to draw alignment lines
 - (void) clearAlignmentPoints;
@@ -111,12 +59,10 @@
 
 // The next two methods set/clear a point in the canvas which is highlighted.
 // The canvas draws a red dot at that position
-- (void) highlightPoint:(NSPoint)point
-                   size:(float)radius;
+- (void) highlightPoint:(NSPoint)point size:(float)radius;
 - (void) clearPointHighlight;
 
-- (void) setViewportOffset:(NSPoint)newOffset;
-- (NSPoint) viewportOffset;
+@property (nonatomic) NSPoint viewportOffset;
 
 // Moves the viewport center by the given distance relative to its current position.
 - (void) relativeMoveViewportOffset:(NSPoint)relativeDistance;
@@ -130,9 +76,7 @@
 // Converts a rectangle from the schematic coordinate space to the coordinate space of the drawn view
 - (NSRect) schematicRectToCanvasRect:(NSRect)schematicRect;
 
-- (void) setDrawsFrame:(BOOL)drawFrame;
+@property (readonly, nonatomic) NSRect workArea; // area in which schematic elements are allowed
 
-// Returns the area in which schematic elements are allowed
-- (NSRect) workArea;
 @end
 

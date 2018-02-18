@@ -891,10 +891,7 @@ NSRect boundingBoxForElementDragging;
   imageBox.origin = NSZeroPoint;
   NSImage *schematicImage = [[NSImage alloc] initWithSize:imageBox.size];
   [schematicImage lockFocus];
-  // drawing the schematic
-  [canvas setDrawsFrame:NO];
   [canvas drawRect:imageBox];
-  [canvas setDrawsFrame:YES];
   [schematicImage unlockFocus];
   return schematicImage;
 }

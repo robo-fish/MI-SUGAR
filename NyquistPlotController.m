@@ -23,22 +23,30 @@
 
 
 @implementation NyquistPlotController
+{
+  IBOutlet NyquistView* plotView;
+  IBOutlet NSPanel* panel;
+}
 
 - (instancetype) initWithAnalysisVariable:(AnalysisVariable*)variable
 {
-    if (self = [super init])
-    {
-      [[NSBundle mainBundle] loadNibNamed:@"Nyquist.nib" owner:self topLevelObjects:nil];
-      [panel setTitle:[@"Nyquist Plot: " stringByAppendingString:[variable name]]];
-      [plotView setVariable:variable];
-    }
-    return self;
+  if (self = [super init])
+  {
+    [[NSBundle mainBundle] loadNibNamed:@"Nyquist" owner:self topLevelObjects:nil];
+    [panel setTitle:[@"Nyquist Plot: " stringByAppendingString:[variable name]]];
+    [plotView setVariable:variable];
+  }
+  return self;
 }
 
+- (void) show
+{
+  [panel makeKeyAndOrderFront:self];
+}
 
 - (void) windowWillClose:(NSNotification*)aNotification
 {
-//    [self release];
+//  [self release];
 }
 
 @end

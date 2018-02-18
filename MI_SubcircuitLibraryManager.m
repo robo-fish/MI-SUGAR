@@ -353,9 +353,10 @@ shouldEditTableColumn:(NSTableColumn *)tableColumn
     id item = [table itemAtRow:[table clickedRow]];
     if ([item isKindOfClass:[MI_SubcircuitWithFile class]])
     {
-        [[NSDocumentController sharedDocumentController]
-            openDocumentWithContentsOfFile:[item file]
-                                   display:YES];
+    [[NSDocumentController sharedDocumentController] openDocumentWithContentsOfURL:[NSURL fileURLWithPath:[item file]] display:YES
+      completionHandler:^(NSDocument * _Nullable document, BOOL documentWasAlreadyOpen, NSError * _Nullable error) {
+        // do nothing
+      }];
     }
 }
 
@@ -375,7 +376,12 @@ shouldEditTableColumn:(NSTableColumn *)tableColumn
         || !isDir)
     {
         if (warn)
-            NSRunAlertPanel(@"MI-SUGAR Error", @"The subcircuit library folder is not valid.", nil, nil, nil);
+        {
+          NSAlert* alert = [[NSAlert alloc] init];
+          alert.messageText = @"MI-SUGAR Error";
+          alert.informativeText = @"The subcircuit library folder is not valid.";
+          [alert runModal];
+        }
         return NO;
     }
     return YES;

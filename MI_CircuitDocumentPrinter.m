@@ -54,7 +54,7 @@ static float scaleFactor = 1.0f;
   if (self != nil)
   {
     circuitPrintOptionsSheet = nil;
-    [[NSBundle mainBundle] loadNibNamed:@"CircuitPrintSheet.nib" owner:self topLevelObjects:nil];
+    [[NSBundle mainBundle] loadNibNamed:@"CircuitPrintSheet" owner:self topLevelObjects:nil];
     [circuitPrintOptionsSheet setDefaultButtonCell:[commitButton cell]];
     [schematicSelectionButton setState:NSOnState];
     [netlistSelectionButton setState:NSOffState];

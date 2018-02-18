@@ -33,35 +33,60 @@ static const float BOTTOM_PANNING_STRIP_HEIGHT = 20.0f;
 // When it's YES, the mode is suitable for drawing to buffered images.
 BOOL drawToBufferedImage = NO;
 
+// the extend of the work area is fixed
+static CGRect const kWorkArea = {-1000, -1000, 2000, 2000};
+
 
 @implementation MI_SchematicsCanvas
+{
+@private
+  NSColor* _backgroundColor;
+  NSColor* _gridColor;
+  NSColor* _highlightColor;
+
+  // The zoom factor by which the schematic, seen through the viewport, is
+  // magnified. Interactive zooming operations take the center of the canvas
+  // as the center of the scaling transformation.
+  float _scale;
+
+  NSMutableArray<MI_AlignmentPoint*>* alignmentPoints; // points that align
+  NSRect highlightedPoint;         // the area that needs to be highlighted
+  BOOL highlightPoint;             // whether point highlighting is enabled
+
+  // Used to get the panning strip which the mouse is currently visiting.
+  // Based on this info a panning strip is highlighted.
+  MI_Direction visitedPanningStrip;
+
+  /**
+   * The translation from canvas mid point to schematic origin, in the schematic coordinate space.
+   */
+  CGPoint _viewportOffset;
+
+  // YES if the user is panning by ALT-clicking on an empty area and dragging
+  BOOL panning;
+  NSPoint panningStartPoint;
+}
 
 - (instancetype) initWithFrame:(NSRect)rect
 {
-    if (self = [super initWithFrame:rect])
-    {
-        WorkArea = NSMakeRect(-1000, -1000, 2000, 2000);
-        backgroundColor = [NSColor whiteColor];
-        passiveColor = [NSColor blackColor];
-        highlightColor = [NSColor redColor];
-        gridColor = [NSColor grayColor];
-        frameColor = passiveColor;
-        scale = 1.0f;
-        printScale = 1.0f;
-        showGuides = YES;
-        drawFrame = YES;
-        selectionBoxIsActive = NO;
-        controller = nil;
-        alignmentPoints = [[NSMutableArray alloc] initWithCapacity:3];
-        placementGuideColor = [NSColor colorWithDeviceRed:0.4f green:1.0f blue:0.4f alpha:1.0f];
-        selectionBoxColor = [NSColor orangeColor];
-        highlightPoint = NO;
-        highlightedPoint = NSMakeRect(0,0,0,0);
-        visitedPanningStrip = MI_DirectionNone;
-        panning = NO;
-        viewportOffset = NSMakePoint(0, 0);
-    }
-    return self;
+  if (self = [super initWithFrame:rect])
+  {
+    _backgroundColor = [NSColor whiteColor];
+    _highlightColor = [NSColor redColor];
+    _gridColor = [NSColor grayColor];
+    _scale = 1.0f;
+    _printScale = 1.0f;
+    self.showsGuides = YES;
+    self.selectionBoxIsActive = NO;
+    _controller = nil;
+    alignmentPoints = [[NSMutableArray alloc] initWithCapacity:3];
+    highlightPoint = NO;
+    highlightedPoint = NSMakeRect(0,0,0,0);
+    visitedPanningStrip = MI_DirectionNone;
+    panning = NO;
+    _viewportOffset = CGPointZero;
+  }
+  return self;
 }
 
 - (void) dealloc
@@ -78,7 +103,7 @@ BOOL drawToBufferedImage = NO;
             MI_SchematicElementPboardType, nil]];
     //[[self window] useOptimizedDrawing:YES];
     [[self window] setAcceptsMouseMovedEvents:YES];
-    [self showGuides:[[[NSUserDefaults standardUserDefaults] objectForKey:MISUGAR_SHOW_PLACEMENT_GUIDES] boolValue]];
+    self.showsGuides = [[[NSUserDefaults standardUserDefaults] objectForKey:MISUGAR_SHOW_PLACEMENT_GUIDES] boolValue];
 }
 
 /* As of April 2004 Cocoa still has a bug in the NSString drawing method.
@@ -94,345 +119,273 @@ the original clipping rectangle.
 - (void) drawToBufferedImageWithRect:(NSRect)theRect
                                scale:(float)theScale
 {
-    drawToBufferedImage = YES;
-    float tmp = printScale;
-    printScale = theScale; // abusing the printScale variable
-    [self drawRect:theRect];
-    drawToBufferedImage = NO;
-    printScale = tmp;
+  drawToBufferedImage = YES;
+  float tmp = _printScale;
+  _printScale = theScale; // abusing the printScale variable
+  [self drawRect:theRect];
+  drawToBufferedImage = NO;
+  _printScale = tmp;
 }
 
 
 - (void) drawRect:(NSRect)rect
 {
-    NSBezierPath* bp;
-    
-    // Draw background
-    [backgroundColor set];
-    [NSBezierPath fillRect:rect];
-            
-    if (showGuides)
-        [self drawGuides];
+  NSBezierPath* bp;
 
-    MI_Schematic* schematic = [[controller model] schematic];
-    if (schematic)
-    {
-        // Adjust scale factor and draw schematic
+  // Draw background
+  [_backgroundColor set];
+  [NSBezierPath fillRect:rect];
+
+  if (self.showsGuides && ([alignmentPoints count] > 0))
+  {
+    [self _drawGuides];
+  }
+
+  MI_Schematic* schematic = [[_controller model] schematic];
+  if (schematic)
+  {
+    // Adjust scale factor and draw schematic
 /* I TRIED TO MOVE THE ZOOM ORIGIN INTO THE CENTER OF THE VIEW - MESSES UP THE POSITION DETECTIONS
-        NSAffineTransform* transform1 = [NSAffineTransform transform];
-        NSAffineTransform* transform2 = [NSAffineTransform transform];
-        NSAffineTransform* transform3 = [NSAffineTransform transform];
-        NSGraphicsContext* currentContext = [NSGraphicsContext currentContext];
-        [currentContext saveGraphicsState];
-        [transform1 translateXBy:-[self frame].size.width / 2.0f
-                             yBy:-[self frame].size.height / 2.0f];
-        [transform2 scaleBy:scale];
-        [transform3 translateXBy:[self frame].size.width / 2.0f
-                             yBy:[self frame].size.height / 2.0f];
-        [transform1 appendTransform:transform2];
-        [transform1 appendTransform:transform3];
-        [transform1 concat];
+    NSAffineTransform* transform1 = [NSAffineTransform transform];
+    NSAffineTransform* transform2 = [NSAffineTransform transform];
+    NSAffineTransform* transform3 = [NSAffineTransform transform];
+    NSGraphicsContext* currentContext = [NSGraphicsContext currentContext];
+    [currentContext saveGraphicsState];
+    [transform1 translateXBy:-[self frame].size.width / 2.0f
+                         yBy:-[self frame].size.height / 2.0f];
+    [transform2 scaleBy:scale];
+    [transform3 translateXBy:[self frame].size.width / 2.0f
+                         yBy:[self frame].size.height / 2.0f];
+    [transform1 appendTransform:transform2];
+    [transform1 appendTransform:transform3];
+    [transform1 concat];
 */
-        NSGraphicsContext* currentContext = [NSGraphicsContext currentContext];
-        [currentContext saveGraphicsState];
+    NSGraphicsContext* currentContext = [NSGraphicsContext currentContext];
+    [currentContext saveGraphicsState];
 
-        if ([NSGraphicsContext currentContextDrawingToScreen] && !drawToBufferedImage)
-        {
-            NSAffineTransform* scaleCenterPointTransform = [NSAffineTransform transform];
-            NSAffineTransform* scaleTransform = [NSAffineTransform transform];
-            NSAffineTransform* scaleCenterPointBackTransform = [NSAffineTransform transform];
-            NSAffineTransform* viewportTransform = [NSAffineTransform transform];
-            [scaleCenterPointTransform translateXBy:-rect.size.width/2
-                                                yBy:-rect.size.height/2];
-            [scaleCenterPointBackTransform translateXBy:rect.size.width/2
-                                                    yBy:rect.size.height/2];
-            [scaleTransform scaleBy:scale];
-            [viewportTransform translateXBy:viewportOffset.x
-                                        yBy:viewportOffset.y];
-            [viewportTransform appendTransform:scaleCenterPointTransform];
-            [viewportTransform appendTransform:scaleTransform];
-            [viewportTransform appendTransform:scaleCenterPointBackTransform];
-            [viewportTransform concat];
-            
-            // Draw working area limits
-            [[NSColor orangeColor] set];
-            bp = [NSBezierPath bezierPath];
-            [bp setLineWidth:2.0f];
-            [bp appendBezierPathWithRect:WorkArea];
-            [bp stroke];
-        }
-        else
-        {
-            // No viewport translation and scaling around viewport center is used
-            // when drawing the image for printing or into a buffer.
-            NSRect boxRect = [schematic boundingBox];
-            NSAffineTransform* lowerLeftCornerTransform = [NSAffineTransform transform];
-            [lowerLeftCornerTransform translateXBy:-boxRect.origin.x + 5.0f
-                                               yBy:-boxRect.origin.y + 5.0f];
-            NSAffineTransform* scaleTransform = [NSAffineTransform transform];
-            [scaleTransform scaleBy:printScale];
-            [lowerLeftCornerTransform appendTransform:scaleTransform];
-            [lowerLeftCornerTransform concat];
-        }
-        
-        [schematic draw];
+    if ([NSGraphicsContext currentContextDrawingToScreen] && !drawToBufferedImage)
+    {
+      NSAffineTransform* scaleCenterPointTransform = [NSAffineTransform transform];
+      NSAffineTransform* scaleTransform = [NSAffineTransform transform];
+      NSAffineTransform* scaleCenterPointBackTransform = [NSAffineTransform transform];
+      NSAffineTransform* viewportTransform = [NSAffineTransform transform];
+      [scaleCenterPointTransform translateXBy:-rect.size.width/2
+                                          yBy:-rect.size.height/2];
+      [scaleCenterPointBackTransform translateXBy:rect.size.width/2
+                                              yBy:rect.size.height/2];
+      [scaleTransform scaleBy:_scale];
+      [viewportTransform translateXBy:_viewportOffset.x yBy:_viewportOffset.y];
+      [viewportTransform appendTransform:scaleCenterPointTransform];
+      [viewportTransform appendTransform:scaleTransform];
+      [viewportTransform appendTransform:scaleCenterPointBackTransform];
+      [viewportTransform concat];
 
-        // Draw bounding box
-//        [[NSColor blackColor] set];
-//        [[NSBezierPath bezierPathWithRect:[schematic boundingBox]] stroke];
-        
-        if (selectionBoxIsActive)
-        {
-            bp = [NSBezierPath bezierPath];
-            CGFloat pattern[2];
-            pattern[0] = 4.0f; //segment painted with stroke color
-            pattern[1] = 3.0f; //segment not painted with a color
-            [bp setLineDash:pattern
-                      count:2
-                      phase:0.0];
-            [selectionBoxColor set];
-            [bp appendBezierPathWithRect:selectionBox];
-            [bp stroke];
-        }
-        
-        [currentContext restoreGraphicsState];
+      // Draw working area limits
+      [[NSColor orangeColor] set];
+      bp = [NSBezierPath bezierPath];
+      [bp setLineWidth:2.0f];
+      [bp appendBezierPathWithRect:kWorkArea];
+      [bp stroke];
     }
-    
-    if (highlightPoint)
+    else
     {
-        [[NSColor colorWithDeviceRed:1.0f green:0.0f blue:0.0f alpha:0.65f] set];
-        [[NSBezierPath bezierPathWithOvalInRect:highlightedPoint] fill];
-    }
-    
-    // Highlight visited panning strip
-    // Use semi_transparent yellowish color
-    [[NSColor colorWithDeviceRed:223.0f/255.0f
-                           green:215.0f/255.0f
-                            blue:164.0f/255.0f
-                           alpha:0.5f] set];
-    switch (visitedPanningStrip)
-    {
-        case MI_DirectionLeft:
-            [NSBezierPath fillRect:NSMakeRect(1, 1, LEFT_PANNING_STRIP_WIDTH - 1, rect.size.height - 2)]; break;
-        case MI_DirectionRight:
-            [NSBezierPath fillRect:NSMakeRect(rect.size.width - RIGHT_PANNING_STRIP_WIDTH - 1, 1, RIGHT_PANNING_STRIP_WIDTH, rect.size.height - 2)]; break;
-        case MI_DirectionUp:
-            [NSBezierPath fillRect:NSMakeRect(1, rect.size.height - TOP_PANNING_STRIP_HEIGHT - 1, rect.size.width - 2, TOP_PANNING_STRIP_HEIGHT)]; break;
-        case MI_DirectionDown:
-            [NSBezierPath fillRect:NSMakeRect(1, 1, rect.size.width - 2, BOTTOM_PANNING_STRIP_HEIGHT - 1)]; break;
-        default: /*do nothing*/;
+      // No viewport translation and scaling around viewport center is used
+      // when drawing the image for printing or into a buffer.
+      NSRect boxRect = [schematic boundingBox];
+      NSAffineTransform* lowerLeftCornerTransform = [NSAffineTransform transform];
+      [lowerLeftCornerTransform translateXBy:-boxRect.origin.x + 5.0f
+                                         yBy:-boxRect.origin.y + 5.0f];
+      NSAffineTransform* scaleTransform = [NSAffineTransform transform];
+      [scaleTransform scaleBy:_printScale];
+      [lowerLeftCornerTransform appendTransform:scaleTransform];
+      [lowerLeftCornerTransform concat];
     }
 
-    // Draw border - in Mac OS X the desktop light shines from the top
-    if ([NSGraphicsContext currentContextDrawingToScreen]
-        && !drawToBufferedImage && drawFrame)
+    [schematic draw];
+
+    if (self.selectionBoxIsActive)
     {
-        [[NSColor blackColor] set];
-        bp = [NSBezierPath bezierPath];
-        [bp moveToPoint:NSMakePoint(0, rect.size.height)];
-        [bp relativeLineToPoint:NSMakePoint(rect.size.width, 0)];
-        [bp stroke];
-        [[NSColor grayColor] set];
-        bp = [NSBezierPath bezierPath];
-        [bp moveToPoint:NSMakePoint(rect.size.width, rect.size.height)];
-        [bp relativeLineToPoint:NSMakePoint(0, -rect.size.height)];
-        [bp relativeLineToPoint:NSMakePoint(-rect.size.width, 0)];
-        [bp relativeLineToPoint:NSMakePoint(0, rect.size.height)];
-        [bp stroke];
+      [self _drawSelectionBox];
     }
+
+    [currentContext restoreGraphicsState];
+  }
+
+  if (highlightPoint)
+  {
+    [self _drawHighlightForCurrentVisitedPoint];
+  }
+  if (visitedPanningStrip != MI_DirectionNone)
+  {
+    [self _drawHighlightForCurrentVisitedStripInRect:rect];
+  }
+}
+
+- (void) _drawSelectionBox
+{
+  NSBezierPath* bp = [NSBezierPath bezierPath];
+  CGFloat const pattern[2] = {4.0, 3.0}; // lengths of segments with and without color
+  [bp setLineDash:pattern count:2 phase:0.0];
+  static NSColor* selectionBoxColor = nil;
+  if (selectionBoxColor == nil) selectionBoxColor = [NSColor orangeColor];
+  [selectionBoxColor set];
+  [bp appendBezierPathWithRect:_selectionBox];
+  [bp stroke];
+}
+
+- (void) _drawHighlightForCurrentVisitedPoint
+{
+  static NSColor* kHighlightColor = nil;
+  if (kHighlightColor == nil) kHighlightColor = [NSColor colorWithDeviceRed:1.0f green:0.0f blue:0.0f alpha:0.65f];
+  [kHighlightColor set];
+  [[NSBezierPath bezierPathWithOvalInRect:highlightedPoint] fill];
+}
+
+- (void) _drawHighlightForCurrentVisitedStripInRect:(CGRect)rect
+{
+  static NSColor* kPanningStripColor = nil;
+  if (kPanningStripColor == nil) kPanningStripColor = [NSColor colorWithDeviceRed:223.0f/255.0f green:215.0f/255.0f blue:164.0f/255.0f alpha:0.5f]; // semi_transparent yellowish color
+  [kPanningStripColor set];
+  if (visitedPanningStrip == MI_DirectionLeft)
+    [NSBezierPath fillRect:NSMakeRect(1, 1, LEFT_PANNING_STRIP_WIDTH - 1, rect.size.height - 2)];
+  else if (visitedPanningStrip == MI_DirectionRight)
+    [NSBezierPath fillRect:NSMakeRect(rect.size.width - RIGHT_PANNING_STRIP_WIDTH - 1, 1, RIGHT_PANNING_STRIP_WIDTH, rect.size.height - 2)];
+  else if (visitedPanningStrip == MI_DirectionUp)
+    [NSBezierPath fillRect:NSMakeRect(1, rect.size.height - TOP_PANNING_STRIP_HEIGHT - 1, rect.size.width - 2, TOP_PANNING_STRIP_HEIGHT)];
+  else if (visitedPanningStrip == MI_DirectionDown)
+    [NSBezierPath fillRect:NSMakeRect(1, 1, rect.size.width - 2, BOTTOM_PANNING_STRIP_HEIGHT - 1)];
 }
 
 
-- (void) drawGuides
+- (void) _drawGuides
 {
-    if ([alignmentPoints count])
+  static NSColor* placementGuideColor = nil;
+  if (placementGuideColor == nil) placementGuideColor = [NSColor colorWithDeviceRed:0.4f green:1.0f blue:0.4f alpha:1.0f];
+  [placementGuideColor set];
+  NSBezierPath* bp = [NSBezierPath bezierPath];
+  bp.lineWidth = MAX(_scale,1.0);
+  for (MI_AlignmentPoint* currentPoint in alignmentPoints)
+  {
+    NSPoint const pos = [currentPoint position];
+    if ([currentPoint alignsVertically])
     {
-        NSEnumerator* alignmentEnum = [alignmentPoints objectEnumerator];
-        MI_AlignmentPoint* currentPoint;
-        NSBezierPath* bp = [NSBezierPath bezierPath];
-        [bp setLineWidth:(scale > 1.0f) ? scale : 1.0f];
-        NSPoint pos;
-        [placementGuideColor set];
-        while (currentPoint = [alignmentEnum nextObject])
-        {
-            pos = [currentPoint position];
-            if ([currentPoint alignsVertically])
-            {
-                [bp moveToPoint:NSMakePoint(pos.x, 0)];
-                [bp lineToPoint:NSMakePoint(pos.x, [self frame].size.height)];
-            }
-            if ([currentPoint alignsHorizontally])
-            {
-                [bp moveToPoint:NSMakePoint(0, pos.y)];
-                [bp lineToPoint:NSMakePoint([self frame].size.width, pos.y)];
-            }
-        }
-        [bp stroke];
+      [bp moveToPoint:NSMakePoint(pos.x, 0)];
+      [bp lineToPoint:NSMakePoint(pos.x, [self frame].size.height)];
     }
-}
-
-
-- (void) setController:(CircuitDocument*)newController
-{
-    controller = newController; // Note: No retaining. Just keep the pointer.
-}
-
-
-- (CircuitDocument*) controller
-{
-    return controller;
+    if ([currentPoint alignsHorizontally])
+    {
+      [bp moveToPoint:NSMakePoint(0, pos.y)];
+      [bp lineToPoint:NSMakePoint([self frame].size.width, pos.y)];
+    }
+  }
+  [bp stroke];
 }
 
 
 - (void) setBackgroundColor:(NSColor*)newBackground
 {
-    backgroundColor = newBackground;
-    [self setNeedsDisplay:YES];
+  _backgroundColor = newBackground;
+  [self setNeedsDisplay:YES];
 }
 
 
 - (NSColor*) backgroundColor
 {
-    return [backgroundColor copy];
+  return [_backgroundColor copy];
 }
 
 
 - (void) setScale:(float)newScale
 {
-    if (newScale >= MI_SCHEMATIC_CANVAS_MAX_SCALE)
-        scale = MI_SCHEMATIC_CANVAS_MAX_SCALE;
-    else if (newScale <= MI_SCHEMATIC_CANVAS_MIN_SCALE)
-        scale = MI_SCHEMATIC_CANVAS_MIN_SCALE;
-    else
-        scale = newScale;
-    //NSLog(@"scale = %f", scale);
-    [self setNeedsDisplay:YES];
+  if (newScale >= MI_SCHEMATIC_CANVAS_MAX_SCALE)
+    _scale = MI_SCHEMATIC_CANVAS_MAX_SCALE;
+  else if (newScale <= MI_SCHEMATIC_CANVAS_MIN_SCALE)
+    _scale = MI_SCHEMATIC_CANVAS_MIN_SCALE;
+  else
+    _scale = newScale;
+  //NSLog(@"scale = %f", scale);
+  [self setNeedsDisplay:YES];
 }
 
 
 - (float) scale
 {
-    return scale;
-}
-
-
-- (void) setPrintScale:(float)newScale
-{
-    printScale = newScale;
+  return _scale;
 }
 
 
 - (void) setViewportOffset:(NSPoint)newOffset
 {
-    viewportOffset = newOffset;
-    [self clearAlignmentPoints];
-    [self clearPointHighlight];
+  _viewportOffset = newOffset;
+  [self clearAlignmentPoints];
+  [self clearPointHighlight];
 }
 
 
 - (NSPoint) viewportOffset
 {
-    return viewportOffset;
+  return _viewportOffset;
 }
 
 
 - (NSPoint) canvasPointToSchematicPoint:(NSPoint)point
 {
-    NSSize s = [self frame].size;
-    return NSMakePoint((point.x - s.width/2)/scale + s.width/2 - viewportOffset.x,
-                       (point.y - s.height/2)/scale + s.height/2 - viewportOffset.y);
+  NSSize s = [self frame].size;
+  return NSMakePoint((point.x - s.width/2)/_scale + s.width/2 - _viewportOffset.x,
+                     (point.y - s.height/2)/_scale + s.height/2 - _viewportOffset.y);
 }
 
 
 - (NSPoint) schematicPointToCanvasPoint:(NSPoint)point
 {
-    NSSize s = [self frame].size;
-    return NSMakePoint((point.x + viewportOffset.x - s.width/2) * scale + s.width/2,
-                       (point.y + viewportOffset.y - s.height/2) * scale + s.height/2);
+  NSSize s = [self frame].size;
+  return NSMakePoint((point.x + _viewportOffset.x - s.width/2) * _scale + s.width/2,
+                     (point.y + _viewportOffset.y - s.height/2) * _scale + s.height/2);
 }
 
 
 - (NSRect) canvasRectToSchematicRect:(NSRect)canvasRect
 {
-    NSPoint newOrigin = [self canvasPointToSchematicPoint:canvasRect.origin];
-    return NSMakeRect(newOrigin.x, newOrigin.y, canvasRect.size.width * scale, canvasRect.size.height * scale);
+  NSPoint newOrigin = [self canvasPointToSchematicPoint:canvasRect.origin];
+  return NSMakeRect(newOrigin.x, newOrigin.y, canvasRect.size.width * _scale, canvasRect.size.height * _scale);
 }
 
 
 - (NSRect) schematicRectToCanvasRect:(NSRect)schematicRect
 {
-    NSPoint newOrigin = [self schematicPointToCanvasPoint:schematicRect.origin];
-    return NSMakeRect(newOrigin.x, newOrigin.y, schematicRect.size.width * scale, schematicRect.size.height * scale);
+  NSPoint newOrigin = [self schematicPointToCanvasPoint:schematicRect.origin];
+  return NSMakeRect(newOrigin.x, newOrigin.y, schematicRect.size.width * _scale, schematicRect.size.height * _scale);
 }
 
 
 - (void) relativeMoveViewportOffset:(NSPoint)relativeDistance
 {
-    NSPoint offset = [self viewportOffset];
-    offset.x += relativeDistance.x;
-    offset.y += relativeDistance.y;
-    [self setViewportOffset:offset];
+  NSPoint offset = [self viewportOffset];
+  offset.x += relativeDistance.x;
+  offset.y += relativeDistance.y;
+  [self setViewportOffset:offset];
 }
 
-
-- (void) showGuides:(BOOL)doShowGuides
-{
-    showGuides = doShowGuides;
-}
-
-
-- (BOOL) showsGuides
-{
-    return showGuides;
-}
-
-
-- (void) setSelectionBoxIsActive:(BOOL)active
-{
-    selectionBoxIsActive = active;
-}
-
-
-- (void) setSelectionBox:(NSRect)box
-{
-    selectionBox = box;
-}
-
-- (void) setSelectionBoxStartPoint:(NSPoint)start
-{
-    selectionBoxStartPoint = start;
-}
-
-- (NSPoint) selectionBoxStartPoint
-{
-    return selectionBoxStartPoint;
-}
 
 - (void) clearAlignmentPoints
 {
-    [alignmentPoints removeAllObjects];
+  [alignmentPoints removeAllObjects];
 }
 
 - (void) addAlignmentPoint:(MI_AlignmentPoint*)point
 {
-    [alignmentPoints addObject:point];
+  [alignmentPoints addObject:point];
 }
 
-- (void) highlightPoint:(NSPoint)point
-                   size:(float)radius;
+- (void) highlightPoint:(NSPoint)point size:(float)radius;
 {
-    highlightedPoint = NSMakeRect(point.x - radius, point.y - radius, 2*radius, 2* radius);
-    highlightPoint = YES;
+  highlightedPoint = NSMakeRect(point.x - radius, point.y - radius, 2*radius, 2* radius);
+  highlightPoint = YES;
 }
 
 - (void) clearPointHighlight
 {
-    highlightPoint = NO;
-}
-
-- (void) setDrawsFrame:(BOOL)draw
-{
-    drawFrame = draw;
+  highlightPoint = NO;
 }
 
 // Overrides NSView method to provide click-through behavior
@@ -441,10 +394,9 @@ the original clipping rectangle.
     return YES;
 }
 
-
 - (NSRect) workArea
 {
-    return WorkArea;
+  return kWorkArea;
 }
 
 
@@ -462,7 +414,7 @@ the original clipping rectangle.
     [[NSCursor arrowCursor] set];
     
     [[[SugarManager sharedManager] currentTool]
-        mouseUp:[[controller model] schematic]
+        mouseUp:[[_controller model] schematic]
           event:theEvent
          canvas:self];
 }
@@ -502,7 +454,7 @@ the original clipping rectangle.
         }
         
         [[[SugarManager sharedManager] currentTool]
-            mouseDragged:[[controller model] schematic]
+            mouseDragged:[[_controller model] schematic]
                    event:theEvent
                   canvas:self];
     }
@@ -511,17 +463,17 @@ the original clipping rectangle.
 
 - (void) scrollWheel:(NSEvent*)theEvent
 {
-    [controller scaleShouldChange:([self scale] + [theEvent deltaY]/20.0f)];
+  [_controller scaleShouldChange:([self scale] + [theEvent deltaY]/20.0f)];
 }
 
 
 - (void) mouseDown:(NSEvent*)theEvent
 {
     if (!NSPointInRect([self convertPoint:[theEvent locationInWindow] fromView:nil],
-                       [self schematicRectToCanvasRect:WorkArea]))
+                       [self schematicRectToCanvasRect:kWorkArea]))
         return;
 
-    const float stepSize = 100.0f/scale;
+    const float stepSize = 100.0f/_scale;
     switch (visitedPanningStrip)
     {
         // Move the canvas in the opposite direction of the clicked panning strip
@@ -544,7 +496,7 @@ the original clipping rectangle.
         // The tool is responsible for panning the view
         // if the Option key was pressed.
         [[[SugarManager sharedManager] currentTool]
-            mouseDown:[[controller model] schematic]
+            mouseDown:[[_controller model] schematic]
                 event:theEvent
                canvas:self];
     }
@@ -554,7 +506,7 @@ the original clipping rectangle.
 - (void) rightMouseDown:(NSEvent*)theEvent
 {
     [[[SugarManager sharedManager] currentTool]
-        rightMouseDown:[[controller model] schematic]
+        rightMouseDown:[[_controller model] schematic]
                  event:theEvent
                 canvas:self];
 }
@@ -563,7 +515,7 @@ the original clipping rectangle.
 - (void) rightMouseDragged:(NSEvent*)theEvent
 {
     [[[SugarManager sharedManager] currentTool]
-        rightMouseDragged:[[controller model] schematic]
+        rightMouseDragged:[[_controller model] schematic]
                     event:theEvent
                    canvas:self];
 }
@@ -572,7 +524,7 @@ the original clipping rectangle.
 - (void) rightMouseUp:(NSEvent*)theEvent
 {
     [[[SugarManager sharedManager] currentTool]
-        rightMouseUp:[[controller model] schematic]
+        rightMouseUp:[[_controller model] schematic]
                event:theEvent
               canvas:self];
 }
@@ -583,7 +535,7 @@ the original clipping rectangle.
     NSPoint mousePosition =
         [self convertPoint:[theEvent locationInWindow]
                     fromView:nil];
-    if (!NSPointInRect(mousePosition, [self schematicRectToCanvasRect:WorkArea]))
+    if (!NSPointInRect(mousePosition, [self schematicRectToCanvasRect:kWorkArea]))
         return;
 
     MI_Direction previouslyVisitedPanningStrip = visitedPanningStrip;
@@ -600,7 +552,7 @@ the original clipping rectangle.
         visitedPanningStrip = MI_DirectionNone;
     
     [[[SugarManager sharedManager] currentTool]
-          mouseMoved:[[controller model] schematic]
+          mouseMoved:[[_controller model] schematic]
                event:theEvent
               canvas:self];
 
@@ -628,14 +580,14 @@ the original clipping rectangle.
     NSPoint currentPoint = [self convertPoint:[theEvent locationInWindow]
                                      fromView:nil];
 
-    NSPoint diff = NSMakePoint((currentPoint.x - panningStartPoint.x)/scale,
-                               (currentPoint.y - panningStartPoint.y)/scale);
+    NSPoint diff = NSMakePoint((currentPoint.x - panningStartPoint.x)/_scale,
+                               (currentPoint.y - panningStartPoint.y)/_scale);
     [self relativeMoveViewportOffset:diff];
     panningStartPoint = currentPoint;
     
     [self setNeedsDisplay:YES];
 
-    [[[controller model] schematic] markAsModified:YES];
+    [[[_controller model] schematic] markAsModified:YES];
 }
 
 
@@ -658,9 +610,9 @@ the original clipping rectangle.
     if ([chars isEqualToString:@"="] || [chars isEqualToString:@"-"] || [chars isEqualToString:@"+"])
     {
         if ([chars isEqualToString:@"-"])
-            [controller scaleShouldChange:([self scale] / 1.2f)];
+            [_controller scaleShouldChange:([self scale] / 1.2f)];
         else
-            [controller scaleShouldChange:([self scale] * 1.2f)];
+            [_controller scaleShouldChange:([self scale] * 1.2f)];
     }
     else if ( [chars isEqualToString:@"1"] ||
                 [chars isEqualToString:@"2"] ||
@@ -668,12 +620,12 @@ the original clipping rectangle.
                 [chars isEqualToString:@"4"] )
     {
         int variant = [chars intValue] - 1;
-        [controller switchToSchematicVariant:[NSNumber numberWithInt:variant]];
+        [_controller switchToSchematicVariant:[NSNumber numberWithInt:variant]];
     }
     else if ([theEvent modifierFlags] & NSEventModifierFlagOption)
     {
         // Check if the user wants to pan the view
-        const float stepSize = 100.0f/scale;
+        const float stepSize = 100.0f/_scale;
         if ([chars characterAtIndex:0] == NSUpArrowFunctionKey)
             [self relativeMoveViewportOffset:NSMakePoint(0.0f, -stepSize)];
         else if ([chars characterAtIndex:0] == NSDownArrowFunctionKey)
@@ -689,7 +641,7 @@ the original clipping rectangle.
 
     if (!consumed)
         [[[SugarManager sharedManager] currentTool]
-                keyDown:[[controller model] schematic]
+                keyDown:[[_controller model] schematic]
                   event:theEvent
                  canvas:self];
     else
@@ -708,13 +660,13 @@ the original clipping rectangle.
            [character isEqualToString:@"4"] ) )
     {
             int variant = [character intValue] - 1;
-            [controller copySchematicToVariant:[NSArray arrayWithObjects:
-                    [[controller model] schematic], [NSNumber numberWithInt:variant], nil]];
+            [_controller copySchematicToVariant:[NSArray arrayWithObjects:
+                    [[_controller model] schematic], [NSNumber numberWithInt:variant], nil]];
             return YES;
     }
     else if ( ([[self window] firstResponder] == self) &&
         [[[SugarManager sharedManager] currentTool]
-            performKeyEquivalent:[[controller model] schematic]
+            performKeyEquivalent:[[_controller model] schematic]
                            event:theEvent
                           canvas:self])
         return YES;
@@ -731,23 +683,20 @@ the original clipping rectangle.
 
 - (NSDragOperation) draggingEntered:(id <NSDraggingInfo>)sender
 {
-    NSPasteboard *pboard = [sender draggingPasteboard];
-    if ([[pboard types] containsObject:NSURLPboardType] ||
-    	[[pboard types] containsObject:MI_SchematicElementPboardType])
-    {
-        //frameColor = highlightColor;
-        //[self setNeedsDisplay:YES];
-        return NSDragOperationCopy;
-    }
-    else
-        return NSDragOperationNone;
+  NSPasteboard *pboard = [sender draggingPasteboard];
+  if ([[pboard types] containsObject:NSURLPboardType] ||
+    [[pboard types] containsObject:MI_SchematicElementPboardType])
+  {
+    return NSDragOperationCopy;
+  }
+  return NSDragOperationNone;
 }
 
 
 - (void) draggingExited:(id <NSDraggingInfo>)sender
 {
-    //frameColor = passiveColor;
-    //[self setNeedsDisplay:YES];
+  //frameColor = passiveColor;
+  //[self setNeedsDisplay:YES];
 }
 
 
@@ -760,78 +709,77 @@ the original clipping rectangle.
 
 - (BOOL) performDragOperation:(id <NSDraggingInfo>)sender
 {
-    NSPoint destination = [self convertPoint:[sender draggedImageLocation]
-                                    fromView:nil];
-    destination = [self canvasPointToSchematicPoint:destination];
-    
-    MI_Schematic* schematic = [[controller model] schematic];
+  NSPoint destination = [self convertPoint:[sender draggedImageLocation] fromView:nil];
+  destination = [self canvasPointToSchematicPoint:destination];
 
-    if ([[[sender draggingPasteboard] types] containsObject:MI_SchematicElementPboardType])
+  MI_Schematic* schematic = [[_controller model] schematic];
+
+  if ([[[sender draggingPasteboard] types] containsObject:MI_SchematicElementPboardType])
+  {
+    NSEnumerator* elementEnum;
+    MI_SchematicElement* tmpElement;
+    BOOL alreadyInSchematic = NO;
+
+    MI_SchematicElement* droppedElement =
+        [NSKeyedUnarchiver unarchiveObjectWithData:
+            [[sender draggingPasteboard] dataForType:MI_SchematicElementPboardType]];
+
+    destination = NSMakePoint(destination.x + [droppedElement size].width/2.0f,
+                              destination.y + [droppedElement size].height/2.0f);
+
+    // Checking if an object with the same identifier string already exists in the schematic.
+    elementEnum = [schematic elementEnumerator];
+    while (tmpElement = [elementEnum nextObject])
+      if ([tmpElement isEqual:droppedElement])
+      {
+        // Same element found! Setting its position...
+        [tmpElement setPosition:destination];
+        alreadyInSchematic = YES;
+        break;
+      }
+
+    if (!alreadyInSchematic)
     {
-        NSEnumerator* elementEnum;
-        MI_SchematicElement* tmpElement;
-        BOOL alreadyInSchematic = NO;
-        
-        MI_SchematicElement* droppedElement =
-            [NSKeyedUnarchiver unarchiveObjectWithData:
-                [[sender draggingPasteboard] dataForType:MI_SchematicElementPboardType]];
-    
-        destination = NSMakePoint(destination.x + [droppedElement size].width/2.0f,
-                                  destination.y + [droppedElement size].height/2.0f);
-
-        // Checking if an object with the same identifier string already exists in the schematic.
-        elementEnum = [schematic elementEnumerator];
-        while (tmpElement = [elementEnum nextObject])
-            if ([tmpElement isEqual:droppedElement])
-            {
-                // Same element found! Setting its position...
-                [tmpElement setPosition:destination];
-                alreadyInSchematic = YES;
-                break;
-            }
-    
-        if (!alreadyInSchematic)
+      [[self controller] createSchematicUndoPointForModificationType:MI_SCHEMATIC_ADD_CHANGE];
+      //WARNING: the identifier string must be changed if the dragged element was in another schematic.
+      [droppedElement setPosition:destination];
+      if (![schematic addElement:droppedElement])
+      {
+        NSBeep();
+        // TODO: Show error message.
+      }
+      else
+      {
+        // Check if this is a node element that was dropped on a connector line
+        if ( [droppedElement conformsToProtocol:@protocol(MI_InsertableSchematicElement)] )
         {
-            [[self controller] createSchematicUndoPointForModificationType:MI_SCHEMATIC_ADD_CHANGE];
-            //WARNING: the identifier string must be changed if the dragged element was in another schematic. 
-            [droppedElement setPosition:destination];
-            if (![schematic addElement:droppedElement])
+          // Are we supposed to insert the node into a connection line?
+          if ( [[[NSUserDefaults standardUserDefaults] objectForKey:MISUGAR_AUTOINSERT_NODE_ELEMENT] boolValue] )
+          {
+            MI_ElementConnector* conn = [schematic connectorForPoint:destination radius:2.0f];
+            if (conn != nil)
             {
-                NSBeep();
-                // MISSING: Show error message.
+              [schematic splitConnector:conn withElement:(MI_SchematicElement<MI_InsertableSchematicElement>*)droppedElement];
             }
-            else
-            {
-                // Check if this is a node element that was dropped on a connector line
-                if ( [droppedElement conformsToProtocol:@protocol(MI_InsertableSchematicElement)] )
-                {
-                    // Are we supposed to insert the node into a connection line?
-                    if ( [[[NSUserDefaults standardUserDefaults] objectForKey:MISUGAR_AUTOINSERT_NODE_ELEMENT] boolValue] )
-                    {
-                        MI_ElementConnector* conn = [schematic connectorForPoint:destination radius:2.0f];
-                        if (conn != nil)
-                        {
-                          [schematic splitConnector:conn withElement:(MI_SchematicElement<MI_InsertableSchematicElement>*)droppedElement];
-                        }
-                    }
-                }
-                // Automatically select and inspect the new element
-                [[[controller model] schematic] deselectAll];
-                [[[controller model] schematic] selectElement:droppedElement];
-                [[MI_Inspector sharedInspector] inspectElement:droppedElement];
-            }
+          }
         }
+        // Automatically select and inspect the new element
+        [[[_controller model] schematic] deselectAll];
+        [[[_controller model] schematic] selectElement:droppedElement];
+        [[MI_Inspector sharedInspector] inspectElement:droppedElement];
+      }
     }
-    else
+  }
+  else
+  {
+    // The dropped object is a file
+    if ( [[[sender draggingPasteboard] types] containsObject:NSPasteboardTypeURL] )
     {
-        // The dropped object is a file
-        NSPasteboard *pboard = [sender draggingPasteboard];
-        if ( [[pboard types] containsObject:NSURLPboardType] )
-            [controller processDrop:sender];
+      [_controller processDrop:sender];
     }
-    //frameColor = passiveColor;
-    [self setNeedsDisplay:YES];
-    return YES;
+  }
+  [self setNeedsDisplay:YES];
+  return YES;
 }
 
 /************************************************************* PRINTING *********/
@@ -848,10 +796,10 @@ the original clipping rectangle.
 
 - (NSRect) rectForPage:(NSInteger)pageNumber
 {
-    NSRect printRect = NSInsetRect([[[controller model] schematic] boundingBox], -5.0f, -5.0f);
+    NSRect printRect = NSInsetRect([[[_controller model] schematic] boundingBox], -5.0f, -5.0f);
     printRect.origin = NSMakePoint(0,0);//[self schematicPointToCanvasPoint:printRect.origin];
-    printRect.size.width *= printScale;
-    printRect.size.height *= printScale;
+    printRect.size.width *= _printScale;
+    printRect.size.height *= _printScale;
     return printRect;
 }
 

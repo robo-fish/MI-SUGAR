@@ -59,7 +59,7 @@
 - (IBAction) setLayout:(id)sender;                          // sets the layout option to be used for document windows
 - (IBAction) makeSubcircuit:(id)sender;                     // creates a subcircuit based on the circuit in the active document
 - (IBAction) setSubcircuitLibraryFolder:(id)sender;         // for use in the preferences panel
-- (IBAction) goToSubcircuitsFolder:(id)sender;              // "MainMenu.nib"
+- (IBAction) goToSubcircuitsFolder:(id)sender;              // "MainMenu.xib"
 - (IBAction) refreshSubcircuitsTable:(id)sender;            // target method of the 'refresh' button
 
 // SCHEMATIC-RELATED METHODS

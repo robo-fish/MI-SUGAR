@@ -54,7 +54,48 @@ NSString* NETLIST                                = @"circuit description file ty
 NSString* SUGAR_FILE_TYPE                        = @"SugarFileType";
 NSString* SPICE_Raw                              = @"SPICE raw output";
 
+@interface CircuitDocument () <NSToolbarDelegate>
+@end
+
 @implementation CircuitDocument
+{
+  IBOutlet MI_TextView* inputView;
+  IBOutlet MI_Window* window;
+  IBOutlet NSSplitView* splitter; // for vertical layout
+  IBOutlet NSSplitView* verticalSplitter; // for horizontal layout
+  IBOutlet NSSplitView* horizontalSplitter; // for horizontal layout
+  IBOutlet NSTextView* shellOutputView;
+  NSDictionary *printAttributes, *commentAttributes, *defaultAttributes,
+  *analysisCommandAttributes, *modelAttributes, *subcircuitAttributes;
+  BOOL highlightingAttributesCreated;
+
+  NSTask* simulationTask;
+  NSPipe* simulationDataPipe;
+  BOOL simulationAborted;
+
+  MI_CustomViewToolbarItem* run;
+  MI_AnalysisButton* analysisProgressIndicator;
+  NSToolbarItem* plot;
+  NSToolbarItem* schematic2Netlist;
+  NSToolbarItem* elementsPanelShortcut;
+  NSToolbarItem* infoPanelShortcut;
+  NSToolbarItem* variantDisplayer;
+  MI_VariantSelectionView* variantSelectionViewer;
+  MI_CustomViewToolbarItem* canvasScaler;
+  MI_FitToViewButton* fitButton;
+  MI_CustomViewToolbarItem* fitToView;
+  NSToolbarItem *zoomIn, *zoomOut;
+  NSToolbarItem* home;
+  NSToolbarItem* subcircuitIndicator;
+  CircuitDocumentModel* myModel;
+  BOOL textEdited; // indicates whether the netlist has been edited since the last save
+  BOOL hasVerticalLayout;
+  BOOL scaleHasChanged;
+
+  // SCHEMATIC - RELATED *******************************
+  IBOutlet MI_SchematicsCanvas* canvas;
+  NSSlider* canvasScaleSlider;
+}
 
 - (instancetype) init
 {
@@ -727,14 +768,6 @@ NSString* SPICE_Raw                              = @"SPICE raw output";
 }
 
 
-- (void) nothingToPlotAlertDidEnd:(NSAlert*)alert
-                       returnCode:(int)returnCode
-                      contextInfo:(void*)contextInfo
-{
-    [[alert window] orderOut:self];
-}
-
-
 - (IBAction) plotResults:(id)sender
 {
     SugarPlotter* plotter;
@@ -785,9 +818,14 @@ NSString* SPICE_Raw                              = @"SPICE raw output";
     else
     {
       // Notify user
-      NSAlert* nothingToPlotAlert = [NSAlert alertWithMessageText:@"Nothing to plot." defaultButton:@"OK" alternateButton:nil otherButton:nil informativeTextWithFormat:@"The plotter needs at least two data points. DC analysis results, for example, consist of a single value for which plotting makes no sense."];
+      NSAlert* alert = [[NSAlert alloc] init];
+      alert.messageText = @"Nothing to plot.";
+      alert.informativeText = @"The plotter needs at least two data points. For example, DC analysis results consist of a single value for which plotting makes no sense.";
+      [alert addButtonWithTitle:@"OK"];
       NSWindow* hostWindow = [[[self windowControllers] objectAtIndex:0] window];
-      [nothingToPlotAlert beginSheetModalForWindow:hostWindow modalDelegate:self didEndSelector:@selector(nothingToPlotAlertDidEnd:returnCode:contextInfo:) contextInfo:nil];
+      [alert beginSheetModalForWindow:hostWindow completionHandler:^(NSModalResponse returnCode) {
+        //[[alert window] orderOut:self];
+      }];
     }
 }
 
@@ -1459,38 +1497,28 @@ NSString* SPICE_Raw                              = @"SPICE raw output";
 
 - (IBAction) saveDocumentTo:(id)sender
 {
-    [self setFileTypeAccordingToPolicy];
-    [super saveDocumentTo:sender];
+  [self setFileTypeAccordingToPolicy];
+  [super saveDocumentTo:sender];
 }
 
 
 
 - (BOOL) prepareSavePanel:(NSSavePanel*)savePanel
 {
-    [savePanel setCanSelectHiddenExtension:YES];
-    // Set the file extension according to the selected file saving policy
-    if ( [[self fileType] isEqualToString:NETLIST] )
-    {
-        [savePanel setAllowedFileTypes:[NSArray arrayWithObject:@"cir"]];
-        [savePanel setRequiredFileType:@"cir"];
-    }
-    else
-    {
-        [savePanel setAllowedFileTypes:[NSArray arrayWithObject:@"sugar"]];
-        [savePanel setRequiredFileType:@"sugar"];
-    }
-    return YES;
+  savePanel.canSelectHiddenExtension = YES;
+  savePanel.allowedFileTypes = [[self fileType] isEqualToString:NETLIST] ? @[@"cir"] : @[@"sugar"];
+  return YES;
 }
 
 
 - (NSTextView*) netlistEditor
 {
-    return inputView;
+  return inputView;
 }
 
 - (NSTextView*) analysisResultViewer
 {
-    return shellOutputView;
+  return shellOutputView;
 }
 
 // **************************************************** SCHEMATIC - RELATED *****
@@ -1498,18 +1526,18 @@ NSString* SPICE_Raw                              = @"SPICE raw output";
 
 - (MI_SchematicsCanvas*) canvas
 {
-    return canvas;
+  return canvas;
 }
 
 
 // Called by the scale adjustment widget
 - (IBAction) setCanvasScale:(id)sender
 {
-    float s = [sender floatValue];
-    [myModel setSchematicScale:s];
-    [canvas setScale:s];
-    scaleHasChanged = YES;
-    [self markWindowContentAsModified:YES];
+  float s = [sender floatValue];
+  [myModel setSchematicScale:s];
+  [canvas setScale:s];
+  scaleHasChanged = YES;
+  [self markWindowContentAsModified:YES];
 }
 
 
@@ -1517,89 +1545,88 @@ NSString* SPICE_Raw                              = @"SPICE raw output";
 // The actual canvas scaling is performed by this method.
 - (void) scaleShouldChange:(float)newScale
 {
-    [canvas setScale:newScale];
-    // The canvas object may have restrained the scale value when we set it.
-    // That's why we now ask the canvas for the scale value it uses.
-    [canvasScaleSlider setFloatValue:[canvas scale]];
-    [myModel setSchematicScale:newScale];
-    scaleHasChanged = YES;
-    [self markWindowContentAsModified:YES];
+  [canvas setScale:newScale];
+  // The canvas object may have restrained the scale value when we set it.
+  // That's why we now ask the canvas for the scale value it uses.
+  [canvasScaleSlider setFloatValue:[canvas scale]];
+  [myModel setSchematicScale:newScale];
+  scaleHasChanged = YES;
+  [self markWindowContentAsModified:YES];
 }
 
 
 - (IBAction) zoomInCanvas:(id)sender
 {
-    [self scaleShouldChange:([canvas scale] * 1.2f)];
+  [self scaleShouldChange:([canvas scale] * 1.2f)];
 }
-
 
 - (IBAction) zoomOutCanvas:(id)sender
 {
-    [self scaleShouldChange:([canvas scale] / 1.2f)];
+  [self scaleShouldChange:([canvas scale] / 1.2f)];
 }
 
 
 
 - (IBAction) showPlacementGuides:(id)sender
 {
-    [canvas showGuides:([sender state] == NSOnState)];
+  canvas.showsGuides = ([sender state] == NSOnState);
 }
 
 - (void) placementGuideVisibilityChanged:(NSNotification*)notif
 {
-    [canvas showGuides:[[notif object] boolValue]];
+  canvas.showsGuides = [[notif object] boolValue];
 }
 
 - (void) canvasBackgroundChanged:(NSNotification*)notif
 {
-    [canvas setBackgroundColor:[notif object]];
+  canvas.backgroundColor = [notif object];
 }
 
 - (IBAction) moveSchematicViewportToOrigin:(id)sender
 {
-    [canvas setViewportOffset:NSMakePoint(0, 0)];
-    [canvas setNeedsDisplay:YES];
+  canvas.viewportOffset = NSZeroPoint;
+  [canvas setNeedsDisplay:YES];
 }
 
 
 - (void) toggleDetailsView
 {
-    BOOL newState = ![[myModel schematic] showsQuickInfo];
-    [[myModel schematic] setShowsQuickInfo:newState];
-    [[myModel schematic] setShowsNodeNumbers:newState];
-    [canvas setNeedsDisplay:YES];
+  BOOL newState = ![[myModel schematic] showsQuickInfo];
+  [[myModel schematic] setShowsQuickInfo:newState];
+  [[myModel schematic] setShowsNodeNumbers:newState];
+  [canvas setNeedsDisplay:YES];
 }
 
 
 - (IBAction) fitSchematicToView:(id)sender
 {
-    NSRect bbox = [[myModel schematic] boundingBox];
-    NSRect viewRect = [canvas frame];
-    NSPoint center = NSMakePoint(
-        -bbox.origin.x + -bbox.size.width/2.0f + viewRect.size.width/2.0f,
-        -bbox.origin.y + -bbox.size.height/2.0f + viewRect.size.height/2.0f
-    );
-    [canvas setViewportOffset:center];
-    float newScale = 0.95f * fmin(viewRect.size.width / bbox.size.width,
-                                  viewRect.size.height / bbox.size.height);
+  NSRect const bbox = [[myModel schematic] boundingBox];
+  NSRect const viewRect = [canvas frame];
+  NSPoint const center = NSMakePoint(
+      -bbox.origin.x + -bbox.size.width/2.0f + viewRect.size.width/2.0f,
+      -bbox.origin.y + -bbox.size.height/2.0f + viewRect.size.height/2.0f
+  );
+  canvas.viewportOffset = center;
+  float newScale = 0.95f * fmin(viewRect.size.width / bbox.size.width,
+                                viewRect.size.height / bbox.size.height);
 
-    [myModel setSchematicScale:newScale];
-    scaleHasChanged = YES;
-    [self markWindowContentAsModified:YES];
-    [canvas setScale:newScale];
-    [canvasScaleSlider setFloatValue:newScale];
+  [myModel setSchematicScale:newScale];
+  scaleHasChanged = YES;
+  [self markWindowContentAsModified:YES];
+  [canvas setScale:newScale];
+  [canvasScaleSlider setFloatValue:newScale];
 }
 
 
 - (void) markWindowContentAsModified:(BOOL)modified
 {
-    [[[[self windowControllers] objectAtIndex:0] window] setDocumentEdited:modified];
+  [[[[self windowControllers] objectAtIndex:0] window] setDocumentEdited:modified];
 }
 
 
 - (void) processSchematicChange:(NSNotification*)notification
 {
-    [self markWindowContentAsModified:[[myModel schematic] hasBeenModified]];
+  [self markWindowContentAsModified:[[myModel schematic] hasBeenModified]];
 }
 
 
@@ -1618,40 +1645,40 @@ NSString* SPICE_Raw                              = @"SPICE raw output";
 
 - (void) restoreSchematic:(NSData*)archivedSchematic
 {
-    if (![[self undoManager] canUndo])
-        return;
+  if (![[self undoManager] canUndo])
+    return;
 
-    [[MI_Inspector sharedInspector] inspectElement:nil];
-    
-    // Set the undo of this undo - which is a redo
-    [[self undoManager] registerUndoWithTarget:self
-                                      selector:@selector(restoreSchematic:)
-                                        object:[NSKeyedArchiver archivedDataWithRootObject:[myModel schematic]]];
-    @try
-    {
-      MI_CircuitSchematic* s = [NSKeyedUnarchiver unarchiveObjectWithData:archivedSchematic];
-      [[NSNotificationCenter defaultCenter]
-          removeObserver:self
-                    name:MI_SCHEMATIC_MODIFIED_NOTIFICATION
-                  object:[myModel schematic]];
-      [myModel setSchematic:s];
-      [[NSNotificationCenter defaultCenter]
-                      addObserver:self
-                         selector:@selector(processSchematicChange:)
-                             name:MI_SCHEMATIC_MODIFIED_NOTIFICATION
-                           object:s];
-    }
-    @catch (id)
-    {
-      NSLog(@"Undo to invalid state.");
-    }
-    @finally
-    {
-      //if ([s numberOfSelectedElements] == 1)
-          //[[MI_Inspector sharedInspector] inspectElement:[s firstSelectedElement]];
+  [[MI_Inspector sharedInspector] inspectElement:nil];
 
-      [canvas setNeedsDisplay:YES];
-    }
+  // Set the undo of this undo - which is a redo
+  [[self undoManager] registerUndoWithTarget:self
+                                    selector:@selector(restoreSchematic:)
+                                      object:[NSKeyedArchiver archivedDataWithRootObject:[myModel schematic]]];
+  @try
+  {
+    MI_CircuitSchematic* s = [NSKeyedUnarchiver unarchiveObjectWithData:archivedSchematic];
+    [[NSNotificationCenter defaultCenter]
+        removeObserver:self
+                  name:MI_SCHEMATIC_MODIFIED_NOTIFICATION
+                object:[myModel schematic]];
+    [myModel setSchematic:s];
+    [[NSNotificationCenter defaultCenter]
+                    addObserver:self
+                       selector:@selector(processSchematicChange:)
+                           name:MI_SCHEMATIC_MODIFIED_NOTIFICATION
+                         object:s];
+  }
+  @catch (id)
+  {
+    NSLog(@"Undo to invalid state.");
+  }
+  @finally
+  {
+    //if ([s numberOfSelectedElements] == 1)
+        //[[MI_Inspector sharedInspector] inspectElement:[s firstSelectedElement]];
+
+    [canvas setNeedsDisplay:YES];
+  }
 }
 
 

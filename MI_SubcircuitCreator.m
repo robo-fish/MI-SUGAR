@@ -58,7 +58,7 @@ static MI_SubcircuitCreator* theCreator = nil;
   if (theCreator == nil)
   {
     theCreator = [super init];
-    [[NSBundle mainBundle] loadNibNamed:@"SubcircuitCreationSheet.nib" owner:self topLevelObjects:nil];
+    [[NSBundle mainBundle] loadNibNamed:@"SubcircuitCreationSheet" owner:self topLevelObjects:nil];
     [pinAssignmentTable setDataSource:self];
     [pinAssignmentTable setDelegate:self];
     nodeNameChooser = [[NSPopUpButtonCell alloc] init];
@@ -186,21 +186,29 @@ static MI_SubcircuitCreator* theCreator = nil;
 
 - (IBAction) loadShapeDefinitionFile:(id)sender
 {
-    NSOpenPanel* op = [NSOpenPanel openPanel];
-    [op setCanChooseDirectories:NO];
-    [op setCanChooseFiles:YES];
-    [op setAllowsMultipleSelection:NO];
-    [op setTitle:@"Choose a shape definition file."];
-    [op setExtensionHidden:NO];
-    [op setCanSelectHiddenExtension:NO];
-    [op setAllowedFileTypes:[NSArray arrayWithObjects:@"xml", @"sesdl", nil]];
-    [op beginSheetForDirectory:nil
-                          file:nil
-                         types:[NSArray arrayWithObjects:@"xml", @"sesdl", nil]
-                modalForWindow:creatorSheet
-                 modalDelegate:self
-                didEndSelector:@selector(openPanelDidEnd:returnCode:contextInfo:)
-                   contextInfo:nil];
+  NSOpenPanel* op = [NSOpenPanel openPanel];
+  op.canChooseDirectories = NO;
+  op.canChooseFiles = YES;
+  op.allowsMultipleSelection = NO;
+  op.title = @"Choose a shape definition file.";
+  op.extensionHidden = NO;
+  op.canSelectHiddenExtension = NO;
+  op.allowedFileTypes = @[@"xml", @"sesdl"];
+  [op beginSheetModalForWindow:creatorSheet completionHandler:^(NSModalResponse result) {
+    if (result == NSModalResponseOK)
+    {
+      NSString* filePath = [[[op URLs] firstObject] path];
+      if (filePath != nil)
+      {
+        MI_Shape* s = [MI_SESDLParser parseSESDL:filePath];
+        [shapePreviewer setShape:s];
+        [shapePreviewer setNeedsDisplay:YES];
+        [self setNumberOfConnectionPoints:[[s connectionPoints] count]];
+        [customShapeConnectionPointNames setArray:[[[s connectionPoints] allKeys] copy]];
+        [self resetPinMapping];
+      }
+    }
+  }];
 }
 
 
@@ -209,15 +217,6 @@ static MI_SubcircuitCreator* theCreator = nil;
              returnCode:(int)returnCode
             contextInfo:(void*)contextInfo
 {
-    if (returnCode == NSModalResponseOK)
-    {
-        MI_Shape* s = [MI_SESDLParser parseSESDL:[sheet filename]];
-        [shapePreviewer setShape:s];
-        [shapePreviewer setNeedsDisplay:YES];
-        [self setNumberOfConnectionPoints:[[s connectionPoints] count]];
-        [customShapeConnectionPointNames setArray:[[[s connectionPoints] allKeys] copy]];
-        [self resetPinMapping];
-    }
 }
 
 
