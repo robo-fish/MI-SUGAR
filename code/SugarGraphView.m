@@ -24,7 +24,6 @@
 #include <string.h>
 #include <math.h>
 #import "SugarGraphView.h"
-#include "common.h"
 #include "math.h"
 
 #define MI_SUGAR_DEFAULT_MARGIN 20

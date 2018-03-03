@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 45;
+	objectVersion = 48;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -94,7 +94,7 @@
 		C0E80C07058E2A8E0012452D /* SugarPlotter.h in Headers */ = {isa = PBXBuildFile; fileRef = C0C0931D05761918006C0AD5 /* SugarPlotter.h */; };
 		C0E80C08058E2A8E0012452D /* CircuitDocument.h in Headers */ = {isa = PBXBuildFile; fileRef = C0C0969605762450006C0AD5 /* CircuitDocument.h */; };
 		C0E80C09058E2A8E0012452D /* CircuitDocumentModel.h in Headers */ = {isa = PBXBuildFile; fileRef = C0C09699057625EF006C0AD5 /* CircuitDocumentModel.h */; };
-		C0E80C0A058E2A8E0012452D /* common.h in Headers */ = {isa = PBXBuildFile; fileRef = C0C0969B057625EF006C0AD5 /* common.h */; };
+		C0E80C0A058E2A8E0012452D /* common.pch in Headers */ = {isa = PBXBuildFile; fileRef = C0C0969B057625EF006C0AD5 /* common.pch */; };
 		C0E80C0B058E2A8E0012452D /* Converter.h in Headers */ = {isa = PBXBuildFile; fileRef = C0C0969C057625EF006C0AD5 /* Converter.h */; };
 		C0E80C29058E2A8E0012452D /* MI-SUGAR.scriptSuite in Resources */ = {isa = PBXBuildFile; fileRef = C0C096A705762E72006C0AD5 /* MI-SUGAR.scriptSuite */; };
 		C0E80C2A058E2A8E0012452D /* spice in Resources */ = {isa = PBXBuildFile; fileRef = C0C096A805762E72006C0AD5 /* spice */; };
@@ -270,7 +270,7 @@
 		C0C0969605762450006C0AD5 /* CircuitDocument.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = CircuitDocument.h; sourceTree = "<group>"; };
 		C0C09699057625EF006C0AD5 /* CircuitDocumentModel.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = CircuitDocumentModel.h; sourceTree = "<group>"; };
 		C0C0969A057625EF006C0AD5 /* CircuitDocumentModel.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = CircuitDocumentModel.m; sourceTree = "<group>"; };
-		C0C0969B057625EF006C0AD5 /* common.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = common.h; sourceTree = "<group>"; };
+		C0C0969B057625EF006C0AD5 /* common.pch */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = common.pch; sourceTree = "<group>"; };
 		C0C0969C057625EF006C0AD5 /* Converter.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = Converter.h; sourceTree = "<group>"; };
 		C0C0969D057625EF006C0AD5 /* Converter.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = Converter.m; sourceTree = "<group>"; };
 		C0C096A705762E72006C0AD5 /* MI-SUGAR.scriptSuite */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "MI-SUGAR.scriptSuite"; sourceTree = "<group>"; };
@@ -347,8 +347,7 @@
 		2A37F4AAFDCFA73011CA2CEA /* MI-SUGAR */ = {
 			isa = PBXGroup;
 			children = (
-				2A37F4ABFDCFA73011CA2CEA /* Classes */,
-				2A37F4AFFDCFA73011CA2CEA /* Other Sources */,
+				2A37F4ABFDCFA73011CA2CEA /* Code */,
 				2A37F4B8FDCFA73011CA2CEA /* Resources */,
 				2A37F4C3FDCFA73011CA2CEA /* Frameworks */,
 				19C28FB0FE9D524F11CA2CBB /* Products */,
@@ -358,23 +357,17 @@
 			name = "MI-SUGAR";
 			sourceTree = "<group>";
 		};
-		2A37F4ABFDCFA73011CA2CEA /* Classes */ = {
+		2A37F4ABFDCFA73011CA2CEA /* Code */ = {
 			isa = PBXGroup;
 			children = (
-				C0C0969B057625EF006C0AD5 /* common.h */,
+				2A37F4B0FDCFA73011CA2CEA /* main.m */,
+				C0C0969B057625EF006C0AD5 /* common.pch */,
 				C0C0941605761EE6006C0AD5 /* Controllers */,
 				C0C0941505761ED9006C0AD5 /* Views */,
 				C0C0941705761EF6006C0AD5 /* Model */,
 			);
-			name = Classes;
-			sourceTree = "<group>";
-		};
-		2A37F4AFFDCFA73011CA2CEA /* Other Sources */ = {
-			isa = PBXGroup;
-			children = (
-				2A37F4B0FDCFA73011CA2CEA /* main.m */,
-			);
-			name = "Other Sources";
+			name = Code;
+			path = code;
 			sourceTree = "<group>";
 		};
 		2A37F4B8FDCFA73011CA2CEA /* Resources */ = {
@@ -721,7 +714,7 @@
 				C0E80C07058E2A8E0012452D /* SugarPlotter.h in Headers */,
 				C0E80C08058E2A8E0012452D /* CircuitDocument.h in Headers */,
 				C0E80C09058E2A8E0012452D /* CircuitDocumentModel.h in Headers */,
-				C0E80C0A058E2A8E0012452D /* common.h in Headers */,
+				C0E80C0A058E2A8E0012452D /* common.pch in Headers */,
 				C0E80C0B058E2A8E0012452D /* Converter.h in Headers */,
 				C0ED059A05AF0B1100273C48 /* MI_NodeAssignmentTableItem.h in Headers */,
 				C083EEDB0608BA9D001BB563 /* MI_TextElement.h in Headers */,
@@ -782,7 +775,7 @@
 				LastUpgradeCheck = 0920;
 			};
 			buildConfigurationList = C057A09808BB9308002C935E /* Build configuration list for PBXProject "MI-SUGAR" */;
-			compatibilityVersion = "Xcode 3.1";
+			compatibilityVersion = "Xcode 8.0";
 			developmentRegion = English;
 			hasScannedForEncodings = 1;
 			knownRegions = (
@@ -1032,7 +1025,7 @@
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = common.h;
+				GCC_PREFIX_HEADER = code/common.pch;
 				HEADER_SEARCH_PATHS = /usr/include/libxml2;
 				INFOPLIST_FILE = Info.plist;
 				LIBRARY_SEARCH_PATHS = "";
@@ -1054,7 +1047,7 @@
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = common.h;
+				GCC_PREFIX_HEADER = code/common.pch;
 				HEADER_SEARCH_PATHS = /usr/include/libxml2;
 				INFOPLIST_FILE = Info.plist;
 				LIBRARY_SEARCH_PATHS = /usr/lib;

@@ -20,7 +20,6 @@
 *
 ****************************************************************************/
 #import <Cocoa/Cocoa.h>
-#include "common.h"
 #import "MI_CircuitElement.h"
 #import "MI_SchematicElementChooser.h"
 #import "MI_SelectConnectTool.h"

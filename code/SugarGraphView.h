@@ -19,8 +19,6 @@
 *   51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 *
 ****************************************************************************/
-#import <Cocoa/Cocoa.h>
-#import "common.h"
 #import "AnalysisVariable.h"
 #import "MI_ViewArea.h"
 //#define GRAPHVIEW_WITH_TOOLTIP

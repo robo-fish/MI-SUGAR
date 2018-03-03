@@ -20,7 +20,6 @@
 *
 ****************************************************************************/
 #import "CircuitDocumentModel.h"
-#import "common.h"
 #import "MI_CircuitElement.h"
 #import "MI_DeviceModelManager.h"
 

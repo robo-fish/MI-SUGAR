@@ -19,15 +19,17 @@
 *   51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 *
 ****************************************************************************/
-#import <Cocoa/Cocoa.h>
-#import "common.h"
 
+/*
+  Extends the NSWindow class by adding support for being a drop target.
+  Sends keyboard events to its delegate.
+*/
+@interface MI_Window : NSWindow
 
-@interface MI_DirectionChooser : NSView
-
-- (void) setTarget:(NSObject*)newTarget;
-- (void) setAction:(SEL)newAction;
-- (MI_Direction) selectedDirection;
-- (void) setDirection:(MI_Direction)newDirection;
+@property NSObject<MI_DropHandler>* dropHandler;
+- (NSDragOperation) draggingEntered:(id <NSDraggingInfo>)sender;
+- (BOOL) prepareForDragOperation:(id <NSDraggingInfo>)sender;
+- (BOOL) performDragOperation:(id <NSDraggingInfo>)sender;
+- (void) concludeDragOperation:(id <NSDraggingInfo>)sender;
 
 @end

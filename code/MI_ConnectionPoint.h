@@ -19,7 +19,6 @@
 *   51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 *
 ****************************************************************************/
-#import "common.h"
 
 #define MI_CONNECTION_POINT_VERSION 1
 /*

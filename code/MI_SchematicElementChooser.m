@@ -20,7 +20,6 @@
 *
 ****************************************************************************/
 #import "MI_SchematicElementChooser.h"
-#include "common.h"
 
 @interface MI_SchematicElementChooser (DragNDrop) <NSPasteboardItemDataProvider, NSDraggingSource>
 @end

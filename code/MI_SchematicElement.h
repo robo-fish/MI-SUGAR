@@ -19,7 +19,6 @@
 *   51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 *
 ****************************************************************************/
-#include "common.h"
 #import "MI_ConnectionPoint.h"
 
 /* The protocol below is for schematic elements, which

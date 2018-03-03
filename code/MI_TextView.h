@@ -19,8 +19,6 @@
 *   51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 *
 ****************************************************************************/
-#import <Cocoa/Cocoa.h>
-#include "common.h"
 #import "MI_TextViewLineNumbering.h"
 
 @class MI_TextViewLineNumbering;
